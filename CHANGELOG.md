@@ -8,6 +8,49 @@ All notable changes to YAMTAM ENGINE release packs are documented here.
 
 ---
 
+## v1.3.0 — Truth Gate Runtime, Scope Guard, L1 Memory, Drift Detector
+*2026-05-17*
+
+### New Hooks
+- `truth-gate-guard.sh` (Stop): scans last assistant message for claim verbs
+  (done/fixed/deployed…); warns when no evidence patterns or fallback qualifiers
+  present. Non-blocking. Bypass: `YAMTAM_TRUTH_GATE_BYPASS=1`.
+- `scope-guard.sh` (PreToolUse): warns when Write/Edit targets product dirs
+  (`app/ components/ lib/ db/ migrations/ .env* vercel.json`…).
+  Advisory only. Bypass: `YAMTAM_SCOPE_OK=1`.
+
+### New Commands
+- `/verify` — full health check: git state + hook syntax + test suite + drift report.
+  Shows actual command output (Truth Gate compliant).
+- `/memory [keyword]` — search and list L1 Atomic Memory facts by keyword,
+  type, scope, or confidence.
+
+### New Scripts
+- `drift-check.sh` — detects task drift (done with no recent commit), README
+  overclaims (feature with no grep hit), and stale L1 facts (expired).
+  Exit 0 clean / 1 dirty. Integrated into `/verify`.
+- `search-facts.sh` — grep-based L1 fact retrieval. Filters: `--type`, `--scope`,
+  `--confidence`, `--expired`, `--all`.
+- `add-fact.sh` — interactive fact writer. Enforces scope mandatory, blocks
+  secret patterns, defaults confidence to `unverified`.
+
+### L1 Atomic Memory
+- `memory/L1_atomic/SCHEMA.md` — field spec: id, type, statement, source,
+  confidence, scope, expires_at, forbidden_assumptions, evidence.
+- `memory/L1_atomic/INDEX.md` — auto-updated index table.
+- File-based only. No network, no server, no npm deps.
+- L0/L2/L3 not implemented.
+
+### Spec Updates
+- `gates/truth_gate.md` — status updated from "Future Hook" to "Implemented".
+- `MANIFEST.json` — hooks 20→22, commands 21→23, scripts 10→13, memory section added.
+
+### Infra
+- `.gitignore` — added `.claude/state/` (runtime logs, not committed).
+- Hook test suite expanded: +7 truth-gate test cases.
+
+---
+
 ## v1.2.9-fixed — Hook Test Suite & Release QA
 *2026-05-07*
 
