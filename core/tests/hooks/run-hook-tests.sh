@@ -120,7 +120,8 @@ echo "--- truth-gate-guard.sh ---"
 test_truth_gate() {
     local test_name=$1
     local text_input=$2
-    local expect_warn=$3  # "warn" or "allow"
+    local expect_warn=$3   # "warn" or "allow"
+    local use_bypass=${4:-"no"}  # "bypass" to set YAMTAM_TRUTH_GATE_BYPASS=1
 
     TOTAL_COUNT=$((TOTAL_COUNT + 1))
 
@@ -133,7 +134,11 @@ test_truth_gate() {
     echo -n "Testing truth-gate-guard.sh [$test_name]... "
 
     local output
-    output=$(TRUTH_GATE_TEST_TEXT="$text_input" bash "$HOOKS_DIR/truth-gate-guard.sh" <<< '{}' 2>/dev/null || true)
+    if [[ "$use_bypass" == "bypass" ]]; then
+        output=$(TRUTH_GATE_TEST_TEXT="$text_input" YAMTAM_TRUTH_GATE_BYPASS=1 bash "$HOOKS_DIR/truth-gate-guard.sh" <<< '{}' 2>/dev/null || true)
+    else
+        output=$(TRUTH_GATE_TEST_TEXT="$text_input" bash "$HOOKS_DIR/truth-gate-guard.sh" <<< '{}' 2>/dev/null || true)
+    fi
 
     if [[ "$expect_warn" == "warn" ]]; then
         if echo "$output" | grep -q "TRUTH GATE"; then
@@ -180,9 +185,10 @@ test_truth_gate "Qualifier phrasing — unverified" \
   "Build status unverified — no recent CI output seen." \
   "allow"
 
-test_truth_gate "Bypass env var" \
+test_truth_gate "Bypass env var suppresses warn" \
   "The feature is done." \
-  "allow"  # YAMTAM_TRUTH_GATE_BYPASS tested separately; just verify normal path here
+  "allow" \
+  "bypass"
 
 echo ""
 echo "=== Summary ==="
