@@ -23,6 +23,9 @@ This is a personal agent operating system. Features are added when a real proble
   File-based, no network, no server. Confidence defaults to unverified.
 - [x] **L1 fact tools** — `add-fact.sh` (interactive writer), `search-facts.sh` (grep retrieval)
 - [x] **4 seed facts** — scope-boundary, truth-gate, hook-exit-codes, confidence-rule
+- [x] **Hook wiring guide** — `docs/HOOK_WIRING.md` — complete `settings.json` for all 22 hooks
+- [x] **Release pack** — `releases/yamtam-engine-v1.3.0-fixed.zip` — 131 files, 204K
+- [x] **`build-release.sh`** — automated pack builder with pre-flight checks (syntax + tests + drift)
 
 ### v1.2.9-fixed and earlier — 2026-02 to 2026-05
 
@@ -35,14 +38,6 @@ This is a personal agent operating system. Features are added when a real proble
 
 ---
 
-## In Progress 🔬
-
-- [ ] **Release pack** — cut `yamtam-engine-v1.3.0-fixed.zip` for distribution
-  - `releases/` folder still empty
-  - Prerequisite: verify all hooks pass in a fresh target project
-
----
-
 ## Planned 📋
 
 - [ ] **L1 memory search improvements** — tag-based indexing, fuzzy match
@@ -50,9 +45,6 @@ This is a personal agent operating system. Features are added when a real proble
 
 - [ ] **L4 Action Gate formalization** — current hooks cover ~70%, formalize the rest
   - Missing: commit-level L2 gate, deploy-level L4 gate beyond db-protect
-
-- [ ] **Hook wiring guide** — step-by-step doc to wire all hooks into a target project's
-  `settings.json` with correct event types and matchers
 
 - [ ] **L2 memory tier** — session-scoped facts that don't persist across sessions
   - Only if L1 proves insufficient alone
