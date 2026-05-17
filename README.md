@@ -93,7 +93,7 @@ Phase 1 runtime import complete. Core assets are present in `core/`.
 | `core/skills/` | ✅ 8 skills |
 | `core/config/` | ✅ 6 config files |
 | `core/tests/hooks/` | ✅ 20 test cases |
-| `memory/L1_atomic/` | 🟡 schema + index (no facts yet) |
+| `memory/L1_atomic/` | ✅ 4 seed facts (scope, truth-gate, hooks, confidence) |
 | `releases/` | empty — release pack not yet cut |
 
 **Pending review before import:** `react-native-developer.md`, `copywriter-seo.md`, `settings.json`.
