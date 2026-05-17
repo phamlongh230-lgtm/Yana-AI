@@ -8,6 +8,26 @@ This is a personal agent operating system. Features are added when a real proble
 
 ## Completed ✅
 
+### v1.3.10 — 2026-05-17
+
+- [x] **`.out-of-scope/` folder** — 5 boundary documents explaining what YAMTAM does NOT build and why (real-time cost dashboard, multi-agent coordination, enterprise RBAC, L3/L4 memory tiers, cloud console protection)
+
+### v1.3.9 — 2026-05-17
+
+- [x] **`/code-simplify` command** — static analysis command targeting dead code, over-abstraction, redundant logic, unnecessary indirection; supports `[file|dir]` target and `--dry-run`
+
+### v1.3.8 — 2026-05-17
+
+- [x] **Security advisory templates** — `.github/security-advisories/GHSA-TEMPLATE.md` (CVSS/CWE standard template) + `GHSA-2026-0001.md` (real advisory: hook output format bug in cost-guard + rbac-guard, fixed in v1.3.1, CVSS 6.5 Medium)
+
+### v1.3.7 — 2026-05-17
+
+- [x] **GitHub release workflow** — `.github/workflows/release.yml` triggers on semver tag push; validates tag → runs hook tests → drift check → builds pack → updates plugin.json/marketplace.json → creates GitHub Release
+
+### v1.3.6 — 2026-05-17
+
+- [x] **`.claude-plugin/` distribution** — `plugin.json` (schema_version 1, install via zip) + `marketplace.json` (tagline, highlights, stats); `build-release.sh` now creates `yamtam-engine-latest.zip` symlink for stable install URL
+
 ### v1.3.5 — 2026-05-17
 
 - [x] **`/memory` L2 integration** — `--l2` (both layers), `--l2-only` (session only); bare `/memory` shows L1 + L2 automatically

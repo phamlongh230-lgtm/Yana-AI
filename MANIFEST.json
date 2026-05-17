@@ -1,6 +1,6 @@
 {
   "name": "yamtam-engine",
-  "version": "1.3.0",
+  "version": "1.3.10",
   "scaffold_version": "1.0",
   "release_date": "2026-05-17",
   "manifest_updated": "2026-05-17",
@@ -62,36 +62,38 @@
     },
     "commands": {
       "status": "imported",
-      "count": 23,
+      "count": 25,
       "actual_present": [
         "core/commands/audit.md",
         "core/commands/budget-mode.md",
         "core/commands/challenge.md",
+        "core/commands/code-simplify.md",
         "core/commands/debug.md",
         "core/commands/fix.md",
         "core/commands/generate-coverage.md",
         "core/commands/init-claude.md",
         "core/commands/mcp-audit.md",
+        "core/commands/memory.md",
         "core/commands/orchestrate.md",
         "core/commands/release.md",
         "core/commands/resume.md",
         "core/commands/review.md",
         "core/commands/route.md",
         "core/commands/run-e2e.md",
+        "core/commands/session.md",
         "core/commands/spec.md",
         "core/commands/start.md",
         "core/commands/status.md",
         "core/commands/sync-template.md",
         "core/commands/v10-audit.md",
         "core/commands/v10-fix.md",
-        "core/commands/memory.md",
-        "core/commands/verify-pack.md",
-        "core/commands/verify.md"
+        "core/commands/verify.md",
+        "core/commands/verify-pack.md"
       ]
     },
     "hooks": {
       "status": "imported",
-      "count": 22,
+      "count": 24,
       "actual_present": [
         "core/hooks/api-destruct-guard.sh",
         "core/hooks/audit-log.sh",
@@ -99,11 +101,13 @@
         "core/hooks/auto-qa-reset.sh",
         "core/hooks/auto-qa-trigger.sh",
         "core/hooks/code-freeze.sh",
+        "core/hooks/commit-gate.sh",
         "core/hooks/context-gate-log.sh",
         "core/hooks/context-gate.sh",
         "core/hooks/context-monitor.js",
         "core/hooks/cost-guard.sh",
         "core/hooks/db-protect.sh",
+        "core/hooks/deploy-gate.sh",
         "core/hooks/format-on-write.sh",
         "core/hooks/gitnexus-hook.js",
         "core/hooks/guard-destructive.sh",
@@ -119,16 +123,20 @@
     },
     "scripts": {
       "status": "imported",
-      "count": 13,
+      "count": 17,
       "actual_present": [
         "core/scripts/add-fact.sh",
+        "core/scripts/add-session-fact.sh",
         "core/scripts/budget-mode.sh",
+        "core/scripts/build-release.sh",
+        "core/scripts/clear-session.sh",
         "core/scripts/code-freeze.sh",
         "core/scripts/drift-check.sh",
-        "core/scripts/search-facts.sh",
         "core/scripts/generate-coverage-report.sh",
         "core/scripts/hook-health.js",
         "core/scripts/run-e2e-tests.sh",
+        "core/scripts/search-facts.sh",
+        "core/scripts/search-session-facts.sh",
         "core/scripts/update-skills-lock.sh",
         "core/scripts/verify-claude-pack.js",
         "core/scripts/verify-claude-pack.sh",
@@ -202,24 +210,29 @@
       "status": "active",
       "actual_present": [
         "memory/L1_atomic/SCHEMA.md",
-        "memory/L1_atomic/INDEX.md"
+        "memory/L1_atomic/INDEX.md",
+        "memory/L2_session/SCHEMA.md"
       ],
       "add_fact_script": "core/scripts/add-fact.sh",
+      "add_session_fact_script": "core/scripts/add-session-fact.sh",
       "notes": [
-        "L1 Atomic only. L0/L2/L3 not implemented.",
+        "L1 Atomic: persistent, confidence-gated, gittracked.",
+        "L2 Session: ephemeral, gitignored, cleared each session.",
+        "L3/L4 not implemented — see .out-of-scope/ for rationale.",
         "File-based, no network, no server.",
         "confidence defaults to unverified — promote manually only.",
-        "scope field mandatory on every fact."
+        "scope field mandatory on every L1 fact."
       ]
     },
     "releases": {
       "status": "active",
       "files": [
-        "releases/yamtam-engine-v1.3.0-fixed.zip"
+        "releases/yamtam-engine-v1.3.0-fixed.zip",
+        "releases/yamtam-engine-v1.3.3-fixed.zip"
       ],
-      "latest": "yamtam-engine-v1.3.0-fixed.zip",
-      "size": "204K",
-      "file_count": 131
+      "latest": "yamtam-engine-v1.3.3-fixed.zip",
+      "size": "208K",
+      "file_count": 133
     }
   },
   "boundary": {
