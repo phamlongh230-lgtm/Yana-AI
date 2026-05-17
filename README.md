@@ -5,8 +5,8 @@ Hook layer, safety guards, and workflow rules for AI assistants
 (Claude Code, Manus) operating on arbitrary codebases.
 
 **Scaffold version:** 1.0
-**Targets pack:** YAMTAM ENGINE v1.2.9-fixed (to be imported into `core/`)
-**Status:** Documentation-first scaffold. Hook source files not yet imported.
+**Targets pack:** YAMTAM ENGINE v1.2.9-fixed
+**Status:** Phase 1 runtime import complete. Core assets present. Release pack not yet cut.
 **Maintainer:** Vũ Văn Tâm
 **Repo type:** Standalone — NOT part of any product repo.
 
@@ -43,11 +43,17 @@ yamtam-engine/
 ├── LICENSE
 ├── .gitignore
 │
-├── core/                  ← hook source (PLACEHOLDER, see below)
-│   ├── hooks/
-│   ├── scripts/
+├── core/                  ← runtime assets (Phase 1 import complete)
+│   ├── agents/            ← 19 agent definitions
+│   ├── commands/          ← 21 slash commands
+│   ├── hooks/             ← 20 hooks (.sh + .js)
+│   ├── scripts/           ← 10 utility scripts
+│   ├── rules/             ← 3 coding rules
+│   ├── templates/         ← 11 project templates
+│   ├── skills/            ← 8 skill definitions (gitnexus + karpathy)
+│   ├── config/            ← 6 config JSON files
 │   └── tests/
-│       └── hooks/         ← canonical location for run-hook-tests.sh
+│       └── hooks/         ← run-hook-tests.sh
 │
 ├── gates/
 │   ├── truth_gate.md      ← L3 spec, prompt-enforced
@@ -59,26 +65,36 @@ yamtam-engine/
 ├── docs/
 │   ├── SEPARATION.md      ← YAMTAM vs target product boundary
 │   ├── RUNBOOK.md         ← apply YAMTAM to any project
-│   └── AGENT_BEHAVIOR.md  ← good vs bad behavior examples
+│   ├── AGENT_BEHAVIOR.md  ← good vs bad behavior examples
+│   ├── AGENT_INCIDENT_DEFENSE.md  ← incident defense patterns
+│   └── YAMTAM_ENGINE_v1.2.9_Known_Limitations.md
 │
 └── releases/              ← versioned packs (empty until first release)
 ```
 
 ---
 
-## Placeholder status
+## Import status
 
-This scaffold is **documentation-only**. The following are empty placeholders:
+Phase 1 runtime import complete. Core assets are present in `core/`.
 
-| Path | Status | Source |
-|---|---|---|
-| `core/hooks/` | empty | import from `YAMTAM_ENGINE_v1.2.9.zip` |
-| `core/scripts/` | empty | import from `YAMTAM_ENGINE_v1.2.9.zip` |
-| `core/tests/` | empty | import from `YAMTAM_ENGINE_v1.2.9.zip` |
-| `releases/` | empty | first release pack cut from `core/` |
+| Path | Status |
+|---|---|
+| `core/agents/` | 19 agents imported |
+| `core/commands/` | 21 commands imported |
+| `core/hooks/` | 20 hooks imported |
+| `core/scripts/` | 10 scripts imported |
+| `core/rules/` | 3 rules imported |
+| `core/templates/` | 11 templates imported |
+| `core/skills/` | 8 skills imported |
+| `core/config/` | 6 config files imported |
+| `core/tests/hooks/` | run-hook-tests.sh imported |
+| `releases/` | empty — release pack not yet cut |
 
-Until those folders are populated, this repo does NOT enforce anything at runtime.
-Truth Gate (gates/truth_gate.md) is enforced via AI prompt only.
+**Pending review before import:** `react-native-developer.md`, `copywriter-seo.md`, `settings.json`.
+
+Runtime enforcement depends on applying the pack to a target project.
+Truth Gate (gates/truth_gate.md) is currently enforced via AI prompt only.
 
 ---
 
