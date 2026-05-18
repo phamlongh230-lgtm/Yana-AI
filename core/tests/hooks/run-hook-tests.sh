@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE v1.2.9 — Hook Test Suite (Fixed)
+# YAMTAM ENGINE v1.3.11 — Hook Test Suite
 # Tests hooks with mock stdin inputs to verify block/warn logic.
 # Supports running from any directory.
 
@@ -22,7 +22,7 @@ fi
 FAIL_COUNT=0
 TOTAL_COUNT=0
 
-echo "=== YAMTAM Hook Test Suite v1.2.9 ==="
+echo "=== YAMTAM Hook Test Suite v1.3.11 ==="
 echo "Hooks directory: $HOOKS_DIR"
 echo ""
 

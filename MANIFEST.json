@@ -3,7 +3,7 @@
   "version": "1.3.11",
   "scaffold_version": "1.0",
   "release_date": "2026-05-17",
-  "manifest_updated": "2026-05-17",
+  "manifest_updated": "2026-05-18",
   "description": "Personal agent operating system. Hook layer + safety guards + workflow rules for AI assistants.",
   "status": "runtime-imported",
   "import_notes": [
@@ -29,7 +29,8 @@
       "docs/RUNBOOK.md",
       "docs/AGENT_BEHAVIOR.md",
       "docs/AGENT_INCIDENT_DEFENSE.md",
-      "docs/YAMTAM_ENGINE_v1.2.9_Known_Limitations.md"
+      "docs/YAMTAM_ENGINE_v1.2.9_Known_Limitations.md",
+      "docs/AUDIT_HARDENING.md"
     ],
     "agents": {
       "status": "imported",
@@ -62,7 +63,7 @@
     },
     "commands": {
       "status": "imported",
-      "count": 26,
+      "count": 28,
       "actual_present": [
         "core/commands/audit.md",
         "core/commands/budget-mode.md",
@@ -89,7 +90,9 @@
         "core/commands/v10-fix.md",
         "core/commands/verify.md",
         "core/commands/verify-pack.md",
-        "core/commands/wiki.md"
+        "core/commands/wiki.md",
+        "core/commands/fact-check.md",
+        "core/commands/improve-skill.md"
       ]
     },
     "hooks": {
@@ -124,7 +127,7 @@
     },
     "scripts": {
       "status": "imported",
-      "count": 18,
+      "count": 20,
       "actual_present": [
         "core/scripts/add-fact.sh",
         "core/scripts/add-session-fact.sh",
@@ -143,14 +146,17 @@
         "core/scripts/verify-claude-pack.sh",
         "core/scripts/verify-skills-lock.sh",
         "core/scripts/generate-wiki.sh",
-        "core/scripts/view-audit.sh"
+        "core/scripts/view-audit.sh",
+        "core/scripts/session-trust.sh",
+        "core/scripts/verify-audit-chain.sh"
       ]
     },
     "tests": {
       "status": "imported",
-      "count": 1,
+      "count": 2,
       "actual_present": [
-        "core/tests/hooks/run-hook-tests.sh"
+        "core/tests/hooks/run-hook-tests.sh",
+        "core/tests/hooks/test-audit-chain.sh"
       ]
     },
     "rules": {
@@ -231,11 +237,14 @@
       "status": "active",
       "files": [
         "releases/yamtam-engine-v1.3.0-fixed.zip",
-        "releases/yamtam-engine-v1.3.3-fixed.zip"
+        "releases/yamtam-engine-v1.3.2-fixed.zip",
+        "releases/yamtam-engine-v1.3.3-fixed.zip",
+        "releases/yamtam-engine-v1.3.4-fixed.zip",
+        "releases/yamtam-engine-v1.3.5-fixed.zip",
+        "releases/yamtam-engine-v1.3.10-fixed.zip",
+        "releases/yamtam-engine-v1.3.11-fixed.zip"
       ],
-      "latest": "yamtam-engine-v1.3.3-fixed.zip",
-      "size": "208K",
-      "file_count": 133
+      "latest": "yamtam-engine-v1.3.11-fixed.zip"
     }
   },
   "boundary": {
