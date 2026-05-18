@@ -16,10 +16,10 @@
   },
   "contents": {
     "hooks": 24,
-    "commands": 28,
+    "commands": 29,
     "agents": 19,
     "scripts": 20,
-    "tests": 54,
+    "tests": 59,
     "memory_tiers": ["L1_atomic", "L2_session"]
   },
   "requires": {

@@ -30,7 +30,8 @@
       "docs/AGENT_BEHAVIOR.md",
       "docs/AGENT_INCIDENT_DEFENSE.md",
       "docs/YAMTAM_ENGINE_v1.2.9_Known_Limitations.md",
-      "docs/AUDIT_HARDENING.md"
+      "docs/AUDIT_HARDENING.md",
+      "docs/ARCHITECTURE.md"
     ],
     "agents": {
       "status": "imported",
@@ -63,7 +64,7 @@
     },
     "commands": {
       "status": "imported",
-      "count": 28,
+      "count": 29,
       "actual_present": [
         "core/commands/audit.md",
         "core/commands/budget-mode.md",
@@ -92,7 +93,8 @@
         "core/commands/verify-pack.md",
         "core/commands/wiki.md",
         "core/commands/fact-check.md",
-        "core/commands/improve-skill.md"
+        "core/commands/improve-skill.md",
+        "core/commands/agent-map.md"
       ]
     },
     "hooks": {

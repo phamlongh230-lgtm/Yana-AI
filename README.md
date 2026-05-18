@@ -5,7 +5,7 @@ Hook layer, safety guards, and workflow rules for AI assistants
 (Claude Code or other AI coding assistants) operating on arbitrary codebases.
 
 **Version:** 1.3.11
-**Status:** Runtime active. 54 tests passing. Release pack live.
+**Status:** Runtime active. 59 tests passing. Release pack live.
 **Maintainer:** Vũ Văn Tâm
 **Repo type:** Standalone — NOT part of any product repo.
 
@@ -50,7 +50,7 @@ yamtam-engine/
 │
 ├── core/                  ← runtime assets
 │   ├── agents/            ← 19 agent definitions
-│   ├── commands/          ← 28 slash commands (incl. /verify, /memory, /fact-check, /improve-skill)
+│   ├── commands/          ← 29 slash commands (incl. /verify, /memory, /fact-check, /agent-map)
 │   ├── hooks/             ← 24 hooks (.sh + .js)
 │   ├── scripts/           ← 20 utility scripts
 │   ├── rules/             ← 3 coding rules
@@ -99,14 +99,14 @@ yamtam-engine/
 | Path | Count |
 |---|---|
 | `core/agents/` | 19 agents |
-| `core/commands/` | 28 commands |
+| `core/commands/` | 29 commands |
 | `core/hooks/` | 24 hooks |
 | `core/scripts/` | 20 scripts |
 | `core/rules/` | 3 rules |
 | `core/templates/` | 11 templates |
 | `core/skills/` | 9 skills |
 | `core/config/` | 6 config files |
-| `core/tests/hooks/` | 54 test cases |
+| `core/tests/hooks/` | 59 test cases |
 | `memory/L1_atomic/` | 4 seed facts (tagged) |
 | `memory/L2_session/` | ephemeral — gitignored |
 
