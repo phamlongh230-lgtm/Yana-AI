@@ -54,3 +54,34 @@ Before recommending an agent, read `.claude/agent-routing-map.json`. Your output
 - First files to read before editing
 
 Never route implementation work directly to a broad coordinator if a specialist exists. Never route verification work to the same agent that performed the implementation.
+
+---
+
+## Specialist Routing Table
+
+When the task matches one of these query types, route to the listed specialist.
+Each specialist receives ONLY the tools in its row — no write access via routing alone.
+
+| Query type     | Agent                 | Tools allowed                  |
+|----------------|-----------------------|--------------------------------|
+| code review    | qa-engineer           | Read, Grep, Glob, LS, git log  |
+| security audit | prompt-firewall       | Read, Grep, Glob, LS           |
+| docs/research  | documentation-writer  | Read, Glob, LS, WebFetch (MCP) |
+| DB / schema    | database-expert       | Read, Glob, LS                 |
+| infra / deploy | cicd-engineer         | Read, Glob, LS                 |
+
+**Least-privilege rule:** no agent in this table gets Bash, Edit, Write, or MultiEdit
+through routing alone. If the specialist needs write access, stop and ask the user.
+
+---
+
+## Confidence Threshold
+
+Before routing, estimate your confidence that the query matches a specialist row.
+
+- **≥ 70%** — route to the specialist, state your confidence.
+- **< 70%** — do NOT guess. Ask the user to clarify:
+  > "I'm not confident which specialist fits (confidence < 70%). Could you clarify: is this a [X] or [Y] task?"
+
+Never route to a specialist just to avoid asking — a wrong route wastes more tokens
+than a single clarifying question.
