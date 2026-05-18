@@ -5,7 +5,7 @@ Hook layer, safety guards, and workflow rules for AI assistants
 (Claude Code or other AI coding assistants) operating on arbitrary codebases.
 
 **Version:** 1.3.11
-**Status:** Runtime active. 42 tests passing. Release pack live.
+**Status:** Runtime active. 54 tests passing. Release pack live.
 **Maintainer:** Vũ Văn Tâm
 **Repo type:** Standalone — NOT part of any product repo.
 
@@ -22,7 +22,9 @@ A pack of bash hooks, scripts, and tests that you drop into a project's
 - Gate commits touching cross-scope paths; block unauthorized deploys.
 - Store verified facts in L1 Atomic Memory; session facts in L2 (gitignored).
 - Detect documentation drift and stale claims automatically.
-- Log all hook decisions locally for audit.
+- Log all hook decisions locally with SHA-256 hash-chain audit trail (tamper-evident).
+- Track session trust score — Truth Gate violations decrement score; score < 50 requires double evidence.
+- Proactively verify claims with `/fact-check`; self-improve skills with `/improve-skill` (human-gated).
 
 ## What YAMTAM is not
 
@@ -48,15 +50,15 @@ yamtam-engine/
 │
 ├── core/                  ← runtime assets
 │   ├── agents/            ← 19 agent definitions
-│   ├── commands/          ← 26 slash commands (incl. /verify, /memory, /session, /wiki)
+│   ├── commands/          ← 28 slash commands (incl. /verify, /memory, /fact-check, /improve-skill)
 │   ├── hooks/             ← 24 hooks (.sh + .js)
-│   ├── scripts/           ← 18 utility scripts
+│   ├── scripts/           ← 20 utility scripts
 │   ├── rules/             ← 3 coding rules
 │   ├── templates/         ← 11 project templates
 │   ├── skills/            ← 9 skill definitions (gitnexus + karpathy + git-lessons)
 │   ├── config/            ← 6 config JSON files
 │   └── tests/
-│       └── hooks/         ← run-hook-tests.sh (42 test cases)
+│       └── hooks/         ← run-hook-tests.sh + test-audit-chain.sh (54 test cases)
 │
 ├── memory/
 │   ├── L1_atomic/         ← persistent fact store (tagged, confidence-gated)
@@ -74,7 +76,8 @@ yamtam-engine/
 │   ├── SEPARATION.md      ← YAMTAM vs target product boundary
 │   ├── RUNBOOK.md         ← apply YAMTAM to any project
 │   ├── AGENT_BEHAVIOR.md  ← good vs bad behavior examples
-│   └── AGENT_INCIDENT_DEFENSE.md
+│   ├── AGENT_INCIDENT_DEFENSE.md
+│   └── AUDIT_HARDENING.md ← hash-chain audit log design
 │
 ├── .out-of-scope/         ← features deliberately not built (5 boundary docs)
 ├── .claude-plugin/        ← plugin manifest for /plugin install
@@ -96,14 +99,14 @@ yamtam-engine/
 | Path | Count |
 |---|---|
 | `core/agents/` | 19 agents |
-| `core/commands/` | 26 commands |
+| `core/commands/` | 28 commands |
 | `core/hooks/` | 24 hooks |
-| `core/scripts/` | 18 scripts |
+| `core/scripts/` | 20 scripts |
 | `core/rules/` | 3 rules |
 | `core/templates/` | 11 templates |
 | `core/skills/` | 9 skills |
 | `core/config/` | 6 config files |
-| `core/tests/hooks/` | 42 test cases |
+| `core/tests/hooks/` | 54 test cases |
 | `memory/L1_atomic/` | 4 seed facts (tagged) |
 | `memory/L2_session/` | ephemeral — gitignored |
 
@@ -113,7 +116,7 @@ yamtam-engine/
 
 | Level | Hook | Behavior |
 |---|---|---|
-| L0 | `audit-log.sh`, `telemetry-sender.sh` | Log every tool call |
+| L0 | `audit-log.sh`, `telemetry-sender.sh` | Log every tool call (hash-chain tamper-evident) |
 | L1 | `token-scope-guard.sh`, `scope-guard.sh` | Warn on secret/scope access |
 | L2 | `commit-gate.sh` | Advisory warn on cross-scope commits |
 | L3 | `truth-gate-guard.sh` | Warn on unsupported claims |
