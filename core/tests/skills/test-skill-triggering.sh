@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE v1.3.11 — Skill Trigger Phrase Test
+# YAMTAM ENGINE v1.3.15 — Skill Trigger Phrase Test
 #
 # Verifies that skill SKILL.md description fields contain the right trigger phrases.
 # This does NOT test AI routing — it tests that the descriptions are correctly written
@@ -54,6 +54,16 @@ check_skill "worktree-safety"    "experiment"
 check_skill "worktree-safety"    "feature"
 check_skill "tdd"                "red green refactor"
 check_skill "tdd"                "test-driven"
+
+# New skills from v1.3.15
+check_skill "executing-plans"         "execute"
+check_skill "executing-plans"         "proceed"
+check_skill "requesting-code-review"  "review this"
+check_skill "requesting-code-review"  "code review"
+check_skill "receiving-code-review"   "review comments"
+check_skill "receiving-code-review"   "address the feedback"
+check_skill "writing-skills"          "create a skill"
+check_skill "writing-skills"          "write a skill"
 
 echo ""
 echo "=== Summary ==="

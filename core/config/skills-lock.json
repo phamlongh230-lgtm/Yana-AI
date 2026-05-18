@@ -57,6 +57,83 @@
       "sourcePath": ".claude/skills/karpathy-guidelines",
       "localPath": ".claude/skills/karpathy-guidelines",
       "computedHash": "6e22cc54cb02a5e98ae42d06d9d7292db0c1b43894831b32879beb0166b2aea7"
+    },
+    "git-lessons": {
+      "source": "local-template",
+      "sourceType": "local",
+      "sourcePath": ".claude/skills/git-lessons",
+      "localPath": ".claude/skills/git-lessons",
+      "computedHash": ""
+    },
+    "plan-first": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "sourcePath": "skills/plan-first",
+      "localPath": ".claude/skills/plan-first",
+      "computedHash": ""
+    },
+    "verify-before-done": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "sourcePath": "skills/verify-before-done",
+      "localPath": ".claude/skills/verify-before-done",
+      "computedHash": ""
+    },
+    "debug-protocol": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "sourcePath": "skills/debug-protocol",
+      "localPath": ".claude/skills/debug-protocol",
+      "computedHash": ""
+    },
+    "branch-finish": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "sourcePath": "skills/branch-finish",
+      "localPath": ".claude/skills/branch-finish",
+      "computedHash": ""
+    },
+    "worktree-safety": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "sourcePath": "skills/worktree-safety",
+      "localPath": ".claude/skills/worktree-safety",
+      "computedHash": ""
+    },
+    "tdd": {
+      "source": "glebis/claude-skills",
+      "sourceType": "github",
+      "sourcePath": "skills/tdd",
+      "localPath": ".claude/skills/tdd",
+      "computedHash": ""
+    },
+    "executing-plans": {
+      "source": "local-template",
+      "sourceType": "local",
+      "sourcePath": ".claude/skills/executing-plans",
+      "localPath": ".claude/skills/executing-plans",
+      "computedHash": ""
+    },
+    "requesting-code-review": {
+      "source": "local-template",
+      "sourceType": "local",
+      "sourcePath": ".claude/skills/requesting-code-review",
+      "localPath": ".claude/skills/requesting-code-review",
+      "computedHash": ""
+    },
+    "receiving-code-review": {
+      "source": "local-template",
+      "sourceType": "local",
+      "sourcePath": ".claude/skills/receiving-code-review",
+      "localPath": ".claude/skills/receiving-code-review",
+      "computedHash": ""
+    },
+    "writing-skills": {
+      "source": "local-template",
+      "sourceType": "local",
+      "sourcePath": ".claude/skills/writing-skills",
+      "localPath": ".claude/skills/writing-skills",
+      "computedHash": ""
     }
   }
 }

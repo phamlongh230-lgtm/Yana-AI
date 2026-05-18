@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # PreToolUse hook — API Destruction Guard
-# YAMTAM ENGINE v1.3.11 — API Destructive Action Guard
+# YAMTAM ENGINE v1.3.15 — API Destructive Action Guard
 #
 # Lesson from PocketOS: agent called a single Railway GraphQL mutation that
 # deleted a production volume + all backups in 9 seconds. db-protect.sh from

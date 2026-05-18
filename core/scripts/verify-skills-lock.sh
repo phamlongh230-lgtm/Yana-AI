@@ -12,15 +12,26 @@
 set -uo pipefail
 
 PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
-LOCKFILE="$PROJECT_ROOT/skills-lock.json"
+
+# Support multiple layout conventions (repo scaffold vs unzipped into .claude/)
+LOCKFILE=""
+for candidate in \
+  "$PROJECT_ROOT/skills-lock.json" \
+  "$PROJECT_ROOT/core/config/skills-lock.json" \
+  "$PROJECT_ROOT/config/skills-lock.json"; do
+  if [[ -f "$candidate" ]]; then
+    LOCKFILE="$candidate"
+    break
+  fi
+done
 
 if ! command -v jq >/dev/null 2>&1; then
   echo "✗ verify-skills-lock: jq is required but not installed. Install jq and retry." >&2
   exit 2
 fi
 
-if [[ ! -f "$LOCKFILE" ]]; then
-  echo "✗ verify-skills-lock: lockfile not found at $LOCKFILE" >&2
+if [[ -z "$LOCKFILE" ]]; then
+  echo "✗ verify-skills-lock: skills-lock.json not found in expected locations" >&2
   exit 2
 fi
 

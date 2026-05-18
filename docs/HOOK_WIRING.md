@@ -2,7 +2,7 @@
 
 How to wire all YAMTAM hooks into a target project's Claude Code `settings.json`.
 
-**Version:** 1.3.11
+**Version:** 1.3.15
 **Reference:** Claude Code hooks documentation — hooks fire on tool events and
 receive a JSON payload on stdin. Exit 0 = allow, JSON + exit 2 = block.
 
@@ -10,7 +10,7 @@ receive a JSON payload on stdin. Exit 0 = allow, JSON + exit 2 = block.
 
 ## Quick start
 
-After applying the YAMTAM pack (`unzip yamtam-engine-v1.3.11-fixed.zip -d .claude/`),
+After applying the YAMTAM pack (`unzip yamtam-engine-v1.3.15-fixed.zip -d .claude/`),
 create or merge this into your target project's `.claude/settings.json`:
 
 ```json

@@ -96,7 +96,10 @@ if [[ -f "$README" ]]; then
         the|and|for|with|that|this|from|your|when|into|each|over|more|less|using|based|built|also|only|both) continue ;;
       esac
 
-      hits=$(grep -rl "$search_term" \
+      hits=$(grep -rlF --binary-files=without-match \
+        --exclude-dir=releases \
+        --exclude="*.zip" \
+        "$search_term" \
         "$PROJECT_ROOT/core" \
         "$PROJECT_ROOT/gates" \
         "$PROJECT_ROOT/docs" \

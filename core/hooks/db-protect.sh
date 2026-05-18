@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # PreToolUse hook — Database Protection Layer
-# YAMTAM ENGINE v1.3.11 — Replit-Incident Defense
+# YAMTAM ENGINE v1.3.15 — Replit-Incident Defense
 #
 # Blocks any operation touching production database / production env without
 # explicit human approval, regardless of how the command is phrased.

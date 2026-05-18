@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # PreToolUse hook — Token Scope Guard
-# YAMTAM ENGINE v1.3.11 — Token Scope Guard
+# YAMTAM ENGINE v1.3.15 — Token Scope Guard
 #
 # Lesson from PocketOS (April 2026): the agent went looking for an API token
 # and found one "in an unrelated file", then used it to delete production.

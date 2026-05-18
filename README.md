@@ -4,8 +4,8 @@
 Hook layer, safety guards, and workflow rules for AI assistants
 (Claude Code or other AI coding assistants) operating on arbitrary codebases.
 
-**Version:** 1.3.14
-**Status:** Runtime active. 47 hook tests + 14 skill tests passing. Release pack live.
+**Version:** 1.3.15
+**Status:** Runtime active. 47 hook tests + 22 skill tests passing. Release pack live.
 **Maintainer:** Vũ Văn Tâm
 **Repo type:** Standalone — NOT part of any product repo.
 
@@ -55,11 +55,11 @@ yamtam-engine/
 │   ├── scripts/           ← 20 utility scripts
 │   ├── rules/             ← 3 coding rules
 │   ├── templates/         ← 11 project templates
-│   ├── skills/            ← 15 skill definitions (gitnexus x7, karpathy, git-lessons, plan-first, verify-before-done, debug-protocol, branch-finish, worktree-safety, tdd)
+│   ├── skills/            ← 19 skill definitions (gitnexus x7, karpathy, git-lessons, plan-first, verify-before-done, debug-protocol, branch-finish, worktree-safety, tdd, executing-plans, requesting-code-review, receiving-code-review, writing-skills)
 │   ├── config/            ← 6 config JSON files
 │   └── tests/
 │       ├── hooks/         ← run-hook-tests.sh + test-audit-chain.sh (47 test cases)
-│       └── skills/        ← test-skill-triggering.sh (14 skill trigger tests)
+│       └── skills/        ← test-skill-triggering.sh (22 skill trigger tests)
 │
 ├── memory/
 │   ├── L1_atomic/         ← persistent fact store (tagged, confidence-gated)
@@ -89,7 +89,7 @@ yamtam-engine/
 │   └── security-advisories/       ← GHSA template + filed advisories
 │
 └── releases/              ← versioned packs
-    ├── yamtam-engine-v1.3.14-fixed.zip  ← latest (165 files, 252K)
+    ├── yamtam-engine-v1.3.15-fixed.zip  ← latest
     └── yamtam-engine-latest.zip         ← symlink → latest
 ```
 
@@ -105,10 +105,10 @@ yamtam-engine/
 | `core/scripts/` | 20 scripts |
 | `core/rules/` | 3 rules |
 | `core/templates/` | 11 templates |
-| `core/skills/` | 15 skills |
+| `core/skills/` | 19 skills |
 | `core/config/` | 6 config files |
 | `core/tests/hooks/` | 47 test cases |
-| `core/tests/skills/` | 14 skill trigger tests |
+| `core/tests/skills/` | 22 skill trigger tests |
 | `memory/L1_atomic/` | 4 seed facts (tagged) |
 | `memory/L2_session/` | ephemeral — gitignored |
 
@@ -159,7 +159,7 @@ bash core/scripts/build-release.sh
 
 GitHub Actions auto-releases on semver tag push:
 ```bash
-git tag v1.3.14 && git push origin v1.3.14
+git tag v1.3.15 && git push origin v1.3.15
 ```
 
 ---

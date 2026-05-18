@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Code Freeze toggle — YAMTAM ENGINE v1.3.11
+# Code Freeze toggle — YAMTAM ENGINE v1.3.15
 # Emergency kill-switch for AI write operations.
 
 set -uo pipefail

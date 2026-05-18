@@ -111,17 +111,19 @@ if (exists('.claude/agent-routing-map.json')) {
   ok('agent-routing-map.json checked');
 } else warn('missing .claude/agent-routing-map.json');
 
-// Skills lock coverage
-if (exists('skills-lock.json')) {
+// Skills lock coverage — check multiple layout conventions
+const lockCandidates = ['skills-lock.json', 'core/config/skills-lock.json', 'config/skills-lock.json'];
+const lockPath = lockCandidates.find(p => exists(p));
+if (lockPath) {
   try {
-    const lock = JSON.parse(read('skills-lock.json'));
+    const lock = JSON.parse(read(lockPath));
     const lockText = JSON.stringify(lock);
     for (const skill of list('.claude/skills')) {
-      if (!lockText.includes(skill)) warn(`skills-lock.json may not mention skill: ${skill}`);
+      if (!lockText.includes(skill)) warn(`${lockPath} may not mention skill: ${skill}`);
     }
-    ok('skills-lock.json parsed');
-  } catch (err) { fail(`skills-lock.json invalid JSON: ${err.message}`); }
-} else warn('missing skills-lock.json');
+    ok(`${lockPath} parsed`);
+  } catch (err) { fail(`${lockPath} invalid JSON: ${err.message}`); }
+} else warn('missing skills-lock.json (checked: ' + lockCandidates.join(', ') + ')');
 
 // Hook budget coverage
 if (exists('.claude/hook-budget.json')) {

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # PreToolUse hook — Code Freeze enforcement
-# YAMTAM ENGINE v1.3.11 — Code Freeze Guard
+# YAMTAM ENGINE v1.3.15 — Code Freeze Guard
 #
 # Reads .claude/state/CODE_FREEZE. If file exists with content "on", blocks
 # ALL Write/Edit/Bash operations except read-only. This is a kill switch
