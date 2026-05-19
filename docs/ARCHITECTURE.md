@@ -1,6 +1,6 @@
 # YAMTAM ENGINE — Architecture
 
-**Version:** 1.3.15
+**Version:** 1.3.23-clean
 **Type:** Hook layer — not a service, not a framework.
 
 ---
@@ -124,7 +124,7 @@ Session Trust — .claude/state/session-trust.json (gitignored)
 
 ## Agent Routing
 
-19 agents defined in `core/agents/`. Routing is governed by:
+83 agents defined in `core/agents/` (root + domain subfolders). Routing is governed by:
 
 1. `core/agents/tool-router.md` — routes query type → specialist agent
 2. `core/config/agent-routing-map.json` — machine-readable routing rules

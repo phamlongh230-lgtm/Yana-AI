@@ -8,6 +8,59 @@ All notable changes to YAMTAM ENGINE release packs are documented here.
 
 ---
 
+## v1.3.23-clean — Metadata Sync + Docs Version + Path Fix
+*2026-05-19*
+
+### Metadata sync (no feature changes)
+
+**`.claude-plugin/plugin.json`** — counts updated:
+- commands: 32 → 141 | agents: 19 → 83 | skills: 19 → 49
+- tests field renamed to `checks: 108` with breakdown object (47 hook + 12 audit + 43 skill + 6 smoke)
+- version: 1.3.15 → 1.3.23
+
+**`.claude-plugin/marketplace.json`** — counts + highlights updated:
+- stats: same corrections as plugin.json
+- highlights: updated 5 bullet points với số thực tế
+- latest_release: v1.3.15 → v1.3.23-clean
+
+### Docs version bump
+
+| File | Trước | Sau |
+|---|---|---|
+| `docs/ARCHITECTURE.md` | 1.3.15 | 1.3.23-clean |
+| `docs/HOOK_WIRING.md` | 1.3.15 | 1.3.23-clean |
+| `docs/MAINTENANCE_POLICY.md` | 1.3.16 | 1.3.23-clean |
+| `docs/CLAUDE_MD_GUIDE.md` | 1.3.16 | 1.3.23-clean |
+
+**`docs/ARCHITECTURE.md`** — "19 agents" → "83 agents across root and domain subfolders"
+
+**`docs/HOOK_WIRING.md`** — hardcoded zip name `v1.3.15-fixed.zip` → `latest.zip`
+
+### README fix
+
+- Tree line: "42 agent definitions" → "83 agent definitions across root and domain subfolders"
+- Tag example: `v1.3.19` → `v1.3.23-clean`
+
+### Fix: verify-skills-lock.sh + update-skills-lock.sh path resolution
+
+**Problem:** `localPath` trong skills-lock.json trỏ `.claude/skills/...` nhưng trong repo scaffold skills nằm ở `core/skills/...` — script báo toàn bộ MISSING dù files tồn tại.
+
+**Fix:** Thêm `resolve_skill_path()` với 3-step fallback:
+1. `$PROJECT_ROOT/$localPath` (installed pack, works as-is)
+2. `.claude/skills/<rel>` → `core/skills/<rel>` (repo scaffold)
+3. `.claude/skills/<rel>` → `skills/<rel>` (minimal install)
+
+Cả `verify-skills-lock.sh` và `update-skills-lock.sh` đều áp dụng cùng fallback chain.
+
+### Docs: Release zip policy
+
+**`docs/MAINTENANCE_POLICY.md`** — thêm "Release Zip Policy" section:
+- Chỉ giữ latest + 1 previous trong repo
+- Bản cũ → GitHub Releases archive
+- Hiện trạng: 19 zips (~8MB) chưa xóa, chờ human duyệt
+
+---
+
 ## v1.3.22 — Phase 8 Skill Import + hook-review Fix
 *2026-05-19*
 

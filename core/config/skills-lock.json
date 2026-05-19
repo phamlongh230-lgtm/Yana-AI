@@ -7,7 +7,7 @@
       "sourceType": "github",
       "sourcePath": "gitnexus-claude-plugin/skills/gitnexus-cli",
       "localPath": ".claude/skills/gitnexus/gitnexus-cli",
-      "computedHash": "585a4a5ac5f370cc8aea802c0eb8f10fe978e5cc9a23958973e6ffb534325732"
+      "computedHash": "2b4f1a7832226ef3c2622dbf6d627feb990f29a5f1e4ae51621323deb96cbe98"
     },
     "gitnexus-debugging": {
       "source": "abhigyanpatwari/GitNexus",
@@ -56,182 +56,182 @@
       "sourceType": "local",
       "sourcePath": ".claude/skills/karpathy-guidelines",
       "localPath": ".claude/skills/karpathy-guidelines",
-      "computedHash": "6e22cc54cb02a5e98ae42d06d9d7292db0c1b43894831b32879beb0166b2aea7"
+      "computedHash": "2d9f49c15b435f7eddf55b5f0503cdb0e2f9b97b369d595b2a80c08baac05567"
     },
     "git-lessons": {
       "source": "local-template",
       "sourceType": "local",
       "sourcePath": ".claude/skills/git-lessons",
       "localPath": ".claude/skills/git-lessons",
-      "computedHash": ""
+      "computedHash": "307a9abb3cc92cf46a12b4357d5d0ab1ed3e44805c3b8ea9a599efd81408b6c7"
     },
     "plan-first": {
       "source": "obra/superpowers",
       "sourceType": "github",
       "sourcePath": "skills/plan-first",
       "localPath": ".claude/skills/plan-first",
-      "computedHash": ""
+      "computedHash": "80bbbbc580987603ce0e9955208d729463a78eb51187385b87aac73315477aea"
     },
     "verify-before-done": {
       "source": "obra/superpowers",
       "sourceType": "github",
       "sourcePath": "skills/verify-before-done",
       "localPath": ".claude/skills/verify-before-done",
-      "computedHash": ""
+      "computedHash": "44666f29197cbc979d7686cc127cf92633aa10534a807b66a601beac3830a1ca"
     },
     "debug-protocol": {
       "source": "obra/superpowers",
       "sourceType": "github",
       "sourcePath": "skills/debug-protocol",
       "localPath": ".claude/skills/debug-protocol",
-      "computedHash": ""
+      "computedHash": "0c3dd6c76bcde6a28bf04478859f0e9cbe5f263df33237034c6ae4e471434a6d"
     },
     "branch-finish": {
       "source": "obra/superpowers",
       "sourceType": "github",
       "sourcePath": "skills/branch-finish",
       "localPath": ".claude/skills/branch-finish",
-      "computedHash": ""
+      "computedHash": "293aa2c09490b923bdc7b2915b96dd4c7fcb7a97c666830fca3f1f49b121ac1f"
     },
     "worktree-safety": {
       "source": "obra/superpowers",
       "sourceType": "github",
       "sourcePath": "skills/worktree-safety",
       "localPath": ".claude/skills/worktree-safety",
-      "computedHash": ""
+      "computedHash": "eb50a01af6d2a2b37691f07d8e12d3aafbd67042e41150692e5e0c67f9fedb42"
     },
     "tdd": {
       "source": "glebis/claude-skills",
       "sourceType": "github",
       "sourcePath": "skills/tdd",
       "localPath": ".claude/skills/tdd",
-      "computedHash": ""
+      "computedHash": "ecd4b3ab484f7ac571b5c230863a15be1419226b5a1448711fc5028d4a564d1d"
     },
     "executing-plans": {
       "source": "local-template",
       "sourceType": "local",
       "sourcePath": ".claude/skills/executing-plans",
       "localPath": ".claude/skills/executing-plans",
-      "computedHash": ""
+      "computedHash": "fa99e1f1f6cda17de52e3865b3c0812e303b8f4a968e8eccd548592dfa338292"
     },
     "requesting-code-review": {
       "source": "local-template",
       "sourceType": "local",
       "sourcePath": ".claude/skills/requesting-code-review",
       "localPath": ".claude/skills/requesting-code-review",
-      "computedHash": ""
+      "computedHash": "6eae2debac8d86d5768b7036c5489e2c841d30c9efabacc5353bea612b942306"
     },
     "receiving-code-review": {
       "source": "local-template",
       "sourceType": "local",
       "sourcePath": ".claude/skills/receiving-code-review",
       "localPath": ".claude/skills/receiving-code-review",
-      "computedHash": ""
+      "computedHash": "99eccdb10937404d36d3150904277811aa40b9984a32749dfaf6302fd5855f35"
     },
     "writing-skills": {
       "source": "local-template",
       "sourceType": "local",
       "sourcePath": ".claude/skills/writing-skills",
       "localPath": ".claude/skills/writing-skills",
-      "computedHash": ""
+      "computedHash": "90a9950358ddb03c108b35b7c5dfffd624dcbc9da3ada889ab9c3cd4412636d4"
     },
     "lsp-navigation": {
       "source": "local-template",
       "sourceType": "local",
       "sourcePath": ".claude/skills/lsp-navigation",
       "localPath": ".claude/skills/lsp-navigation",
-      "computedHash": ""
+      "computedHash": "8029caf0191274ae9a8c0552810a7c8dd79e2f32ec8349aada07caef9a13b050"
     },
     "telemetry-analysis": {
       "source": "local-template",
       "sourceType": "local",
       "sourcePath": ".claude/skills/telemetry-analysis",
       "localPath": ".claude/skills/telemetry-analysis",
-      "computedHash": ""
+      "computedHash": "e7e8b3240bdcb40b95bd73eeec300f54d2970de7872807e94194fd7a514f578f"
     },
     "subagent-dependency": {
       "source": "local-template",
       "sourceType": "local",
       "sourcePath": ".claude/skills/subagent-dependency",
       "localPath": ".claude/skills/subagent-dependency",
-      "computedHash": ""
+      "computedHash": "089b6c5c848727d0686ef8c7655b29580317a486b9c67ff1152a451940aab726"
     },
     "agenthub": {
       "source": "alirezarezvani/claude-skills",
       "sourceType": "github",
       "sourcePath": "engineering/agenthub/skills/agenthub",
       "localPath": ".claude/skills/agenthub",
-      "computedHash": ""
+      "computedHash": "de459ca54e361100827d262e74293937d82d29641ae70457a13fdc3be73c6200"
     },
     "write-a-skill": {
       "source": "alirezarezvani/claude-skills",
       "sourceType": "github",
       "sourcePath": "engineering/write-a-skill/skills/write-a-skill",
       "localPath": ".claude/skills/write-a-skill",
-      "computedHash": ""
+      "computedHash": "deabc266574f0b634344bc04e536558b95f8eb26e4f18caff9a028dd66be6a2e"
     },
     "handoff": {
       "source": "alirezarezvani/claude-skills",
       "sourceType": "github",
       "sourcePath": "engineering/handoff/skills/handoff",
       "localPath": ".claude/skills/handoff",
-      "computedHash": ""
+      "computedHash": "1341d0faf1137a8ef3ae53c157c2d0a837c645f4301fa59eb06df811e36031fe"
     },
     "caveman": {
       "source": "alirezarezvani/claude-skills",
       "sourceType": "github",
       "sourcePath": "engineering/caveman/skills/caveman",
       "localPath": ".claude/skills/caveman",
-      "computedHash": ""
+      "computedHash": "77566286fc1f8f357a6dbbe6fad0ec2c8e557eb94a57e775f583e38dd00c775d"
     },
     "code-tour": {
       "source": "alirezarezvani/claude-skills",
       "sourceType": "github",
       "sourcePath": "engineering/code-tour/skills/code-tour",
       "localPath": ".claude/skills/code-tour",
-      "computedHash": ""
+      "computedHash": "dcfb4c0afbdcedd5eb6cc9bccf789209911de82d449c21c68b7ad2466e2898f4"
     },
     "chaos-engineering": {
       "source": "alirezarezvani/claude-skills",
       "sourceType": "github",
       "sourcePath": "engineering/chaos-engineering/skills/chaos-engineering",
       "localPath": ".claude/skills/chaos-engineering",
-      "computedHash": ""
+      "computedHash": "5378e0094c1a3561f9332670272e742e7c7647c4ff14fe5c17405161e26cdaf7"
     },
     "llm-cost-optimizer": {
       "source": "alirezarezvani/claude-skills",
       "sourceType": "github",
       "sourcePath": "engineering/llm-cost-optimizer/skills/llm-cost-optimizer",
       "localPath": ".claude/skills/llm-cost-optimizer",
-      "computedHash": ""
+      "computedHash": "1850e4461ee3c0437d92dd0f9a5c2d8372d62d5fef31573de7055fb63a8b3e33"
     },
     "pulse": {
       "source": "alirezarezvani/claude-skills",
       "sourceType": "github",
       "sourcePath": "research/pulse/skills/pulse",
       "localPath": ".claude/skills/pulse",
-      "computedHash": ""
+      "computedHash": "54f0d335ba0fd03aa984df083e4936191383d3081eff3b2b9afc3bd6162b0790"
     },
     "research": {
       "source": "alirezarezvani/claude-skills",
       "sourceType": "github",
       "sourcePath": "research/research/skills/research",
       "localPath": ".claude/skills/research",
-      "computedHash": ""
+      "computedHash": "f2f1faa546723d52ae9edb0210848274082fb17e760a552b03ed176124ea13e1"
     },
     "session-context": {
       "source": "local-template",
       "sourceType": "local",
       "sourcePath": ".claude/skills/session-context",
       "localPath": ".claude/skills/session-context",
-      "computedHash": ""
+      "computedHash": "be14878fc6091e48637b591e62c159b694799afd720f0f57da70355ba8c634fe"
     },
     "pre-compact-backup": {
       "source": "local-template",
       "sourceType": "local",
       "sourcePath": ".claude/skills/pre-compact-backup",
       "localPath": ".claude/skills/pre-compact-backup",
-      "computedHash": ""
+      "computedHash": "c83e03942e493e9b1d5df1f14c4ff9b72a1191af9b75ea32a366b16946af3dba"
     }
   }
 }

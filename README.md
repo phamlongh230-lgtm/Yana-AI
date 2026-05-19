@@ -6,7 +6,7 @@ Hook layer, safety guards, and workflow rules for AI assistants
 
 ![YAMTAM ENGINE Overview](docs/yamtam-engine-overview.png)
 
-**Version:** 1.3.22
+**Version:** 1.3.23-clean
 **Status:** Runtime active. 47 hook tests + 43 skill tests passing. Release pack live.
 **Maintainer:** Vũ Văn Tâm
 **Repo type:** Standalone — NOT part of any product repo.
@@ -51,7 +51,7 @@ yamtam-engine/
 ├── .gitignore
 │
 ├── core/                  ← runtime assets
-│   ├── agents/            ← 42 agent definitions (incl. quality-testing x5, infrastructure x4, security-team)
+│   ├── agents/            ← 83 agent definitions across root and domain subfolders (quality-testing x5, infrastructure x12, security-team, core-development x8, quality-assurance x6, business x4, data-ai x6, orchestration x3, dev-experience x4, research x2)
 │   ├── commands/          ← 141 slash commands (incl. /security-audit, /performance-audit, /write-tests, /ultra-think, /tdd-cycle, /smart-fix)
 │   ├── hooks/             ← 24 hooks (.sh + .js)
 │   ├── scripts/           ← 20 utility scripts
@@ -165,7 +165,7 @@ bash core/scripts/build-release.sh
 
 GitHub Actions auto-releases on semver tag push:
 ```bash
-git tag v1.3.19 && git push origin v1.3.19
+git tag v1.3.23-clean && git push origin v1.3.23-clean
 ```
 
 ---

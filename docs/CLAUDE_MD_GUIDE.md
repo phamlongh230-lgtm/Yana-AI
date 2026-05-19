@@ -1,6 +1,6 @@
 # CLAUDE.md Architecture Guide
 
-> Version: 1.3.16
+> Version: 1.3.23-clean
 
 ## Nguyên tắc
 

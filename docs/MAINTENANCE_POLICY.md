@@ -1,6 +1,6 @@
 # YAMTAM ENGINE — Maintenance Policy
 
-> Version: 1.3.16 | Updated: 2026-05-18
+> Version: 1.3.23-clean | Updated: 2026-05-19
 
 ## Chu kỳ review định kỳ
 
@@ -80,3 +80,37 @@ docs/reviews/
 ```
 
 Không xóa review cũ. Chúng là bằng chứng audit trail.
+
+---
+
+## Release Zip Policy
+
+Release zips trong `releases/` làm repo phình to với mỗi version. Quy tắc:
+
+### Giữ trong repo (main branch)
+- `yamtam-engine-latest.zip` — symlink, luôn giữ
+- Bản **hiện tại** (vừa build)
+- Bản **trước đó** (1 bản trước)
+
+### Không giữ trong repo
+- Các bản cũ hơn 2 releases → đưa lên **GitHub Releases** để archive
+- Không commit `releases/yamtam-engine-v1.3.X-fixed.zip` cũ vào main
+
+### Cách archive lên GitHub Releases
+```bash
+gh release create vX.Y.Z releases/yamtam-engine-vX.Y.Z-fixed.zip \
+  --title "YAMTAM ENGINE vX.Y.Z" --notes "See CHANGELOG.md"
+```
+
+### Rationale
+Repo scaffold chỉ cần latest để test offline install. Lịch sử đầy đủ đã có trong CHANGELOG.md và GitHub Releases. Giữ toàn bộ zips trong git làm `git clone` ngày càng chậm.
+
+**Hiện trạng (2026-05-19):**
+
+| Bản | Kích thước | Giữ? |
+|---|---|---|
+| v1.3.22-fixed.zip (latest) | 892K | ✅ Giữ |
+| v1.3.21-fixed.zip | 854K | ✅ Giữ (previous) |
+| v1.3.0 → v1.3.20 (17 bản) | 204K–852K mỗi bản | ⚠️ Nên archive lên GitHub Releases |
+
+Tổng 19 zips ≈ 8MB trong repo. Chưa xóa — cần human duyệt trước khi cleanup.

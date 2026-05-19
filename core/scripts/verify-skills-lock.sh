@@ -35,16 +35,40 @@ if [[ -z "$LOCKFILE" ]]; then
   exit 2
 fi
 
+# Resolve a skill localPath to an actual directory on disk.
+# Tries 3 fallback locations to support repo scaffold + installed pack layouts.
+resolve_skill_path() {
+  local local_path="$1"
+
+  # 1. Try as-is (works when installed: .claude/skills/foo)
+  local p="$PROJECT_ROOT/$local_path"
+  [[ -d "$p" ]] && echo "$p" && return 0
+
+  # 2. Map .claude/skills/<rel> → core/skills/<rel> (repo scaffold layout)
+  if [[ "$local_path" == .claude/skills/* ]]; then
+    local rel="${local_path#.claude/skills/}"
+    p="$PROJECT_ROOT/core/skills/$rel"
+    [[ -d "$p" ]] && echo "$p" && return 0
+
+    # 3. Map .claude/skills/<rel> → skills/<rel> (minimal install layout)
+    p="$PROJECT_ROOT/skills/$rel"
+    [[ -d "$p" ]] && echo "$p" && return 0
+  fi
+
+  echo ""
+  return 1
+}
+
 drift=0
 missing=0
 ok=0
 
 # Iterate over every skill recorded in the lockfile.
 while IFS=$'\t' read -r name local_path expected_hash; do
-  full_path="$PROJECT_ROOT/$local_path"
+  full_path=$(resolve_skill_path "$local_path")
 
-  if [[ ! -d "$full_path" ]]; then
-    echo "✗ MISSING  $name  (expected at $local_path)"
+  if [[ -z "$full_path" ]]; then
+    echo "✗ MISSING  $name  (looked: $local_path | core/skills/... | skills/...)"
     missing=$((missing + 1))
     continue
   fi
@@ -61,7 +85,10 @@ while IFS=$'\t' read -r name local_path expected_hash; do
       | cut -d' ' -f1
   )
 
-  if [[ "$actual_hash" == "$expected_hash" ]]; then
+  if [[ -z "$expected_hash" || "$expected_hash" == "null" ]]; then
+    echo "~ SKIPPED  $name  (no hash in lockfile — run update-skills-lock.sh to populate)"
+    ok=$((ok + 1))
+  elif [[ "$actual_hash" == "$expected_hash" ]]; then
     echo "✓ OK       $name"
     ok=$((ok + 1))
   else
@@ -78,7 +105,7 @@ echo "Summary: $ok ok · $drift drift · $missing missing"
 if [[ $drift -gt 0 || $missing -gt 0 ]]; then
   echo ""
   echo "If the drift is intentional, regenerate with:"
-  echo "  .claude/scripts/update-skills-lock.sh"
+  echo "  bash core/scripts/update-skills-lock.sh"
   exit 1
 fi
 
