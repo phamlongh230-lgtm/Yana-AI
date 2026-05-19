@@ -4,6 +4,8 @@
 Hook layer, safety guards, and workflow rules for AI assistants
 (Claude Code or other AI coding assistants) operating on arbitrary codebases.
 
+![YAMTAM ENGINE Overview](docs/yamtam-engine-overview.png)
+
 | Asset | Count |
 |---|---|
 | Agents | 87 |
