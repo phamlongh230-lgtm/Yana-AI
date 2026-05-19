@@ -4,7 +4,16 @@
 Hook layer, safety guards, and workflow rules for AI assistants
 (Claude Code or other AI coding assistants) operating on arbitrary codebases.
 
-![YAMTAM ENGINE Overview](docs/yamtam-engine-overview.png)
+| Asset | Count |
+|---|---|
+| Agents | 87 |
+| Commands | 152 |
+| Hooks | 24 |
+| Scripts | 20 |
+| Skills | 64 |
+| Rules | 11 |
+| Templates | 11 |
+| Tests | 123 checks (47 hook + 12 audit + 58 skill + 6 smoke) |
 
 **Version:** 1.3.25-clean
 **Status:** Runtime active. 123 checks passing (47 hook + 12 audit + 58 skill + 6 smoke). Release pack live.
