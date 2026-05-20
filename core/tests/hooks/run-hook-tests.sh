@@ -352,6 +352,58 @@ test_session_trust "reset → 100"           "reset"      ""   "100"
 test_session_trust "floor at 0"            "decrement"  "999" "0"
 test_session_trust "show alias"            "show"       ""   "100"
 
+# 10. Hook metadata / header checks for hooks added in v1.3.26
+echo ""
+echo "--- Hook metadata checks (v1.3.26 new hooks) ---"
+
+check_hook_meta() {
+    local hook_file="$HOOKS_DIR/$1"
+    local label="$1"
+    TOTAL_COUNT=$((TOTAL_COUNT + 1))
+    echo -n "Meta [$label] shebang... "
+    if [[ ! -f "$hook_file" ]]; then
+        echo "FAIL (file not found: $hook_file)"
+        FAIL_COUNT=$((FAIL_COUNT + 1))
+        return 1
+    fi
+    if head -1 "$hook_file" | grep -q '#!/usr/bin/env bash'; then
+        echo "PASS"
+    else
+        echo "FAIL (missing #!/usr/bin/env bash)"
+        FAIL_COUNT=$((FAIL_COUNT + 1))
+    fi
+
+    TOTAL_COUNT=$((TOTAL_COUNT + 1))
+    echo -n "Meta [$label] executable... "
+    if [[ -x "$hook_file" ]]; then
+        echo "PASS"
+    else
+        echo "FAIL (not executable)"
+        FAIL_COUNT=$((FAIL_COUNT + 1))
+    fi
+
+    TOTAL_COUNT=$((TOTAL_COUNT + 1))
+    echo -n "Meta [$label] version header... "
+    if grep -q 'Version:' "$hook_file"; then
+        echo "PASS"
+    else
+        echo "FAIL (no Version: header)"
+        FAIL_COUNT=$((FAIL_COUNT + 1))
+    fi
+
+    TOTAL_COUNT=$((TOTAL_COUNT + 1))
+    echo -n "Meta [$label] no dangerous TODO... "
+    if grep -qiE 'TODO:.*secret|TODO:.*password|TODO:.*hardcode|FIXME:.*secret' "$hook_file" 2>/dev/null; then
+        echo "FAIL (dangerous TODO/placeholder found)"
+        FAIL_COUNT=$((FAIL_COUNT + 1))
+    else
+        echo "PASS"
+    fi
+}
+
+check_hook_meta "permission-auto-approve.sh"
+check_hook_meta "session-bootstrap.sh"
+
 echo ""
 echo "=== Summary ==="
 echo "Total tests: $TOTAL_COUNT"

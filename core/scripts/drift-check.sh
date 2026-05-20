@@ -145,12 +145,60 @@ if [[ -d "$L1_DIR" ]]; then
   done < <(find "$L1_DIR" -maxdepth 1 -name "*.md" -print0 2>/dev/null)
 fi
 
-# ── TODO: Count cross-check ───────────────────────────────────────────────────
-# Future improvement: compare actual file counts on disk vs MANIFEST.json counts
-# for each component (commands, scripts, hooks, templates, rules, agents, skills).
-# Flag as DRIFT if counts diverge. Currently this check is manual (run count audit
-# by hand or via /session-cost report). Adding this would require jq or python3.
-# Complexity: medium — add when count drift has caused a real release incident.
+# ── Check 4: MANIFEST cross-count ────────────────────────────────────────────
+# Compare MANIFEST.json count fields vs actual files on disk.
+# Flag DRIFT if they diverge. Skip release zips/binaries.
+
+MANIFEST_FILE="$PROJECT_ROOT/MANIFEST.json"
+
+if [[ -f "$MANIFEST_FILE" ]] && command -v python3 >/dev/null 2>&1; then
+  manifest_count() {
+    python3 -c "
+import json, sys
+with open('$MANIFEST_FILE') as f:
+    m = json.load(f)
+comp = m.get('components', {})
+cat = sys.argv[1]
+if cat in comp:
+    c = comp[cat]
+    if isinstance(c, dict):
+        print(c.get('count', -1))
+    else:
+        print(-1)
+else:
+    print(-1)
+" "$1" 2>/dev/null || echo -1
+  }
+
+  disk_count() {
+    local n
+    n=$(eval "$1" 2>/dev/null | tr -d '[:space:]')
+    echo "${n:-0}"
+  }
+
+  cross_check() {
+    local label="$1"
+    local manifest_n
+    manifest_n=$(manifest_count "$label")
+    local disk_n
+    disk_n=$(disk_count "$2")
+
+    if [[ "$manifest_n" == "-1" ]]; then return; fi
+
+    if [[ "$manifest_n" != "$disk_n" ]]; then
+      emit_issue "COUNT DRIFT: $label — MANIFEST.json says $manifest_n, disk has $disk_n"
+    fi
+  }
+
+  cross_check "agents"    "find '$PROJECT_ROOT/core/agents' -type f -name '*.md' | wc -l"
+  cross_check "commands"  "find '$PROJECT_ROOT/core/commands' -type f -name '*.md' | wc -l"
+  cross_check "hooks"     "find '$PROJECT_ROOT/core/hooks' -maxdepth 1 -type f ! -name 'CLAUDE.md' ! -name '.*' | wc -l"
+  cross_check "scripts"   "find '$PROJECT_ROOT/core/scripts' -maxdepth 1 -type f ! -name '.*' | wc -l"
+  cross_check "skills"    "find '$PROJECT_ROOT/core/skills' -name 'SKILL.md' | wc -l"
+  cross_check "templates" "find '$PROJECT_ROOT/core/templates' -type f -name '*.md' ! -name 'TASK_TEMPLATE.md' | wc -l"
+  cross_check "tests"     "find '$PROJECT_ROOT/core/tests' -name '*.sh' | wc -l"
+  cross_check "rules"     "find '$PROJECT_ROOT/core/rules' -type f -name '*.md' | wc -l"
+fi
 
 # ── Report ────────────────────────────────────────────────────────────────────
 
