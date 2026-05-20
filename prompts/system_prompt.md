@@ -4,7 +4,7 @@ Copy the block below into the AI assistant's system prompt or first message
 of a new session. Self-contained — does not require the assistant to read
 other files in this repo.
 
-**Version:** 1.3.0 — updated 2026-05-17
+**Version:** 1.3.26 — updated 2026-05-20
 
 ---
 

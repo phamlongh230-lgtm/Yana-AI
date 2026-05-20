@@ -5,7 +5,7 @@
 # Description: Block destructive database operations
 # Last Reviewed: 2026-05-19
 # PreToolUse hook — Database Protection Layer
-# YAMTAM ENGINE v1.3.15 — Replit-Incident Defense
+# Replit-Incident Defense
 #
 # Blocks any operation touching production database / production env without
 # explicit human approval, regardless of how the command is phrased.

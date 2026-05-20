@@ -5,7 +5,7 @@
 # Description: Warn when agent accesses token/secret files
 # Last Reviewed: 2026-05-19
 # PreToolUse hook — Token Scope Guard
-# YAMTAM ENGINE v1.3.15 — Token Scope Guard
+# Token Scope Guard
 #
 # Lesson from PocketOS (April 2026): the agent went looking for an API token
 # and found one "in an unrelated file", then used it to delete production.

@@ -29,7 +29,7 @@ else
   if command -v jq >/dev/null 2>&1 && [[ -f "$MANIFEST" ]]; then
     VERSION=$(jq -r '.version' "$MANIFEST" 2>/dev/null || true)
   fi
-  VERSION="${VERSION:-1.3.0}"
+  VERSION="${VERSION:-1.3.26}"
 fi
 
 PACK_NAME="yamtam-engine-v${VERSION}-fixed.zip"
