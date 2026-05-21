@@ -446,6 +446,76 @@
       "sourcePath": "core/skills/i18n-patterns",
       "localPath": "core/skills/i18n-patterns",
       "computedHash": "cec48989a1cd1689c10019f9cd853152a8f211b8d13e7ec00ae9539792aaefd4"
+    },
+    "database-patterns": {
+      "source": "yamtam-original",
+      "sourceType": "original",
+      "sourcePath": "core/skills/database-patterns",
+      "localPath": "core/skills/database-patterns",
+      "computedHash": "785baab0b44d7c2b0e8556c5363b9d7b95fca84198b039beabcfeeb771014ddf"
+    },
+    "auth-patterns": {
+      "source": "yamtam-original",
+      "sourceType": "original",
+      "sourcePath": "core/skills/auth-patterns",
+      "localPath": "core/skills/auth-patterns",
+      "computedHash": "58f0d72ab6858651d2cdb53839abc208434b786008c1505ea22dbb3994fe4b4a"
+    },
+    "resilience-patterns": {
+      "source": "yamtam-original",
+      "sourceType": "original",
+      "sourcePath": "core/skills/resilience-patterns",
+      "localPath": "core/skills/resilience-patterns",
+      "computedHash": "80de4d392b8521797e0cf0f48c9f159dbafbc07a7186419101e545bd11e64866"
+    },
+    "event-driven-architecture": {
+      "source": "yamtam-original",
+      "sourceType": "original",
+      "sourcePath": "core/skills/event-driven-architecture",
+      "localPath": "core/skills/event-driven-architecture",
+      "computedHash": "cc7b8c491ac97c7a4348c2e083152ba0a23a9ee0d7a1df467ca7d3ab1b7ea62a"
+    },
+    "observability-instrumentation": {
+      "source": "yamtam-original",
+      "sourceType": "original",
+      "sourcePath": "core/skills/observability-instrumentation",
+      "localPath": "core/skills/observability-instrumentation",
+      "computedHash": "a5f50f302b0cf47b48b1f8a841ce8b2fce28138652cf4035e730e7142ff0ec61"
+    },
+    "cicd-patterns": {
+      "source": "yamtam-original",
+      "sourceType": "original",
+      "sourcePath": "core/skills/cicd-patterns",
+      "localPath": "core/skills/cicd-patterns",
+      "computedHash": "c0f0767b5f329bd67daa352e279221d1dd7a275061d058281a4519def3aaced2"
+    },
+    "refactor-patterns": {
+      "source": "yamtam-original",
+      "sourceType": "original",
+      "sourcePath": "core/skills/refactor-patterns",
+      "localPath": "core/skills/refactor-patterns",
+      "computedHash": "67667eb5e03e76e4c1ee3ef2605315dae7c25b19fcba32a0db26302f27e5e287"
+    },
+    "data-privacy": {
+      "source": "yamtam-original",
+      "sourceType": "original",
+      "sourcePath": "core/skills/data-privacy",
+      "localPath": "core/skills/data-privacy",
+      "computedHash": "949675c07c1838753ea2958be2c1d66f124085ee194264b276236052db484d13"
+    },
+    "graphql-patterns": {
+      "source": "yamtam-original",
+      "sourceType": "original",
+      "sourcePath": "core/skills/graphql-patterns",
+      "localPath": "core/skills/graphql-patterns",
+      "computedHash": "5b4d4ebf1fd2d1bab893583c8a527192edeaf8086335a5764c8624121405509b"
+    },
+    "adr-writing": {
+      "source": "yamtam-original",
+      "sourceType": "original",
+      "sourcePath": "core/skills/adr-writing",
+      "localPath": "core/skills/adr-writing",
+      "computedHash": "34fbd1d3f9105e3839ce7a851d0a19474dd8b08cbde9e3678ed8c5872e630162"
     }
   }
 }
