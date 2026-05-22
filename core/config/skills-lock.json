@@ -565,6 +565,13 @@
       "sourcePath": "core/skills/api-rate-limiting",
       "localPath": "core/skills/api-rate-limiting",
       "computedHash": "584fab73146c83ba18d7c22d1c14281b16cfe2c9b4d36765d5978bed9e241e96"
+    },
+    "error-handling": {
+      "source": "yamtam-original",
+      "sourceType": "original",
+      "sourcePath": "core/skills/error-handling",
+      "localPath": "core/skills/error-handling",
+      "computedHash": "5147242e9250cc7c61559188db4cb5de2587f4efe80b5a71214eba84f9a69cef"
     }
   }
 }
