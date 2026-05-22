@@ -579,6 +579,13 @@
       "sourcePath": "core/skills/secret-management",
       "localPath": "core/skills/secret-management",
       "computedHash": "a26f93a8f114581d55e8e66f2f94b0c326142639ff9d44cbea0d83d1cf628d82"
+    },
+    "distributed-tracing": {
+      "source": "yamtam-original",
+      "sourceType": "original",
+      "sourcePath": "core/skills/distributed-tracing",
+      "localPath": "core/skills/distributed-tracing",
+      "computedHash": "fe3711d375c38ccac4628cc14322fff5dcda0af8426bce1c0ba05d1f99f59170"
     }
   }
 }

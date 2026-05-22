@@ -253,6 +253,8 @@ check_skill "error-handling"         "error code"
 check_skill "error-handling"         "stack trace"
 check_skill "secret-management"      "secret"
 check_skill "secret-management"      "rotation"
+check_skill "distributed-tracing"    "trace"
+check_skill "distributed-tracing"    "OpenTelemetry"
 
 # v1.3.31 session — load-testing, feature-flags, websocket-patterns, mlops, cloud-cost-optimization
 check_skill "load-testing"           "k6"
