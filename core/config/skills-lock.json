@@ -593,6 +593,87 @@
       "sourcePath": "core/skills/contract-testing",
       "localPath": "core/skills/contract-testing",
       "computedHash": "1afcee20b6d7adcdf81010adbc7c399ef62d344c4cf6484b10f5568ad5c68058"
+    },
+    "baseline-ui": {
+      "source": "adapted:MIT © Ibelick",
+      "sourceType": "adapted",
+      "sourcePath": "core/skills/baseline-ui",
+      "localPath": "core/skills/baseline-ui",
+      "computedHash": "367f74a47de98d5be220c030803daa1104c9a9616e5473877b95ff2bf08048b3",
+      "license": "adapted:MIT © Ibelick",
+      "inspiration": "Ibelick/baseline-ui — CSS baseline patterns, Tailwind anti-patterns, typography scale"
+    },
+    "fixing-accessibility": {
+      "source": "adapted:MIT © Ibelick",
+      "sourceType": "adapted",
+      "sourcePath": "core/skills/fixing-accessibility",
+      "localPath": "core/skills/fixing-accessibility",
+      "computedHash": "b05b354f357a8cac2d43b38585cfba49505ec24213a0ff33543ff493a883f071",
+      "license": "adapted:MIT © Ibelick",
+      "inspiration": "Ibelick/fixing-accessibility — focus management, ARIA, keyboard nav, skip links"
+    },
+    "fixing-motion-performance": {
+      "source": "adapted:MIT © Ibelick",
+      "sourceType": "adapted",
+      "sourcePath": "core/skills/fixing-motion-performance",
+      "localPath": "core/skills/fixing-motion-performance",
+      "computedHash": "7e329131eb0003230f2c58f701c6354c242d65e538468e10759043552ed25466",
+      "license": "adapted:MIT © Ibelick",
+      "inspiration": "Ibelick/fixing-motion-performance — compositor properties, will-change, layout thrashing"
+    },
+    "shadcn-patterns": {
+      "source": "adapted:MIT © shadcn-ui",
+      "sourceType": "adapted",
+      "sourcePath": "core/skills/shadcn-patterns",
+      "localPath": "core/skills/shadcn-patterns",
+      "computedHash": "9caf2d34f93aa02c7d6b7d64104b62e6004acf2311736cd5c707dfd88dbfef39",
+      "license": "adapted:MIT © shadcn-ui",
+      "inspiration": "shadcn/ui — component workflow, CSS variables theming, cva() variants, Radix composition"
+    },
+    "react-doctor": {
+      "source": "adapted:MIT © millionco",
+      "sourceType": "adapted",
+      "sourcePath": "core/skills/react-doctor",
+      "localPath": "core/skills/react-doctor",
+      "computedHash": "3467b4162c908424e346864d9d2750ef77e0225853396a9ad9024da0a1ab2e04",
+      "license": "adapted:MIT © millionco",
+      "inspiration": "millionco/react-doctor — re-render audit, useEffect safety, XSS, bundle size"
+    },
+    "animation-principles": {
+      "source": "adapted:MIT © raphaelsalaja",
+      "sourceType": "adapted",
+      "sourcePath": "core/skills/animation-principles",
+      "localPath": "core/skills/animation-principles",
+      "computedHash": "3e74a5abba11781f65dbd933531bd7096f44e34f701ffe5a7f634a6ea4f82d53",
+      "license": "adapted:MIT © raphaelsalaja",
+      "inspiration": "raphaelsalaja/12-principles-of-animation — Disney's 12 principles applied to web UI"
+    },
+    "impeccable": {
+      "source": "adapted:MIT © pbakaus",
+      "sourceType": "adapted",
+      "sourcePath": "core/skills/impeccable",
+      "localPath": "core/skills/impeccable",
+      "computedHash": "4ce8152ac52a1502e2791a5547a8f27d705669c6ed0217a70459cb2eed0bb30c",
+      "license": "adapted:MIT © pbakaus",
+      "inspiration": "pbakaus/impeccable — anti-generic UI, custom hover states, surface depth, typography precision"
+    },
+    "interface-feel": {
+      "source": "adapted:MIT © jakubkrehel",
+      "sourceType": "adapted",
+      "sourcePath": "core/skills/interface-feel",
+      "localPath": "core/skills/interface-feel",
+      "computedHash": "fd7d735d9a74f78612f08137c459c9c1c95444a60aac7bf1485b4104e70a9c03",
+      "license": "adapted:MIT © jakubkrehel",
+      "inspiration": "jakubkrehel/make-interfaces-feel-better — micro-interactions, spring physics, optimistic UI, skeletons"
+    },
+    "design-engineering": {
+      "source": "adapted:MIT © emilkowalski",
+      "sourceType": "adapted",
+      "sourcePath": "core/skills/design-engineering",
+      "localPath": "core/skills/design-engineering",
+      "computedHash": "3a7e25792773997379d253248f2bd479a734fe8d6b178ff0d1d2d268e05f422d",
+      "license": "adapted:MIT © emilkowalski",
+      "inspiration": "emilkowalski/emil-design-eng — design-engineering discipline, Storybook workflow, handoff precision"
     }
   }
 }
