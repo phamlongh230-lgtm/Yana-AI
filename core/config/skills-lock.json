@@ -572,6 +572,13 @@
       "sourcePath": "core/skills/error-handling",
       "localPath": "core/skills/error-handling",
       "computedHash": "5147242e9250cc7c61559188db4cb5de2587f4efe80b5a71214eba84f9a69cef"
+    },
+    "secret-management": {
+      "source": "yamtam-original",
+      "sourceType": "original",
+      "sourcePath": "core/skills/secret-management",
+      "localPath": "core/skills/secret-management",
+      "computedHash": "a26f93a8f114581d55e8e66f2f94b0c326142639ff9d44cbea0d83d1cf628d82"
     }
   }
 }

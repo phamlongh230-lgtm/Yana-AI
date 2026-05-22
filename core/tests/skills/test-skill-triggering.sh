@@ -248,9 +248,11 @@ check_skill "caching-patterns"       "invalidat"
 check_skill "api-rate-limiting"      "rate limit"
 check_skill "api-rate-limiting"      "429"
 
-# error-handling (post v1.3.31)
+# post v1.3.31 skills — error-handling, secret-management
 check_skill "error-handling"         "error code"
 check_skill "error-handling"         "stack trace"
+check_skill "secret-management"      "secret"
+check_skill "secret-management"      "rotation"
 
 # v1.3.31 session — load-testing, feature-flags, websocket-patterns, mlops, cloud-cost-optimization
 check_skill "load-testing"           "k6"
