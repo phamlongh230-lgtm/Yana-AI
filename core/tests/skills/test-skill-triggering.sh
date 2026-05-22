@@ -248,6 +248,10 @@ check_skill "caching-patterns"       "invalidat"
 check_skill "api-rate-limiting"      "rate limit"
 check_skill "api-rate-limiting"      "429"
 
+# error-handling (post v1.3.31)
+check_skill "error-handling"         "error code"
+check_skill "error-handling"         "stack trace"
+
 # v1.3.31 session — load-testing, feature-flags, websocket-patterns, mlops, cloud-cost-optimization
 check_skill "load-testing"           "k6"
 check_skill "load-testing"           "load test"
