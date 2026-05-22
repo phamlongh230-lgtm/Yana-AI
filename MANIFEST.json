@@ -418,7 +418,7 @@
     },
     "skills": {
       "status": "imported",
-      "count": 103,
+      "count": 104,
       "actual_present": [
         "core/skills/accessibility-audit/SKILL.md",
         "core/skills/aesthetic-anchor/SKILL.md",
@@ -522,7 +522,8 @@
         "core/skills/load-testing/SKILL.md",
         "core/skills/feature-flags/SKILL.md",
         "core/skills/websocket-patterns/SKILL.md",
-        "core/skills/mlops/SKILL.md"
+        "core/skills/mlops/SKILL.md",
+        "core/skills/cloud-cost-optimization/SKILL.md"
       ]
     },
     "config": {

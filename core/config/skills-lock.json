@@ -544,6 +544,13 @@
       "sourcePath": "core/skills/mlops",
       "localPath": "core/skills/mlops",
       "computedHash": "22859fac2cbc9125f5044e4af559d8073732878cf86013f768b53cdd81737f87"
+    },
+    "cloud-cost-optimization": {
+      "source": "yamtam-original",
+      "sourceType": "original",
+      "sourcePath": "core/skills/cloud-cost-optimization",
+      "localPath": "core/skills/cloud-cost-optimization",
+      "computedHash": "2a64e37b594c55547ad6d2295f3373f18e8eaf643350b6a49f6329c9950a1a83"
     }
   }
 }
