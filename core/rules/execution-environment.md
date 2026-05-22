@@ -166,6 +166,82 @@ subprocess.run(['/usr/bin/git', 'status', '--short'], check=True, shell=False)
 
 ---
 
+## Path Traversal & Write Isolation (kubernetes PodSecurityPolicy-inspired)
+
+> Source: kubernetes/kubernetes pkg/security/podsecuritypolicy — read-only root filesystem principle.
+> Gate: Action Gate L5 (absolute path boundary)
+
+All agent file writes MUST remain within the project workspace boundary.
+Any path containing `..` that resolves outside the workspace = **Gate L5 block**.
+
+```
+WORKSPACE = $CLAUDE_PROJECT_DIR (or cwd)
+
+❌ BLOCKED — paths escaping workspace:
+   ../../../etc/crontab
+   ../../.ssh/authorized_keys
+   /etc/passwd
+   /tmp/../../../root/.bashrc
+   ~/../other-project/secrets
+
+✅ ALLOWED — paths within workspace:
+   ./src/config.ts
+   core/rules/new-rule.md
+   /workspaces/yamtam-engine/MANIFEST.json
+```
+
+Pre-commit gate check in `verify-rules.sh`:
+
+```bash
+# Detect path traversal in staged write operations
+git diff --cached --name-only | while read f; do
+  realpath --relative-to="$PROJECT_ROOT" "$PROJECT_ROOT/$f" 2>/dev/null \
+    | grep -qE "^\.\." && echo "[L5-BLOCK] Path traversal: $f" && exit 5
+done
+```
+
+Exit code: **5** (distinct from all other gates).
+
+---
+
+## Chmod/Chown Monitoring (falco-inspired)
+
+> Source: falcosecurity/falco runtime security rules — detect unexpected privilege changes.
+
+Any `chmod` or `chown` command targeting core protected directories
+MUST be accompanied by a user authorization log entry.
+
+**Protected directories:**
+```
+core/rules/
+core/scripts/
+memory/L1_atomic/
+core/config/
+core/hooks/
+```
+
+```bash
+# If agent needs to chmod in protected dir:
+secure-logger.sh chmod_protected_dir "chmod $MODE $PATH — user-authorized"
+# Then execute — log entry is the authorization proof
+
+# Trigger immediate TRUST_SCORE=0 if:
+chmod 777 core/rules/      # world-writable on rules
+chown root: memory/L1_atomic/  # ownership change to root
+chmod -x core/scripts/safe-run.sh  # disabling safety script
+```
+
+Detection pattern added to `safe-run.sh`:
+
+```bash
+"chmod.*777.*core/"          # world-writable protected dir
+"chmod.*-x.*safe-run"        # disabling safety wrapper
+"chown.*root.*core/"         # escalating ownership
+"chmod.*-R.*memory/L1"       # bulk permission change on memory
+```
+
+---
+
 ## Cleanup Policy
 
 Sandboxes are ephemeral:

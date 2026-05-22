@@ -82,7 +82,11 @@ core/rules/
   container-hardening-law.md  ← hadolint + trivy Dockerfile/K8s rules (Gate L3)
   dependency-vetting-law.md   ← supply chain gate (ossf/scorecard L4)
   execution-environment.md    ← sandbox / isolation + banned runtime functions (seccomp)
+  anti-evasion-law.md         ← lynis subshell/base64/pipe-to-interpreter block (Gate L1)
+  env-integrity-policy.md     ← defsec LD_PRELOAD/$PATH injection defense (Gate L2)
   fuzz-testing-constraints.md ← oss-fuzz boundary test coverage (Tier A: 3 edge cases min)
+  prompt-jailbreak-guard.md   ← garak prompt injection filter for external content
+  shell-sanitize-law.md       ← shellcheck quoting + sanitize_arg() + eval ban (Gate L2)
   git-push-enforcement.md     ← push gate + force-push prohibition
   git-workflow-v2.md          ← branch naming, commit discipline
   golden-principles.md        ← overarching agent behavior principles
