@@ -182,6 +182,20 @@ This is a personal agent operating system. Features are added when a real proble
 
 ---
 
+## Upcoming 🔜
+
+### v1.8.0 — Gemini Code Adapter
+
+- [ ] **`adapters/gemini-code.md`** — enforcement rules for Gemini Code CLI (Google)
+- [ ] **`switch-engine.sh gemini`** — auto-generate Gemini Code config with YAMTAM gate rules
+- [ ] **Hook proxy for Gemini Code** — route Gemini bash calls through `safe-run.sh` (same pattern as Cursor/Aider)
+- [ ] **Cross-engine parity** — Gemini Code joins Claude Code / Cursor / Aider at Hard Enforcement tier
+- [ ] Covers all Gemini versions: Flash, Pro, Ultra (2.0 / 2.5 / future)
+
+> **Why:** Gemini Code is growing fast. YAMTAM should enforce safety regardless of which AI engine the team uses.
+
+---
+
 ## Deliberately Not Planned 🚫
 
 - Real-time cost dashboard (over-engineering for current scale)
