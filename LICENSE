@@ -1,26 +1,21 @@
-Copyright (c) 2026 Vũ Văn Tâm. All rights reserved.
+MIT License
 
-YAMTAM ENGINE and all associated source code, documentation, prompts,
-agents, commands, hooks, scripts, rules, skills, templates, workflows,
-release packages, and configuration files are proprietary and confidential.
+Copyright (c) 2026 Vũ Văn Tâm
 
-No permission is granted to any person or organization to use, copy, modify,
-merge, publish, distribute, sublicense, sell, host, reproduce, mirror,
-train on, commercialize, or create derivative works from this software,
-in whole or in part, without prior written permission from the copyright holder.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-This software is provided only for private development, evaluation, and use by
-the copyright holder and explicitly authorized collaborators.
-
-Unauthorized copying, redistribution, publication, or reuse of this software
-or any substantial part of it is prohibited.
-
-Third-party open-source components or inspirations, if any, remain subject to
-their original licenses and attribution requirements. Nothing in this license
-removes or overrides those third-party rights.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
-
-For permission requests, contact the copyright holder.
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

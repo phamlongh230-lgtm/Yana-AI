@@ -8,6 +8,36 @@ All notable changes to YAMTAM ENGINE release packs are documented here.
 
 ---
 
+## v1.7.0 — High Priority Safety Hooks (L3.5 / L4.5 / L1.5)
+*2026-05-24*
+
+### Status: RELEASED ✅
+
+### New hooks (3)
+| Hook | Gate | Description |
+|---|---|---|
+| `prompt-injection-guard.sh` | L3.5 | Blocks identity override, system prompt extraction, jailbreak triggers; warns on base64-encoded directives and multi-turn manipulation |
+| `supply-chain-guard.sh` | L4.5 | Blocks pipe-to-shell (curl\|bash), non-registry URL installs, typosquatting lookalikes, `--ignore-scripts=false`; warns on missing lock file |
+| `tool-validator.sh` | L1.5 | Blocks path traversal (../), sensitive system path writes, SSRF (private IPs, cloud metadata), non-http schemes; warns on unknown tools and out-of-project paths |
+
+### Test suite
+- 23 new test cases across 3 hooks (block / allow / bypass for each)
+- Total: **88/88 PASS**
+
+### Count sync
+| Metric | v1.6.1 | v1.7.0 |
+|---|---|---|
+| Hooks | 36 | **39** |
+
+### Bypass vars
+| Hook | Bypass |
+|---|---|
+| `prompt-injection-guard.sh` | `YAMTAM_PROMPT_INJECT_BYPASS=1` |
+| `supply-chain-guard.sh` | `YAMTAM_SUPPLY_OK=1` |
+| `tool-validator.sh` | `YAMTAM_TOOL_VALID_BYPASS=1` |
+
+---
+
 ## v1.6.1 — Anh's Asset Pack Integration
 *2026-05-23*
 

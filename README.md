@@ -23,17 +23,17 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/version-v1.6.1-orange?style=for-the-badge" alt="Version" />
-  <img src="https://img.shields.io/badge/status-private-111827?style=for-the-badge" alt="Status" />
-  <img src="https://img.shields.io/badge/license-proprietary-red?style=for-the-badge" alt="License" />
+  <img src="https://img.shields.io/badge/status-public-22c55e?style=for-the-badge" alt="Status" />
+  <img src="https://img.shields.io/badge/license-MIT-blue?style=for-the-badge" alt="License" />
   <img src="https://img.shields.io/badge/owner-Vũ%20Văn%20Tâm-purple?style=for-the-badge" alt="Owner" />
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/agents-90-ff8c00?style=flat-square" alt="Agents" />
   <img src="https://img.shields.io/badge/commands-164-7c3aed?style=flat-square" alt="Commands" />
-  <img src="https://img.shields.io/badge/hooks-35-f97316?style=flat-square" alt="Hooks" />
+  <img src="https://img.shields.io/badge/hooks-39-f97316?style=flat-square" alt="Hooks" />
   <img src="https://img.shields.io/badge/scripts-46-22c55e?style=flat-square" alt="Scripts" />
-  <img src="https://img.shields.io/badge/skills-351-06b6d4?style=flat-square" alt="Skills" />
+  <img src="https://img.shields.io/badge/skills-350-06b6d4?style=flat-square" alt="Skills" />
   <img src="https://img.shields.io/badge/checks-826-ef4444?style=flat-square" alt="Checks" />
 </p>
 
@@ -46,7 +46,7 @@ YAMTAM ENGINE là **Personal Agent Operating System** - hệ điều hành cho A
 - **90 Agents** — điều phối và thực thi theo vai trò chuyên môn
 - **164 Commands** — giao diện slash command cho workflow AI
 - **35 Hooks** — bảo vệ, giám sát và can thiệp runtime
-- **351 Skills** — thư viện kỹ năng cho nhiều loại tác vụ
+- **350 Skills** — thư viện kỹ năng cho nhiều loại tác vụ
 - **60 Rules** — quy tắc vận hành và kiểm soát chất lượng
 - **46 Scripts** — công cụ checkpoint, rollback, sweep, release và verify
 - **826 Checks** — hook tests, audit tests, skill checks, red-team scenarios và smoke tests
@@ -117,8 +117,8 @@ yamtam-engine/
 ├── core/
 │   ├── agents/          90 agent definitions
 │   ├── commands/        164 slash commands
-│   ├── hooks/           35 runtime hooks
-│   ├── skills/          351 workflow skills
+│   ├── hooks/           36 runtime hooks
+│   ├── skills/          350 workflow skills
 │   ├── scripts/         46 utility scripts
 │   ├── rules/           60 operating rules
 │   └── tests/           826 verification checks
@@ -139,11 +139,11 @@ yamtam-engine/
 |---|---|
 | `core/agents/` | 90 agents |
 | `core/commands/` | 164 commands |
-| `core/hooks/` | 35 hooks |
+| `core/hooks/` | 39 hooks |
 | `core/scripts/` | 46 scripts |
 | `core/rules/` | 60 rules |
 | `core/templates/` | 12 templates |
-| `core/skills/` | 351 skills |
+| `core/skills/` | 350 skills |
 | `core/config/` | 6 config files |
 | `core/tests/hooks/` | 65 test cases |
 | `core/tests/skills/` | 334 skill trigger tests |
@@ -331,13 +331,25 @@ See `.out-of-scope/` for deliberately excluded features.
 
 ## License
 
-YAMTAM ENGINE is proprietary software.
+MIT License — Copyright © 2026 Vũ Văn Tâm.
 
-Copyright © 2026 Vũ Văn Tâm. All rights reserved.
+Free to use, fork, modify, and distribute. See `LICENSE` for full terms.
 
-No one is allowed to copy, modify, redistribute, publish, host, sell, or create derivative works from this project without prior written permission.
+Contributions welcome — see `CONTRIBUTING.md`.
 
-See `LICENSE` for details.
+---
+
+## Contributing & Feedback
+
+YAMTAM is designed to improve through real-world use. If you find a hook that fires incorrectly, a pattern it misses, or a rule that should exist — open an issue or PR.
+
+Most valuable feedback:
+- **False positives** — hook blocked something it shouldn't
+- **False negatives** — hook missed something it should have caught
+- **Real incidents** — AI did something harmful that YAMTAM would have prevented
+- **Missing patterns** — attack vectors not covered by current rules
+
+See `CONTRIBUTING.md` for how to add hooks, skills, or rules.
 
 ---
 
@@ -345,5 +357,5 @@ See `LICENSE` for details.
 
 **Owner:** Vũ Văn Tâm  
 **Repository:** yamtam-engine  
-**Version:** 1.6.1  
-**Last Updated:** 2026-05-23
+**Version:** 1.7.0  
+**Last Updated:** 2026-05-24
