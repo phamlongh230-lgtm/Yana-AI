@@ -273,6 +273,43 @@ Breakdown: 65 hook tests · 12 audit tests · 334 skill trigger tests · 65 red-
 
 ---
 
+## 🌱 Origin Story
+
+Before YAMTAM ENGINE became a full Personal Agent Operating System, it started from early personal experiments in web design, interface building, and AI-assisted development.
+
+The earliest version was a simple static web project:
+
+```
+myfirstapp522-main/
+├── index.html
+└── bg.mp3
+```
+
+| Item | Details |
+|---|---|
+| Owner | Vũ Văn Tâm |
+| Stack | HTML, CSS, JavaScript |
+| Interface | One-page static web page |
+| Media | Background music (`bg.mp3`) |
+| Theme | Korean poetry, soft visual mood |
+| Purpose | Early personal practice before building larger AI-assisted systems |
+
+This was not the teacher's original project — it was a personal milestone. It is kept as a historical marker showing the path from a small static web page to a standalone AI agent workflow system.
+
+```
+Static HTML prototype
+        ↓
+Personal web experiments
+        ↓
+AI-assisted development workflow
+        ↓
+Multi-agent project control
+        ↓
+YAMTAM ENGINE
+```
+
+---
+
 ## Contributing & Feedback
 
 YAMTAM improves through real-world use. If a hook fires when it shouldn't, or misses something it should catch — that's the most valuable signal.
@@ -421,6 +458,43 @@ AI bắt buộc phải đưa ra bằng chứng trước khi khai báo hoàn thà
 | Operating rules | 60 |
 | Utility scripts | 46 |
 | Verification checks | 826 |
+
+---
+
+## 🌱 Câu chuyện khởi đầu
+
+Trước khi YAMTAM ENGINE trở thành một Personal Agent Operating System hoàn chỉnh, nó bắt đầu từ những thử nghiệm cá nhân về thiết kế web, xây dựng giao diện và phát triển với sự hỗ trợ của AI.
+
+Phiên bản sớm nhất là một dự án web tĩnh đơn giản:
+
+```
+myfirstapp522-main/
+├── index.html
+└── bg.mp3
+```
+
+| Thông tin | Chi tiết |
+|---|---|
+| Chủ sở hữu | Vũ Văn Tâm |
+| Công nghệ | HTML, CSS, JavaScript |
+| Giao diện | Trang web tĩnh một trang |
+| Media | Nhạc nền (`bg.mp3`) |
+| Chủ đề | Thơ Hàn Quốc, giao diện nhẹ nhàng, thẩm mỹ |
+| Mục đích | Thực hành cá nhân trước khi xây dựng hệ thống AI lớn hơn |
+
+Đây không phải project gốc của giáo viên — đây là cột mốc phát triển của cá nhân tôi. Nó được giữ lại như một dấu ấn lịch sử, thể hiện hành trình từ một trang HTML nhỏ đến hệ thống agent workflow độc lập.
+
+```
+Static HTML prototype
+        ↓
+Thử nghiệm web cá nhân
+        ↓
+Phát triển với sự hỗ trợ AI
+        ↓
+Multi-agent project control
+        ↓
+YAMTAM ENGINE
+```
 
 ---
 
