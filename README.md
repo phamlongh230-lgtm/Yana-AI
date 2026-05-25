@@ -538,5 +538,5 @@ Tự do sử dụng, fork, chỉnh sửa và phân phối. Xem `LICENSE` để b
 ---
 
 <p align="center">
-  <sub>v1.7.3 · Xây dựng cho Claude Code · Apache 2.0 · Tác giả: Vũ Văn Tâm</sub>
+  <sub>v1.8.0 · Xây dựng cho Claude Code · Apache 2.0 · Tác giả: Vũ Văn Tâm</sub>
 </p>
