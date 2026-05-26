@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+# YAMTAM CLI — entry point
+# Usage: yamtam audit [target] [flags]
+set -euo pipefail
+
+YAMTAM_VERSION="0.1.0"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+SCANNER_PY="$REPO_ROOT/core/scripts/audit_scanner.py"
+
+# ── helpers ──────────────────────────────────────────────────────────────────
+
+RED='\033[31m'; CYAN='\033[36m'; BOLD='\033[1m'; RESET='\033[0m'
+
+err()  { echo -e "${RED}Error:${RESET} $*" >&2; }
+info() { echo -e "  ${CYAN}→${RESET} $*"; }
+
+usage() {
+  cat <<EOF
+
+Usage: yamtam <command> [target] [flags]
+
+Commands:
+  audit [target]    Scan AI agent setup for risk patterns (default target: .)
+  version           Print version
+  help              Show this help
+
+Audit flags:
+  --json                   Output as JSON
+  --markdown <file>        Write Markdown report to file
+  --fail-on <level>        Exit non-zero on findings at level+ (low/medium/high/critical)
+  --only <category>        Run one scanner only
+  --ignore <id>            Suppress a finding ID (repeatable)
+  --no-color               Disable ANSI color output
+  --quiet                  Only print score + risk level
+
+Examples:
+  yamtam audit .
+  yamtam audit . --json
+  yamtam audit . --markdown report.md
+  yamtam audit . --fail-on high
+  yamtam audit /path/to/repo --quiet
+
+EOF
+}
+
+# ── version ───────────────────────────────────────────────────────────────────
+
+cmd_version() {
+  echo "yamtam $YAMTAM_VERSION"
+}
+
+# ── audit ─────────────────────────────────────────────────────────────────────
+
+cmd_audit() {
+  if ! command -v python3 &>/dev/null; then
+    err "python3 is required to run yamtam audit."
+    exit 3
+  fi
+
+  if [[ ! -f "$SCANNER_PY" ]]; then
+    err "Scanner not found at $SCANNER_PY"
+    err "Ensure YAMTAM is installed correctly."
+    exit 3
+  fi
+
+  python3 "$SCANNER_PY" "$@"
+  # Exit code propagated from python script
+}
+
+# ── dispatch ──────────────────────────────────────────────────────────────────
+
+COMMAND="${1:-help}"
+shift 2>/dev/null || true
+
+case "$COMMAND" in
+  audit)
+    cmd_audit "$@"
+    ;;
+  version|--version|-v)
+    cmd_version
+    ;;
+  help|--help|-h|"")
+    usage
+    ;;
+  *)
+    err "Unknown command: $COMMAND"
+    usage
+    exit 1
+    ;;
+esac

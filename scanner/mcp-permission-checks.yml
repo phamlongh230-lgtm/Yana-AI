@@ -1,0 +1,102 @@
+# scanner/mcp-permission-checks.yml
+# Checks for risky MCP server configurations in .mcp.json and similar files.
+
+version: "1.0"
+scope: mcp-config
+
+file_patterns:
+  - ".mcp.json"
+  - ".cursor/mcp.json"
+  - "mcp.json"
+  - ".config/mcp*.json"
+
+checks:
+
+  - id: MCP001
+    severity: CRITICAL
+    description: "filesystem MCP server has full-root or home-directory access"
+    match:
+      type: json
+      path: "$.mcpServers.*.args[*]"
+      pattern: "^(/$|/home$|/Users$|~$|/root$)"
+    reason: "Granting the agent access to / or ~ lets it read credentials, SSH keys, and all private files."
+    fix: "Scope filesystem MCP to the project directory only: /workspace or ./."
+
+  - id: MCP002
+    severity: HIGH
+    description: "filesystem MCP server has write access to system directories"
+    match:
+      type: json
+      path: "$.mcpServers.*.args[*]"
+      pattern: "^(/etc|/usr|/bin|/sbin|/lib|/boot|/sys|/proc)"
+    reason: "Write access to system directories enables privilege escalation and persistence."
+    fix: "Restrict filesystem MCP to project-scoped paths only."
+
+  - id: MCP003
+    severity: HIGH
+    description: "Unknown or unrecognized remote MCP server URL"
+    match:
+      type: json
+      path: "$.mcpServers.*.url"
+      pattern: "https?://"
+      condition: not_in_allowlist
+      allowlist:
+        - "api.anthropic.com"
+        - "api.openai.com"
+        - "github.com"
+        - "api.github.com"
+        - "localhost"
+        - "127.0.0.1"
+    reason: "Remote MCP servers can receive tool call payloads including file contents and env vars."
+    fix: "Audit all remote MCP endpoints. Only use vendors you trust with repo access."
+
+  - id: MCP004
+    severity: CRITICAL
+    description: "MCP server command runs with shell: true"
+    match:
+      type: json
+      path: "$.mcpServers.*.command"
+      pattern: "(bash|sh|zsh)\\s+-c"
+    reason: "Shell-launched MCP servers inherit full shell capabilities including variable expansion."
+    fix: "Use direct binary invocation: [\"node\", \"server.js\"] not [\"bash\", \"-c\", \"node server.js\"]."
+
+  - id: MCP005
+    severity: HIGH
+    description: "MCP server env block contains raw secret values"
+    match:
+      type: json
+      path: "$.mcpServers.*.env.*"
+      pattern: "(sk-[a-zA-Z0-9]{20,}|ghp_[a-zA-Z0-9]{36}|xox[bpoa]-[0-9]|AIza[0-9A-Za-z-_]{35})"
+    reason: "Hardcoded secrets in mcp.json are committed to the repo and exposed to all readers."
+    fix: "Use environment variable references: {\"API_KEY\": \"${MY_API_KEY}\"} instead of raw values."
+
+  - id: MCP006
+    severity: MEDIUM
+    description: "MCP server has no defined tool scope — all tools enabled"
+    match:
+      type: json
+      path: "$.mcpServers.*"
+      condition: missing_key
+      key: "tools"
+    reason: "Without tool scoping, the agent can use every capability the server exposes."
+    fix: "Add a 'tools' allowlist to each MCP server config to restrict available operations."
+
+  - id: MCP007
+    severity: MEDIUM
+    description: "filesystem MCP server uses path traversal patterns in allowed dirs"
+    match:
+      type: json
+      path: "$.mcpServers.*.args[*]"
+      pattern: "\\.\\."
+    reason: "Path traversal in MCP config can expose directories outside the intended scope."
+    fix: "Use absolute, canonical paths. Never use .. in MCP server directory arguments."
+
+  - id: MCP008
+    severity: LOW
+    description: "MCP server version not pinned"
+    match:
+      type: json
+      path: "$.mcpServers.*.args[*]"
+      pattern: "@latest"
+    reason: "Unpinned versions mean a package update can silently change server behavior."
+    fix: "Pin to a specific version: @1.2.3 instead of @latest."

@@ -9,8 +9,8 @@
 <h1 align="center">YAMTAM ENGINE</h1>
 
 <p align="center">
-  <strong>Personal Agent Operating System for Claude Code</strong><br/>
-  Safety hooks that block before damage happens · Evidence-based verification · Cross-engine enforcement
+  <strong>Audits your AI coding agent setup before it can damage your repo.</strong><br/>
+  Scan first. Guard later.
 </p>
 
 <p align="center">
@@ -45,6 +45,37 @@
   <img src="https://img.shields.io/badge/checks-826-ef4444?style=flat-square" alt="Checks" />
   <img src="https://img.shields.io/badge/rules-61-10b981?style=flat-square" alt="Rules" />
 </p>
+
+---
+
+## Quick Audit
+
+```bash
+# Scan your current repo — no setup required
+yamtam audit .
+```
+
+```
+YAMTAM Agent Audit Report
+─────────────────────────
+Target:  .
+Score:   41/100  |  Risk: HIGH
+
+[CRITICAL] .claude/settings.json — allowedTools contains Bash(*) (wildcard shell)
+[HIGH]     .github/workflows/ai-pr.yml — auto-merge has no approval gate
+[HIGH]     .mcp.json — filesystem server has root-level access
+[MED]      package.json — postinstall runs remote shell script
+[LOW]      scripts/deploy.sh — set -e missing
+
+Run: yamtam audit . --markdown report.md
+Run: yamtam audit . --fail-on high   ← use in CI
+```
+
+```bash
+yamtam audit . --json            # machine-readable output
+yamtam audit . --markdown out.md # export report
+yamtam audit . --fail-on high    # CI gate: exit 1 on HIGH+
+```
 
 ---
 
