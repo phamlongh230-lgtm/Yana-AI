@@ -1,0 +1,16 @@
+name: Auto-merge without approval gate
+# FIXTURE: bad — auto-merge with no review gate, CI001 SHOULD fire
+
+on:
+  pull_request:
+    types: [labeled]
+
+jobs:
+  automerge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto merge
+        uses: pascalgn/automerge-action@v0.15.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MERGE_METHOD: squash

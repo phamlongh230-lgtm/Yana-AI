@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "postgres-db": {
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-postgres", "postgresql://localhost/mydb"],
+      "read_only": true,
+      "description": "FIXTURE: good — DB MCP server WITH read_only: true, MCP009 should NOT fire"
+    }
+  }
+}

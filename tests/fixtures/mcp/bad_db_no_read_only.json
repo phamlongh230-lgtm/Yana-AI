@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "postgres-db": {
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-postgres", "postgresql://localhost/mydb"],
+      "description": "FIXTURE: bad — DB MCP server with no read_only flag, MCP009 SHOULD fire"
+    }
+  }
+}

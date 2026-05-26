@@ -154,4 +154,85 @@ Kết luận: YAMTAM không cần to hơn. Cần ít phần hơn nhưng mỗi ph
 
 ---
 
+---
+
+## Upgrade Roadmap (2026-05-26 revision)
+
+> "Make it trustworthy before making it bigger."  
+> Bản hiện tại đã có xương. Giờ cần làm răng scanner sắc, report sạch, CI cắm được.
+
+### Ưu tiên thực tế (theo thứ tự)
+
+| # | Feature | Lý do |
+|---|---------|-------|
+| 1 | Rule condition engine v2 | ✅ DONE — `accompanied_by`, `not_followed_by`, `not_preceded_by`, `missing_key` |
+| 2 | Rule test fixtures | ✅ DONE — `tests/fixtures/` + `test_scanner_conditions.py` |
+| 3 | **SARIF output** (`--sarif`) | GitHub Code Scanning đọc được, finding hiện trong Security tab |
+| 4 | **`--diff` mode** (`--diff origin/main`) | Chỉ scan file thay đổi trong PR — giảm noise, nhanh hơn, hợp CI hơn |
+| 5 | **`.yamtamignore` + baseline** | Repo cũ có 50 findings không nản, chỉ fail trên risk mới |
+| 6 | **`examples/unsafe-agent-repo`** | Demo chạy được ngay — không cần tin lời |
+| 7 | **GitHub Action official** | `uses: phamlongh230-lgtm/yamtam-engine/actions/audit@v1` — adopt cực thấp |
+| 8 | **`yamtam explain <rule>`** | Mỗi finding thành giáo trình bảo mật, không phải cảnh báo khô |
+| 9 | **Agent Blast Radius Map** (`yamtam map .`) | Trả lời "agent của tôi chạm được tới đâu?" |
+| 10 | **`yamtam init-policy <tool>`** | Generate safe config template, không auto-fix |
+
+### Chi tiết từng feature
+
+**SARIF output:**
+```bash
+yamtam audit . --sarif yamtam.sarif
+# → upload to GitHub Code Scanning
+```
+Files: `reports/sarif-template.json` + `render_sarif(report)` trong `audit_scanner.py`
+
+**`--diff` mode:**
+```bash
+yamtam audit . --diff origin/main --fail-on high
+```
+Dùng `git diff --name-only origin/main` để lấy danh sách file thay đổi, scan chỉ các file đó.
+
+**`.yamtamignore`:**
+```
+# .yamtamignore
+CI003:.github/workflows/deploy.yml   # accepted risk until 2026-06-30
+SH008:scripts/legacy.sh              # false positive
+```
+Tagline: *"YAMTAM blocks new agent risk, not your entire legacy mess."*
+
+**`yamtam explain <rule>`:**
+```bash
+yamtam explain CI001
+```
+Files: `rules/docs/CI001.md`, `MCP001.md`, `SH002.md`, …
+
+**Agent Blast Radius Map:**
+```bash
+yamtam map .
+# → Claude Code: Shell HIGH · File write MEDIUM · Git push BLOCKED · MCP db raw SQL
+```
+
+**`yamtam init-policy`:**
+```bash
+yamtam init-policy claude --out .claude/settings.recommended.json
+yamtam init-policy github-actions
+```
+Files: `templates/claude/settings.safe.json`, `templates/github-actions/ai-pr-safe.yml`
+
+**`yamtam score --explain`:**
+```bash
+yamtam score --explain report.json
+# Start: 100 | -30 CRITICAL AC002 | -20 HIGH MCP003 | Final: 50/100 HIGH
+```
+
+### Không làm
+
+- Dashboard web
+- Cloud runtime / SaaS
+- Auto-fix trực tiếp vào repo
+- AI scan (AI chỉ được giải thích findings, không tự tạo findings)
+- Thêm agent/hook/skill vào YAMTAM system
+- Marketplace plugin
+
+---
+
 *File này là source of truth cho định hướng. Mọi quyết định lớn về product direction được ghi ở đây.*

@@ -72,7 +72,14 @@ def parse_json_safe(content: str) -> Any | None:
 # Supports simple JSONPath: $.key, $.key.sub, $.key[*], $.key[*].sub
 
 def resolve_json_path(obj: Any, path: str) -> list[Any]:
-    """Return all values matching a simple JSONPath expression."""
+    """Return all values matching a simple JSONPath expression.
+
+    Supported syntax:
+      $.key          — dict key access
+      $.key.*        — all values of a dict (dict wildcard)
+      $.key[*]       — all items of an array (array wildcard)
+      $.key[*].sub   — sub-key of each array item
+    """
     parts = path.lstrip("$").lstrip(".").split(".")
     results: list[Any] = [obj]
 
@@ -80,15 +87,22 @@ def resolve_json_path(obj: Any, path: str) -> list[Any]:
         if not part:
             continue
         next_results: list[Any] = []
-        wildcard = part.endswith("[*]")
-        key = part[:-3] if wildcard else part
+        array_wildcard = part.endswith("[*]")
+        dict_wildcard  = (part == "*")
+        key = part[:-3] if array_wildcard else part
 
         for node in results:
-            if isinstance(node, dict):
+            if dict_wildcard:
+                # * alone = all values of a dict, or all items of a list
+                if isinstance(node, dict):
+                    next_results.extend(node.values())
+                elif isinstance(node, list):
+                    next_results.extend(node)
+            elif isinstance(node, dict):
                 val = node.get(key)
                 if val is None:
                     continue
-                if wildcard and isinstance(val, list):
+                if array_wildcard and isinstance(val, list):
                     next_results.extend(val)
                 else:
                     next_results.append(val)
@@ -98,7 +112,7 @@ def resolve_json_path(obj: Any, path: str) -> list[Any]:
                         val = item.get(key)
                         if val is None:
                             continue
-                        if wildcard and isinstance(val, list):
+                        if array_wildcard and isinstance(val, list):
                             next_results.extend(val)
                         else:
                             next_results.append(val)
@@ -110,24 +124,101 @@ def resolve_json_path(obj: Any, path: str) -> list[Any]:
 # ── Match engines ─────────────────────────────────────────────────────────────
 
 def run_regex_match(content: str, check: dict) -> list[dict]:
-    """Return list of {line, matched_value} for regex matches."""
+    """Return list of {line, matched_value} for regex matches.
+
+    Supported conditions (applied within a sliding window of N lines):
+      accompanied_by       — trigger line must have a companion match within window
+      not_accompanied_by   — trigger line must NOT have a companion match within window
+      not_followed_by      — trigger line must NOT be followed by companion within window
+      not_preceded_by      — trigger line must NOT be preceded by companion within window
+    """
     pattern = check.get("pattern", "")
     flags_str = check.get("flags", "")
     skip_comments = check.get("skip_comment_lines", False)
+    condition = check.get("condition", "")
+    window = int(check.get("lines", 20))
+
     re_flags = 0
     if "i" in flags_str:
         re_flags |= re.IGNORECASE
     if "m" in flags_str:
         re_flags |= re.MULTILINE
 
+    # Resolve companion pattern (condition uses different key names across rules)
+    companion_pattern = (
+        check.get("accompanied_by_pattern")
+        or check.get("not_accompanied_by_pattern")
+        or check.get("not_followed_by_pattern")
+        or check.get("not_preceded_by_pattern")
+        or check.get("not_accompanied_by")   # AU005 uses bare key name
+        or ""
+    )
+
+    if not pattern and not condition:
+        return []
+
+    lines_list = content.splitlines()
+    total = len(lines_list)
     hits = []
-    for i, line in enumerate(content.splitlines(), 1):
+
+    for i, line in enumerate(lines_list):
         stripped = line.lstrip()
         if skip_comments and stripped.startswith("#"):
             continue
-        m = re.search(pattern, line, re_flags)
-        if m:
-            hits.append({"line": i, "matched_value": m.group(0)[:200]})
+
+        m = re.search(pattern, line, re_flags) if pattern else None
+        if not m:
+            continue
+
+        matched_val = m.group(0)[:200]
+        lineno = i + 1  # 1-based
+
+        # No condition — plain match
+        if not condition:
+            hits.append({"line": lineno, "matched_value": matched_val})
+            continue
+
+        if not companion_pattern:
+            # Condition declared but no companion pattern — treat as plain match
+            hits.append({"line": lineno, "matched_value": matched_val})
+            continue
+
+        # Build the window slice of surrounding lines
+        if condition == "accompanied_by":
+            # Both before AND after within window
+            start = max(0, i - window)
+            end   = min(total, i + window + 1)
+            window_text = "\n".join(lines_list[start:end])
+            companion_found = bool(re.search(companion_pattern, window_text, re_flags))
+            if companion_found:
+                hits.append({"line": lineno, "matched_value": matched_val})
+
+        elif condition == "not_accompanied_by":
+            start = max(0, i - window)
+            end   = min(total, i + window + 1)
+            window_text = "\n".join(lines_list[start:end])
+            companion_found = bool(re.search(companion_pattern, window_text, re_flags))
+            if not companion_found:
+                hits.append({"line": lineno, "matched_value": matched_val})
+
+        elif condition == "not_followed_by":
+            end = min(total, i + 1 + window)
+            after_text = "\n".join(lines_list[i + 1:end])
+            companion_found = bool(re.search(companion_pattern, after_text, re_flags))
+            if not companion_found:
+                hits.append({"line": lineno, "matched_value": matched_val})
+
+        elif condition == "not_preceded_by":
+            start = max(0, i - window)
+            before_text = "\n".join(lines_list[start:i])
+            companion_found = bool(re.search(companion_pattern, before_text, re_flags))
+            if not companion_found:
+                hits.append({"line": lineno, "matched_value": matched_val})
+
+        else:
+            # Unknown condition — fall back to plain match so rule isn't silently skipped
+            hits.append({"line": lineno, "matched_value": matched_val})
+
     return hits
 
 
@@ -142,12 +233,32 @@ def run_json_match(content: str, check: dict) -> list[dict]:
     pattern = check.get("pattern", "")
     expected_value = check.get("value")
 
-    # Condition: missing key
+    # Condition: missing (entire path absent)
     if condition == "missing":
         values = resolve_json_path(obj, path)
         if not values:
             return [{"matched_value": f"{path} not present"}]
         return []
+
+    # Condition: missing_key — each resolved object must have a specific key
+    # Optionally filtered by a pattern match on the object itself (for DB server detection)
+    if condition == "missing_key":
+        required_key = check.get("key", "")
+        values = resolve_json_path(obj, path)
+        hits = []
+        for v in values:
+            if not isinstance(v, dict):
+                continue
+            # Optional: only flag if object matches the pattern (e.g. name contains "postgres")
+            if pattern:
+                obj_str = json.dumps(v)
+                if not re.search(pattern, obj_str, re.IGNORECASE):
+                    # Also check the key in parent context — try matching on server name
+                    # by checking if the path resolves through a named key that matches
+                    continue
+            if required_key and required_key not in v:
+                hits.append({"matched_value": f"missing key '{required_key}'"})
+        return hits
 
     # Condition: array length > N
     if condition.startswith("array_length_gt_"):
@@ -372,6 +483,65 @@ def run_audit(target: str, scanner_dir: str) -> dict:
         "analytics": analytics,
         "findings": all_findings,
     }
+
+
+# ── Report stats recompute ────────────────────────────────────────────────────
+
+def recompute_report_stats(report: dict) -> dict:
+    """Recompute score, risk_level, summary, and analytics from findings in-place."""
+    findings = report["findings"]
+    order = {"CRITICAL": 0, "HIGH": 1, "MEDIUM": 2, "LOW": 3, "INFO": 4}
+
+    # Score: one deduction per unique rule ID
+    scored_rules: set[str] = set()
+    score = 100
+    for f in findings:
+        if f["severity"] != "INFO" and f["id"] not in scored_rules:
+            score -= SEVERITY_COST.get(f["severity"], 0)
+            scored_rules.add(f["id"])
+    report["score"] = max(0, score)
+    report["risk_level"] = compute_risk_level(report["score"])
+
+    # Summary counts
+    summary = {"total": 0, "critical": 0, "high": 0, "medium": 0, "low": 0, "info": 0}
+    for f in findings:
+        sev = f["severity"].lower()
+        summary["total"] += 1
+        if sev in summary:
+            summary[sev] += 1
+    report["summary"] = summary
+
+    # Analytics: by_category
+    by_category: dict[str, int] = {}
+    for f in findings:
+        cat = f.get("category", "unknown")
+        by_category[cat] = by_category.get(cat, 0) + 1
+
+    # Analytics: top_rules
+    rule_counts: dict[str, dict] = {}
+    for f in findings:
+        rid = f["id"]
+        if rid not in rule_counts:
+            rule_counts[rid] = {"id": rid, "severity": f["severity"], "count": 0,
+                                "category": f.get("category", "unknown")}
+        rule_counts[rid]["count"] += 1
+    top_rules = sorted(rule_counts.values(),
+                       key=lambda x: (order.get(x["severity"], 5), -x["count"]))[:10]
+
+    files_scanned = report["scan_stats"]["files_scanned"]
+    files_with_findings = len({f["file"] for f in findings if f["severity"] != "INFO"})
+    files_clean = max(0, files_scanned - files_with_findings)
+    hit_rate = round(files_with_findings / files_scanned * 100, 1) if files_scanned else 0.0
+
+    report["analytics"] = {
+        "by_category": by_category,
+        "top_rules": top_rules,
+        "files_with_findings": files_with_findings,
+        "files_clean": files_clean,
+        "hit_rate_pct": hit_rate,
+    }
+
+    return report
 
 
 # ── Output renderers ──────────────────────────────────────────────────────────
@@ -616,23 +786,15 @@ def main() -> None:
     report = run_audit(target, scanner_dir)
     report["scan_stats"]["duration_ms"] = int((time.monotonic() - t0) * 1000)
 
-    # Apply --ignore
+    # Apply --ignore and --only filters, then recompute all stats consistently
     if args.ignore:
         report["findings"] = [f for f in report["findings"] if f["id"] not in args.ignore]
 
-    # Apply --only category filter
     if args.only:
         report["findings"] = [f for f in report["findings"] if f.get("category") == args.only]
 
-    # Recompute score after filters (unique rule IDs only)
-    seen_ids: set[str] = set()
-    score = 100
-    for f in report["findings"]:
-        if f["severity"] != "INFO" and f["id"] not in seen_ids:
-            score -= SEVERITY_COST.get(f["severity"], 0)
-            seen_ids.add(f["id"])
-    report["score"] = max(0, score)
-    report["risk_level"] = compute_risk_level(report["score"])
+    if args.ignore or args.only:
+        recompute_report_stats(report)
 
     # Output
     if args.json:

@@ -37,15 +37,6 @@
   <img src="https://img.shields.io/badge/built%20for-Claude%20Code-5c6bc0?style=for-the-badge" alt="Built for Claude Code" />
 </p>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/agents-90-ff8c00?style=flat-square" alt="Agents" />
-  <img src="https://img.shields.io/badge/commands-164-7c3aed?style=flat-square" alt="Commands" />
-  <img src="https://img.shields.io/badge/hooks-45-f97316?style=flat-square" alt="Hooks" />
-  <img src="https://img.shields.io/badge/skills-387-06b6d4?style=flat-square" alt="Skills" />
-  <img src="https://img.shields.io/badge/checks-826-ef4444?style=flat-square" alt="Checks" />
-  <img src="https://img.shields.io/badge/rules-61-10b981?style=flat-square" alt="Rules" />
-</p>
-
 ---
 
 ## Quick Start
@@ -141,20 +132,20 @@ You → Claude Code → [YAMTAM HOOKS] → Tool executes (or gets blocked)
 ## Quick Install
 
 ```bash
-# One-line install (recommended)
-curl -sSL https://raw.githubusercontent.com/phamlongh230-lgtm/yamtam-engine/main/install.sh | bash
+# Recommended: download and verify before running
+curl -L -o install.sh https://raw.githubusercontent.com/phamlongh230-lgtm/yamtam-engine/main/install.sh
+sha256sum install.sh   # verify checksum in releases/checksums.txt
+bash install.sh
 ```
 
 ```bash
-# Or via Claude Code plugin
-/plugin install phamlongh230-lgtm/yamtam-engine
-```
-
-```bash
-# Or manually
+# Or manually (unzip release)
 unzip releases/yamtam-engine-v1.8.0-fixed.zip -d /path/to/project/.claude/
 bash .claude/tests/hooks/run-hook-tests.sh
 ```
+
+> **Note:** `curl | bash` is intentionally not the primary install method.  
+> YAMTAM flags `curl | bash` as a risk pattern — we practice what we scan for.
 
 ---
 
@@ -301,22 +292,31 @@ Full list: `core/commands/` (164 commands)
 
 ```
 yamtam-engine/
-├── core/
-│   ├── agents/          90 agent definitions
-│   ├── commands/        164 slash commands
-│   ├── hooks/           39 runtime hooks
-│   ├── skills/          387 workflow skills
-│   ├── scripts/         46 utility scripts
-│   ├── rules/           60 operating rules
-│   └── tests/           826 verification checks
-├── gates/               Gate specifications (truth, action, security)
-├── memory/
-│   ├── L1_atomic/       Persistent memory (git-tracked)
-│   └── L2_session/      Session memory (gitignored)
+├── core/                ← SOURCE OF TRUTH — all canonical definitions live here
+│   ├── agents/          agent definitions
+│   ├── commands/        slash commands
+│   ├── hooks/           runtime hooks
+│   ├── skills/          workflow skills
+│   ├── scripts/         utility scripts (audit_scanner.py, doctor.py, …)
+│   ├── rules/           operating rules
+│   └── tests/           verification checks
+├── .claude/             ← APPLIED PACK — symlinked/copied from core/ for Claude Code
+│   ├── agents/          → mirrors core/agents/
+│   ├── commands/        → mirrors core/commands/
+│   └── skills/          → mirrors core/skills/
+├── scanner/             Rule YAML files for yamtam audit
+├── router/              Model routing policy
+├── ledger/              Token/cost ledger schema
+├── gates/               Gate specifications
+├── memory/              L1 persistent · L2 session
 ├── releases/            Release packs
-├── adapters/            Cross-engine adapters (Cursor, Aider, Copilot)
 └── docs/                Documentation
 ```
+
+> **`core/` is the source of truth. `.claude/` is the applied pack** — it mirrors `core/`
+> so Claude Code can load agents/skills/commands without needing to know the full repo layout.
+> If content diverges, `core/scripts/drift-check.sh` detects it.
+> Never edit `.claude/` directly — edit `core/` and let the sync propagate.
 
 ---
 

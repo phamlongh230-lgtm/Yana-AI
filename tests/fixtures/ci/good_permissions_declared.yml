@@ -1,0 +1,17 @@
+name: Workflow with explicit permissions
+# FIXTURE: good — permissions declared at top level, CI007 should NOT fire
+
+permissions:
+  contents: read
+  pull-requests: write
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm test

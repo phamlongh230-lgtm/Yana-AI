@@ -1,0 +1,18 @@
+name: Auto-merge with approval gate
+# FIXTURE: good — auto-merge present but so is required.reviews, CI001 should NOT fire
+
+on:
+  pull_request:
+    types: [labeled]
+
+jobs:
+  automerge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto merge
+        uses: pascalgn/automerge-action@v0.15.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MERGE_REQUIRED_APPROVALS: "1"
+          # required.reviews check is present — not a risk
+          MERGE_METHOD: squash

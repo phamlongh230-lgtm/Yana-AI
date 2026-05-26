@@ -1,0 +1,13 @@
+name: Workflow missing permissions block
+# FIXTURE: bad — no permissions declaration, CI007 SHOULD fire
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm test
