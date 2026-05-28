@@ -265,6 +265,41 @@ def check_node() -> Check:
     return Check("OK", "node.js", result.stdout.strip())
 
 
+def check_yamtam_version() -> Check:
+    """Check yamtam CLI is accessible and report version."""
+    script_dir = Path(__file__).resolve().parent
+    bin_path   = script_dir.parent.parent / "bin" / "yamtam"
+    if not bin_path.exists():
+        return Check("WARN", "yamtam CLI", "bin/yamtam not found",
+                     "Ensure you are running from the yamtam-engine root directory")
+    result = subprocess.run([str(bin_path), "version"], capture_output=True, text=True)
+    if result.returncode != 0:
+        return Check("WARN", "yamtam CLI", "bin/yamtam found but version check failed")
+    return Check("OK", "yamtam CLI", result.stdout.strip())
+
+
+def check_yamtam_hooks_wired(target: str) -> Check:
+    """Check if any safety hooks are wired in .claude/settings.json."""
+    import json as _json
+    settings_path = Path(target) / ".claude" / "settings.json"
+    if not settings_path.exists():
+        return Check("WARN", "yamtam hooks",
+                     ".claude/settings.json not found — no hooks active",
+                     "Run: yamtam init . or yamtam guard install all")
+    try:
+        with open(settings_path) as f:
+            data = _json.load(f)
+        hooks = data.get("hooks", [])
+        hook_count = sum(len(h.get("hooks",[])) for h in hooks)
+        if hook_count == 0:
+            return Check("WARN", "yamtam hooks",
+                         "settings.json found but no hooks configured",
+                         "Run: yamtam guard install all --target .")
+        return Check("OK", "yamtam hooks", f"{hook_count} hook(s) configured")
+    except Exception:
+        return Check("WARN", "yamtam hooks", "Could not parse .claude/settings.json")
+
+
 def check_yamtam_scanners() -> Check:
     script_dir = Path(__file__).resolve().parent
     # scanners live two levels up from core/scripts/
@@ -298,6 +333,8 @@ def run_doctor(target: str, no_color: bool = False, quiet: bool = False) -> dict
     checks.append(check_node())
     checks.append(check_ci_env())
     checks.append(check_yamtam_scanners())
+    checks.append(check_yamtam_version())
+    checks.append(check_yamtam_hooks_wired(target))
 
     counts = {"OK": 0, "WARN": 0, "FAIL": 0, "INFO": 0}
     for ck in checks:

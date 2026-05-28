@@ -1022,6 +1022,8 @@ def main() -> None:
                         help="Write SARIF 2.1.0 report to FILE (GitHub Code Scanning)")
     parser.add_argument("--no-color", action="store_true", help="Disable ANSI color")
     parser.add_argument("--quiet", action="store_true", help="Only print score + risk level")
+    parser.add_argument("--since", metavar="DATE",
+                        help="Only scan files modified since DATE (e.g. 2026-05-01, yesterday, '7 days ago')")
     args = parser.parse_args()
 
     target = os.path.abspath(args.target)
@@ -1041,6 +1043,24 @@ def main() -> None:
 
     # --diff: resolve changed files before scanning
     diff_files: set[str] | None = None
+    if getattr(args, "since", None):
+        import subprocess as _sp
+        r = _sp.run(
+            ["git", "diff", "--name-only", f"@{{'{args.since}'}}"],
+            cwd=target, capture_output=True, text=True, timeout=15,
+        )
+        if r.returncode == 0 and r.stdout.strip():
+            diff_files = set(r.stdout.strip().splitlines())
+        else:
+            # fallback: files modified since date via git log
+            r2 = _sp.run(
+                ["git", "log", "--name-only", "--pretty=", f"--since={args.since}"],
+                cwd=target, capture_output=True, text=True, timeout=15,
+            )
+            diff_files = set(l for l in r2.stdout.splitlines() if l.strip())
+        if not diff_files:
+            print(f"  No files modified since {args.since} — nothing to scan.\n")
+            sys.exit(0)
     if args.diff:
         diff_files = get_diff_files(args.diff, target)
         if not diff_files:
