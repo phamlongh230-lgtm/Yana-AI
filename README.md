@@ -275,15 +275,15 @@ Switch engines: `bash core/scripts/switch-engine.sh <engine>`
 
 | Asset | Count |
 |---|---|
-| Agents | 90 |
-| Slash commands | 164 |
-| Runtime hooks | 45 |
-| Workflow skills | 387 |
-| Operating rules | 61 |
-| Utility scripts | 47 |
+| Agents | 87 |
+| Slash commands | 156 |
+| Runtime hooks | 27 |
+| Workflow skills | 350 |
+| Operating rules | 58 |
+| Utility scripts | 35 |
 | Verification checks | 826 |
 
-### Agents (90)
+### Agents (87)
 
 Specialized agents across domains:
 
