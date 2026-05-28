@@ -1,0 +1,32 @@
+templates:
+
+  claude-settings:
+    description: Safe .claude/settings.json — scoped allowedTools, no wildcard Bash
+    target: .claude/settings.json
+    fixes: [AC001, AC002, AC003, AC004]
+    file: templates/claude-settings.json
+
+  mcp-minimal:
+    description: Minimal .mcp.json — filesystem scoped to workspace, no remote MCPs
+    target: .mcp.json
+    fixes: [MCP001, MCP002, MCP003, MCP004, MCP005]
+    file: templates/mcp-minimal.json
+
+  ci-safe:
+    description: Safe GitHub Actions CI — pinned SHA actions, explicit permissions, no auto-merge
+    target: .github/workflows/yamtam-ci.yml
+    fixes: [CI001, CI006, CI007, CI008, CI010]
+    file: templates/ci-safe.yml
+
+  env-example:
+    description: .env.example with placeholder values — safe to commit, no real secrets
+    target: .env.example
+    fixes: [SE001, SE002, SE003, SE006, SE011]
+    file: templates/env-example.txt
+
+  gitignore-ai:
+    description: .gitignore additions — blocks .env files and credential JSON from being tracked
+    target: .gitignore
+    mode: append
+    fixes: [SE013, AU001, AU010]
+    file: templates/gitignore-ai.txt

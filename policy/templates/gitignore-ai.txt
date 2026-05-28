@@ -1,0 +1,21 @@
+
+# ── Added by: yamtam policy apply gitignore-ai ────────────────────────────────
+# Blocks secrets, credentials, and AI agent state files from being tracked.
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Credential files
+credentials.json
+token.json
+*-sa-key.json
+*.pem
+*.key
+*.p12
+*.pfx
+
+# AI agent state (Claude Code)
+.claude/state/
+.claude/settings.local.json

@@ -1,0 +1,17 @@
+# .env.example — copy to .env and fill in real values
+# This file is safe to commit. Never commit .env itself.
+
+# ── AI / LLM ──────────────────────────────────────────────────────────────────
+ANTHROPIC_API_KEY=sk-ant-your-key-here
+OPENAI_API_KEY=sk-your-key-here
+
+# ── Database ──────────────────────────────────────────────────────────────────
+DATABASE_URL=postgresql://user:password@localhost:5432/mydb
+
+# ── Auth / Sessions ──────────────────────────────────────────────────────────
+SECRET_KEY=generate-with-openssl-rand-hex-32
+JWT_SECRET=generate-with-openssl-rand-hex-32
+
+# ── App ───────────────────────────────────────────────────────────────────────
+NODE_ENV=development
+PORT=3000

@@ -3,7 +3,7 @@
 # Usage: yamtam audit [target] [flags]
 set -euo pipefail
 
-YAMTAM_VERSION="0.1.0"
+YAMTAM_VERSION="0.3.0"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 SCANNER_PY="$REPO_ROOT/core/scripts/audit_scanner.py"
@@ -11,6 +11,7 @@ DOCTOR_PY="$REPO_ROOT/core/scripts/doctor.py"
 ROUTER_PY="$REPO_ROOT/core/scripts/router_suggest.py"
 VALIDATE_SPEC_PY="$REPO_ROOT/core/scripts/validate_spec.py"
 CHECK_CONTEXT_PY="$REPO_ROOT/core/scripts/check_context_pack.py"
+POLICY_PY="$REPO_ROOT/core/scripts/policy_manager.py"
 
 # ── helpers ──────────────────────────────────────────────────────────────────
 
@@ -27,6 +28,7 @@ Usage: yamtam <command> [target] [flags]
 Commands:
   doctor [target]         Check environment health before starting an agent session
   audit  [target]         Scan AI agent setup for risk patterns (default target: .)
+  policy <subcommand>     Policy Kit — safe config templates for audit findings
   router suggest          Look up recommended model tier for a task type
   validate-spec <file>    Validate task spec file against spec schema
   check-context <dir>     Validate context-pack directory structure
@@ -65,6 +67,10 @@ Examples:
   yamtam audit . --sarif yamtam.sarif
   yamtam audit . --diff origin/main --fail-on high
   yamtam audit . --fail-on high
+  yamtam policy list
+  yamtam policy show claude-settings
+  yamtam policy apply claude-settings
+  yamtam policy fixes AC001
   yamtam router suggest --task pr_review
   yamtam router suggest --list
 
@@ -136,6 +142,22 @@ cmd_audit() {
 }
 
 
+# ── policy ────────────────────────────────────────────────────────────────────
+
+cmd_policy() {
+  if ! command -v python3 &>/dev/null; then
+    err "python3 is required to run yamtam policy."
+    exit 3
+  fi
+
+  if [[ ! -f "$POLICY_PY" ]]; then
+    err "Policy manager not found at $POLICY_PY"
+    exit 3
+  fi
+
+  python3 "$POLICY_PY" "$@"
+}
+
 # ── validate-spec ─────────────────────────────────────────────────────────────
 
 cmd_validate_spec() {
@@ -180,6 +202,9 @@ case "$COMMAND" in
     ;;
   audit)
     cmd_audit "$@"
+    ;;
+  policy)
+    cmd_policy "$@"
     ;;
   router)
     cmd_router "$@"
