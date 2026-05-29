@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "yamtam-engine"
-version = "0.15.0"
+version = "0.16.0"
 description = "Audits your AI coding agent setup before it can damage your repo. Scan first. Guard later."
 readme = "README.md"
 license = { text = "Apache-2.0" }
@@ -42,7 +42,8 @@ Changelog   = "https://github.com/phamlongh230-lgtm/yamtam-engine/blob/main/CHAN
 "Bug Tracker" = "https://github.com/phamlongh230-lgtm/yamtam-engine/issues"
 
 [project.scripts]
-yamtam = "yamtam_engine.cli:main"
+yamtam    = "yamtam_engine.cli:main"
+yamtam-rt = "yamtam_engine.rt:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/yamtam_engine"]
