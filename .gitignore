@@ -53,3 +53,4 @@ releases/*.bundle
 releases/*.bundle.sha256
 yamtam-transfer*.zip
 yamtam-patch-files*.zip
+.yamtam/graph/
