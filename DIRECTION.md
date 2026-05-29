@@ -1,6 +1,6 @@
 # YAMTAM — Strategic Direction
 
-**Last updated:** 2026-05-26  
+**Last updated:** 2026-05-29  
 **Author:** Vũ Văn Tâm  
 **Purpose:** Định hướng chiến lược dài hạn. File này tồn tại để bất kỳ LLM nào đọc repo cũng biết mình đang đi đâu — dù context bị mất.
 
@@ -178,10 +178,10 @@ Kết luận: YAMTAM không cần to hơn. Cần ít phần hơn nhưng mỗi ph
 | 4 | **`--diff` mode** (`--diff origin/main`) | Chỉ scan file thay đổi trong PR — giảm noise, nhanh hơn, hợp CI hơn | ✅ done |
 | 5 | **`.yamtamignore` + baseline** | Repo cũ có 50 findings không nản, chỉ fail trên risk mới | ✅ done |
 | 6 | **`examples/unsafe-agent-repo`** | Demo chạy được ngay — không cần tin lời | ✅ done |
-| 7 | **GitHub Action official** | `uses: phamlongh230-lgtm/yamtam-engine/actions/audit@v1` — adopt cực thấp | |
-| 8 | **`yamtam explain <rule>`** | Mỗi finding thành giáo trình bảo mật, không phải cảnh báo khô | |
-| 9 | **Agent Blast Radius Map** (`yamtam map .`) | Trả lời "agent của tôi chạm được tới đâu?" | |
-| 10 | **`yamtam init-policy <tool>`** | Generate safe config template, không auto-fix | |
+| 7 | **GitHub Action official** | `uses: phamlongh230-lgtm/yamtam-engine/actions/audit@v1` — adopt cực thấp | ✅ done |
+| 8 | **`yamtam explain <rule>`** | Mỗi finding thành giáo trình bảo mật, không phải cảnh báo khô | ✅ done |
+| 9 | **Agent Blast Radius Map** (`yamtam map .`) | Trả lời "agent của tôi chạm được tới đâu?" | ✅ done |
+| 10 | **`yamtam init-policy <tool>`** | Generate safe config template, không auto-fix | ✅ done |
 
 ### Chi tiết từng feature
 
