@@ -67,20 +67,28 @@ function factsAdd({ id, type = 'fact', statement, confidence = 'unverified', sco
 
   if (fs.existsSync(filePath)) return makeResult(`Fact already exists: ${safeId}`, true);
 
+  // owasp-llm-output-law.md: strip control chars and YAML frontmatter delimiters
+  // to prevent frontmatter injection and L1 memory poisoning.
+  const safeStatement = statement
+    .replace(/[\x00-\x1f\x7f]/g, ' ')  // strip control chars (incl. \n \r \t)
+    .replace(/---/g, '– – –')           // defang frontmatter delimiter
+    .trim()
+    .slice(0, 2048);                     // cap length to prevent flooding
+
   const now = new Date().toISOString().split('T')[0];
   const tagsStr = tags.length ? `[${tags.join(', ')}]` : '[]';
 
   const content = `---
 id: ${safeId}
 type: ${type}
-statement: ${statement}
+statement: ${safeStatement}
 source: mcp:yamtam-mcp-server:${now}
 confidence: ${confidence}
 scope: ${scope}
 tags: ${tagsStr}
 ---
 
-${statement}
+${safeStatement}
 `;
 
   fs.mkdirSync(L1_DIR, { recursive: true });

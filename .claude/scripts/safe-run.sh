@@ -28,7 +28,7 @@ esac
 # Bypass — sovereign override only
 if [[ "${YAMTAM_SAFE_RUN_BYPASS:-0}" == "1" ]]; then
   echo "[yamtam/safe-run] BYPASS active (engine=$ENGINE)" >> "$LOG_FILE" 2>/dev/null || true
-  eval "$COMMAND"
+  bash -c -- "$COMMAND"
   exit $?
 fi
 
@@ -86,6 +86,13 @@ BLOCKED_PATTERNS=(
   "LD_LIBRARY_PATH="
   "DYLD_INSERT_LIBRARIES="
   "NODE_OPTIONS=.*--require"
+  # ── Anti-evasion Pattern 3: subshell/process-substitution (anti-evasion-law.md §Pattern 3)
+  '\$\(curl'
+  '\$\(wget'
+  '\$\(cat\s'
+  '\$\(nc\s'
+  "eval.*\\\$\("
+  "eval.*\\\`"
 )
 
 RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; CYAN='\033[0;36m'; NC='\033[0m'
@@ -145,4 +152,7 @@ done
 echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] EXEC engine='$ENGINE' cmd='$COMMAND'" >> "$LOG_FILE" 2>/dev/null || true
 
 # ── Execute ───────────────────────────────────────────────────────────────────
-eval "$COMMAND"
+# shell-sanitize-law.md §eval exception: safe-run.sh is a command-runner wrapper;
+# dynamic execution is its core purpose. All BLOCKED_PATTERNS run above.
+# bash -c spawns a subshell (safer than eval — does not affect current env).
+bash -c -- "$COMMAND"

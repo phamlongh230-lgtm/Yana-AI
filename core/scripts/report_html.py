@@ -2,6 +2,7 @@
 """yamtam report html [target] — export audit as standalone HTML."""
 
 import argparse
+import html
 import json
 import os
 import subprocess
@@ -46,12 +47,13 @@ def finding_row(f: dict) -> str:
     sev   = f.get("severity", "LOW").upper()
     color = SEV_COLOR.get(sev, "#6b7280")
     bg    = SEV_BG.get(sev, "#f9fafb")
-    fid   = f.get("id", "?")
+    fid   = html.escape(f.get("id", "?"))
     file_ = f.get("file", "")
     line  = f.get("line", "")
-    desc  = f.get("description", "")
-    fix   = f.get("fix", "")
-    loc   = f"{file_}:{line}" if line else file_
+    # owasp-llm-output-law.md: escape all scanned-repo-derived values before HTML insertion
+    desc  = html.escape(f.get("description", ""))
+    fix   = html.escape(f.get("fix", ""))
+    loc   = html.escape(f"{file_}:{line}" if line else file_)
 
     return f"""
     <div class="finding" style="border-left:4px solid {color};background:{bg};padding:12px 16px;margin:8px 0;border-radius:0 4px 4px 0">
@@ -95,7 +97,7 @@ def build_html(data: dict, target: str) -> str:
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>YAMTAM Audit Report — {os.path.basename(target)}</title>
+<title>YAMTAM Audit Report — {html.escape(os.path.basename(target))}</title>
 <style>
   *{{box-sizing:border-box;margin:0;padding:0}}
   body{{font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;background:#f8fafc;color:#1e293b;padding:24px}}
@@ -115,7 +117,7 @@ def build_html(data: dict, target: str) -> str:
 <body>
 <div class="card">
   <h1>YAMTAM Agent Audit Report</h1>
-  <div class="meta">Target: {os.path.abspath(target)} · {scanned} files scanned · {ts}</div>
+  <div class="meta">Target: {html.escape(os.path.abspath(target))} · {scanned} files scanned · {ts}</div>
 
   <div style="display:flex;align-items:center;margin-bottom:8px">
     <div class="score-num">{score}</div>
