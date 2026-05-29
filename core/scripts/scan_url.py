@@ -35,9 +35,12 @@ def parse_github_url(url: str) -> tuple[str, str]:
     if m2:
         slug = m2.group(1)
         return f"https://github.com/{slug}.git", slug.replace("/", "-")
-    # fallback: treat as clone URL directly
-    name = re.sub(r'[^a-zA-Z0-9_-]', '-', url.split("/")[-1].replace(".git",""))
-    return url, name or "repo"
+    # network-egress-law.md: reject non-github.com URLs — arbitrary hosts allow
+    # SSRF via git:// / file:// / ssh:// schemes and internal-network access.
+    raise ValueError(
+        f"Unsupported URL: {url!r}\n"
+        "Only https://github.com/owner/repo or git@github.com:owner/repo are accepted."
+    )
 
 
 def main():

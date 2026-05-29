@@ -171,7 +171,10 @@ else:
 
   disk_count() {
     local n
-    n=$(eval "$1" 2>/dev/null | tr -d '[:space:]')
+    # shell-sanitize-law.md §eval exception: argument is always a hardcoded find+wc
+    # string constructed internally (see cross_check callsites below) — not user input.
+    # bash -c used instead of eval to avoid current-shell side-effects.
+    n=$(bash -c -- "$1" 2>/dev/null | tr -d '[:space:]')
     echo "${n:-0}"
   }
 
@@ -255,7 +258,7 @@ for p in parts:
     val=val.get(p,-1) if isinstance(val,dict) else -1
 print(val)
 " 2>/dev/null || echo -1)
-    disk_n=$(eval "$disk_cmd" 2>/dev/null | tr -d '[:space:]')
+    disk_n=$(bash -c -- "$disk_cmd" 2>/dev/null | tr -d '[:space:]')
     [[ "$meta_n" == "-1" ]] && return
     if [[ "$meta_n" != "$disk_n" ]]; then
       emit_issue "META DRIFT [$label]: $file says $meta_n, disk has $disk_n"

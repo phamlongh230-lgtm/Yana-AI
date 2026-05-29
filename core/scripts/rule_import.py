@@ -2,11 +2,55 @@
 """yamtam rule import <url-or-file> — import a rule pack into local scanner."""
 
 import argparse
+import ipaddress
 import os
+import socket
 import sys
 import tempfile
+import urllib.error
 import urllib.request
 import yaml
+
+# network-egress-law.md + 53-network-egress-whitelist-law.md
+_EGRESS_ALLOWLIST = {
+    "raw.githubusercontent.com",
+    "gist.githubusercontent.com",
+    "gist.github.com",
+}
+
+_BLOCKED_NETWORKS = [
+    "127.", "0.0.0.0",
+    "10.", "192.168.",
+    "169.254.",        # AWS/GCP/Azure metadata
+    "100.100.100.200", # Alibaba Cloud metadata
+] + [f"172.{i}." for i in range(16, 32)]
+
+
+def _check_egress(url: str) -> None:
+    """Block SSRF targets, non-allowlisted hosts, non-https, and URL parser confusion."""
+    if "@" in url.split("://")[-1].split("/")[0]:
+        raise ValueError(f"Blocked: URL credential injection pattern in {url!r}")
+    if not url.startswith("https://"):
+        raise ValueError(f"Blocked: only https:// is permitted (got {url!r})")
+    host = urllib.request.urlparse(url).hostname if hasattr(urllib.request, "urlparse") else url.split("/")[2].split(":")[0]
+    # use urllib.parse for hostname extraction
+    from urllib.parse import urlparse
+    host = urlparse(url).hostname or ""
+    if not host:
+        raise ValueError(f"Blocked: could not extract host from {url!r}")
+    if host not in _EGRESS_ALLOWLIST:
+        raise ValueError(
+            f"Blocked: {host!r} is not in the egress allowlist. "
+            f"Allowed: {', '.join(sorted(_EGRESS_ALLOWLIST))}"
+        )
+    # Resolve and block internal IPs (DNS rebinding defence)
+    try:
+        resolved = socket.gethostbyname(host)
+        for prefix in _BLOCKED_NETWORKS:
+            if resolved.startswith(prefix):
+                raise ValueError(f"Blocked: {host!r} resolves to internal IP {resolved}")
+    except socket.gaierror:
+        raise ValueError(f"Blocked: could not resolve host {host!r}")
 
 REPO_ROOT   = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 SCANNER_DIR = os.path.join(REPO_ROOT, "scanner")
@@ -38,10 +82,27 @@ def existing_ids() -> set[str]:
 
 def fetch_content(source: str) -> str:
     if source.startswith("http://") or source.startswith("https://"):
+        _check_egress(source)  # SSRF + allowlist guard (network-egress-law.md)
         print(f"  Fetching {c(CYAN, source)}…")
+        # Disable automatic redirect following — each hop must be re-validated.
+        no_redirect = urllib.request.build_opener(urllib.request.HTTPRedirectHandler())
+
+        class _NoRedirect(urllib.request.HTTPRedirectHandler):
+            def redirect_request(self, *_a, **_kw):
+                return None
+
+        opener = urllib.request.build_opener(_NoRedirect())
         req = urllib.request.Request(source, headers={"User-Agent": "yamtam-cli"})
-        with urllib.request.urlopen(req, timeout=15) as r:
-            return r.read().decode()
+        try:
+            with opener.open(req, timeout=15) as r:
+                return r.read().decode()
+        except urllib.error.HTTPError as e:
+            if e.code in (301, 302, 303, 307, 308):
+                loc = e.headers.get("Location", "")
+                raise ValueError(
+                    f"Redirect to {loc!r} not followed — re-validate and pass the final URL directly."
+                )
+            raise
     else:
         with open(source) as f:
             return f.read()
