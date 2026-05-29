@@ -218,3 +218,27 @@ fn cost_breakdown_by_model() {
     assert!(out.contains("haiku"), "haiku in model breakdown");
     assert!(out.contains("sonnet"), "sonnet in model breakdown");
 }
+
+#[test]
+fn bus_emit_auto_tracks_cost_when_payload_has_tokens() {
+    let dir = tmpdir();
+    // Emit event with token info in payload → should auto-log to ledger
+    let payload = r#"{"input_tokens":2000,"output_tokens":500,"tier":"standard","model":"claude-sonnet-4-6","task":"pr_review"}"#;
+    let (stdout, _, ok) = run(dir.path(), &["bus", "emit", "agent", "*", "task.done", payload]);
+    assert!(ok);
+    assert!(stdout.contains("cost tracked automatically"), "auto-track message shown");
+
+    // Verify ledger entry was created
+    let (cost_out, _, _) = run(dir.path(), &["cost", "show"]);
+    assert!(cost_out.contains("standard"), "tier in ledger");
+    assert!(cost_out.contains("TOTAL"), "total row present");
+}
+
+#[test]
+fn bus_emit_no_cost_when_payload_missing_tokens() {
+    let dir = tmpdir();
+    // Emit without token fields → no cost entry
+    run(dir.path(), &["bus", "emit", "a", "b", "ping", r#"{"msg":"hello"}"#]);
+    let ledger = dir.path().join(".yamtam").join("ledger.jsonl");
+    assert!(!ledger.exists(), "no ledger when tokens absent");
+}

@@ -53,6 +53,37 @@ fn append_entry(entry: &CostEntry) {
     writeln!(file, "{line}").expect("write failed");
 }
 
+/// Called from bus emit — silently logs if payload has input_tokens + output_tokens.
+/// Returns true if a cost entry was recorded.
+pub fn track_from_payload(event_type: &str, payload: &serde_json::Value) -> bool {
+    let input_tokens  = match payload.get("input_tokens").and_then(|v| v.as_u64()) {
+        Some(n) => n,
+        None    => return false,
+    };
+    let output_tokens = match payload.get("output_tokens").and_then(|v| v.as_u64()) {
+        Some(n) => n,
+        None    => return false,
+    };
+    let task  = payload.get("task").and_then(|v| v.as_str()).unwrap_or(event_type).to_string();
+    let tier  = payload.get("tier").and_then(|v| v.as_str()).unwrap_or("standard").to_string();
+    let model = payload.get("model").and_then(|v| v.as_str()).unwrap_or("unknown").to_string();
+    let dur   = payload.get("duration_ms").and_then(|v| v.as_u64());
+
+    let (rate_in, rate_out) = tier_rates(&tier);
+    let cost_usd = ((input_tokens as f64 / 1000.0) * rate_in
+        + (output_tokens as f64 / 1000.0) * rate_out);
+    let cost_usd = (cost_usd * 1_000_000.0).round() / 1_000_000.0;
+
+    let entry = CostEntry {
+        id: Uuid::new_v4().to_string(),
+        ts: Utc::now().format("%Y-%m-%dT%H:%M:%SZ").to_string(),
+        task, tier, model, input_tokens, output_tokens, cost_usd,
+        duration_ms: dur,
+    };
+    append_entry(&entry);
+    true
+}
+
 pub fn cmd_cost_log(
     task: String, tier: String, model: String,
     input_tokens: u64, output_tokens: u64, duration_ms: Option<u64>,

@@ -661,6 +661,10 @@ fn cmd_bus_emit(from: String, to: String, event_type: String, payload: String) {
         reply_to: None,
     };
     bus_append(&event);
+    // F004: auto-track cost if payload contains input_tokens + output_tokens
+    if cost::track_from_payload(&event_type, &event.payload) {
+        println!("  cost tracked automatically");
+    }
     // Auto-log to L3 for persistent cross-session audit
     let fact = L3Fact {
         id: Uuid::new_v4().to_string(),
