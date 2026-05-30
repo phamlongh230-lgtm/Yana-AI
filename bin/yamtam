@@ -3,20 +3,32 @@
 # Usage: yamtam audit [target] [flags]
 set -euo pipefail
 
-YAMTAM_VERSION="0.16.0"
+YAMTAM_VERSION="0.17.0"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+# ── yamtam-rt binary (prefer release, fall back to debug) ────────────────────
+_find_rt() {
+  if [[ -x "$REPO_ROOT/target/release/yamtam-rt" ]]; then
+    echo "$REPO_ROOT/target/release/yamtam-rt"
+  elif [[ -x "$REPO_ROOT/target/debug/yamtam-rt" ]]; then
+    echo "$REPO_ROOT/target/debug/yamtam-rt"
+  elif command -v yamtam-rt &>/dev/null; then
+    echo "yamtam-rt"
+  else
+    echo ""
+  fi
+}
+rt() { local bin; bin=$(_find_rt); [[ -n "$bin" ]] || { err "yamtam-rt not found. Run: cargo build --release"; exit 3; }; exec "$bin" "$@"; }
+
+# ── Python scripts (not yet ported) ──────────────────────────────────────────
 SCANNER_PY="$REPO_ROOT/core/scripts/audit_scanner.py"
-DOCTOR_PY="$REPO_ROOT/core/scripts/doctor.py"
 ROUTER_PY="$REPO_ROOT/core/scripts/router_suggest.py"
-VALIDATE_SPEC_PY="$REPO_ROOT/core/scripts/validate_spec.py"
 CHECK_CONTEXT_PY="$REPO_ROOT/core/scripts/check_context_pack.py"
 POLICY_PY="$REPO_ROOT/core/scripts/policy_manager.py"
 GUARD_PY="$REPO_ROOT/core/scripts/guard_installer.py"
-RT_BIN="$REPO_ROOT/target/release/yamtam-rt"
 INIT_POLICY_PY="$REPO_ROOT/core/scripts/init_policy.py"
 EXPLAIN_PY="$REPO_ROOT/core/scripts/explain_rule.py"
-MAP_PY="$REPO_ROOT/core/scripts/blast_radius.py"
 SCORE_PY="$REPO_ROOT/core/scripts/score_explain.py"
 DIFF_REPORT_PY="$REPO_ROOT/core/scripts/diff_report.py"
 REPORT_HTML_PY="$REPO_ROOT/core/scripts/report_html.py"
@@ -34,17 +46,12 @@ EXPORT_PY="$REPO_ROOT/core/scripts/export_findings.py"
 CHECK_FILE_PY="$REPO_ROOT/core/scripts/check_file.py"
 TEMPLATE_PY="$REPO_ROOT/core/scripts/template_list.py"
 RULE_PY="$REPO_ROOT/core/scripts/rule_add.py"
-CI_CHECK_PY="$REPO_ROOT/core/scripts/ci_check.py"
 INSTALL_PY="$REPO_ROOT/core/scripts/install_project.py"
 BADGE_PY="$REPO_ROOT/core/scripts/badge_gen.py"
 WATCH_PY="$REPO_ROOT/core/scripts/watch.py"
-FIX_PY="$REPO_ROOT/core/scripts/auto_fix.py"
 REPORT_PDF_PY="$REPO_ROOT/core/scripts/report_pdf.py"
 CONFIG_PY="$REPO_ROOT/core/scripts/config_manager.py"
 RULE_TEST_PY="$REPO_ROOT/core/scripts/rule_test.py"
-GRAPH_PY="$REPO_ROOT/core/scripts/graph_query.py"
-HUNT_PY="$REPO_ROOT/core/scripts/hunt.py"
-DESIGN_PY="$REPO_ROOT/core/scripts/design_context.py"
 
 # ── helpers ──────────────────────────────────────────────────────────────────
 
@@ -175,17 +182,7 @@ cmd_version() {
 # ── doctor ────────────────────────────────────────────────────────────────────
 
 cmd_doctor() {
-  if ! command -v python3 &>/dev/null; then
-    err "python3 is required to run yamtam doctor."
-    exit 3
-  fi
-
-  if [[ ! -f "$DOCTOR_PY" ]]; then
-    err "Doctor not found at $DOCTOR_PY"
-    exit 3
-  fi
-
-  python3 "$DOCTOR_PY" "$@"
+  rt doctor run "$@"
 }
 
 # ── router ────────────────────────────────────────────────────────────────────
@@ -215,19 +212,7 @@ cmd_router() {
 # ── audit ─────────────────────────────────────────────────────────────────────
 
 cmd_audit() {
-  if ! command -v python3 &>/dev/null; then
-    err "python3 is required to run yamtam audit."
-    exit 3
-  fi
-
-  if [[ ! -f "$SCANNER_PY" ]]; then
-    err "Scanner not found at $SCANNER_PY"
-    err "Ensure YAMTAM is installed correctly."
-    exit 3
-  fi
-
-  python3 "$SCANNER_PY" "$@"
-  # Exit code propagated from python script
+  rt scan "$@"
 }
 
 
@@ -266,17 +251,7 @@ cmd_guard() {
 # ── validate-spec ─────────────────────────────────────────────────────────────
 
 cmd_validate_spec() {
-  if ! command -v python3 &>/dev/null; then
-    err "python3 is required to run yamtam validate-spec."
-    exit 3
-  fi
-
-  if [[ ! -f "$VALIDATE_SPEC_PY" ]]; then
-    err "validate-spec script not found at $VALIDATE_SPEC_PY"
-    exit 3
-  fi
-
-  python3 "$VALIDATE_SPEC_PY" "$@"
+  rt spec validate "$@"
 }
 
 
@@ -318,18 +293,14 @@ case "$COMMAND" in
   guard)
     cmd_guard "$@"
     ;;
-  task|eval)
-    if [[ ! -x "$RT_BIN" ]]; then
-      err "yamtam-rt not built. Run: cargo build --release"
-      exit 3
-    fi
-    exec "$RT_BIN" "$COMMAND" "$@"
+  task|eval|bus|memory|plugin|cost|vault|spec)
+    rt "$COMMAND" "$@"
     ;;
   explain)
     python3 "$EXPLAIN_PY" "$@"
     ;;
   map)
-    python3 "$MAP_PY" "$@"
+    rt map show "$@"
     ;;
   init-policy)
     python3 "$INIT_POLICY_PY" "$@"
@@ -344,10 +315,10 @@ case "$COMMAND" in
     python3 "$WATCH_PY" "$@"
     ;;
   fix)
-    python3 "$FIX_PY" "$@"
+    rt fix apply "$@"
     ;;
   ci-check)
-    python3 "$CI_CHECK_PY" "$@"
+    rt ci check "$@"
     ;;
   diff-report)
     python3 "$DIFF_REPORT_PY" "$@"
@@ -414,13 +385,13 @@ case "$COMMAND" in
     cmd_check_context "$@"
     ;;
   graph)
-    PYTHONPATH="$REPO_ROOT/core/scripts" python3 "$GRAPH_PY" "$@"
+    rt graph "$@"
     ;;
   hunt)
-    python3 "$HUNT_PY" "$@"
+    rt hunt run "$@"
     ;;
   design)
-    python3 "$DESIGN_PY" "$@"
+    rt design "$@"
     ;;
   config)
     python3 "$CONFIG_PY" "$@"

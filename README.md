@@ -31,7 +31,7 @@
   <a href="https://github.com/phamlongh230-lgtm/yamtam-engine/actions/workflows/ci.yml">
     <img src="https://github.com/phamlongh230-lgtm/yamtam-engine/actions/workflows/ci.yml/badge.svg" alt="CI" />
   </a>
-  <img src="https://img.shields.io/badge/version-v0.16.0-orange?style=for-the-badge" alt="Version" />
+  <img src="https://img.shields.io/badge/version-v0.17.0-orange?style=for-the-badge" alt="Version" />
   <img src="https://img.shields.io/badge/status-public-22c55e?style=for-the-badge" alt="Status" />
   <img src="https://img.shields.io/badge/license-Apache_2.0-blue?style=for-the-badge" alt="License" />
   <img src="https://img.shields.io/badge/built%20for-Claude%20Code-5c6bc0?style=for-the-badge" alt="Built for Claude Code" />
@@ -201,7 +201,7 @@ yamtam init-policy mcp --dry-run      # preview without writing
 yamtam init-policy list               # 5 available templates
 ```
 
-### Runtime — task lifecycle & evals (v0.16, Rust)
+### Runtime — yamtam-rt v1.0.0 (17 Rust subcommands, 1256x faster than Python)
 
 Track tasks with evidence-verified completion:
 
@@ -428,7 +428,7 @@ Switch engines: `bash core/scripts/switch-engine.sh <engine>`
 | Agents | 90 |
 | Slash commands | 164 |
 | Runtime hooks | 45 |
-| Workflow skills | 1,967 |
+| Workflow skills | 2,197 |
 | Operating rules | 61 |
 | Utility scripts | 81 |
 | Verification checks | 826 |
@@ -481,7 +481,7 @@ YAMTAM is organized in three concentric layers: **Scanner** (static analysis), *
 │                                                                 │
 │  ┌──────────────────────────────────────────────────────────┐   │
 │  │  LAYER 3 — AGENT OS                                      │   │
-│  │  90 agents · 1,967 skills · 164 commands · 46 hooks      │   │
+│  │  90 agents · 2,197 skills · 164 commands · 46 hooks      │   │
 │  │  core/agents/  core/skills/  core/commands/  core/hooks/ │   │
 │  │                                                          │   │
 │  │   ┌─────────────┐  ┌──────────────┐  ┌───────────────┐  │   │
@@ -562,7 +562,7 @@ User runs Claude Code:
 | Gates | `core/gates/` | sovereign-interceptor, anti-graffiti, identity |
 | Rules | `core/rules/` | 61 operating rules (TIER 0–5) |
 | Agents | `core/agents/` | 90 specialized agents |
-| Skills | `core/skills/` | 1,967 workflow skills |
+| Skills | `core/skills/` | 2,197 workflow skills |
 | Hooks | `core/hooks/` | 46 runtime hooks |
 | Adapters | `adapters/` | Claude, Gemini, Continue, OpenRouter |
 
@@ -574,7 +574,7 @@ yamtam-engine/
 │   ├── agents/          90 agent definitions
 │   ├── commands/        164 slash commands
 │   ├── hooks/           46 runtime hooks
-│   ├── skills/          1,967 workflow skills
+│   ├── skills/          2,197 workflow skills
 │   ├── scripts/         93 utility scripts (audit_scanner.py, doctor.py, …)
 │   ├── rules/           61 operating rules (TIER 0–5)
 │   ├── gates/           sovereign-interceptor, anti-graffiti, identity gate
@@ -838,7 +838,7 @@ Chuyển engine: `bash core/scripts/switch-engine.sh <engine>`
 | Agents chuyên biệt | 90 |
 | Slash commands | 164 |
 | Runtime hooks | 45 |
-| Workflow skills | 1,967 |
+| Workflow skills | 2,197 |
 | Operating rules | 61 |
 | Utility scripts | 81 |
 | Verification checks | 826 |
