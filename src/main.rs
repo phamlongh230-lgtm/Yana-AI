@@ -5,6 +5,7 @@ mod memory;
 mod plugin;
 pub mod scanner;
 mod task;
+mod graph;
 mod vault;
 
 use clap::{Parser, Subcommand};
@@ -12,7 +13,7 @@ use clap::{Parser, Subcommand};
 // ── CLI ───────────────────────────────────────────────────────────────────────
 
 #[derive(Parser)]
-#[command(name = "yamtam-rt", version = "0.7.0", about = "YAMTAM Runtime — task · bus · memory · config · plugin · cost · vault")]
+#[command(name = "yamtam-rt", version = "0.8.0", about = "YAMTAM Runtime — task · bus · memory · config · plugin · cost · vault · graph")]
 struct Cli {
     #[command(subcommand)]
     command: Commands,
@@ -34,6 +35,8 @@ enum Commands {
     Plugin { #[command(subcommand)] action: PluginAction },
     /// Cost dashboard — token usage and spend tracking
     Cost   { #[command(subcommand)] action: CostAction },
+    /// Knowledge graph — build/show/search/onboard/diff (Rust port of graph_builder.py)
+    Graph  { #[command(subcommand)] action: graph::GraphAction },
     /// Vietnamese-first knowledge vault with multilingual translation links
     Vault  { #[command(subcommand)] action: vault::VaultAction },
     /// Audit AI agent setup for security risks (replaces audit_scanner.py)
@@ -251,6 +254,7 @@ fn main() {
             } else if report.summary.critical > 0 { 0 } else { 0 };
             std::process::exit(exit_code);
         }
+        Commands::Graph { action } => graph::dispatch(action),
         Commands::Vault { action } => vault::dispatch(action),
         Commands::Cost { action } => match action {
             CostAction::Show                            => cost::cmd_cost_show(),
