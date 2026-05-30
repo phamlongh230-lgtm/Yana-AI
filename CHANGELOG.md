@@ -8,6 +8,23 @@ All notable changes to YAMTAM ENGINE release packs are documented here.
 
 ---
 
+## v0.17.0 — yamtam-rt v1.0.0: Full Python CLI parity in Rust
+*2026-05-30*
+
+### Status: RELEASED ✅
+
+### Highlights
+- **yamtam-rt v1.0.0** — 17 Rust subcommands, full Python CLI parity
+- **Ported 9 Python scripts → Rust** (~4.5k lines): scan, graph, hunt, design, doctor, spec, ci, map, fix
+- **vault** subcommand: Vietnamese-first knowledge vault + multilingual translation links (WMT23-inspired)
+- **+235 skills** imported from affaan-m/ECC (225), Leonxlnx/taste-skill (7), hardikpandya/stop-slop (1), NanmiCoder/cc-haha (2) — total 2197 skills
+- **liteparse** Rust dep + `vault import` command (PDF/DOCX → markdown via markitdown)
+
+### New subcommands
+`ci` · `map` · `fix` · `doctor` · `spec` · `graph` · `vault` · `hunt` · `design`
+
+---
+
 ## v0.16.0 — yamtam-rt runtime: Agent Bus + L3 Memory + Config/Plugin/Cost
 *2026-05-29*
 
