@@ -278,8 +278,8 @@ End with: CONFIRMED: N  REJECTED: N"
 
   if [[ -s "$out" ]]; then
     local confirmed rejected
-    confirmed=$(grep -c "^FINDING" "$out" 2>/dev/null || echo 0)
-    rejected=$(grep -c "^REJECTED" "$out" 2>/dev/null || echo 0)
+    confirmed=$(grep -c "CONFIRMED:" "$out" 2>/dev/null || true); confirmed=${confirmed:-0}
+    rejected=$(grep -c "REJECTED" "$out" 2>/dev/null || true); rejected=${rejected:-0}
     echo "  ✓ $expert_id done — $confirmed confirmed, $rejected rejected"
   else
     echo "  ✗ $expert_id — no output"
@@ -412,7 +412,7 @@ fi  # end MODE=experts/full block
     h=$(grep -oi "\bHIGH\b" "$expert_file" | wc -l)
     m=$(grep -oi "\bMEDIUM\b" "$expert_file" | wc -l)
     l=$(grep -oi "\bLOW\b" "$expert_file" | wc -l)
-    confirmed=$(grep -c "^FINDING" "$expert_file" 2>/dev/null || echo 0)
+    confirmed=$(grep -c "CONFIRMED:" "$expert_file" 2>/dev/null || true); confirmed=${confirmed:-0}
     echo "| expert:$expert_name ($confirmed findings) | $c | $h | $m | $l |"
   done
 
