@@ -116,7 +116,6 @@ if [[ $LOOP_COUNT -ge $MAX_ATTEMPTS ]]; then
   echo "╚══════════════════════════════════════════════════════╝"
   echo "  Tool       : $TOOL_NAME"
   echo "  Loop count : $LOOP_COUNT / $MAX_ATTEMPTS (threshold exceeded)"
-  echo "  Tokens used: $TOTAL_TOKENS"
   echo "  Action     : Circuit OPENED — tool BLOCKED for ${COOLDOWN_SECONDS}s"
   echo ""
   echo "  ── Fast-Tier Recommendation ──────────────────────────"
@@ -176,7 +175,7 @@ fi
 
 # ── Budget ceiling warning ────────────────────────────────────────────────────
 if [[ $TOTAL_TOKENS -gt $MAX_LOOP_TOKENS ]]; then
-  echo "[token-budget-guard] BUDGET WARNING: $TOTAL_TOKENS tokens used (limit: $MAX_LOOP_TOKENS)"
+  echo "[token-budget-guard] BUDGET WARNING: session token budget exceeded"
   echo "[token-budget-guard] Run /cost-report to review ROI before continuing"
 fi
 
