@@ -1095,13 +1095,36 @@ dict_content = I18N_DICT.read_text(encoding='utf-8')
 if "'lang.vi': 'Tiếng Việt'" in dict_content:
     print("Vietnamese already patched in dict. Skipping.")
 else:
+    # Add trailing comma to last section before inserting vi
+    # The last entry's closing } has no comma — fix before insert
+    import re as _re2
+    patched = _re2.sub(r'(    \})\n(\})\);', r'\1,\n\2);', dict_content, count=1)
     # Insert vi section before closing });
-    patched = dict_content.replace('\n});\n\nexport { DICT }', f'\n{VI_DICT}\n}});\n\nexport {{ DICT }}')
-    if VI_DICT[:20] in patched:
-        I18N_DICT.write_text(patched, encoding='utf-8')
-        print("  ✓ i18n.dict.mjs patched")
-    else:
+    patched = patched.replace('\n});\n\nexport { DICT }', f'\n{VI_DICT}\n}});\n\nexport {{ DICT }}')
+    if VI_DICT[:20] not in patched:
         sys.exit("ERROR: Could not find insertion point in i18n.dict.mjs")
+    # Fix literal newlines inside JS single-quoted string values
+    vi_start = patched.index("    vi: {")
+    before_vi = patched[:vi_start]
+    vi_section = patched[vi_start:]
+    def _fix_str_newlines(text):
+        result = []
+        i = 0
+        while i < len(text):
+            if text[i] == "'":
+                j = i + 1
+                while j < len(text) and not (text[j] == "'" and text[j-1] != "\\"):
+                    j += 1
+                raw = text[i:j+1]
+                result.append(raw.replace('\n', '\\n'))
+                i = j + 1
+            else:
+                result.append(text[i])
+                i += 1
+        return ''.join(result)
+    patched = before_vi + _fix_str_newlines(vi_section)
+    I18N_DICT.write_text(patched, encoding='utf-8')
+    print("  ✓ i18n.dict.mjs patched")
 
 print("Patching i18n.mjs (vi support + remove zh/ja defaults)...")
 mjs_content = I18N_MJS.read_text(encoding='utf-8')
