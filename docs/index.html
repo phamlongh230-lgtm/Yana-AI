@@ -364,37 +364,37 @@ footer { border-top: 1px solid var(--border); padding: 2.5rem 2rem; }
 <section id="features">
   <div class="section-inner">
     <div class="section-label" data-i18n="section.why">Why YAMTAM</div>
-    <h2>AI agents cause real damage.<br>YAMTAM stops it before it happens.</h2>
-    <p class="section-sub">Every tool call passes through a pipeline of guards before executing. No config required — install once, protect everything.</p>
+    <h2><span data-i18n="h2.why">AI agents cause real damage.<br>YAMTAM stops it before it happens.</span></h2>
+    <p class="section-sub" data-i18n="sub.why">Every tool call passes through a pipeline of guards before executing. No config required — install once, protect everything.</p>
     <div class="feat-grid">
       <div class="feat-card">
         <div class="feat-icon">🛡️</div>
-        <div class="feat-title">Pre-execution hooks</div>
+        <div class="feat-title" data-i18n="feat.hook.t">Pre-execution hooks</div>
         <div class="feat-desc">45 hooks fire before any tool call. Block <code class="feat-code">rm -rf</code>, prompt injection, pipe-to-shell, and force-push — before damage happens.</div>
       </div>
       <div class="feat-card">
         <div class="feat-icon">⚡</div>
-        <div class="feat-title">Rust runtime</div>
+        <div class="feat-title" data-i18n="feat.rust.t">Rust runtime</div>
         <div class="feat-desc">yamtam-rt — 17 Rust subcommands replacing the Python CLI. scan, graph, vault, hunt, ci, map, fix, doctor, design. Zero Python dependency.</div>
       </div>
       <div class="feat-card">
         <div class="feat-icon">📚</div>
-        <div class="feat-title">2197 skills</div>
+        <div class="feat-title" data-i18n="feat.skills.t">2197 skills</div>
         <div class="feat-desc">The largest open-source skill library for Claude Code. Imported from ECC, taste-skill, stop-slop, and more — all MIT-licensed and anti-fake-pass verified.</div>
       </div>
       <div class="feat-card">
         <div class="feat-icon">🔍</div>
-        <div class="feat-title">Knowledge graph</div>
+        <div class="feat-title" data-i18n="feat.graph.t">Knowledge graph</div>
         <div class="feat-desc"><code class="feat-code">yamtam-rt graph build</code> traverses any codebase, extracts imports, detects architecture layers, and generates an onboarding guide.</div>
       </div>
       <div class="feat-card">
         <div class="feat-icon">🗄️</div>
-        <div class="feat-title">Vietnamese vault</div>
+        <div class="feat-title" data-i18n="feat.vault.t">Vietnamese vault</div>
         <div class="feat-desc">Markdown knowledge vault with Unicode-aware Vietnamese search, accent-insensitive mode, multilingual translation links, and PDF/DOCX import.</div>
       </div>
       <div class="feat-card">
         <div class="feat-icon">🎨</div>
-        <div class="feat-title">Design token extractor</div>
+        <div class="feat-title" data-i18n="feat.design.t">Design token extractor</div>
         <div class="feat-desc"><code class="feat-code">yamtam-rt design extract &lt;url&gt;</code> pulls colors, fonts, spacing, and CSS variables from any site and writes DESIGN.md.</div>
       </div>
     </div>
@@ -405,37 +405,37 @@ footer { border-top: 1px solid var(--border); padding: 2.5rem 2rem; }
 <section style="background:var(--bg-subtle);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
   <div class="section-inner">
     <div class="section-label" data-i18n="section.arch">Architecture</div>
-    <h2>6-layer gate system</h2>
-    <p class="section-sub">Each layer is independent. A bypassed outer layer doesn't break the inner ones.</p>
+    <h2 data-i18n="h2.arch">6-layer gate system</h2>
+    <p class="section-sub" data-i18n="sub.arch">Each layer is independent. A bypassed outer layer doesn't break the inner ones.</p>
     <div class="gates">
       <div class="gate-row">
         <div class="gate-num">L0</div>
-        <div><div class="gate-name">Audit chain</div><div class="gate-desc">Append-only Merkle log — every action is tamper-evident</div></div>
+        <div><div class="gate-name" data-i18n="gate.l0.n">Audit chain</div><div class="gate-desc">Append-only Merkle log — every action is tamper-evident</div></div>
         <div class="gate-badge badge-audit">AUDIT</div>
       </div>
       <div class="gate-row">
         <div class="gate-num">L1</div>
-        <div><div class="gate-name">Anti-evasion</div><div class="gate-desc">Blocks base64 decode pipes, curl|bash, eval with subshell</div></div>
+        <div><div class="gate-name" data-i18n="gate.l1.n">Anti-evasion</div><div class="gate-desc">Blocks base64 decode pipes, curl|bash, eval with subshell</div></div>
         <div class="gate-badge badge-block">BLOCK</div>
       </div>
       <div class="gate-row">
         <div class="gate-num">L2</div>
-        <div><div class="gate-name">Shell sanitize + env integrity</div><div class="gate-desc">Quoting enforcement, LD_PRELOAD guard, privilege isolation</div></div>
+        <div><div class="gate-name" data-i18n="gate.l2.n">Shell sanitize + env integrity</div><div class="gate-desc">Quoting enforcement, LD_PRELOAD guard, privilege isolation</div></div>
         <div class="gate-badge badge-block">BLOCK</div>
       </div>
       <div class="gate-row">
         <div class="gate-num">L3</div>
-        <div><div class="gate-name">Sandbox isolation</div><div class="gate-desc">Every tool call runs in a resource-capped sandbox</div></div>
+        <div><div class="gate-name" data-i18n="gate.l3.n">Sandbox isolation</div><div class="gate-desc">Every tool call runs in a resource-capped sandbox</div></div>
         <div class="gate-badge badge-block">BLOCK</div>
       </div>
       <div class="gate-row">
         <div class="gate-num">L4</div>
-        <div><div class="gate-name">Supply chain vetting</div><div class="gate-desc">Package installs blocked without passing 4/8 ossf/scorecard criteria</div></div>
+        <div><div class="gate-name" data-i18n="gate.l4.n">Supply chain vetting</div><div class="gate-desc">Package installs blocked without passing 4/8 ossf/scorecard criteria</div></div>
         <div class="gate-badge badge-warn">GATE</div>
       </div>
       <div class="gate-row">
         <div class="gate-num">L5</div>
-        <div><div class="gate-name">UI quality + scope drift</div><div class="gate-desc">Color rules, typography, WCAG AA, scope boundary enforcement</div></div>
+        <div><div class="gate-name" data-i18n="gate.l5.n">UI quality + scope drift</div><div class="gate-desc">Color rules, typography, WCAG AA, scope boundary enforcement</div></div>
         <div class="gate-badge badge-warn">GATE</div>
       </div>
     </div>
@@ -446,8 +446,8 @@ footer { border-top: 1px solid var(--border); padding: 2.5rem 2rem; }
 <section id="runtime">
   <div class="section-inner">
     <div class="section-label" data-i18n="section.runtime">Rust Runtime</div>
-    <h2>yamtam-rt v1.0.0</h2>
-    <p class="section-sub">Full Python CLI parity in a single Rust binary. ~4500 lines of Python replaced.</p>
+    <h2 data-i18n="h2.runtime">yamtam-rt v1.0.0</h2>
+    <p class="section-sub" data-i18n="sub.runtime">Full Python CLI parity in a single Rust binary. ~4500 lines of Python replaced.</p>
     <div class="rt-grid">
       <div>
         <p style="font-size:.875rem;color:var(--fg-muted);margin-bottom:1rem">All 17 subcommands:</p>
@@ -493,8 +493,8 @@ footer { border-top: 1px solid var(--border); padding: 2.5rem 2rem; }
 <section style="background:var(--bg-subtle);border-top:1px solid var(--border)">
   <div class="section-inner">
     <div class="section-label" data-i18n="section.compat">Compatibility</div>
-    <h2>Works with every major AI coding tool</h2>
-    <p class="section-sub">YAMTAM sits outside your editor — it doesn't care which AI you use.</p>
+    <h2 data-i18n="h2.compat">Works with every major AI coding tool</h2>
+    <p class="section-sub" data-i18n="sub.compat">YAMTAM sits outside your editor — it doesn't care which AI you use.</p>
     <div class="compat-grid">
       <div class="compat-card">
         <div class="compat-name">Claude Code</div>
@@ -543,7 +543,7 @@ footer { border-top: 1px solid var(--border); padding: 2.5rem 2rem; }
 <section id="docs" style="border-top:1px solid var(--border);background:var(--bg-subtle)">
   <div class="section-inner">
     <div class="section-label" data-i18n="section.docs">Tài liệu</div>
-    <h2 style="margin-bottom:.5rem">Giới thiệu đầy đủ</h2>
+    <h2 style="margin-bottom:.5rem" data-i18n="h2.docs">Giới thiệu đầy đủ</h2>
     <p class="section-sub">Tất cả những gì cần biết để chạy và dùng YAMTAM ENGINE.</p>
 
     <!-- What is -->
@@ -630,7 +630,7 @@ footer { border-top: 1px solid var(--border); padding: 2.5rem 2rem; }
 <section style="border-top:1px solid var(--border);background:linear-gradient(180deg,var(--bg) 0%,hsl(38,18%,92%) 100%)">
   <div class="section-inner">
     <div class="section-label" data-i18n="section.lab">Lab</div>
-    <h2 style="font-size:clamp(1.4rem,2.5vw,1.9rem);font-weight:700;letter-spacing:-.02em;margin-bottom:.75rem">Side projects</h2>
+    <h2 style="font-size:clamp(1.4rem,2.5vw,1.9rem);font-weight:700;letter-spacing:-.02em;margin-bottom:.75rem"><span data-i18n="h2.lab">Side projects</span></h2>
     <p class="section-sub" style="margin-bottom:2rem">Những thứ xây ngoài giờ.</p>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.25rem">
 
@@ -684,7 +684,7 @@ footer { border-top: 1px solid var(--border); padding: 2.5rem 2rem; }
 <section style="border-top:1px solid var(--border);padding:3.5rem 2rem">
   <div class="section-inner" style="max-width:1100px;margin:0 auto">
     <div class="section-label" data-i18n="section.contact">Liên hệ</div>
-    <h2 style="margin-bottom:1.75rem">Get in touch</h2>
+    <h2 style="margin-bottom:1.75rem" data-i18n="h2.contact">Get in touch</h2>
     <div style="display:flex;flex-wrap:wrap;gap:1rem">
       <a href="mailto:phamlongh230@gmail.com" target="_blank"
          style="display:inline-flex;align-items:center;gap:.6rem;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:.65rem 1.1rem;color:var(--fg);text-decoration:none;font-size:.9rem;transition:border-color .15s,background .15s"
@@ -843,17 +843,32 @@ const T = {
     'hero.cta1':'Install free',
     'section.why':'Why YAMTAM','section.arch':'Architecture','section.runtime':'Rust Runtime',
     'section.compat':'Compatibility','section.docs':'Documentation','section.lab':'Lab','section.contact':'Contact',
-    'h2.why':'The safety layer your AI needs',
-    'h2.arch':'How it works',
-    'h2.runtime':'Rust Runtime — 29× faster',
-    'h2.compat':'Works with every AI tool',
+    'h2.why':'AI agents cause real damage.<br>YAMTAM stops it before it happens.',
+    'h2.arch':'6-layer gate system',
+    'h2.runtime':'yamtam-rt v1.0.0',
+    'h2.compat':'Works with every major AI coding tool',
     'h2.docs':'Full documentation',
     'h2.lab':'Side projects',
     'h2.contact':'Get in touch',
-    'sub.why':'Every tool call passes through a pipeline of guards before executing.',
+    'h2.install':'Install in seconds',
+    'sub.why':'Every tool call passes through a pipeline of guards before executing. No config required — install once, protect everything.',
+    'sub.arch':'Each layer is independent. A bypassed outer layer doesn\'t break the inner ones.',
+    'sub.runtime':'Full Python CLI parity in a single Rust binary. ~4500 lines of Python replaced.',
+    'sub.compat':'YAMTAM sits outside your editor — it doesn\'t care which AI you use.',
     'sub.docs':'Everything you need to run and use YAMTAM ENGINE.',
     'sub.lab':'Things built outside work hours.',
-    'install.title':'Quick Install',
+    'feat.hook.t':'Pre-execution hooks',
+    'feat.rust.t':'Rust runtime',
+    'feat.skills.t':'2,211 skills',
+    'feat.graph.t':'Knowledge graph',
+    'feat.vault.t':'Vietnamese vault',
+    'feat.design.t':'Design token extractor',
+    'gate.l0.n':'Audit chain',
+    'gate.l1.n':'Anti-evasion',
+    'gate.l2.n':'Shell sanitize + env integrity',
+    'gate.l3.n':'Sandbox isolation',
+    'gate.l4.n':'Supply chain vetting',
+    'gate.l5.n':'UI quality + scope drift',
   },
   vi: {
     'nav.features':'Tính năng','nav.runtime':'Runtime','nav.docs':'Tài liệu','nav.cta':'Bắt đầu',
@@ -862,17 +877,32 @@ const T = {
     'hero.cta1':'Cài đặt miễn phí',
     'section.why':'Tại sao YAMTAM','section.arch':'Kiến trúc','section.runtime':'Rust Runtime',
     'section.compat':'Tương thích','section.docs':'Tài liệu','section.lab':'Lab','section.contact':'Liên hệ',
-    'h2.why':'Lớp bảo vệ AI agent cần có',
-    'h2.arch':'Hoạt động như thế nào',
-    'h2.runtime':'Rust Runtime — nhanh hơn 29×',
-    'h2.compat':'Hoạt động với mọi AI tool',
+    'h2.why':'AI agent gây thiệt hại thật.<br>YAMTAM ngăn chặn trước khi xảy ra.',
+    'h2.arch':'Hệ thống 6 lớp bảo vệ',
+    'h2.runtime':'yamtam-rt v1.0.0',
+    'h2.compat':'Hoạt động với mọi AI coding tool',
     'h2.docs':'Giới thiệu đầy đủ',
     'h2.lab':'Dự án phụ',
     'h2.contact':'Liên hệ',
-    'sub.why':'Mọi tool call đều qua pipeline kiểm tra trước khi thực thi.',
+    'h2.install':'Cài đặt trong vài giây',
+    'sub.why':'Mọi tool call đều qua pipeline kiểm tra trước khi thực thi. Không cần cấu hình — cài một lần, bảo vệ tất cả.',
+    'sub.arch':'Mỗi lớp độc lập. Bỏ qua lớp ngoài không ảnh hưởng lớp trong.',
+    'sub.runtime':'Parity đầy đủ với Python CLI trong một binary Rust duy nhất. Thay thế ~4500 dòng Python.',
+    'sub.compat':'YAMTAM chạy bên ngoài editor — không quan tâm bạn dùng AI nào.',
     'sub.docs':'Tất cả những gì cần biết để chạy và dùng YAMTAM ENGINE.',
     'sub.lab':'Những thứ xây ngoài giờ.',
-    'install.title':'Cài đặt nhanh',
+    'feat.hook.t':'Hook trước khi thực thi',
+    'feat.rust.t':'Rust runtime',
+    'feat.skills.t':'2.211 skills',
+    'feat.graph.t':'Knowledge graph',
+    'feat.vault.t':'Kho tri thức tiếng Việt',
+    'feat.design.t':'Trích xuất design token',
+    'gate.l0.n':'Audit chain',
+    'gate.l1.n':'Chống evasion',
+    'gate.l2.n':'Shell sanitize + bảo vệ env',
+    'gate.l3.n':'Sandbox isolation',
+    'gate.l4.n':'Kiểm duyệt supply chain',
+    'gate.l5.n':'Chất lượng UI + scope drift',
   },
   ko: {
     'nav.features':'기능','nav.runtime':'런타임','nav.docs':'문서','nav.cta':'시작하기',
@@ -881,17 +911,32 @@ const T = {
     'hero.cta1':'무료 설치',
     'section.why':'YAMTAM 소개','section.arch':'아키텍처','section.runtime':'Rust 런타임',
     'section.compat':'호환성','section.docs':'문서','section.lab':'실험실','section.contact':'연락처',
-    'h2.why':'AI 에이전트에 필요한 안전 레이어',
-    'h2.arch':'작동 원리',
-    'h2.runtime':'Rust 런타임 — 29배 빠름',
-    'h2.compat':'모든 AI 도구와 호환',
+    'h2.why':'AI 에이전트는 실제 피해를 줍니다.<br>YAMTAM이 사전에 막습니다.',
+    'h2.arch':'6단계 게이트 시스템',
+    'h2.runtime':'yamtam-rt v1.0.0',
+    'h2.compat':'모든 주요 AI 코딩 도구와 호환',
     'h2.docs':'전체 문서',
     'h2.lab':'사이드 프로젝트',
     'h2.contact':'연락하기',
-    'sub.why':'모든 도구 호출은 실행 전 가드 파이프라인을 통과합니다.',
+    'h2.install':'몇 초 만에 설치',
+    'sub.why':'모든 도구 호출은 실행 전 가드 파이프라인을 통과합니다. 설정 불필요 — 한 번 설치로 전체 보호.',
+    'sub.arch':'각 레이어는 독립적입니다. 외부 레이어가 우회되어도 내부 레이어는 유지됩니다.',
+    'sub.runtime':'단일 Rust 바이너리로 Python CLI 완전 대체. Python 코드 ~4500줄 교체.',
+    'sub.compat':'YAMTAM은 에디터 외부에서 실행 — 어떤 AI를 사용하든 상관없습니다.',
     'sub.docs':'YAMTAM ENGINE 실행에 필요한 모든 정보.',
     'sub.lab':'업무 외 시간에 만든 것들.',
-    'install.title':'빠른 설치',
+    'feat.hook.t':'사전 실행 훅',
+    'feat.rust.t':'Rust 런타임',
+    'feat.skills.t':'2,211개 스킬',
+    'feat.graph.t':'지식 그래프',
+    'feat.vault.t':'베트남어 지식 저장소',
+    'feat.design.t':'디자인 토큰 추출기',
+    'gate.l0.n':'감사 체인',
+    'gate.l1.n':'회피 방지',
+    'gate.l2.n':'셸 정제 + 환경 무결성',
+    'gate.l3.n':'샌드박스 격리',
+    'gate.l4.n':'공급망 검증',
+    'gate.l5.n':'UI 품질 + 범위 이탈',
   }
 };
 let currentLang = localStorage.getItem('yamtam-lang') || 'en';
