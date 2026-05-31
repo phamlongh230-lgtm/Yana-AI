@@ -1103,17 +1103,43 @@ else:
     else:
         sys.exit("ERROR: Could not find insertion point in i18n.dict.mjs")
 
-print("Patching i18n.mjs...")
+print("Patching i18n.mjs (vi support + remove zh/ja defaults)...")
 mjs_content = I18N_MJS.read_text(encoding='utf-8')
-if "if (normalized === 'vi')" in mjs_content:
-    print("Vietnamese already patched in i18n.mjs. Skipping.")
+if "VI_PATCH_COMPLETE" in mjs_content:
+    print("i18n.mjs already fully patched. Skipping.")
 else:
-    mjs_patched = mjs_content.replace(
-        "if (normalized === 'ja') return 'ja';",
-        "if (normalized === 'ja') return 'ja';\n    if (normalized === 'vi') return 'vi';"
-    ).replace(
+    mjs_patched = mjs_content
+    # Add vi detection (if not already there)
+    if "if (normalized === 'vi')" not in mjs_patched:
+        mjs_patched = mjs_patched.replace(
+            "if (normalized === 'ja') return 'ja';",
+            "if (normalized === 'vi') return 'vi';"
+        )
+    # Remove ja from normalizeLang
+    mjs_patched = mjs_patched.replace(
+        "if (normalized === 'ja') return 'ja';\n",
+        ""
+    )
+    # Change default fallback from zh to vi
+    mjs_patched = mjs_patched.replace("return 'zh';", "return 'vi';")
+    # Remove ja from DOM lang setter (both initI18n and setLang)
+    mjs_patched = mjs_patched.replace(
+        "else if (next === 'ja') document.documentElement.lang = 'ja';\n                    else if (next === 'vi') document.documentElement.lang = 'vi';",
+        "else if (next === 'vi') document.documentElement.lang = 'vi';"
+    )
+    mjs_patched = mjs_patched.replace(
         "else if (next === 'ja') document.documentElement.lang = 'ja';",
-        "else if (next === 'ja') document.documentElement.lang = 'ja';\n                    else if (next === 'vi') document.documentElement.lang = 'vi';"
+        ""
+    )
+    # Change zh-CN fallback to vi
+    mjs_patched = mjs_patched.replace(
+        "else document.documentElement.lang = 'zh-CN';",
+        "else document.documentElement.lang = 'vi';"
+    )
+    # Mark as complete
+    mjs_patched = mjs_patched.replace(
+        "const I18N_STORAGE_KEY = 'codexmateLang';",
+        "const I18N_STORAGE_KEY = 'codexmateLang'; // VI_PATCH_COMPLETE"
     )
     I18N_MJS.write_text(mjs_patched, encoding='utf-8')
     print("  ✓ i18n.mjs patched")
@@ -1133,5 +1159,69 @@ if CSS_SHELL.exists():
 else:
     print("  ⚠ CSS file not found, skipping")
 
-print("\n✅ Patch complete! Restart codexmate and switch language to 'VI' in settings.")
-print("   codexmate run")
+print("Patching layout-header.html (remove ZH/JA buttons, add VI, set vi default)...")
+HEADER_HTML = NODE_MODULES / "web-ui" / "partials" / "index" / "layout-header.html"
+if HEADER_HTML.exists():
+    html = HEADER_HTML.read_text(encoding='utf-8')
+    if "setLang('zh')" not in html and "setLang('ja')" not in html:
+        print("layout-header.html already patched. Skipping.")
+    else:
+        # Old 3-button block (ZH, EN, JA) — appears twice (header fab + side rail)
+        OLD_BUTTONS = """\
+                <button
+                    type="button"
+                    class="lang-choice-btn"
+                    :aria-pressed="(lang || 'zh') === 'zh'"
+                    :class="{ active: (lang || 'zh') === 'zh' }"
+                    @click="setLang('zh')">ZH</button>
+                <button
+                    type="button"
+                    class="lang-choice-btn"
+                    :aria-pressed="(lang || 'zh') === 'en'"
+                    :class="{ active: (lang || 'zh') === 'en' }"
+                    @click="setLang('en')">EN</button>
+                <button
+                    type="button"
+                    class="lang-choice-btn"
+                    :aria-pressed="(lang || 'zh') === 'ja'"
+                    :class="{ active: (lang || 'zh') === 'ja' }"
+                    @click="setLang('ja')">日本語</button>"""
+        NEW_BUTTONS = """\
+                <button
+                    type="button"
+                    class="lang-choice-btn"
+                    :aria-pressed="(lang || 'vi') === 'en'"
+                    :class="{ active: (lang || 'vi') === 'en' }"
+                    @click="setLang('en')">EN</button>
+                <button
+                    type="button"
+                    class="lang-choice-btn"
+                    :aria-pressed="(lang || 'vi') === 'vi'"
+                    :class="{ active: (lang || 'vi') === 'vi' }"
+                    @click="setLang('vi')">VI</button>"""
+        patched = html.replace(OLD_BUTTONS, NEW_BUTTONS)
+        # Regex: remove all ZH and JA buttons regardless of indentation
+        import re as _re
+        # Remove ZH button block
+        patched = _re.sub(
+            r'\s*<button[^>]*\n[^>]*\n[^>]*zh[^>]*\n[^>]*zh[^>]*\n[^>]*setLang\(\'zh\'\)[^<]*</button>',
+            '', patched
+        )
+        # Remove JA button block
+        patched = _re.sub(
+            r'\s*<button[^>]*\n[^>]*\n[^>]*ja[^>]*\n[^>]*ja[^>]*\n[^>]*setLang\(\'ja\'\)[^<]*</button>',
+            '', patched
+        )
+        # Fix default lang reference from 'zh' to 'vi' in remaining buttons
+        patched = patched.replace("(lang || 'zh')", "(lang || 'vi')")
+
+        if patched == html:
+            print("  ⚠ No changes made — buttons may already be removed or pattern changed")
+        else:
+            HEADER_HTML.write_text(patched, encoding='utf-8')
+            print("  ✓ layout-header.html patched (ZH+JA removed, VI default set)")
+else:
+    print("  ⚠ layout-header.html not found, skipping")
+
+print("\n✅ Patch complete! Restart codexmate — UI shows EN/VI only, default is VI.")
+print("   node tools/codexmate/cli.js run")
