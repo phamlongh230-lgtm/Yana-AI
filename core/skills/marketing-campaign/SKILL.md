@@ -1,113 +1,77 @@
 ---
 name: marketing-campaign
-description: End-to-end marketing campaign planning and execution. Covers audience research, positioning, campaign angle definition, landing page copy, email sequences, social posts, ad copy, short-form video scripts, and content calendars. Use as the orchestration layer for multi-channel product launches.
-origin: ECC
+description: End-to-end marketing campaign — audience research, positioning, landing page copy, email sequences, social posts, ad copy, video scripts, content calendars. Use with marketing-agent.
+license: MIT
+source: https://github.com/affaan-m/ECC
 ---
 
 # Marketing Campaign
 
-Plan and execute launch campaigns that convert — not just campaigns that ship.
+**Trigger phrases:** "marketing campaign", "launch campaign", "landing page copy", "email sequence", "social media posts", "ad copy", "brand positioning"
 
-## When to Activate
+## Campaign Planning
 
-- planning a product or feature launch
-- building a full content suite from a single product brief
-- defining positioning and campaign angle before writing any copy
-- orchestrating multiple content types across channels
-- reviewing copy for conversion quality and brand consistency
+```
+Target persona:
+  Pain points: what frustrates them daily?
+  Goals: what does success look like?
+  Objections: why would they not buy?
+  Channels: where do they spend time?
 
-## Non-Negotiables
+Positioning: "For [audience] who [problem], [Product] is [category] that [benefit]. Unlike [alternative], [differentiator]."
+```
 
-1. Define positioning before writing any copy. All copy flows from the angle.
-2. Research the audience before assuming you know their language or fears.
-3. Each deliverable must serve one clear purpose in the campaign arc.
-4. Specificity beats adjectives in every format and on every channel.
-5. The same voice must run across every channel and every piece.
-6. No copy ships without passing the quality gate.
+## Landing Page Structure
 
-## Campaign Workflow
+```
+HERO: Headline (8 words) + Subheadline + CTA + Social proof
+PROBLEM: Pain described viscerally — make them nod
+SOLUTION: How product solves each pain
+FEATURES→BENEFITS: Feature: what it does / Benefit: why it matters
+SOCIAL PROOF: 3 testimonials with specific results
+FAQ: Address top 3 objections
+FINAL CTA: Repeat with urgency or guarantee
+```
 
-### Phase 1: Research
+## Email Sequence (5 emails)
 
-Use `market-research` to:
-- profile the target audience (jobs-to-be-done, fears, language, alternatives they use)
-- map 3+ direct or adjacent competitors (positioning, gaps, messaging weaknesses)
-- identify 1–3 audience insights the campaign angle will exploit
+```
+Email 1 (Day 0): Welcome + immediate value
+Email 2 (Day 2): Education — counter-intuitive insight
+Email 3 (Day 5): Social proof — customer story + metric
+Email 4 (Day 8): Objection handling
+Email 5 (Day 12): CTA with deadline
+```
 
-Deliverable: a short research brief (audience profile + competitive summary + key insights).
+Subject ≤ 50 chars. One CTA per email.
 
-### Phase 2: Positioning
+## Ad Copy (AIDA)
 
-Produce:
-- core benefit statement (one sentence, no feature list, no jargon)
-- positioning formula: "[Product] helps [audience] [achieve outcome] by [mechanism]"
-- campaign angle: the specific tension, insight, or moment the whole campaign lives in
-- tone profile: lock before writing (delegate to `brand-voice` for durable, session-reusable voice capture)
+```
+Attention: Interrupt scroll (bold claim / question / number)
+Interest: Specific pain or benefit
+Desire: Proof / before-after
+Action: Clear CTA with urgency
 
-Do not write any copy until positioning and angle are approved.
+Google Ad: Headline1 (30 chars) + Headline2 + Headline3 + Description (90 chars)
+```
 
-### Phase 3: Content Production
+## Short-Form Video Script (60-90s)
 
-Produce in this order — each layer informs the next:
+```
+0-3s:  Hook — "Stop doing X" / surprising stat
+3-10s: Problem agitation
+10-45s: Solution reveal / demo
+45-55s: Social proof
+55-90s: Single CTA
+```
 
-1. **Landing page copy** (all sections: hero, problem, solution, features, how it works, proof, CTA)
-2. **Email sequence** (each email has one purpose; follow the arc: problem → education → agitation → solution → proof → urgency → final CTA)
-3. **Social posts** (platform-native via `content-engine`; LinkedIn and X are different formats, not the same copy resized)
-4. **Short-form video scripts** (timestamp-blocked; written for screen and ear, not the page)
-5. **Ad copy variants** (3–4 variants testing different angles or audience segments)
-6. **Content calendar** (day-by-day schedule with channel, type, timing, and dependencies)
+## Anti-Fake-Pass
 
-### Phase 4: Review
-
-Gate every deliverable:
-- 5-second test on all hero / above-fold copy (clear who it's for, what it does, why act now)
-- CTA audit (one per piece, specific, earned — not demanded)
-- Tone consistency check across all channels
-- Claim audit (every claim is specific and supportable)
-- Cross-channel consistency (ad claims match landing page; email body matches subject)
-
-## Output Contract
-
-A full campaign delivers:
-
-1. **Positioning brief** — angle, core benefit statement, tone profile
-2. **Landing page copy** — hero, problem, solution, features, how it works, proof, CTA
-3. **Email sequence** — subject + preview + body + CTA for each email, labelled by day and purpose
-4. **LinkedIn posts** — 3+ platform-native posts with distinct angles
-5. **X posts** — 5+ standalone posts + 1 thread
-6. **Short-form video scripts** — 2+ timestamp-blocked scripts with visual direction notes
-7. **Ad copy variants** — short headline / long headline / body per variant
-8. **Content calendar** — day-by-day schedule with channel, content type, timing, and dependencies
-9. **Copy review summary** — flagged issues and open questions before anything goes live
-
-## Quality Gate
-
-Before delivering any piece:
-
-- every deliverable sounds like the same author
-- no hollow superlatives or filler adjectives remain
-- every CTA is specific and earned (never "learn more" or "click here")
-- no copy is duplicated verbatim across platforms
-- hero copy passes the 5-second test
-- email subjects match email body (no bait-and-switch)
-- ad claims match landing page claims exactly
-- no copy would work unchanged for any other product in the category
-
-## Hard Bans
-
-Delete and rewrite any:
-
-- "game-changing", "revolutionary", "world-class", "cutting-edge"
-- "In today's competitive landscape"
-- fake urgency not backed by a real deadline
-- hollow social proof without specifics ("thousands trust us")
-- generic CTAs ("learn more", "find out more", "click here")
-- copy that could be unplugged and dropped into a competitor's campaign unchanged
-
-## Related Skills
-
-- `brand-voice` — source-derived voice capture (run before content production)
-- `content-engine` — platform-native content production
-- `crosspost` — multi-platform distribution
-- `market-research` — audience and competitive intelligence
-- `seo` — on-page optimisation for landing page copy
+```
+❌ Headline describes feature, not user benefit
+❌ CTA says "Learn more" instead of specific action
+❌ Multiple CTAs in one email
+❌ Social proof without specific metrics
+❌ No conversion tracking before launch
+```
