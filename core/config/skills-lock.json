@@ -10111,6 +10111,1066 @@
       "computedHash": "883cc857f266d065f9553a06d6e40548dc81f43793b50e312abd9663eb930030",
       "localPath": ".claude/skills/gitnexus/gitnexus-pr-review",
       "addedAt": "2026-05-29T14:15:44Z"
+    },
+    "acceptance-orchestrator": {
+      "computedHash": "d1824a4f2f64476b65e5bf4adf5eb734009f812b825fa431a5cd56bcfbde5aee",
+      "localPath": ".claude/skills/acceptance-orchestrator",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "advanced-evaluation": {
+      "computedHash": "9874b2f2eb671e4aecba72117c1e3f724ef5145e583c14f1d2c0933774c8d096",
+      "localPath": ".claude/skills/advanced-evaluation",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "aegisops-ai": {
+      "computedHash": "0aa841e2906ecd3ce5938b2e633bd1b30341e3886cea4b653d87583c5c6cff5c",
+      "localPath": ".claude/skills/aegisops-ai",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "agent-evaluation": {
+      "computedHash": "c7a2bca261edc021d0d3a264b3ab1cba7b567f9084f6ddea5af448077afc3843",
+      "localPath": ".claude/skills/agent-evaluation",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "agent-orchestrator": {
+      "computedHash": "ade0f7dad25db88ab35c0b5a188cdf71a534f1703e53cab90d873a6da545a514",
+      "localPath": ".claude/skills/agent-orchestrator",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "agentfolio": {
+      "computedHash": "09a83b77deecaa83d904ad48204a4b25f3fae6abbdfdc149379151882ada7b95",
+      "localPath": ".claude/skills/agentfolio",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "agentic-actions-auditor": {
+      "computedHash": "5c20a6b301fd88b98b4c68918bd9726878ffbf3cf9b3f91be52b0f60a1851c26",
+      "localPath": ".claude/skills/agentic-actions-auditor",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "agentmail": {
+      "computedHash": "a68e8fc0b2b0e1e8413c45eaf490280aff0dae2fac7eb37868d937437452940b",
+      "localPath": ".claude/skills/agentmail",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "agenttrace-session-audit": {
+      "computedHash": "495a107a6b8face294b29c5a46078ee83456fca15ae6dbebdededf789cfd79ef",
+      "localPath": ".claude/skills/agenttrace-session-audit",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "ai-md": {
+      "computedHash": "b322fcd60bf7a13d752688f83d99fcf4e3a0354185e73ea2bbf35d9842356de8",
+      "localPath": ".claude/skills/ai-md",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "ai-native-cli": {
+      "computedHash": "2cb7fe77de1ad21c906afe1a942eff97048c9ade84e7532c472428da742f2491",
+      "localPath": ".claude/skills/ai-native-cli",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "ai-product": {
+      "computedHash": "16a4aafed03f090753fbe8151a03bc5e623682867c16a1760b503e659cbb6582",
+      "localPath": ".claude/skills/ai-product",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "ai-studio-image": {
+      "computedHash": "c67dfd3415d5581a479314fca058620726738d6614d18088918bd02b14c61e32",
+      "localPath": ".claude/skills/ai-studio-image",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "airflow-dag-patterns": {
+      "computedHash": "94a41e7557ed0038de304d942691a6f432f6a29b82dc096e7c1f265b74fc332c",
+      "localPath": ".claude/skills/airflow-dag-patterns",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "angular": {
+      "computedHash": "f46f4941251cd3f2cad2b572c9f0401df28f5c47be27f51e06f09edae4a55268",
+      "localPath": ".claude/skills/angular",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "angular-best-practices": {
+      "computedHash": "61b76f8df919177aa06d431c664f7170565d9f6da802a33331bb71667287f0a3",
+      "localPath": ".claude/skills/angular-best-practices",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "angular-state-management": {
+      "computedHash": "32ddc9343ed7e6416b2fb071a3267c590b820d00a03218bdaf797823d2032714",
+      "localPath": ".claude/skills/angular-state-management",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "angular-ui-patterns": {
+      "computedHash": "5cef4a6b214de15f6a43e4f66237389d9c224a7e029de37673d378936221ab3e",
+      "localPath": ".claude/skills/angular-ui-patterns",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "animejs-animation": {
+      "computedHash": "61802c701ad7024d97ae95d74ad169e6b1717c41e3bad4b65cffef34afb8121e",
+      "localPath": ".claude/skills/animejs-animation",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "api-design-principles": {
+      "computedHash": "9e3a261c94e6b67e386a0c58532a4aedd924683bb8d6bde6bf90c5337a91195d",
+      "localPath": ".claude/skills/api-design-principles",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "api-endpoint-builder": {
+      "computedHash": "bb9f07b95cd6e4da7b97d5c518b66019822f62abecc0b5d7e02c56f64de36fb5",
+      "localPath": ".claude/skills/api-endpoint-builder",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "appdeploy": {
+      "computedHash": "05efdb1872e815c60d909642c6d16f2f277dbaf0b9112d0736c83f9d6777be61",
+      "localPath": ".claude/skills/appdeploy",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "architecture": {
+      "computedHash": "cc1ab59295d54bd8b0261676296cff767cf3334139992935352821471f12f900",
+      "localPath": ".claude/skills/architecture",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "astro": {
+      "computedHash": "6229a3c98861a28d8f1c48b048e21f17b3b8ab61a9f8cf35bf8fc9f87aac9b53",
+      "localPath": ".claude/skills/astro",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "async-python-patterns": {
+      "computedHash": "ec109a485750ee96486cda7d7617db2b852b5705d85281cbe786793234cf089f",
+      "localPath": ".claude/skills/async-python-patterns",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "audit-skills": {
+      "computedHash": "03198a29c5eb59f87146b3e43030a644421a0797ba4a9339fcff7b827b234133",
+      "localPath": ".claude/skills/audit-skills",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "avalonia-zafiro-development": {
+      "computedHash": "5f4f947d6001bd8a18c6a54af777c00f95c5793e5e25d40a4218bb48fb60d9bb",
+      "localPath": ".claude/skills/avalonia-zafiro-development",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "bash-defensive-patterns": {
+      "computedHash": "ed2a096eb6f08d48ed0d7e9fa00ae7e9d4ab7b07f9575710453b527eb51177c8",
+      "localPath": ".claude/skills/bash-defensive-patterns",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "brooks-lint": {
+      "computedHash": "ce63b7f604bef58a6f53699a217d3cdcafd942fa7401703b9b253280e4288cb3",
+      "localPath": ".claude/skills/brooks-lint",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "bumblebee": {
+      "computedHash": "c31b80e0b8975fbf4bec4e3d42d1be2f4ee3f2e35b0ae0ddccbac82967040876",
+      "localPath": ".claude/skills/bumblebee",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "busybox-on-windows": {
+      "computedHash": "f4ee132a8c440ffe262b78527d7ab39157397ef29308b44775f90463ad02d970",
+      "localPath": ".claude/skills/busybox-on-windows",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "claude-ally-health": {
+      "computedHash": "26a45c518a5b2d6f967e723391f7171d9ccccc8a8efeecf019ad02b28af39076",
+      "localPath": ".claude/skills/claude-ally-health",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "claude-monitor": {
+      "computedHash": "2bbafa57754f8bab4bda65f67c2d88d6bb019fab4bc765546330d9ecfb9eaf02",
+      "localPath": ".claude/skills/claude-monitor",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "claude-scientific-skills": {
+      "computedHash": "e4a3fb8448d0cc2ffb53a12647936c29bbaab1ff07d727cda43228c7623dcce8",
+      "localPath": ".claude/skills/claude-scientific-skills",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "claude-speed-reader": {
+      "computedHash": "09f2ebc36cda0f5fbc40b21ecb73f5678ec762633e1916e69cde048f37ba0532",
+      "localPath": ".claude/skills/claude-speed-reader",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "claude-win11-speckit-update-skill": {
+      "computedHash": "77768ea66271677d945020b674d84fe15409c15b00791b625c3552693d4b5b4d",
+      "localPath": ".claude/skills/claude-win11-speckit-update-skill",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "clean-code": {
+      "computedHash": "d90261fd5e38625bb0c7aadacca1a954a16f6d0101c451511a6f049dd1769416",
+      "localPath": ".claude/skills/clean-code",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "closed-loop-delivery": {
+      "computedHash": "d87a8930fe3a5e441720fbfe58b08422ba746e2a3bda1246095a9067c4a0c56f",
+      "localPath": ".claude/skills/closed-loop-delivery",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "code-documentation-code-explain": {
+      "computedHash": "6bd781a98c83a6c075f02245c41e653297dfb0323edfbbe0f839889b9093ebcd",
+      "localPath": ".claude/skills/code-documentation-code-explain",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "code-documentation-doc-generate": {
+      "computedHash": "aa0c67cfeab17b8d90387ae12c1086fceeb189154cfafb87a2be3e9eda5226de",
+      "localPath": ".claude/skills/code-documentation-doc-generate",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "code-review-excellence": {
+      "computedHash": "6c9ccf6710c876a04d7605377908a67c50a20781f2c6a1e154c6ab87f15c024f",
+      "localPath": ".claude/skills/code-review-excellence",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "codebase-audit-pre-push": {
+      "computedHash": "5df48a600ea7a11f80f5afa3c4ea516c905aa8ca40a54b4734788e3614fb01e2",
+      "localPath": ".claude/skills/codebase-audit-pre-push",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "codebase-cleanup-refactor-clean": {
+      "computedHash": "d93b54d154ec8dd98c5938a1b0e56c4cb9fc56f948591e91ace4f7102f81c237",
+      "localPath": ".claude/skills/codebase-cleanup-refactor-clean",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "codebase-to-wordpress-converter": {
+      "computedHash": "9f8df65ef4da6c8f498ff3962cdc629cb6047f7877dece9bd8f3fd3cb6eed2ee",
+      "localPath": ".claude/skills/codebase-to-wordpress-converter",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "comfyui-gateway": {
+      "computedHash": "433d62b8d4fe375f1c524d386c39c5c68201f97fddf8d36c8ffcb11a66c4e706",
+      "localPath": ".claude/skills/comfyui-gateway",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "conductor-validator": {
+      "computedHash": "9a761562f674084a7e0b70af33f5318403c449fa14c778cc400ac0f17e43c4d4",
+      "localPath": ".claude/skills/conductor-validator",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "container-security-hardening": {
+      "computedHash": "224a1915121520aa70a42ed7daebdb47bb3413452c299155f81abf2121bd105d",
+      "localPath": ".claude/skills/container-security-hardening",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "context-agent": {
+      "computedHash": "bac6580521bfe0790e4e2f41e4397ad6ad177ba4623140c1aec3184d653adc8b",
+      "localPath": ".claude/skills/context-agent",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "context-guardian": {
+      "computedHash": "2bec3e211f57cf88575507a816d25facfef37fb257dcbca30bd3eda914111060",
+      "localPath": ".claude/skills/context-guardian",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "create-issue-gate": {
+      "computedHash": "57700eeccaa2751d6a272daa224f993f5477894c87c96ccc8b192ecae0da1b10",
+      "localPath": ".claude/skills/create-issue-gate",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "dbos-golang": {
+      "computedHash": "a7f64ce4578d1f5ca619016b1b0e4c2146a02d544a7073fd0df9463eb19701a6",
+      "localPath": ".claude/skills/dbos-golang",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "dbos-python": {
+      "computedHash": "3cb189adf9c6651c20b33093b7ae5ae173098f18ddc726eb7455fc40e18317b4",
+      "localPath": ".claude/skills/dbos-python",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "dbos-typescript": {
+      "computedHash": "271e77e4c2e518edffb87e29beb6d2dafc581e274aac25ddadac2309af2b3ddd",
+      "localPath": ".claude/skills/dbos-typescript",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "ddd-context-mapping": {
+      "computedHash": "afae905b0952cefabf3c3b020191675faa7ee06cb790effa4c561a3ca0dcff17",
+      "localPath": ".claude/skills/ddd-context-mapping",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "ddd-strategic-design": {
+      "computedHash": "67ce5626160133de42b5cda4b9d152a01321b9726283177ebe1434e460e84e45",
+      "localPath": ".claude/skills/ddd-strategic-design",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "ddd-tactical-patterns": {
+      "computedHash": "ef69b5d9e4ada9c4c8d66b320b3a0e05d9273506402f70f29a7fd6a33bddf061",
+      "localPath": ".claude/skills/ddd-tactical-patterns",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "devcontainer-setup": {
+      "computedHash": "c0da48fe1febf020129df68689fa8f47b599f52365b6d8aabbea2671632ed83a",
+      "localPath": ".claude/skills/devcontainer-setup",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "domain-driven-design": {
+      "computedHash": "e041ea437753339dd2f9170e8f11ca4c6168a3c5f2dc7fca17020f4470a0a6d0",
+      "localPath": ".claude/skills/domain-driven-design",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "dotnet-backend": {
+      "computedHash": "4d2c39335d42e3a3d10cf2aa48f1c47f31a8dc22c33dfd8fc3b32342db80ea5f",
+      "localPath": ".claude/skills/dotnet-backend",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "dotnet-backend-patterns": {
+      "computedHash": "2e2e4830e89dabca83361f205aa3b15013ac1fa4238669586daf1a3be8e3d681",
+      "localPath": ".claude/skills/dotnet-backend-patterns",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "electron-development": {
+      "computedHash": "86e566a3592ce16903a855e74fddb3422e8742d020e3162be83da13bd4658a8e",
+      "localPath": ".claude/skills/electron-development",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "error-debugging-error-analysis": {
+      "computedHash": "d81efc7d58a4c8e0529373c8f25e184843f82e3adbe782bbd816c3a200d76948",
+      "localPath": ".claude/skills/error-debugging-error-analysis",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "error-debugging-error-trace": {
+      "computedHash": "1c3dda4788ca7886d0716afbd00585bf526d1107122008d84c750252e3819973",
+      "localPath": ".claude/skills/error-debugging-error-trace",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "error-detective": {
+      "computedHash": "646d461928c2d741493bcadffc5c17b033677374b8a944aabef9fb1397072317",
+      "localPath": ".claude/skills/error-detective",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "error-diagnostics-error-analysis": {
+      "computedHash": "02441762fc176bcf8494f43c25b4650cacaf8d492904855dc9b7a09c76fc1b81",
+      "localPath": ".claude/skills/error-diagnostics-error-analysis",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "error-diagnostics-error-trace": {
+      "computedHash": "21926d8600293dd7e649b1a106a81c9d542f609b077a2599f83586564874152f",
+      "localPath": ".claude/skills/error-diagnostics-error-trace",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "evaluation": {
+      "computedHash": "9ef20a6b22940cda9e650cc2e31a83d474ab7933d4bc63892fdcff88a269b980",
+      "localPath": ".claude/skills/evaluation",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "fal-generate": {
+      "computedHash": "b994f0353b134d278a424185179c0e4efa3de73262ed93cdc94b609e28fd0be4",
+      "localPath": ".claude/skills/fal-generate",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "fal-image-edit": {
+      "computedHash": "b62a17a2f5b4ce7a3e7c33ff8f70b80ad3cb73b37ef825d557649c54cca74728",
+      "localPath": ".claude/skills/fal-image-edit",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "fal-platform": {
+      "computedHash": "25f3222505c2c5c893737479fefab3314f8002427f9b1f7ed286ae361cd01197",
+      "localPath": ".claude/skills/fal-platform",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "fal-upscale": {
+      "computedHash": "ecafb58432e2ce6f5aba121e477e53dd0b763107acc29967f063699a788dc909",
+      "localPath": ".claude/skills/fal-upscale",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "fal-workflow": {
+      "computedHash": "2941975cb318cb903b41d0899fae48c2d0afffbcc8306fae407e77935c5e306e",
+      "localPath": ".claude/skills/fal-workflow",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "ffuf-claude-skill": {
+      "computedHash": "d78a078b3f56a55c488075c0331505811f3c8ef86974d8ba9462dc37b8751d35",
+      "localPath": ".claude/skills/ffuf-claude-skill",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "fix-review": {
+      "computedHash": "9b01118fa395207c1b0f7d3edbceebfe8a1d4e7e4889c93d3d3454ffbdd178d6",
+      "localPath": ".claude/skills/fix-review",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "fp-ts-errors": {
+      "computedHash": "77fa0274e75151999ccaf15caa5cf71097c9f846d9f28b479e2fad6a387a9400",
+      "localPath": ".claude/skills/fp-ts-errors",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "fp-ts-pragmatic": {
+      "computedHash": "5e6a734a8cea767525f143ae1f651aec4ef58d312d66cc79ad35ca4166c45932",
+      "localPath": ".claude/skills/fp-ts-pragmatic",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "fp-ts-react": {
+      "computedHash": "d7f6f66566963b05fc0546c4c4c1aae2060bbb8a6b8dee1fd4460fe925edccdb",
+      "localPath": ".claude/skills/fp-ts-react",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "fp-types-ref": {
+      "computedHash": "3c733f204fcb246efb53948e433f8c5d6276a7d98e6527c1d4b39d0cf5f0d444",
+      "localPath": ".claude/skills/fp-types-ref",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "framework-migration-code-migrate": {
+      "computedHash": "0b7e26745c33c88f67cdaa23b0762bda963467c7824e0cac2a4247f28e2b3979",
+      "localPath": ".claude/skills/framework-migration-code-migrate",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "frontend-api-integration-patterns": {
+      "computedHash": "db22a15dac87c32393738bf4d8e2f451f7a961ed77df4c755dd480536d31d24d",
+      "localPath": ".claude/skills/frontend-api-integration-patterns",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "full-output-enforcement": {
+      "computedHash": "856c731525ce6cc87240a128962280ccded0c9a4b14d158ae8afe86b018b9609",
+      "localPath": ".claude/skills/full-output-enforcement",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "gdpr-data-handling": {
+      "computedHash": "ad18255a8b41ef66a512e27a12bc5d3918b89aa6d303409f3cfec2b500e58205",
+      "localPath": ".claude/skills/gdpr-data-handling",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "gh-review-requests": {
+      "computedHash": "daeead11ef97c0d66376f7a8cdfd8c77e448341dafec705b283654a399f3fdfb",
+      "localPath": ".claude/skills/gh-review-requests",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "gha-security-review": {
+      "computedHash": "13dcdd011a1e6cbb2414187ec7c54baaf9196f345ff8cec3698f1131f11ec727",
+      "localPath": ".claude/skills/gha-security-review",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "git-hooks-automation": {
+      "computedHash": "d4ee40c36937aad36705756635d3df854424401da5b8c430c555c84410c5028a",
+      "localPath": ".claude/skills/git-hooks-automation",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "git-pr-review": {
+      "computedHash": "4dceae8d6903ff3b145243d2ab084bde58ee743bd08a9592f3bc7ee80542684c",
+      "localPath": ".claude/skills/git-pr-review",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "github-actions-advanced": {
+      "computedHash": "e4a4bca3a3d729dc8cf0a2b5f92a1438539d29fcfbd9659539408e67d5d5b901",
+      "localPath": ".claude/skills/github-actions-advanced",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "global-chat-agent-discovery": {
+      "computedHash": "cf58b831e898d711cac2feb97852335cf98355a93d960016778fcd86cadac155",
+      "localPath": ".claude/skills/global-chat-agent-discovery",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "go-concurrency-patterns": {
+      "computedHash": "d8c25de9abddf2ff610324b240c02c6a944c17e85fe729ff1d4bf643b16a1e68",
+      "localPath": ".claude/skills/go-concurrency-patterns",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "go-rod-master": {
+      "computedHash": "0f6a6b1de06f0e83c6ee8618468389029e5172a14a1701b3600ec06cc790c032",
+      "localPath": ".claude/skills/go-rod-master",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "gpt-taste": {
+      "computedHash": "d37478268d979001cf3382ab3322c04ed329e47f4c06b8f2af16ece5b989f0be",
+      "localPath": ".claude/skills/gpt-taste",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "graphql": {
+      "computedHash": "84bb2bc31ae4eebce27d974c6655039e3094b8b64b782df53082482cbf458c1d",
+      "localPath": ".claude/skills/graphql",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "grpc-golang": {
+      "computedHash": "bb43b2dd6681b199ab2482e6c4ffd7da5faa7ac7e6182c04b4a8dff61ab8e4b9",
+      "localPath": ".claude/skills/grpc-golang",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "haskell-pro": {
+      "computedHash": "72f55d71690d5cec64f6b242bd7f884ed783482e4d2b2ce6180e70996ec0e839",
+      "localPath": ".claude/skills/haskell-pro",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "hig-components-search": {
+      "computedHash": "f74a723f408e34b43e88303dda4bbb54abf96cebcba34324679ffce36d64947e",
+      "localPath": ".claude/skills/hig-components-search",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "hig-technologies": {
+      "computedHash": "3571f3d3fd4ada55bad954e759ecbf4f5f7afa3808dd729746b9e56040c35063",
+      "localPath": ".claude/skills/hig-technologies",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "hono": {
+      "computedHash": "4df675e996fce9e6a0b059231db36b0b53eeb937201c447ccccceaeb561748e5",
+      "localPath": ".claude/skills/hono",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "hybrid-search-implementation": {
+      "computedHash": "fde5d99fc94ca914a0c16491ccde8ddbb753b00728302d84030a5f9c1240a55a",
+      "localPath": ".claude/skills/hybrid-search-implementation",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "i18n-localization": {
+      "computedHash": "8e862c5792fdbcd9d9d2de150f975fb26885613ff2227be7453c2fa24b4a3cc8",
+      "localPath": ".claude/skills/i18n-localization",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "iconsax-library": {
+      "computedHash": "c40080e180e2d1d26d1093fca3335a87de3fd47b0563e7fbf0795c0f4cf0dee5",
+      "localPath": ".claude/skills/iconsax-library",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "ilya-sutskever": {
+      "computedHash": "e395c09c355a78c6d95bf20861b07bcd301def8ee449009ee628c4e2c0c0fd1a",
+      "localPath": ".claude/skills/ilya-sutskever",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "industrial-brutalist-ui": {
+      "computedHash": "bbe4bb2bb94bac22d351a65dd672d02c5e2ac734834cf0676941a2742d81b6cd",
+      "localPath": ".claude/skills/industrial-brutalist-ui",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "infinite-gratitude": {
+      "computedHash": "077cb0e70a8efce2fe1f25563d2c4cf30cc2f712ff7960a8ec4a3d00f1d82747",
+      "localPath": ".claude/skills/infinite-gratitude",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "javascript-pro": {
+      "computedHash": "d37d2c8efea7a7f676a1566d6f7a71109796744f3a226f72ccb6ccbc62f33c8f",
+      "localPath": ".claude/skills/javascript-pro",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "javascript-testing-patterns": {
+      "computedHash": "9aebe35bdcf51c241f71b9989373bd73851fb5d6e282e0f37c1e7beb5f79c9a0",
+      "localPath": ".claude/skills/javascript-testing-patterns",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "jq": {
+      "computedHash": "707a536337c871d23bd3d1359aeed24331429422aebe67617a42229ad1862a2a",
+      "localPath": ".claude/skills/jq",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "junta-leiloeiros": {
+      "computedHash": "0e6ba4a69a12c5b465c6342d9dd0749c23f0a0d6c3927037e4be2e4eca705662",
+      "localPath": ".claude/skills/junta-leiloeiros",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "k6-load-testing": {
+      "computedHash": "9b171afbebd31e355a87f91399ef519b89ce65ea1e2f4aa23bc3bf7f3ef06e27",
+      "localPath": ".claude/skills/k6-load-testing",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "kotlin-coroutines-expert": {
+      "computedHash": "8e61a5ce1344b01f7c1bac623a9189cb889ab9c20156242224a172225d69d91b",
+      "localPath": ".claude/skills/kotlin-coroutines-expert",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "lambda-lang": {
+      "computedHash": "8e3029fc48844e76cd7ee002d70f25480fe3fcd4404083704789d6a7cf5fe1ea",
+      "localPath": ".claude/skills/lambda-lang",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "lambdatest-agent-skills": {
+      "computedHash": "c518402898f0be862b84a209c30728abd863a6dc773498cb67d05c366248e0c3",
+      "localPath": ".claude/skills/lambdatest-agent-skills",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "laravel-security-audit": {
+      "computedHash": "0f3270f77fa6b95626a21e30f39cd70ef50f62a08633e0629ab0ec8b298f2a12",
+      "localPath": ".claude/skills/laravel-security-audit",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "legacy-modernizer": {
+      "computedHash": "c60ff50ad8fd41f28d230887aa0ba9e98277a82ceb3ffaaf39999532edecdb2f",
+      "localPath": ".claude/skills/legacy-modernizer",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "llm-application-dev-ai-assistant": {
+      "computedHash": "234676bbd2f029eabd085bdf554d1a14820f1d330a764b9909c545a52f4f42f8",
+      "localPath": ".claude/skills/llm-application-dev-ai-assistant",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "llm-ops": {
+      "computedHash": "2bb71e9c5ea022f4366eb6f82db092c304223aae96464793b84ba46380f3c3db",
+      "localPath": ".claude/skills/llm-ops",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "llm-prompt-optimizer": {
+      "computedHash": "9967df7db7191eb1d99232db10717ccb26d3949e7056b31e9f02d9704dab54a4",
+      "localPath": ".claude/skills/llm-prompt-optimizer",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "llm-structured-output": {
+      "computedHash": "20f29365497c21bc13f62029371b99e98184b11c7d2b0c038c486cebfea45416",
+      "localPath": ".claude/skills/llm-structured-output",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "local-llm-expert": {
+      "computedHash": "61adbc21e663d67ff7dadd2439c4b4c70566279ab5d8463bfd28dbbd2a18fd15",
+      "localPath": ".claude/skills/local-llm-expert",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "logic-lens": {
+      "computedHash": "4678ca4d85112cfa4e43045f6ea9341de573b3b957855dcb1d577eebb73f78ad",
+      "localPath": ".claude/skills/logic-lens",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "magic-ui-generator": {
+      "computedHash": "52c4173f47c1c3f51e9a1a12250aad5f29ffddf3c3180a8d25dd5249f312ef48",
+      "localPath": ".claude/skills/magic-ui-generator",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "makepad-animation": {
+      "computedHash": "f6f11186b060ee8d29c182ee9ef1c9d8432ed8b6227767abe308375f7d311a87",
+      "localPath": ".claude/skills/makepad-animation",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "makepad-dsl": {
+      "computedHash": "724bcf627e7c277f8f744a629782477bd977bb4c344da5be1787551e3102b5c4",
+      "localPath": ".claude/skills/makepad-dsl",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "makepad-event-action": {
+      "computedHash": "d4625f34644eb451037ad89e983f287ec66e739060e1bb1a2330474fee532a4c",
+      "localPath": ".claude/skills/makepad-event-action",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "makepad-font": {
+      "computedHash": "e31d44cdd23f9b936815d8d3f1482dd988a5d0cc538da90855230d934682b007",
+      "localPath": ".claude/skills/makepad-font",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "makepad-layout": {
+      "computedHash": "05ed8baea91524f05d574728f255d81867e5b8f7765eeb267bc3e8b84fc90eed",
+      "localPath": ".claude/skills/makepad-layout",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "makepad-skills": {
+      "computedHash": "7175fa13f903c42713c2a214bb9b851cee8afb3e36101a69609bf30c244523cf",
+      "localPath": ".claude/skills/makepad-skills",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "makepad-widgets": {
+      "computedHash": "84b5bd8d84a1c62b31dc4170fe94e620081f346a5d614609cc165485bd5b69f1",
+      "localPath": ".claude/skills/makepad-widgets",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "memory-safety-patterns": {
+      "computedHash": "d266d1b743fa5aafeb26c84787d2029dbe668d359361c41c0d8ac831a17a5832",
+      "localPath": ".claude/skills/memory-safety-patterns",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "mesh-memory": {
+      "computedHash": "b579249fea2a35f710ad60896c450a9cb7b5f36bd7ffcf72422ce5e42fcb45cf",
+      "localPath": ".claude/skills/mesh-memory",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "mise-configurator": {
+      "computedHash": "2b1898e86abd3c81bc4f869cdac2ee250d8bf2ad99d399c06a3ca54ae7b1bcc6",
+      "localPath": ".claude/skills/mise-configurator",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "modern-javascript-patterns": {
+      "computedHash": "47d11a273455900b0e91da878ed7b61a1e0028661933372d159a72694f90c17f",
+      "localPath": ".claude/skills/modern-javascript-patterns",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "monorepo-architect": {
+      "computedHash": "fec17dcbeeaab9cdf2d0206ecdc70ec5272dfa8fb21075b4b35404e57b7eb9bf",
+      "localPath": ".claude/skills/monorepo-architect",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "monorepo-management": {
+      "computedHash": "86c1778873b97e9689369752c60861ffba0ec29cd3504773f96ddddc5fabb692",
+      "localPath": ".claude/skills/monorepo-management",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "monte-carlo-monitor-creation": {
+      "computedHash": "cdc5afb9a126f1e1261229d0cb21ebb3b6597d83802694e7a3d91a045c6bfe0f",
+      "localPath": ".claude/skills/monte-carlo-monitor-creation",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "monte-carlo-prevent": {
+      "computedHash": "15f9906096e802b1139d8668c2fc13b3764ea57ca886a085e3cd9978dabccc17",
+      "localPath": ".claude/skills/monte-carlo-prevent",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "monte-carlo-push-ingestion": {
+      "computedHash": "fb6890c058d4548ca67e05f0295a12a34cc0b05e2704ad5e9f6e386b6a59ebfd",
+      "localPath": ".claude/skills/monte-carlo-push-ingestion",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "monte-carlo-validation-notebook": {
+      "computedHash": "d8143294db0b57f66b77b19a2685dfd7872791782d8cd682bc92ef029f1824af",
+      "localPath": ".claude/skills/monte-carlo-validation-notebook",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "moyu": {
+      "computedHash": "1d6fdc9e0b28b306b205865aaec1efe24942ef431e6520c2d9bd46fe3a6918b7",
+      "localPath": ".claude/skills/moyu",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "multi-agent-architect": {
+      "computedHash": "e8ab00c24216dc9388c05a57bee9b3ba7962836cfe1860696b99970fc22922f8",
+      "localPath": ".claude/skills/multi-agent-architect",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "nodejs-backend-patterns": {
+      "computedHash": "ec798e95704e9789efc5a11561c65e3cf10231a881da4fc467ace1bd4e71e3e2",
+      "localPath": ".claude/skills/nodejs-backend-patterns",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "openapi-spec-generation": {
+      "computedHash": "9e38d12b362f01e0f72c86ccda38902ea87ed41eaf6f1ab1f063a67ddd221643",
+      "localPath": ".claude/skills/openapi-spec-generation",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "pakistan-payments-stack": {
+      "computedHash": "518194aa1027a30400f02267b2020a3f42e3698493a3c747a935ee20ea68df6b",
+      "localPath": ".claude/skills/pakistan-payments-stack",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "performance-optimizer": {
+      "computedHash": "9e73c4cabe47bee8e76d4391e899d9ff7a5c98fefed62eee18f333d3d7aaa648",
+      "localPath": ".claude/skills/performance-optimizer",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "privacy-by-design": {
+      "computedHash": "c97ed5b7e3e3780545e5a4d3dfc83748e251a683bf6aa69b058be3b4af56d19d",
+      "localPath": ".claude/skills/privacy-by-design",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "projection-patterns": {
+      "computedHash": "245b90c3297bab946908139c7a05fe86f967121cab2e1833e848724c397b6e97",
+      "localPath": ".claude/skills/projection-patterns",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "protocol-reverse-engineering": {
+      "computedHash": "892ba41afc29f8a44ad23cc2cc8c54f0950f69e91a23aad5ee71feb62ced01d1",
+      "localPath": ".claude/skills/protocol-reverse-engineering",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "pypict-skill": {
+      "computedHash": "f44ef882e7996d91062293a7040ac250c344b044c350df3789f8578eb5826596",
+      "localPath": ".claude/skills/pypict-skill",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "python-packaging": {
+      "computedHash": "3bea7bcf375775fafa6fa48b448949cc2e8bfd2830ad084b508946f4dd635b92",
+      "localPath": ".claude/skills/python-packaging",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "python-performance-optimization": {
+      "computedHash": "674f8695f32b129e8f314980974c5954620be787e6b44cf91b9da30dd7155fc6",
+      "localPath": ".claude/skills/python-performance-optimization",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "python-pptx-generator": {
+      "computedHash": "4156422fc83cd032073828b479f56d904593152f10b89774ed3ca096963c407e",
+      "localPath": ".claude/skills/python-pptx-generator",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "python-testing-patterns": {
+      "computedHash": "467fdbc399027e09da7df551c2088dad0e2fa7cba590be3059b40bfcbc63794a",
+      "localPath": ".claude/skills/python-testing-patterns",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "radix-ui-design-system": {
+      "computedHash": "ea59867e2a1e7ada612265ff685dab7b0e9655ad61239bfa1409d62404cd4997",
+      "localPath": ".claude/skills/radix-ui-design-system",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "rayden-code": {
+      "computedHash": "e494e09ca99795967fb4f99e4a4538810532dd3b22fe70cd5633e069192e15c2",
+      "localPath": ".claude/skills/rayden-code",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "react-best-practices": {
+      "computedHash": "75a1cf7ee1d59f56604b4db52d3cb680d1bfdbe5b064f6abc7acf8ba30acc1d3",
+      "localPath": ".claude/skills/react-best-practices",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "react-component-performance": {
+      "computedHash": "e5ed04f3693f9ab303dd66b5c241134781bf1b10dfac23aa386d10cbd93a6d1a",
+      "localPath": ".claude/skills/react-component-performance",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "react-modernization": {
+      "computedHash": "2a66894483e2e2a27ef1c4b9761df64823f534e584938895714d6d032e05ed02",
+      "localPath": ".claude/skills/react-modernization",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "react-native-architecture": {
+      "computedHash": "0de2316e8789c30c44690b1e3a1924161a6af0eb977f075ae04f2a8d66f069df",
+      "localPath": ".claude/skills/react-native-architecture",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "runaway-guard": {
+      "computedHash": "daa8698b46bf652859b7a8bc956965032d9a4130cb7c4aa1fe8f3578ffe5385d",
+      "localPath": ".claude/skills/runaway-guard",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "rust-async-patterns": {
+      "computedHash": "bd9734970b4ea016eb7176216abc73c0d5f918e1b4aa8ce033c002ac1a1ab621",
+      "localPath": ".claude/skills/rust-async-patterns",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "salesforce-development": {
+      "computedHash": "d2c8798f1f424b95c83a7c80ed011a5252c01f17973df5b60c50c31627cdff2b",
+      "localPath": ".claude/skills/salesforce-development",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "sam-altman": {
+      "computedHash": "87683f3f30eaae6465cffddbda50fb64a34dee25e200911d53d7a32b2f007c60",
+      "localPath": ".claude/skills/sam-altman",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "sankhya-dashboard-html-jsp-custom-best-pratices": {
+      "computedHash": "c278269d6bde70af70593974a8621bd2e0e1ccbdd93aac6cfec955203751c591",
+      "localPath": ".claude/skills/sankhya-dashboard-html-jsp-custom-best-pratices",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "scala-pro": {
+      "computedHash": "2f1da0ef8e433a15dadac678e094fa0629de626ecccac6f38a727a4ad03f704a",
+      "localPath": ".claude/skills/scala-pro",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "screen-reader-testing": {
+      "computedHash": "351a27532ecfefb9ed832fc525466636b6f18c4f01ae0f96e5dbc59366ccfac4",
+      "localPath": ".claude/skills/screen-reader-testing",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "security-compliance-compliance-check": {
+      "computedHash": "1888a0e3b4f375b9ee4efacd39089bec2537e8b2d7443e03529ac479475b4c8a",
+      "localPath": ".claude/skills/security-compliance-compliance-check",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "security-requirement-extraction": {
+      "computedHash": "bdcb50621b8b36f698969c5605fa5a815d65b8d1dc6471f4e63a870b48ebcc61",
+      "localPath": ".claude/skills/security-requirement-extraction",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "security-scanning-security-dependencies": {
+      "computedHash": "eb8f129a63658067c9b34d1cb929dbe12cb2cffb222e1b459fe9ff422521c8eb",
+      "localPath": ".claude/skills/security-scanning-security-dependencies",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "seek-and-analyze-video": {
+      "computedHash": "ad319220468be65f60f056faeb3da1af5db2b328cc1432cf2ea77127df648d65",
+      "localPath": ".claude/skills/seek-and-analyze-video",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "segment-cdp": {
+      "computedHash": "d65aa5692e620bf69d660da1e38a651ba7d7ddba29b8dd23e53df25134807ec2",
+      "localPath": ".claude/skills/segment-cdp",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "senior-frontend": {
+      "computedHash": "dc3ac3f3d3ae7e7fcfaec3c10065fa87b22562200b6e145440b7554c487b3942",
+      "localPath": ".claude/skills/senior-frontend",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "server-management": {
+      "computedHash": "e91ee9f193a04f3cad50a657c3a8719e812bce181de78dfaa762734f36ffe088",
+      "localPath": ".claude/skills/server-management",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "service-mesh-expert": {
+      "computedHash": "fc47999e1348deaa15c436a621627a3aecb0a4913d040538c9417e8e0c2a856c",
+      "localPath": ".claude/skills/service-mesh-expert",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "shopify-apps": {
+      "computedHash": "9ef586588cc45ec12c812dc433309efc8ea93976426f39f582999ce68264c947",
+      "localPath": ".claude/skills/shopify-apps",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "similarity-search-patterns": {
+      "computedHash": "11fdb65e64f92d94f21b9da2bcfe60b577e5a241df1e54936677a96094da39e8",
+      "localPath": ".claude/skills/similarity-search-patterns",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "skill-audit": {
+      "computedHash": "a543b40fa4515ff7ca21db2685a31525c5fdeb02dabd94675cdb0ec7b459443d",
+      "localPath": ".claude/skills/skill-audit",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "skill-check": {
+      "computedHash": "96f951602ec3611d61d728fd1d43b736f5558612869ef368588c282855090cd8",
+      "localPath": ".claude/skills/skill-check",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "solidity-security": {
+      "computedHash": "6732b08479e87325450e84945920c35c5100d4f2dd84ee8daa726e81c215f993",
+      "localPath": ".claude/skills/solidity-security",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "spline-3d-integration": {
+      "computedHash": "908170921bcea99a292c94068410043aef9bb0bfa8e2d545f3ea7c0695e07952",
+      "localPath": ".claude/skills/spline-3d-integration",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "squirrel": {
+      "computedHash": "136294ee660ed4f05c2b4bac282197d0058416cf9dc1bc60a5343b73988ec488",
+      "localPath": ".claude/skills/squirrel",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "stitch-design-taste": {
+      "computedHash": "3ee4e208eb74a1ad05616886b86f4c7ef1377643c78f6745d1720f0ae86a7a78",
+      "localPath": ".claude/skills/stitch-design-taste",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "sveltekit": {
+      "computedHash": "c411d3d9ade2cb11f297d4281087cc60fe38cadde22189761fb8cdcfa0d98db3",
+      "localPath": ".claude/skills/sveltekit",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "tailwind-design-system": {
+      "computedHash": "2d2852085d419997ec8a75d798666afe20ff265e99602fc4ad78e6353c0f3746",
+      "localPath": ".claude/skills/tailwind-design-system",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "technical-change-tracker": {
+      "computedHash": "300b015e44fbd648252375ad9d02b2ea244fdd1b7f7f745fe01dabcd982d0623",
+      "localPath": ".claude/skills/technical-change-tracker",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "temporal-golang-pro": {
+      "computedHash": "7d33128c6387aa28fd0e0a0f7b26f0c01c06a343024204e86ed65545436a8102",
+      "localPath": ".claude/skills/temporal-golang-pro",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "terraform-skill": {
+      "computedHash": "250942b9f00b6dc1e9534427f58e1b363f3586d7dbc5c2057f1d2a13051c304c",
+      "localPath": ".claude/skills/terraform-skill",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "threat-mitigation-mapping": {
+      "computedHash": "aa524fe3c3603b1fc611a5b7953003de010e4904032b9c8c78c2ad1e3bd4a9fb",
+      "localPath": ".claude/skills/threat-mitigation-mapping",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "threejs-skills": {
+      "computedHash": "f9ea0dd2b50709ef83b52f87a6aacd69f3f5b36a98d01218a6308e1ad9286b0e",
+      "localPath": ".claude/skills/threejs-skills",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "tmux": {
+      "computedHash": "590dad5ff545ec626ad084cc44b883a7279aa4b1e9aecdd5c61cae3734e3fdb2",
+      "localPath": ".claude/skills/tmux",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "tool-design": {
+      "computedHash": "8c291bb71cf261a1e6f3dd1eda47467fe8acd655b3fee7be2483ea38e58ea829",
+      "localPath": ".claude/skills/tool-design",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "tool-use-guardian": {
+      "computedHash": "5319ca3c8bbb864dccd1be14fd125cd619ec8781a35d00c673379c494da6ad85",
+      "localPath": ".claude/skills/tool-use-guardian",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "typescript-advanced-types": {
+      "computedHash": "e6f14e5369ed6c12116accbf8aa2e3c9ba6d6232069eb691c4e6200fa8332ad1",
+      "localPath": ".claude/skills/typescript-advanced-types",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "typescript-pro": {
+      "computedHash": "2faf95dad66e01c694efd41efc4d99bc4460468f97963d9a75c592a98c46b529",
+      "localPath": ".claude/skills/typescript-pro",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "ui-skills": {
+      "computedHash": "939d8443d65b7e50c437045ab56790386f39c37d06baa2090ae395a362ccf742",
+      "localPath": ".claude/skills/ui-skills",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "uncle-bob-craft": {
+      "computedHash": "79975227a9c56bdcc4bf66c207eea116173a941ecbaf399b4237466ead2d4c9c",
+      "localPath": ".claude/skills/uncle-bob-craft",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "uniprot-database": {
+      "computedHash": "70d8013e0eed1bf52f9af2fa77f3a78bc1cde9e5ef059c7c99b97bb09ee2e35b",
+      "localPath": ".claude/skills/uniprot-database",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "unreal-engine-cpp-pro": {
+      "computedHash": "baac83a8c28633b8f3b017f70c7f302207af4feff611fe0db9273e2a5b01b217",
+      "localPath": ".claude/skills/unreal-engine-cpp-pro",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "unsplash-integration": {
+      "computedHash": "0f3bea96a78cfdfe094e8edd9179fba0c3a6d5ddd69056aa6277d44ce4857626",
+      "localPath": ".claude/skills/unsplash-integration",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "uv-package-manager": {
+      "computedHash": "b63c22fd9f506ccab77caec35da1c2c176dfc6ee7429880cb5c8a347029ae38e",
+      "localPath": ".claude/skills/uv-package-manager",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "varlock-claude-skill": {
+      "computedHash": "6cc243b052afb890e601666ac4ebe061c0f33309655acc86818e9b8ce6bea1f5",
+      "localPath": ".claude/skills/varlock-claude-skill",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "vector-index-tuning": {
+      "computedHash": "d2a72bc107da7c1f2b1fca59377adb88cb8468dfb8bc0c6ab6c86355ea6e596e",
+      "localPath": ".claude/skills/vector-index-tuning",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "vercel-ai-sdk-expert": {
+      "computedHash": "7003a787bb9aa0030979044188e5e23a486841ed05ce81163c103734d9f571a3",
+      "localPath": ".claude/skills/vercel-ai-sdk-expert",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "vexor": {
+      "computedHash": "da5f6567807803e7a610456c08812cd864a7bef917883efc1d03be9ce7296c09",
+      "localPath": ".claude/skills/vexor",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "vibe-code-auditor": {
+      "computedHash": "12661804f044066008a5df703e47b71dbf0c52652ef9047377ed8ad118c82454",
+      "localPath": ".claude/skills/vibe-code-auditor",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "vibecode-production-qa-validator": {
+      "computedHash": "56d82b9828adb028ecc308169beb4e8d1481841b624aab5f2931677f948ce2cb",
+      "localPath": ".claude/skills/vibecode-production-qa-validator",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "voice-agents": {
+      "computedHash": "f2a2be89fc8559e7f0b3cf5ad4cda9fbc76fdf0d7230df7198cf229d3b1bc03f",
+      "localPath": ".claude/skills/voice-agents",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "web-scraper": {
+      "computedHash": "568fb557aaec9099436d11c8efda2e23c947403b4d1bfee1fec617170b4969ec",
+      "localPath": ".claude/skills/web-scraper",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "workflow-patterns": {
+      "computedHash": "9eb83c0aa03aabf815f4bff92b2efc3506051fb16aae233b59cb0f5615916b66",
+      "localPath": ".claude/skills/workflow-patterns",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "yann-lecun": {
+      "computedHash": "beece09764e2e663803ab2c776e4e44862277357dc3c2e96974f7cb4f992ff77",
+      "localPath": ".claude/skills/yann-lecun",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "yann-lecun-debate": {
+      "computedHash": "ffe85bb1be33589b4aa26f895c01ad98dd6e27ad945cce02266a3e789bf393cc",
+      "localPath": ".claude/skills/yann-lecun-debate",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "yann-lecun-filosofia": {
+      "computedHash": "73b529a401f6f362de2f3f3cb75a5eac07bb8d19abad3008d717e268aa37be92",
+      "localPath": ".claude/skills/yann-lecun-filosofia",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "yann-lecun-tecnico": {
+      "computedHash": "fd8ceb726814937f11118d7dc06c4acbe3347e31eee3c998ee92eeec19e98abc",
+      "localPath": ".claude/skills/yann-lecun-tecnico",
+      "addedAt": "2026-06-01T00:00:00Z"
+    },
+    "youtube-full": {
+      "computedHash": "c200d24dfe1991e93b4c1a1595c6fb020c5a75102b8f083976700c264275d50d",
+      "localPath": ".claude/skills/youtube-full",
+      "addedAt": "2026-06-01T00:00:00Z"
     }
   }
 }
