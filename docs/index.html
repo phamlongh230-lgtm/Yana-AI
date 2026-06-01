@@ -1208,26 +1208,74 @@ function runDemo3() {
 
 // See Tình terminal demo
 const termLines2 = [
-  { text: '$ g++ -std=c++17 see_tinh_demo.cpp -o see_tinh', color: '#4a4a5a', delay: 0,    type: 'type' },
-  { text: '$ ./see_tinh',                                    color: '#4a4a5a', delay: 650,  type: 'type' },
+  { text: '$ g++ -std=c++17 see_tinh_demo.cpp -o see_tinh', color: '#4a4a5a', delay: 0,     type: 'type' },
+  { text: '$ ./see_tinh',                                    color: '#4a4a5a', delay: 650,   type: 'type' },
   { text: '──────────────────────────────────────────────────', color: '#f472b6', delay: 1050 },
   { text: '  See Tình  ~  Hoàng Thùy Linh',                  delay: 1300, gradient2: true, bold: true },
   { text: '──────────────────────────────────────────────────', color: '#f472b6', delay: 1550 },
   { text: '', delay: 1750 },
-  { text: '[ Intro ]',             color: '#4ade80', delay: 1950, bold: true, glow: '#4ade80', type: 'fade' },
-  { text: 'Uầy uầy uây uây sao mới gặp lần đầu mà đầu mình quay quay', color: '#f472b6', delay: 2200 },
-  { text: 'Bae bae bae bae em nói từ đầu baby can you stay',             color: '#fbbf24', delay: 2600 },
-  { text: '', delay: 2900 },
-  { text: '[ Chorus ]',            color: '#f472b6', delay: 3100, bold: true, glow: '#f472b6', type: 'fade' },
-  { text: 'Giây phút em gặp anh là em biết em see tình',     color: '#67e8f9', delay: 3350 },
-  { text: 'Tình tình tình tang tang tính tang tình…',         color: '#f472b6', delay: 3650 },
-  { text: '', delay: 3900 },
-  { text: '[ Bridge ]',            color: '#fbbf24', delay: 4050, bold: true, glow: '#fbbf24', type: 'fade' },
-  { text: 'Yah yah — Anh tính sao giờ đây anh tính sao',     color: '#fbbf24', delay: 4300 },
-  { text: '', delay: 4600 },
-  { text: '🌸  See Tình — Hoàng Thùy Linh (2022)', color: '#3a3a4a', delay: 4800 },
+
+  // Intro
+  { text: '[ Intro ]', color: '#4ade80', delay: 1900, bold: true, glow: '#4ade80', type: 'fade' },
+  { text: '', delay: 2100 },
+  { text: 'Uầy uầy uây uây sao mới gặp lần đầu mà đầu mình quay quay', color: '#f472b6', delay: 2250 },
+  { text: 'Anh ơi anh à anh bỏ bùa gì mà lại làm em yêu vậy',          color: '#e2e8f0', delay: 2650 },
+  { text: 'Bae bae bae bae em nói từ đầu baby can you stay',             color: '#fbbf24', delay: 3050 },
+  { text: 'Mai đi coi ngày xem cưới ngày nào thì nhà mình đông con vậy',color: '#e2e8f0', delay: 3450 },
+  { text: '', delay: 3800 },
+
+  // Verse 1
+  { text: '[ Verse 1 ]', color: '#a78bfa', delay: 3950, bold: true, glow: '#a78bfa', type: 'fade' },
+  { text: '', delay: 4150 },
+  { text: 'Nếu như một câu nói có thể khiến anh vui',                   color: '#e2e8f0', delay: 4300 },
+  { text: 'Sẽ suốt ngày luôn nói không ngừng để anh cười',              color: '#e2e8f0', delay: 4680 },
+  { text: 'Nếu em làm như thế trông em có hâm không điên điên điên lắm',color: '#fbbf24', delay: 5060 },
+  { text: 'Đem ngay vô nhà thương  đem ngay vô nhà thương',             color: '#f472b6', delay: 5440 },
+  { text: 'Đem ngay vô nhà anh để thương',                              color: '#f472b6', delay: 5820 },
+  { text: '', delay: 6150 },
+
+  // Chorus
+  { text: '[ Chorus ]', color: '#f472b6', delay: 6300, bold: true, glow: '#f472b6', type: 'fade' },
+  { text: '', delay: 6500 },
+  { text: 'Giây phút em gặp anh là em biết em see tình',                color: '#67e8f9', delay: 6650 },
+  { text: 'Tình tình tình tang tang tính tang tình tình tình tang tang', color: '#f472b6', delay: 7030 },
+  { text: 'Giây phút em gặp anh là em biết em see tình',                color: '#67e8f9', delay: 7410 },
+  { text: 'Tình đừng tình toan tính toang tình mình tình tan tan tình',  color: '#f472b6', delay: 7790 },
+  { text: '', delay: 8100 },
+
+  // Bridge
+  { text: '[ Bridge ]', color: '#fbbf24', delay: 8250, bold: true, glow: '#fbbf24', type: 'fade' },
+  { text: '', delay: 8450 },
+  { text: 'Yah yah',                              color: '#fbbf24', delay: 8600 },
+  { text: 'Anh tính sao giờ đây anh tính sao',    color: '#e2e8f0', delay: 8900 },
+  { text: 'Yah yah',                              color: '#fbbf24', delay: 9250 },
+  { text: 'Anh tính sao giờ đây anh tính sao',    color: '#e2e8f0', delay: 9550 },
+  { text: '', delay: 9850 },
+
+  // Verse 2
+  { text: '[ Verse 2 ]', color: '#a78bfa', delay: 10000, bold: true, glow: '#a78bfa', type: 'fade' },
+  { text: '', delay: 10200 },
+  { text: 'Tới đâu thì tới tới đâu thì tới em cũng chẳng biết tới đâu', color: '#e2e8f0', delay: 10350 },
+  { text: 'Nếu yêu là khó không yêu cũng khó em cũng chẳng biết thế nào',color:'#e2e8f0',delay: 10730 },
+  { text: 'Hôm nay tia cực tím xuyên qua trời đêm',                     color: '#67e8f9', delay: 11110 },
+  { text: 'Nhưng anh như tia cực hiếm xuyên ngay vào tim',              color: '#f472b6', delay: 11490 },
+  { text: 'Ấy ấy ấy chết em rồi',                                        color: '#fbbf24', delay: 11870 },
+  { text: 'Ấy ấy chết thật thôi',                                        color: '#fbbf24', delay: 12200 },
+  { text: '', delay: 12500 },
+
+  // Chorus repeat
+  { text: '[ Chorus ]', color: '#f472b6', delay: 12650, bold: true, glow: '#f472b6', type: 'fade' },
+  { text: '', delay: 12850 },
+  { text: 'Giây phút em gặp anh là em biết em see tình',                color: '#67e8f9', delay: 13000 },
+  { text: 'Tình tình tình tang tang tính tang tình tình tình tang tang', color: '#f472b6', delay: 13380 },
+  { text: 'Giây phút em gặp anh là em biết em see tình',                color: '#67e8f9', delay: 13760 },
+  { text: 'Tình đừng tình toan tính toang tình mình tình tan tan tình',  color: '#f472b6', delay: 14140 },
+  { text: '', delay: 14450 },
+
+  { text: '🌸  See Tình — Hoàng Thùy Linh (2022)', color: '#3a3a4a', delay: 14650 },
 ];
 
+const LAST_DELAY_2 = 14650;
 let demo2Running = false;
 function runDemo2() {
   if (demo2Running) return;
@@ -1262,7 +1310,7 @@ function runDemo2() {
         line.textContent = text; out.appendChild(line);
       }
       out.scrollTop = out.scrollHeight;
-      if (delay === 4800) { btn.disabled = false; icon.textContent = '▶'; demo2Running = false; }
+      if (delay === LAST_DELAY_2) { btn.disabled = false; icon.textContent = '▶'; demo2Running = false; }
     }, delay);
   });
 }
