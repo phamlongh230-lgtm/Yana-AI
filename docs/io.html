@@ -707,6 +707,25 @@ code {
 }
 
 /* ── Intro button ── */
+.mute-btn {
+  position: absolute; bottom: 10px; left: 16px; z-index: 20;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 50%;
+  width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .85rem;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.18);
+  transition: background .15s, transform .12s;
+  line-height: 1;
+}
+.mute-btn:hover   { background: rgba(255,255,255,.18); }
+.mute-btn:active  { transform: scale(.88); }
+.mute-btn.muted   { background: rgba(255,80,80,.18); border-color: rgba(255,80,80,.3); }
+
 .intro-btn {
   position: absolute; bottom: 10px; right: 16px; z-index: 20;
   backdrop-filter: blur(20px) saturate(180%);
@@ -834,6 +853,7 @@ code {
   </div>
 
   <!-- Intro button -->
+  <button class="mute-btn" id="mute-btn" onclick="toggleMute()" title="Tắt/Bật âm">🔊</button>
   <button class="intro-btn" onclick="showIntro()">? Giới thiệu</button>
 
   <!-- Intro overlay -->
@@ -1302,6 +1322,23 @@ const haptic = {
 };
 
 // ── Sound effects (Web Audio API — no files needed) ──
+let soundMuted = localStorage.getItem('io-mute') === '1';
+
+function toggleMute() {
+  soundMuted = !soundMuted;
+  localStorage.setItem('io-mute', soundMuted ? '1' : '0');
+  const btn = document.getElementById('mute-btn');
+  btn.textContent = soundMuted ? '🔇' : '🔊';
+  btn.classList.toggle('muted', soundMuted);
+  if (!soundMuted) sfx.tap(); // preview sound when unmuting
+}
+
+// Apply saved mute state on load
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('mute-btn');
+  if (soundMuted) { btn.textContent = '🔇'; btn.classList.add('muted'); }
+});
+
 let _ctx = null;
 function getCtx() {
   if (!_ctx) _ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1310,6 +1347,7 @@ function getCtx() {
 }
 
 function playTone({ freq = 440, freq2, type = 'sine', vol = 0.18, dur = 0.08, attack = 0.004, decay = 0.06 } = {}) {
+  if (soundMuted) return;
   try {
     const ctx = getCtx();
     const g = ctx.createGain();
