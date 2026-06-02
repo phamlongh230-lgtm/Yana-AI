@@ -268,6 +268,10 @@ body {
 .app-docs     { background: linear-gradient(145deg, #422006, #d97706); }
 .app-stats    { background: linear-gradient(145deg, #2d1b69, #9333ea); }
 .app-settings { background: linear-gradient(145deg, #1f2937, #6b7280); }
+.app-test     { background: linear-gradient(145deg, #14532d, #16a34a); }
+.app-refactor { background: linear-gradient(145deg, #312e81, #6366f1); }
+.app-map      { background: linear-gradient(145deg, #1c1917, #78716c); }
+.app-pr       { background: linear-gradient(145deg, #0f172a, #3b82f6); }
 
 /* ── Dock ── */
 .dock {
@@ -774,6 +778,22 @@ code {
         <div class="app-icon-img app-settings">⚙️</div>
         <span class="app-label">Settings</span>
       </div>
+      <div class="app-icon" onclick="openApp('test')">
+        <div class="app-icon-img app-test">🧪</div>
+        <span class="app-label">Test</span>
+      </div>
+      <div class="app-icon" onclick="openApp('refactor')">
+        <div class="app-icon-img app-refactor">♻️</div>
+        <span class="app-label">Refactor</span>
+      </div>
+      <div class="app-icon" onclick="openApp('map')">
+        <div class="app-icon-img app-map">🗺️</div>
+        <span class="app-label">Map</span>
+      </div>
+      <div class="app-icon" onclick="openApp('pr')">
+        <div class="app-icon-img app-pr">📬</div>
+        <span class="app-label">PR</span>
+      </div>
     </div>
   </div>
 
@@ -1050,6 +1070,79 @@ code {
         <div class="app-section-title" style="margin-top:4px">Links</div>
         <div class="app-row" onclick="window.open('https://github.com/phamlongh230-lgtm/yamtam-engine')"><div class="app-row-icon">🐙</div><div class="app-row-info"><div class="app-row-title">GitHub</div><div class="app-row-sub">Source code</div></div><div class="app-row-arrow">↗</div></div>
         <div class="app-row" onclick="window.open('index.html')"><div class="app-row-icon">🏠</div><div class="app-row-info"><div class="app-row-title">Trang chủ</div><div class="app-row-sub">Quay lại website</div></div><div class="app-row-arrow">›</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Test -->
+  <div class="app-window" id="win-test" style="background:#030d05">
+    <div class="app-win-header" style="background:rgba(20,83,45,.65);backdrop-filter:blur(20px)">
+      <div class="app-win-title">🧪 Test</div>
+      <button class="app-win-close" onclick="closeApp('test')">✕</button>
+    </div>
+    <div class="app-win-body">
+      <div class="generic-app">
+        <div class="app-section-title">Viết & chạy tests</div>
+        <div class="app-row"><div class="app-row-icon">🔴</div><div class="app-row-info"><div class="app-row-title">/tdd-red</div><div class="app-row-sub">Viết failing test trước</div></div><div class="app-row-arrow">›</div></div>
+        <div class="app-row"><div class="app-row-icon">🟢</div><div class="app-row-info"><div class="app-row-title">/tdd-green</div><div class="app-row-sub">Implement tối thiểu để test pass</div></div><div class="app-row-arrow">›</div></div>
+        <div class="app-row"><div class="app-row-icon">✨</div><div class="app-row-info"><div class="app-row-title">/tdd-refactor</div><div class="app-row-sub">Refactor sau khi tests xanh</div></div><div class="app-row-arrow">›</div></div>
+        <div class="app-row"><div class="app-row-icon">📝</div><div class="app-row-info"><div class="app-row-title">/write-tests</div><div class="app-row-sub">Tạo test cho code hiện tại</div></div><div class="app-row-arrow">›</div></div>
+        <div class="app-row"><div class="app-row-icon">📊</div><div class="app-row-info"><div class="app-row-title">/test-coverage</div><div class="app-row-sub">Xem coverage, tìm gaps</div></div><div class="app-row-arrow">›</div></div>
+        <div class="app-row"><div class="app-row-icon">🎭</div><div class="app-row-info"><div class="app-row-title">/run-e2e</div><div class="app-row-sub">Chạy Playwright E2E tests</div></div><div class="app-row-arrow">›</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Refactor -->
+  <div class="app-window" id="win-refactor" style="background:#08071f">
+    <div class="app-win-header" style="background:rgba(49,46,129,.65);backdrop-filter:blur(20px)">
+      <div class="app-win-title">♻️ Refactor</div>
+      <button class="app-win-close" onclick="closeApp('refactor')">✕</button>
+    </div>
+    <div class="app-win-body">
+      <div class="generic-app">
+        <div class="app-section-title">Dọn dẹp code</div>
+        <div class="app-row"><div class="app-row-icon">🧹</div><div class="app-row-info"><div class="app-row-title">/refactor-clean</div><div class="app-row-sub">Xóa dead code, cải thiện cấu trúc</div></div><div class="app-row-arrow">›</div></div>
+        <div class="app-row"><div class="app-row-icon">✂️</div><div class="app-row-info"><div class="app-row-title">/simplify</div><div class="app-row-sub">Tối giản — tìm cơ hội rút gọn</div></div><div class="app-row-arrow">›</div></div>
+        <div class="app-row"><div class="app-row-icon">📦</div><div class="app-row-info"><div class="app-row-title">/refactor-extract</div><div class="app-row-sub">Tách function/component ra riêng</div></div><div class="app-row-arrow">›</div></div>
+        <div class="app-row"><div class="app-row-icon">🏷️</div><div class="app-row-info"><div class="app-row-title">/refactor-rename</div><div class="app-row-sub">Rename toàn codebase an toàn</div></div><div class="app-row-arrow">›</div></div>
+        <div class="app-row"><div class="app-row-icon">💀</div><div class="app-row-info"><div class="app-row-title">/remove-dead-code</div><div class="app-row-sub">Tìm và xóa code không dùng</div></div><div class="app-row-arrow">›</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Map -->
+  <div class="app-window" id="win-map" style="background:#0d0b08">
+    <div class="app-win-header" style="background:rgba(28,25,23,.8);backdrop-filter:blur(20px)">
+      <div class="app-win-title">🗺️ Map</div>
+      <button class="app-win-close" onclick="closeApp('map')">✕</button>
+    </div>
+    <div class="app-win-body">
+      <div class="generic-app">
+        <div class="app-section-title">Phân tích codebase</div>
+        <div class="app-row"><div class="app-row-icon">🗺️</div><div class="app-row-info"><div class="app-row-title">yamtam-rt map</div><div class="app-row-sub">Blast radius — AI có thể đọc/viết gì</div></div><div class="app-row-arrow">›</div></div>
+        <div class="app-row"><div class="app-row-icon">🔗</div><div class="app-row-info"><div class="app-row-title">yamtam-rt graph</div><div class="app-row-sub">Dependency graph toàn codebase</div></div><div class="app-row-arrow">›</div></div>
+        <div class="app-row"><div class="app-row-icon">🏗️</div><div class="app-row-info"><div class="app-row-title">/arch-diagram</div><div class="app-row-sub">Tạo architecture diagram</div></div><div class="app-row-arrow">›</div></div>
+        <div class="app-row"><div class="app-row-icon">🧭</div><div class="app-row-info"><div class="app-row-title">/code-tour</div><div class="app-row-sub">Onboarding guide cho codebase</div></div><div class="app-row-arrow">›</div></div>
+        <div class="app-row"><div class="app-row-icon">📋</div><div class="app-row-info"><div class="app-row-title">/tech-debt</div><div class="app-row-sub">Scan và report technical debt</div></div><div class="app-row-arrow">›</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PR -->
+  <div class="app-window" id="win-pr" style="background:#000814">
+    <div class="app-win-header" style="background:rgba(15,23,42,.8);backdrop-filter:blur(20px)">
+      <div class="app-win-title">📬 PR</div>
+      <button class="app-win-close" onclick="closeApp('pr')">✕</button>
+    </div>
+    <div class="app-win-body">
+      <div class="generic-app">
+        <div class="app-section-title">Pull Request</div>
+        <div class="app-row"><div class="app-row-icon">➕</div><div class="app-row-info"><div class="app-row-title">/git-pr-create</div><div class="app-row-sub">Tạo PR với title + description</div></div><div class="app-row-arrow">›</div></div>
+        <div class="app-row"><div class="app-row-icon">👀</div><div class="app-row-info"><div class="app-row-title">/git-pr-review</div><div class="app-row-sub">Review PR — tìm bug, suggest fix</div></div><div class="app-row-arrow">›</div></div>
+        <div class="app-row"><div class="app-row-icon">✨</div><div class="app-row-info"><div class="app-row-title">/pr-enhance</div><div class="app-row-sub">Cải thiện PR description</div></div><div class="app-row-arrow">›</div></div>
+        <div class="app-row"><div class="app-row-icon">🔀</div><div class="app-row-info"><div class="app-row-title">/commit-push-pr</div><div class="app-row-sub">Commit → Push → PR một lệnh</div></div><div class="app-row-arrow">›</div></div>
+        <div class="app-row"><div class="app-row-icon">📝</div><div class="app-row-info"><div class="app-row-title">/git-changelog</div><div class="app-row-sub">Tạo changelog từ commit history</div></div><div class="app-row-arrow">›</div></div>
       </div>
     </div>
   </div>
