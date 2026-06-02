@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
 <style>
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; user-select:none; }
 
@@ -324,14 +323,25 @@ body {
   padding: 20px 0 12px;
   border-bottom: 1px solid rgba(255,255,255,.06);
 }
-#chat-lottie {
+.ai-logo {
   width: 90px; height: 90px;
   border-radius: 50%;
   background: rgba(0,0,0,.4);
-  border: 1.5px solid rgba(255,255,255,.12);
+  border: 1.5px solid rgba(255,255,255,.15);
   overflow: hidden;
+  transition: box-shadow .3s, transform .3s;
 }
-#chat-lottie-inner { width: 100%; height: 100%; transform: scale(1.45); }
+.ai-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ai-logo.thinking  { animation: logo-pulse .8s ease-in-out infinite; box-shadow: 0 0 18px hsla(248,80%,60%,.5); }
+.ai-logo.responding{ box-shadow: 0 0 14px hsla(221,90%,62%,.5); }
+
+/* Small avatar in messages */
+.cav-logo { width:100%; height:100%; object-fit:cover; display:block; border-radius:50%; }
+
+@keyframes logo-pulse {
+  0%,100% { transform: scale(1); box-shadow: 0 0 14px hsla(248,80%,60%,.4); }
+  50%      { transform: scale(1.06); box-shadow: 0 0 24px hsla(248,80%,60%,.7); }
+}
 .chat-ai-name { font-size: .8rem; font-weight: 600; color: rgba(255,255,255,.9); margin-top: 8px; }
 .chat-ai-status { font-size: .68rem; color: rgba(255,255,255,.4); margin-top: 2px; display:flex; align-items:center; gap:4px; }
 .chat-dot { width:6px; height:6px; border-radius:50%; background:#34d058; box-shadow:0 0 5px #34d058; transition:background .3s,box-shadow .3s; }
@@ -447,7 +457,7 @@ code {
     </div>
     <!-- Expanded: live activity -->
     <div class="di-expanded">
-      <div class="di-av"><div class="di-av-inner" id="di-lottie"></div></div>
+      <div class="di-av"><img src="logo.svg" style="width:100%;height:100%;object-fit:cover;border-radius:12px"></div>
       <div class="di-text">
         <div class="di-title">YAMTAM IO</div>
         <div class="di-sub" id="di-sub-txt">Nhấn để mở chat</div>
@@ -564,7 +574,7 @@ code {
     </div>
     <div class="app-win-body" style="display:flex;flex-direction:column;">
       <div class="chat-avatar-zone">
-        <div id="chat-lottie"><div id="chat-lottie-inner"></div></div>
+        <div class="ai-logo" id="chat-logo"><img src="logo.svg" alt="YAMTAM"></div>
         <div class="chat-ai-name">YAMTAM IO</div>
         <div class="chat-ai-status">
           <span class="chat-dot" id="chat-dot"></span>
@@ -573,7 +583,7 @@ code {
       </div>
       <div class="chat-feed" id="chat-feed">
         <div class="cmsg ai">
-          <div class="cav"><div class="cav-inner" id="welcome-cav"></div></div>
+          <div class="cav"><img class="cav-logo" src="logo.svg" alt="YAMTAM"></div>
           <div class="cbubble">Xin chào! Tôi là <code>YAMTAM IO</code>. Bạn cần gì?</div>
         </div>
       </div>
@@ -844,23 +854,12 @@ function closeApp(id) {
 
 // ── Chat logic ──
 // ── Dynamic Island ──
-let diAnim = null, diExpanded = false;
-
-function initDI() {
-  if (diAnim) return;
-  diAnim = makeLottie(document.getElementById('di-lottie'), false);
-}
+let diExpanded = false;
 
 function toggleDI() {
   const di = document.getElementById('di');
   diExpanded = !diExpanded;
   di.classList.toggle('expanded', diExpanded);
-  if (diExpanded) {
-    initDI();
-    diAnim && diAnim.play();
-  } else {
-    diAnim && diAnim.stop();
-  }
 }
 
 function setDIState(s) {
@@ -868,35 +867,34 @@ function setDIState(s) {
   const sub   = document.getElementById('di-sub-txt');
   if (!badge) return;
   badge.className = 'di-badge';
-  if (s === 'idle')       { sub.textContent = 'Sẵn sàng'; diAnim && diAnim.stop(); }
-  if (s === 'thinking')   { badge.classList.add('thinking');   sub.textContent = 'Đang nghĩ…';    diAnim && (diAnim.setSpeed(1.8), diAnim.play()); }
-  if (s === 'responding') { badge.classList.add('responding'); sub.textContent = 'Đang trả lời'; diAnim && (diAnim.setSpeed(1),   diAnim.play()); }
+  if (s === 'idle')       { sub.textContent = 'Sẵn sàng'; }
+  if (s === 'thinking')   { badge.classList.add('thinking');   sub.textContent = 'Đang nghĩ…'; }
+  if (s === 'responding') { badge.classList.add('responding'); sub.textContent = 'Đang trả lời'; }
 }
 
 // Expand DI when chat opens
 const _origOpenApp = window.openApp;
 
-let chatInited = false, chatAnim = null, welcomeAnim = null, chatBusy = false;
-const chatHistory = []; // [{role:'user'|'assistant', content:'...'}]
+let chatInited = false, chatBusy = false;
+const chatHistory = [];
 
-function makeLottie(el, play) {
-  return lottie.loadAnimation({ container:el, renderer:'svg', loop:true, autoplay:!!play, path:'chatgpt-atlas-animation.json' });
-}
+function initChat() { chatInited = true; }
 
-function initChat() {
-  if (chatInited) return;
-  chatInited = true;
-  chatAnim = makeLottie(document.getElementById('chat-lottie-inner'), false);
-  welcomeAnim = makeLottie(document.getElementById('welcome-cav'), false);
+function makeAiAvatar() {
+  const cav = document.createElement('div'); cav.className = 'cav';
+  cav.innerHTML = '<img class="cav-logo" src="logo.svg" alt="YAMTAM">';
+  return cav;
 }
 
 function setChatState(s) {
-  const dot = document.getElementById('chat-dot');
-  const txt = document.getElementById('chat-status-txt');
-  if (!chatAnim) return;
-  if (s === 'idle')       { chatAnim.stop(); dot.className='chat-dot'; txt.textContent='Sẵn sàng'; }
-  if (s === 'thinking')   { chatAnim.setSpeed(1.8); chatAnim.play(); dot.className='chat-dot thinking'; txt.textContent='Đang nghĩ…'; }
-  if (s === 'responding') { chatAnim.setSpeed(1);   chatAnim.play(); dot.className='chat-dot'; dot.style.cssText='background:#60a5fa;box-shadow:0 0 6px #60a5fa'; txt.textContent='Đang trả lời'; }
+  const dot  = document.getElementById('chat-dot');
+  const txt  = document.getElementById('chat-status-txt');
+  const logo = document.getElementById('chat-logo');
+  dot.className = 'chat-dot';
+  if (logo) logo.className = 'ai-logo';
+  if (s === 'idle')       { txt.textContent = 'Sẵn sàng'; }
+  if (s === 'thinking')   { dot.classList.add('thinking');   txt.textContent = 'Đang nghĩ…';    if (logo) logo.classList.add('thinking'); }
+  if (s === 'responding') { dot.style.cssText='background:#60a5fa;box-shadow:0 0 6px #60a5fa'; txt.textContent = 'Đang trả lời'; if (logo) logo.classList.add('responding'); }
   setDIState(s);
 }
 
@@ -905,15 +903,12 @@ function esc(s)    { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace
 
 function addThinkingBubble(feed) {
   const tm = document.createElement('div'); tm.className = 'cmsg ai';
-  const tcav = document.createElement('div'); tcav.className = 'cav';
-  const tci = document.createElement('div'); tci.className = 'cav-inner';
-  tcav.appendChild(tci);
-  const tanim = makeLottie(tci, true);
+  tm.appendChild(makeAiAvatar());
   const tdots = document.createElement('div'); tdots.className = 'think-dots';
   tdots.innerHTML = '<span></span><span></span><span></span>';
-  tm.appendChild(tcav); tm.appendChild(tdots);
+  tm.appendChild(tdots);
   feed.appendChild(tm); feed.scrollTop = feed.scrollHeight;
-  return { el: tm, anim: tanim };
+  return { el: tm };
 }
 
 async function sendChat() {
@@ -932,7 +927,7 @@ async function sendChat() {
 
   chatHistory.push({ role: 'user', content: text });
   setChatState('thinking');
-  const { el: thinkEl, anim: thinkAnim } = addThinkingBubble(feed);
+  const { el: thinkEl } = addThinkingBubble(feed);
 
   try {
     const res = await fetch('/api/chat', {
@@ -941,17 +936,13 @@ async function sendChat() {
       body: JSON.stringify({ messages: chatHistory }),
     });
 
-    thinkEl.remove(); thinkAnim.destroy();
+    thinkEl.remove();
     setChatState('responding');
 
-    // AI bubble
     const am = document.createElement('div'); am.className = 'cmsg ai';
-    const acav = document.createElement('div'); acav.className = 'cav';
-    const aci = document.createElement('div'); aci.className = 'cav-inner';
-    acav.appendChild(aci);
-    const aanim = makeLottie(aci, true);
+    am.appendChild(makeAiAvatar());
     const abub = document.createElement('div'); abub.className = 'cbubble';
-    am.appendChild(acav); am.appendChild(abub);
+    am.appendChild(abub);
     feed.appendChild(am);
 
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -985,8 +976,6 @@ async function sendChat() {
     }
 
     chatHistory.push({ role: 'assistant', content: full });
-    aanim.stop();
-
   } catch (err) {
     thinkEl.remove();
     const em = document.createElement('div'); em.className = 'cmsg ai';
