@@ -973,8 +973,10 @@ async function sendChat() {
         if (raw === '[DONE]') continue;
         try {
           const ev = JSON.parse(raw);
-          if (ev.type === 'content_block_delta' && ev.delta?.type === 'text_delta') {
-            full += ev.delta.text;
+          // Groq/OpenAI SSE format
+          const token = ev.choices?.[0]?.delta?.content;
+          if (token) {
+            full += token;
             abub.textContent = full;
             feed.scrollTop = feed.scrollHeight;
           }

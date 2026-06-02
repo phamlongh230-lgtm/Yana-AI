@@ -17,9 +17,9 @@ export default {
     }
 
     if (request.method === 'POST' && url.pathname === '/api/chat') {
-      if (!env.ANTHROPIC_API_KEY) {
+      if (!env.GROQ_API_KEY) {
         return new Response(
-          JSON.stringify({ error: 'ANTHROPIC_API_KEY not configured in Worker env' }),
+          JSON.stringify({ error: 'GROQ_API_KEY not configured in Worker env' }),
           { status: 500, headers: { 'Content-Type': 'application/json', ...CORS } }
         );
       }
@@ -28,18 +28,21 @@ export default {
       try { body = await request.json(); }
       catch { return new Response('Bad JSON', { status: 400, headers: CORS }); }
 
-      const upstream = await fetch('https://api.anthropic.com/v1/messages', {
+      const messages = [
+        { role: 'system', content: SYSTEM },
+        ...(body.messages ?? []),
+      ];
+
+      const upstream = await fetch('https://api.groq.com/openai/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': env.ANTHROPIC_API_KEY,
-          'anthropic-version': '2023-06-01',
+          'Authorization': `Bearer ${env.GROQ_API_KEY}`,
         },
         body: JSON.stringify({
-          model: 'claude-haiku-4-5-20251001',
+          model: 'llama-3.3-70b-versatile',
           max_tokens: 512,
-          system: SYSTEM,
-          messages: body.messages ?? [],
+          messages,
           stream: true,
         }),
       });
@@ -58,7 +61,6 @@ export default {
       });
     }
 
-    // Static assets fallback
     return env.ASSETS.fetch(request);
   },
 };
