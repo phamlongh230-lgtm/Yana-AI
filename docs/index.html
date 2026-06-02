@@ -293,6 +293,43 @@ footer { border-top: 1px solid var(--border); padding: 2.5rem 2rem; }
 .footer-links a:hover { color: var(--fg); }
 
 /* Responsive */
+/* Hamburger button */
+.hamburger {
+  display: none;
+  flex-direction: column; gap: 5px; cursor: pointer;
+  background: transparent; border: none; padding: .4rem;
+}
+.hamburger span {
+  display: block; width: 22px; height: 2px;
+  background: var(--fg); border-radius: 2px;
+  transition: all .25s;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile drawer */
+.mobile-menu {
+  display: none;
+  position: fixed; top: 56px; left: 0; right: 0; bottom: 0;
+  background: var(--bg); z-index: 99;
+  flex-direction: column; padding: 1.5rem;
+  gap: .25rem; overflow-y: auto;
+  border-top: 1px solid var(--border);
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  color: var(--fg); text-decoration: none; font-size: 1rem;
+  padding: .75rem .5rem; border-bottom: 1px solid var(--border);
+  transition: color .15s;
+}
+.mobile-menu a:hover { color: var(--accent); }
+.mobile-menu .mobile-cta {
+  margin-top: 1rem; background: var(--accent); color: #fff !important;
+  text-align: center; border-radius: 8px; padding: .875rem;
+  font-weight: 600; border-bottom: none;
+}
+
 @media (max-width: 768px) {
   .hero { grid-template-columns: 1fr; gap: 2.5rem; padding: 4rem 1.25rem 3rem; }
   .hero-terminal { display: none; }
@@ -301,7 +338,8 @@ footer { border-top: 1px solid var(--border); padding: 2.5rem 2rem; }
   .rt-grid { grid-template-columns: 1fr; }
   .compat-grid { grid-template-columns: repeat(2, 1fr); }
   nav { padding: 0 1.25rem; }
-  .nav-links a:not(.nav-cta) { display: none; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
   .footer-inner { flex-direction: column; gap: 1rem; text-align: center; }
   .footer-links { flex-wrap: wrap; justify-content: center; }
 }
@@ -334,7 +372,25 @@ footer { border-top: 1px solid var(--border); padding: 2.5rem 2rem; }
     </div>
     <a href="#install" class="nav-cta" data-i18n="nav.cta">Get started</a>
   </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- Mobile drawer -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#features" onclick="closeMenu()">Features</a>
+  <a href="#runtime" onclick="closeMenu()">Runtime</a>
+  <a href="#docs" onclick="closeMenu()">Docs</a>
+  <a href="skills.html" onclick="closeMenu()">Skills</a>
+  <a href="marketplace.html" onclick="closeMenu()">Marketplace</a>
+  <a href="changelog.html" onclick="closeMenu()">Changelog</a>
+  <a href="guide.html" onclick="closeMenu()">Guide</a>
+  <a href="#yana" onclick="closeMenu()">Yana</a>
+  <a href="https://github.com/apps/yamtam-engine" target="_blank" style="color:var(--accent);font-weight:600">App ⚡</a>
+  <a href="https://github.com/phamlongh230-lgtm/yamtam-engine" target="_blank">GitHub</a>
+  <a href="#install" class="mobile-cta" onclick="closeMenu()">Get started — free</a>
+</div>
 
 <!-- Hero -->
 <div class="hero">
@@ -2119,6 +2175,18 @@ document.querySelectorAll('.feat-card,.gate-row,.compat-card').forEach(el => {
 <script>
 // Dark mode
 (function(){ if(localStorage.getItem('theme')==='dark') document.documentElement.classList.add('dark'); })();
+function toggleMenu(){
+  const hb = document.getElementById('hamburger');
+  const menu = document.getElementById('mobile-menu');
+  hb.classList.toggle('open');
+  menu.classList.toggle('open');
+  document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+}
+function closeMenu(){
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('mobile-menu').classList.remove('open');
+  document.body.style.overflow = '';
+}
 function toggleTheme(){
   const dark = document.documentElement.classList.toggle('dark');
   localStorage.setItem('theme', dark ? 'dark' : 'light');
