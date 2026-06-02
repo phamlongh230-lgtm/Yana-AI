@@ -192,7 +192,26 @@ body {
 .dock {
   position: relative; z-index: 5;
   flex-shrink: 0;
-  padding: 10px 16px 34px;
+  padding: 10px 16px 0;
+}
+.home-bar-wrap {
+  position: relative; z-index: 5;
+  flex-shrink: 0;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 6px;
+  padding: 8px 0 14px;
+}
+.back-link {
+  font-size: .68rem; color: rgba(255,255,255,.35);
+  text-decoration: none; font-weight: 500;
+  letter-spacing: .01em;
+  transition: color .15s;
+}
+.back-link:hover { color: rgba(255,255,255,.65); }
+.home-indicator {
+  width: 120px; height: 5px;
+  background: rgba(255,255,255,.28);
+  border-radius: 3px;
 }
 .dock-inner {
   background: rgba(255,255,255,.12);
@@ -465,6 +484,12 @@ code {
         <div class="app-icon-img app-settings" style="width:56px;height:56px;border-radius:14px">⚙️</div>
       </div>
     </div>
+  </div>
+
+  <!-- Home bar -->
+  <div class="home-bar-wrap">
+    <a class="back-link" href="index.html">← Trang chủ</a>
+    <div class="home-indicator"></div>
   </div>
 
   <!-- ════ APP WINDOWS ════ -->
