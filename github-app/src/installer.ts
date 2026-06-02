@@ -1,5 +1,5 @@
 import { Octokit } from '@octokit/rest';
-import { TEMPLATES } from './templates';
+import { TEMPLATES, CI_WORKFLOW } from './templates';
 
 interface InstallParams {
   octokit: Octokit;
@@ -7,10 +7,43 @@ interface InstallParams {
   repo: string;
 }
 
+async function alreadyInstalled(octokit: Octokit, owner: string, repo: string, base: string): Promise<boolean> {
+  try {
+    await octokit.repos.getContent({ owner, repo, path: 'CLAUDE.md', ref: base });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function findOpenPR(octokit: Octokit, owner: string, repo: string, branch: string): Promise<number | null> {
+  const { data: prs } = await octokit.pulls.list({ owner, repo, state: 'open', head: `${owner}:${branch}` });
+  return prs.length > 0 ? prs[0].number : null;
+}
+
 export async function installYamtam({ octokit, owner, repo }: InstallParams): Promise<string> {
   // Get default branch
   const { data: repoData } = await octokit.repos.get({ owner, repo });
   const base = repoData.default_branch;
+
+  // Check if YAMTAM already installed
+  if (await alreadyInstalled(octokit, owner, repo, base)) {
+    // Comment on latest commit instead of opening duplicate PR
+    const { data: refData } = await octokit.git.getRef({ owner, repo, ref: `heads/${base}` });
+    await octokit.repos.createCommitComment({
+      owner, repo,
+      commit_sha: refData.object.sha,
+      body: `## ✅ YAMTAM ENGINE already installed
+
+\`CLAUDE.md\` detected in this repo — YAMTAM safety config is already active.
+
+To update your config, visit [yamtam-engine](https://github.com/phamlongh230-lgtm/yamtam-engine) for the latest rules.
+
+---
+*[YAMTAM GitHub App](https://github.com/apps/yamtam-engine)*`,
+    });
+    return `https://github.com/${owner}/${repo}/commit/${refData.object.sha}`;
+  }
 
   // Get base SHA
   const { data: refData } = await octokit.git.getRef({
@@ -20,6 +53,13 @@ export async function installYamtam({ octokit, owner, repo }: InstallParams): Pr
 
   // Create branch yamtam/setup
   const branch = 'yamtam/setup';
+
+  // Check if PR already open for this branch
+  const existingPR = await findOpenPR(octokit, owner, repo, branch);
+  if (existingPR) {
+    return `https://github.com/${owner}/${repo}/pull/${existingPR}`;
+  }
+
   try {
     await octokit.git.createRef({
       owner, repo,
@@ -27,13 +67,17 @@ export async function installYamtam({ octokit, owner, repo }: InstallParams): Pr
       sha: baseSha,
     });
   } catch {
-    // Branch already exists — delete and recreate
     await octokit.git.deleteRef({ owner, repo, ref: `heads/${branch}` });
     await octokit.git.createRef({ owner, repo, ref: `refs/heads/${branch}`, sha: baseSha });
   }
 
-  // Create/update each file
-  for (const [path, content] of Object.entries(TEMPLATES)) {
+  // All files to install: templates + CI workflow
+  const allFiles: Record<string, string> = {
+    ...TEMPLATES,
+    '.github/workflows/yamtam-audit.yml': CI_WORKFLOW,
+  };
+
+  for (const [path, content] of Object.entries(allFiles)) {
     let sha: string | undefined;
     try {
       const { data } = await octokit.repos.getContent({ owner, repo, path, ref: branch });
@@ -62,11 +106,12 @@ This PR adds YAMTAM safety guardrails to your AI coding workflow.
 
 | File | Purpose |
 |------|---------|
-| \`CLAUDE.md\` | Core rules for Claude Code (evidence policy, scope discipline, hard blocks) |
+| \`CLAUDE.md\` | Core rules for Claude Code — evidence policy, scope discipline, hard blocks |
 | \`.claude/settings.json\` | Hooks that fire before/after every tool call |
 | \`.claude/hooks/guard-destructive.sh\` | Blocks \`rm -rf\`, force-push, \`DROP TABLE\` |
 | \`.claude/hooks/audit-log.sh\` | Logs all AI tool calls to \`.claude/state/audit.log\` |
 | \`.claude/rules/golden-principles.md\` | 6 core coding principles |
+| \`.github/workflows/yamtam-audit.yml\` | CI gate — runs \`yamtam audit\` on every PR |
 
 ### How it works
 
@@ -75,8 +120,8 @@ AI agent attempts action
         ↓
 guard-destructive.sh fires (PreToolUse hook)
         ↓
-Dangerous? → BLOCKED with exit code 2
-Safe?      → Execute + audit-log.sh logs it
+Dangerous? → BLOCKED
+Safe?      → logged + allowed
 \`\`\`
 
 ### Next steps

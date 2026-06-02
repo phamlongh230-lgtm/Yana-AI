@@ -90,3 +90,32 @@ echo "\$(date -u +%Y-%m-%dT%H:%M:%SZ) | tool=\${CLAUDE_TOOL_NAME:-unknown} | \${
 6. **No commented-out code** — delete or track in TODO
 `,
 };
+
+export const CI_WORKFLOW = `name: YAMTAM Audit
+
+on:
+  pull_request:
+    branches: [main, master]
+  push:
+    branches: [main, master]
+
+jobs:
+  audit:
+    name: YAMTAM safety audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install YAMTAM
+        run: pip install yamtam-engine --quiet
+
+      - name: Run audit
+        run: yamtam audit . --fail-on high --json > yamtam-report.json || true
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: yamtam-audit-report
+          path: yamtam-report.json
+`;
