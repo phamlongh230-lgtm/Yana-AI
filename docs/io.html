@@ -827,6 +827,14 @@ code {
   <button class="mute-btn" id="mute-btn" onclick="toggleMute()">🔊</button>
   <button class="intro-btn" id="intro-btn" onclick="showIntro()"></button>
 
+  <!-- Background music -->
+  <iframe id="yt-music"
+    src="https://www.youtube-nocookie.com/embed/aKSJAcG4V4o?autoplay=1&loop=1&playlist=aKSJAcG4V4o&controls=0&mute=0&enablejsapi=1&modestbranding=1&rel=0"
+    allow="autoplay; encrypted-media"
+    style="position:absolute;width:0;height:0;border:0;opacity:0;pointer-events:none"
+    title="bg-music">
+  </iframe>
+
   <!-- Intro overlay -->
   <div class="intro-overlay" id="intro-overlay">
     <div class="intro-card">
@@ -1433,9 +1441,10 @@ function toggleMute() {
   const btn = document.getElementById('mute-btn');
   btn.textContent = soundMuted ? '🔇' : '🔊';
   btn.classList.toggle('muted', soundMuted);
+  const yt = document.getElementById('yt-music');
+  if (yt && yt.contentWindow)
+    yt.contentWindow.postMessage(JSON.stringify({event:'command',func:soundMuted?'muteVideo':'unMuteVideo',args:[]}), '*');
   if (!soundMuted) sfx.tap();
-  if (typeof _audioCtx !== 'undefined' && _audioCtx && _audioCtx._masterGain)
-    _audioCtx._masterGain.gain.value = soundMuted ? 0 : 0.55;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
