@@ -376,3 +376,14 @@ Format: `## YYYY-MM-DD — [tóm tắt 1 dòng]`
 **Anh quyết định:** Viết bài FB giới thiệu yamtam cho community (chưa đăng)
 
 **Trạng thái cuối:** v0.40.0 · 3,441 skills · 94 agents · CI xanh ✅ · GitHub Marketplace pending review
+
+## 2026-06-03 — Session 2: openhack + io/changelog/marketplace sync
+
+**Đã làm:**
+- hadriansecurity/openhack: skill + agent openhack-pentester ✅
+- io.html: +check-mail, +openhack rows, counts 3,442/95 ✅
+- changelog: +8 commits hôm nay, 37 changes total ✅
+- marketplace: 3,442 skills · 95 agents ✅
+- CI xanh toàn bộ ✅
+
+**Trạng thái cuối:** v0.40.0 · 3,442 skills · 95 agents · CI ✅ · Pages live
