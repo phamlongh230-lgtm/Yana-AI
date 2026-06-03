@@ -172,6 +172,22 @@ h1 em { font-style: normal; color: var(--accent); }
 }
 .btn-ghost:hover { border-color: var(--border-strong); background: var(--bg-card); }
 .hero-note { margin-top: 1rem; font-size: .8125rem; color: var(--fg-muted); }
+.weather-pill {
+  display: inline-flex; align-items: center; gap: .45rem;
+  margin-top: .75rem;
+  padding: .3rem .75rem .3rem .55rem;
+  background: var(--bg-card, var(--bg-subtle));
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: .8rem; color: var(--fg-muted);
+  cursor: default; transition: border-color .2s, color .2s;
+  text-decoration: none;
+}
+.weather-pill:hover { border-color: var(--accent); color: var(--fg); }
+.w-icon { font-size: .95rem; line-height: 1; }
+.w-temp { font-family: var(--mono); font-weight: 700; color: var(--fg); font-size: .8rem; }
+.w-sep  { opacity: .35; }
+.w-city { font-size: .72rem; opacity: .65; }
 
 /* Terminal */
 .hero-terminal {
@@ -434,6 +450,14 @@ footer { border-top: 1px solid var(--border); padding: 2.5rem 2rem; }
       </a>
     </div>
     <p class="hero-note" style="margin-top:1rem;font-size:.8125rem;color:var(--fg-muted)">Apache 2.0 · Built by <strong style="color:var(--fg)">Vũ Văn Tâm</strong> · Vietnam</p>
+    <div id="weather-pill" class="weather-pill" style="display:none">
+      <span class="w-icon" id="w-icon">🌤️</span>
+      <span class="w-temp" id="w-temp">—</span>
+      <span class="w-sep">·</span>
+      <span id="w-humid"></span>
+      <span class="w-sep">·</span>
+      <span class="w-city" id="w-city">—</span>
+    </div>
   </div>
 
   <!-- Terminal mockup -->
@@ -2470,6 +2494,67 @@ function toggleAtlas() {
 }
 </script>
 
+  <script>
+  /* ── Weather widget — Open-Meteo (free, no key) ── */
+  (function () {
+    const WMO = {
+      0:'☀️', 1:'🌤️', 2:'⛅', 3:'☁️',
+      45:'🌫️', 48:'🌫️',
+      51:'🌦️', 53:'🌦️', 55:'🌧️',
+      61:'🌧️', 63:'🌧️', 65:'🌧️',
+      71:'🌨️', 73:'🌨️', 75:'❄️',
+      77:'🌨️', 80:'🌦️', 81:'🌧️', 82:'⛈️',
+      85:'🌨️', 86:'❄️', 95:'⛈️', 96:'⛈️', 99:'⛈️',
+    };
+    function wmoIcon(c) { return WMO[c] || WMO[Math.floor(c/10)*10] || '🌡️'; }
+
+    async function load() {
+      const pill = document.getElementById('weather-pill');
+      if (!pill) return;
+      try {
+        let lat = 21.0245, lon = 105.8412, city = 'Hà Nội';
+        // Try geolocation (timeout 3s)
+        try {
+          const pos = await new Promise((res, rej) =>
+            navigator.geolocation.getCurrentPosition(res, rej, { timeout: 3000 }));
+          lat = pos.coords.latitude;
+          lon = pos.coords.longitude;
+          city = '';
+        } catch (_) {}
+
+        const r = await fetch(
+          `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
+          `&current=temperature_2m,weather_code,relative_humidity_2m&timezone=auto&forecast_days=1`
+        );
+        const d = await r.json();
+        const c = d.current;
+
+        // Reverse geocode if location was granted
+        if (!city) {
+          try {
+            const g = await fetch(
+              `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`,
+              { headers: { 'Accept-Language': 'vi' } }
+            );
+            const gd = await g.json();
+            city = gd.address?.city || gd.address?.town || gd.address?.county || '';
+          } catch (_) {}
+        }
+
+        document.getElementById('w-icon').textContent  = wmoIcon(c.weather_code);
+        document.getElementById('w-temp').textContent  = `${Math.round(c.temperature_2m)}°C`;
+        document.getElementById('w-humid').textContent = `💧${c.relative_humidity_2m}%`;
+        if (city) document.getElementById('w-city').textContent = city;
+        pill.style.display = 'inline-flex';
+      } catch (_) { /* silent fail */ }
+    }
+
+    if (document.readyState === 'loading')
+      document.addEventListener('DOMContentLoaded', load);
+    else
+      load();
+  })();
+  </script>
   <script src="water-bg.js" defer></script>
   <script src="water-droplet.js" defer></script>
   <script src="lotus-petals.js" defer></script>
