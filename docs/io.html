@@ -395,6 +395,12 @@ body {
 .app-window.open {
   transform: translateY(0) scale(1); opacity: 1; border-radius: 52px;
   transition: transform .48s cubic-bezier(.16,1,.3,1), opacity .28s ease, border-radius .4s ease;
+  animation: win-glow .6s ease-out .1s both;
+}
+@keyframes win-glow {
+  0%   { box-shadow: 0 0 0 2px hsla(155,55%,55%,.0), inset 0 0 0 1px hsla(155,55%,55%,.0); }
+  35%  { box-shadow: 0 0 0 2px hsla(155,55%,55%,.5), inset 0 0 0 1px hsla(155,55%,55%,.25); }
+  100% { box-shadow: 0 0 0 2px hsla(155,55%,55%,.0), inset 0 0 0 1px hsla(155,55%,55%,.0); }
 }
 
 @keyframes app-close {
@@ -597,6 +603,22 @@ body {
 #chat-send:disabled{opacity:.35;cursor:not-allowed;transform:none}
 #chat-send svg{width:14px;height:14px;fill:#fff}
 
+/* ── App window header wipe-in ── */
+.app-win-header {
+  animation: header-in .38s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes header-in {
+  from { opacity:0; transform: translateY(-8px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+/* ── Stats counter ── */
+@keyframes count-up {
+  from { opacity:0; transform: translateY(8px) scale(.85); }
+  to   { opacity:1; transform: translateY(0) scale(1); }
+}
+.stat-num-anim { animation: count-up .5s cubic-bezier(.16,1,.3,1) both; }
+
 /* ── Generic app content ── */
 .generic-app { padding: 20px 16px; display:flex; flex-direction:column; gap:12px; }
 .app-section-title {
@@ -616,9 +638,13 @@ body {
   transition: background .15s, transform .15s, box-shadow .15s;
   opacity: 0; transform: translateY(16px) scale(.97);
 }
-.app-row.visible { animation: row-in .4s cubic-bezier(.16,1,.3,1) forwards; }
-@keyframes row-in { to { opacity: 1; transform: translateY(0) scale(1); } }
-.app-row:hover { background:rgba(255,255,255,.2); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,.12); }
+.app-row.visible { animation: row-in .42s cubic-bezier(.16,1,.3,1) forwards; }
+.app-row.done    { opacity:1; transform:none; animation:none; transition: background .15s, transform .15s, box-shadow .15s; }
+@keyframes row-in {
+  from { opacity: 0; transform: translateY(16px) scale(.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.app-row.done:hover { background:rgba(255,255,255,.22); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,.15); }
 .app-row-icon { font-size:1.3rem; flex-shrink:0; width:36px; text-align:center; }
 .app-row-info { flex:1; }
 .app-row-title { font-size:.84rem; font-weight:500; color:rgba(255,255,255,.92); }
@@ -1655,7 +1681,14 @@ function initScrollAnim(win) {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const idx = rows.indexOf(entry.target);
-        setTimeout(() => entry.target.classList.add('visible'), idx * 45);
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+          // After animation ends, switch to hover-ready class
+          entry.target.addEventListener('animationend', () => {
+            entry.target.classList.remove('visible');
+            entry.target.classList.add('done');
+          }, { once: true });
+        }, idx * 45);
         observer.unobserve(entry.target);
       }
     });
@@ -1718,6 +1751,16 @@ function launchWindow(id) {
   if (id === 'chat') {
     initChat();
     if (!diExpanded) { diExpanded = true; document.getElementById('di').classList.add('expanded'); initDI(); diAnim && diAnim.play(); }
+  }
+  // Stats counter animation
+  if (id === 'stats') {
+    setTimeout(() => {
+      win.querySelectorAll('[style*="font-size:1.6rem"]').forEach((el, i) => {
+        el.classList.add('stat-num-anim');
+        el.style.animationDelay = (i * 80) + 'ms';
+        el.addEventListener('animationend', () => el.style.animationDelay = '', { once: true });
+      });
+    }, 250);
   }
 }
 
