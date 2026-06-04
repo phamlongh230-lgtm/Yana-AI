@@ -228,49 +228,49 @@
     /* ── music.html ─────────────────────────────────────────────────── */
     music: {
       en: {
-        'page.title':      'Music — YAMTAM ENGINE',
-        'page.h1':         '🎵 Choose Music',
-        'page.sub':        'Background music for the whole site — state saved between pages.',
-        'now.label':       'Now playing',
-        'add.title':       'Add from YouTube',
-        'add.ph':          'Paste YouTube link or video ID…',
-        'add.hint':        'e.g. https://youtu.be/aKSJAcG4V4o or aKSJAcG4V4o',
-        'add.btn':         'Add',
-        'mute.label':      'Mute / Unmute',
-        'mute.on':         '🔊 On',
-        'mute.off':        '🔇 Off',
-        'playing.badge':   '▶ Playing',
-        'back.link':       '← Home',
+        'page.title':    'Music — YAMTAM ENGINE',
+        'page.h1':       '🎵 Background Music',
+        'page.sub':      'Plays across pages — position saved between visits.',
+        'now.label':     'Now Playing',
+        'playlist.label':'Playlist',
+        'add.title':     'Add from YouTube',
+        'add.ph':        'Paste YouTube link or video ID…',
+        'add.hint':      'e.g. https://youtu.be/aKSJAcG4V4o or aKSJAcG4V4o',
+        'add.btn':       'Add',
+        'play.title':    'Play / Pause',
+        'mute.title':    'Mute / Unmute',
+        'playing.badge': '▶ Playing',
+        'back.link':     '← Home',
       },
       vi: {
-        'page.title':      'Nhạc — YAMTAM ENGINE',
-        'page.h1':         '🎵 Chọn nhạc',
-        'page.sub':        'Nhạc nền cho toàn bộ site — state lưu giữa các trang.',
-        'now.label':       'Đang phát',
-        'add.title':       'Thêm bài từ YouTube',
-        'add.ph':          'Paste link YouTube hoặc video ID…',
-        'add.hint':        'VD: https://youtu.be/aKSJAcG4V4o hoặc aKSJAcG4V4o',
-        'add.btn':         'Thêm',
-        'mute.label':      'Tắt / bật nhạc',
-        'mute.on':         '🔊 Bật',
-        'mute.off':        '🔇 Đang tắt',
-        'playing.badge':   '▶ Đang phát',
-        'back.link':       '← Về trang chủ',
+        'page.title':    'Nhạc — YAMTAM ENGINE',
+        'page.h1':       '🎵 Nhạc nền',
+        'page.sub':      'Phát xuyên trang — lưu vị trí giữa các lần truy cập.',
+        'now.label':     'Đang phát',
+        'playlist.label':'Danh sách phát',
+        'add.title':     'Thêm bài từ YouTube',
+        'add.ph':        'Paste link YouTube hoặc video ID…',
+        'add.hint':      'VD: https://youtu.be/aKSJAcG4V4o hoặc aKSJAcG4V4o',
+        'add.btn':       'Thêm',
+        'play.title':    'Phát / Dừng',
+        'mute.title':    'Tắt / Bật tiếng',
+        'playing.badge': '▶ Đang phát',
+        'back.link':     '← Về trang chủ',
       },
       ko: {
-        'page.title':      '음악 — YAMTAM ENGINE',
-        'page.h1':         '🎵 음악 선택',
-        'page.sub':        '전체 사이트 배경 음악 — 페이지 간 상태 유지.',
-        'now.label':       '지금 재생 중',
-        'add.title':       'YouTube에서 추가',
-        'add.ph':          'YouTube 링크 또는 영상 ID 붙여넣기…',
-        'add.hint':        '예: https://youtu.be/aKSJAcG4V4o 또는 aKSJAcG4V4o',
-        'add.btn':         '추가',
-        'mute.label':      '음소거 / 해제',
-        'mute.on':         '🔊 켜짐',
-        'mute.off':        '🔇 음소거',
-        'playing.badge':   '▶ 재생 중',
-        'back.link':       '← 홈으로',
+        'page.title':    '음악 — YAMTAM ENGINE',
+        'page.h1':       '🎵 배경 음악',
+        'page.sub':      '페이지 전환 시 재생 유지 — 위치 자동 저장.',
+        'now.label':     '재생 중',
+        'playlist.label':'재생 목록',
+        'add.title':     'YouTube에서 추가',
+        'add.ph':        'YouTube 링크 또는 영상 ID 붙여넣기…',
+        'add.hint':      '예: https://youtu.be/aKSJAcG4V4o 또는 aKSJAcG4V4o',
+        'add.btn':       '추가',
+        'play.title':    '재생 / 일시정지',
+        'mute.title':    '음소거 / 해제',
+        'playing.badge': '▶ 재생 중',
+        'back.link':     '← 홈으로',
       },
     },
 
@@ -407,29 +407,20 @@
     }
 
     if (page === 'music') {
-      const h1 = document.querySelector('h1');
-      if (h1) h1.textContent = t('music','page.h1') || h1.textContent;
-      const sub = document.querySelector('p.sub');
-      if (sub) sub.textContent = t('music','page.sub') || sub.textContent;
+      const set = (sel, key) => { const el = document.querySelector(sel); if (el) el.textContent = t('music', key) || el.textContent; };
+      const setTitle = (sel, key) => { const el = document.querySelector(sel); if (el) el.title = t('music', key) || el.title; };
+      set('h1',              'page.h1');
+      set('.page-header p',  'page.sub');
+      set('.now-label',      'now.label');
+      set('.section-label',  'playlist.label');
+      set('.add-section h2', 'add.title');
+      set('.add-hint',       'add.hint');
+      set('.add-btn',        'add.btn');
+      set('a.back-link',     'back.link');
+      setTitle('#play-btn',  'play.title');
+      setTitle('#mute-btn',  'mute.title');
       const inp = document.getElementById('add-url');
-      if (inp) inp.placeholder = t('music','add.ph') || inp.placeholder;
-      const addBtn = document.querySelector('.add-btn');
-      if (addBtn) addBtn.textContent = t('music','add.btn') || addBtn.textContent;
-      const muteRow = document.querySelector('.mute-label');
-      if (muteRow) muteRow.textContent = t('music','mute.label') || muteRow.textContent;
-      const nowLabel = document.querySelector('.now-playing-label');
-      if (nowLabel) nowLabel.textContent = t('music','now.label') || nowLabel.textContent;
-      const addTitle = document.querySelector('.add-section h2');
-      if (addTitle) addTitle.textContent = t('music','add.title') || addTitle.textContent;
-      const addHint = document.querySelector('.add-hint');
-      if (addHint) addHint.textContent = t('music','add.hint') || addHint.textContent;
-      const back = document.querySelector('a.back-link');
-      if (back) back.textContent = t('music','back.link') || back.textContent;
-      const muteBtn = document.getElementById('mute-toggle-btn');
-      if (muteBtn) {
-        const muted = localStorage.getItem('site-mute') === '1';
-        muteBtn.textContent = muted ? t('music','mute.off') : t('music','mute.on');
-      }
+      if (inp) inp.placeholder = t('music', 'add.ph') || inp.placeholder;
     }
 
     if (page === 'guide') {
