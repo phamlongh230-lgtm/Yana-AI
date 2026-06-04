@@ -1,5 +1,4 @@
-// Lotus Petals — cánh sen rơi nhẹ
-// Standalone: chỉ cần include script, không cần thay đổi HTML
+// Lotus Petals — cánh sen + bông hoa rơi + cảnh hồ sen
 (function () {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
@@ -7,58 +6,56 @@
   const style = document.createElement('style');
   style.textContent = `
   .lp-wrap {
-    position: fixed; inset: 0; pointer-events: none;
-    z-index: 4; overflow: hidden;
+    position:fixed; inset:0; pointer-events:none;
+    z-index:4; overflow:hidden;
   }
   .lp {
-    position: absolute;
-    pointer-events: none;
-    will-change: transform, opacity;
-    transform-origin: 50% 65%;
+    position:absolute; pointer-events:none;
+    will-change:transform,opacity; transform-origin:50% 65%;
   }
+  .lp-a { border-radius:50% 50% 45% 45% / 85% 85% 15% 15%; }
+  .lp-b { border-radius:45% 55% 48% 52% / 82% 82% 18% 18%; }
+  .lp-c { border-radius:50% 50% 42% 42% / 88% 88% 12% 12%; }
 
-  /* ── 3 hình dạng cánh sen — nhọn trên, tròn dưới ── */
-  .lp-a {
-    border-radius: 50% 50% 45% 45% / 85% 85% 15% 15%;
-  }
-  .lp-b {
-    border-radius: 45% 55% 48% 52% / 82% 82% 18% 18%;
-  }
-  .lp-c {
-    border-radius: 50% 50% 42% 42% / 88% 88% 12% 12%;
-  }
-
-  /* ── Rơi chính ── */
   @keyframes lp-fall {
-    0%   { opacity: 0;   transform: translateY(-50px) translateX(0)            rotate(var(--r0))   scale(1); }
-    6%   { opacity: .92; }
-    30%  { transform: translateY(28vh)  translateX(var(--dx1))  rotate(var(--r1))  scale(var(--s1)); }
-    60%  { transform: translateY(60vh)  translateX(var(--dx2))  rotate(var(--r2))  scale(var(--s2)); opacity: .75; }
-    90%  { opacity: .45; }
-    100% { opacity: 0;   transform: translateY(108vh) translateX(var(--dx3))  rotate(var(--r3))  scale(.7); }
+    0%   { opacity:0; transform:translateY(-50px) translateX(0) rotate(var(--r0)) scale(1); }
+    6%   { opacity:.92; }
+    30%  { transform:translateY(28vh) translateX(var(--dx1)) rotate(var(--r1)) scale(var(--s1)); }
+    60%  { transform:translateY(60vh) translateX(var(--dx2)) rotate(var(--r2)) scale(var(--s2)); opacity:.75; }
+    90%  { opacity:.45; }
+    100% { opacity:0; transform:translateY(108vh) translateX(var(--dx3)) rotate(var(--r3)) scale(.7); }
   }
-
-  /* ── Xoáy nhanh (petal nhỏ) ── */
   @keyframes lp-spin {
-    0%   { opacity: 0;   transform: translateY(-30px) translateX(0) rotate(0deg) scale(.6); }
-    8%   { opacity: .8; }
-    100% { opacity: 0;   transform: translateY(105vh) translateX(var(--dx3)) rotate(720deg) scale(.5); }
+    0%   { opacity:0; transform:translateY(-30px) rotate(0deg) scale(.6); }
+    8%   { opacity:.8; }
+    100% { opacity:0; transform:translateY(105vh) translateX(var(--dx3)) rotate(720deg) scale(.5); }
   }
-
-  /* ── Trôi ngang (petal lớn nhẹ) ── */
   @keyframes lp-float {
-    0%   { opacity: 0;   transform: translate(-10px, 20vh) rotate(var(--r0)) scale(1.1); }
-    12%  { opacity: .7; }
-    50%  { transform: translate(var(--dx2), 52vh) rotate(var(--r2)) scale(1.05); }
-    90%  { opacity: .4; }
-    100% { opacity: 0;   transform: translate(var(--dx3), 96vh) rotate(var(--r3)) scale(.85); }
+    0%   { opacity:0; transform:translate(-10px,20vh) rotate(var(--r0)) scale(1.1); }
+    12%  { opacity:.7; }
+    50%  { transform:translate(var(--dx2),52vh) rotate(var(--r2)) scale(1.05); }
+    90%  { opacity:.4; }
+    100% { opacity:0; transform:translate(var(--dx3),96vh) rotate(var(--r3)) scale(.85); }
+  }
+  @keyframes lp-dust {
+    0%   { opacity:0; transform:translate(0,0) scale(1); }
+    15%  { opacity:.65; }
+    100% { opacity:0; transform:translate(var(--dx3),100vh) scale(.4); }
   }
 
-  /* ── Hạt phấn nhỏ ── */
-  @keyframes lp-dust {
-    0%   { opacity: 0;   transform: translate(0, 0) scale(1); }
-    15%  { opacity: .65; }
-    100% { opacity: 0;   transform: translate(var(--dx3), 100vh) scale(.4); }
+  /* Cảnh hồ sen đáy */
+  .lp-pond {
+    position:fixed; bottom:0; left:0; right:0;
+    height:115px; pointer-events:none; z-index:3; overflow:hidden;
+  }
+  @keyframes lp-sway {
+    0%,100% { transform:rotate(var(--lr)) scaleY(var(--ls)); }
+    33%     { transform:rotate(calc(var(--lr) + var(--sw1))) scaleY(var(--ls)); }
+    66%     { transform:rotate(calc(var(--lr) + var(--sw2))) scaleY(var(--ls)); }
+  }
+  @keyframes lp-bob {
+    0%,100% { transform:translateY(0) rotate(var(--br)); }
+    50%     { transform:translateY(-4px) rotate(var(--br)); }
   }
   `;
   document.head.appendChild(style);
@@ -66,163 +63,276 @@
   const MAX_PETALS = 50;
   let paused = false;
 
-  /* ── Container ───────────────────────────────────────────────────────── */
   const wrap = document.createElement('div');
   wrap.className = 'lp-wrap';
   document.body.appendChild(wrap);
 
-  /* ── Pause khi tab ẩn, dọn khi quay lại ─────────────────────────────── */
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
       paused = true;
-      // Xóa hết cánh đang tích khi tab bị ẩn
       while (wrap.firstChild) wrap.removeChild(wrap.firstChild);
     } else {
       paused = false;
     }
   });
 
-  /* ── Màu sắc — hoa sen thật: đậm bão hòa, không nhạt như hoa hồng ── */
   const PALETTES = [
-    // Sen hồng đậm
-    ['rgba(255,75,130,OP)', 'rgba(220,35,90,OP)'],
-    // Sen hồng tươi
+    ['rgba(255,75,130,OP)',  'rgba(220,35,90,OP)'],
     ['rgba(255,100,150,OP)', 'rgba(230,55,105,OP)'],
-    // Sen hồng vừa
     ['rgba(255,130,168,OP)', 'rgba(240,75,120,OP)'],
-    // Sen đỏ hồng
-    ['rgba(240,55,105,OP)', 'rgba(200,25,75,OP)'],
-    // Sen hồng sáng (cánh ngoài)
+    ['rgba(240,55,105,OP)',  'rgba(200,25,75,OP)'],
     ['rgba(255,160,190,OP)', 'rgba(245,110,150,OP)'],
-    // Sen hồng đậm nhất
-    ['rgba(250,60,115,OP)', 'rgba(210,20,70,OP)'],
+    ['rgba(250,60,115,OP)',  'rgba(210,20,70,OP)'],
   ];
 
-  function mkColor(pair, opacity) {
-    return pair.map(c => c.replace('OP', opacity.toFixed(2)));
-  }
-
+  function mkColor(pair, opacity) { return pair.map(c => c.replace('OP', opacity.toFixed(2))); }
   function rand(min, max) { return min + Math.random() * (max - min); }
   function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-  /* ── Tạo cánh sen ───────────────────────────────────────────────────── */
+  /* ── Cánh sen rời rơi ──────────────────────────────────────────────── */
   function createPetal(opts = {}) {
     const el = document.createElement('div');
     el.className = 'lp';
-
     const type = opts.type || pick(['fall','fall','fall','spin','float']);
-    const size = opts.size || (type === 'spin' ? rand(3,6) : type === 'float' ? rand(7,13) : rand(4,9));
+    const size = opts.size || (type === 'spin' ? rand(3,6) : type === 'float' ? rand(5,9) : rand(3,8));
     const palette = mkColor(pick(PALETTES), rand(.65, .92));
-    const shape = pick(['lp-a','lp-b','lp-c']);
-    el.classList.add(shape);
-
+    el.classList.add(pick(['lp-a','lp-b','lp-c']));
     const left = opts.left !== undefined ? opts.left : rand(0, 98);
-    // Spawn rải đều — không phải tất cả từ top: 0
     const topStart = opts.topStart !== undefined ? opts.topStart : rand(-5, 35);
-    const dur  = type === 'spin' ? rand(4,7) : type === 'float' ? rand(10,16) : rand(7,14);
+    const dur = type === 'spin' ? rand(4,7) : type === 'float' ? rand(10,16) : rand(7,14);
     const delay = opts.delay !== undefined ? opts.delay : rand(0, 0.5);
-
-    const dx1 = rand(-60, 60);
-    const dx2 = dx1 + rand(-50, 50);
-    const dx3 = dx2 + rand(-40, 40);
-    const r0  = rand(-40, 40);
-    const r1  = r0  + rand(-60, 60);
-    const r2  = r1  + rand(-80, 80);
-    const r3  = r2  + rand(-120, 120);
-    const s1  = rand(.88, 1.08);
-    const s2  = rand(.80, 1.05);
-
-    // Sheen highlight
-    const sheen = `linear-gradient(135deg, rgba(255,255,255,.45) 0%, transparent 55%, rgba(255,255,255,.08) 100%)`;
-
+    const dx1=rand(-60,60), dx2=dx1+rand(-50,50), dx3=dx2+rand(-40,40);
+    const r0=rand(-40,40), r1=r0+rand(-60,60), r2=r1+rand(-80,80), r3=r2+rand(-120,120);
     el.style.cssText = `
-      left: ${left}%;
-      top: ${topStart}%;
-      width: ${size}px;
-      height: ${size * 2.2}px;
-      background: linear-gradient(148deg, ${palette[0]}, ${palette[1]});
-      box-shadow: inset 0 1px 3px rgba(255,255,255,.5), 0 2px 6px rgba(180,60,100,.12);
-      --dx1: ${dx1}px; --dx2: ${dx2}px; --dx3: ${dx3}px;
-      --r0: ${r0}deg;  --r1: ${r1}deg;  --r2: ${r2}deg;  --r3: ${r3}deg;
-      --s1: ${s1};     --s2: ${s2};
-      animation: lp-${type} ${dur}s ${delay}s ease-in-out forwards;
+      left:${left}%; top:${topStart}%;
+      width:${size}px; height:${size*2.2}px;
+      background:linear-gradient(148deg,${palette[0]},${palette[1]});
+      box-shadow:inset 0 1px 3px rgba(255,255,255,.45);
+      --dx1:${dx1}px;--dx2:${dx2}px;--dx3:${dx3}px;
+      --r0:${r0}deg;--r1:${r1}deg;--r2:${r2}deg;--r3:${r3}deg;
+      --s1:${rand(.88,1.08)};--s2:${rand(.80,1.05)};
+      animation:lp-${type} ${dur}s ${delay}s ease-in-out forwards;
     `;
-
-    // Sheen overlay
     const shine = document.createElement('div');
-    shine.style.cssText = `
-      position:absolute; inset:0; border-radius:inherit;
-      background:${sheen}; pointer-events:none;
-    `;
+    shine.style.cssText = `position:absolute;inset:0;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,.38) 0%,transparent 55%);pointer-events:none`;
     el.appendChild(shine);
-
     if (wrap.children.length >= MAX_PETALS) return;
     wrap.appendChild(el);
     el.addEventListener('animationend', () => el.remove(), { once: true });
   }
 
-  /* ── Hạt phấn (chấm nhỏ) ─────────────────────────────────────────────── */
+  /* ── Bông hoa sen đầy đủ rơi ───────────────────────────────────────── */
+  function createFullLotus() {
+    if (wrap.children.length >= MAX_PETALS) return;
+    const box = document.createElement('div');
+    box.style.cssText = `position:absolute;pointer-events:none;will-change:transform,opacity;`;
+    const sz = rand(18, 28);
+    const pc = pick([6, 7, 8]);
+    const palette = mkColor(pick(PALETTES), rand(.78, .96));
+    const pw = sz * 0.36, ph = sz * 0.70;
+
+    for (let i = 0; i < pc; i++) {
+      const angle = (360 / pc) * i;
+      const p = document.createElement('div');
+      p.style.cssText = `
+        position:absolute;
+        width:${pw}px; height:${ph}px;
+        background:linear-gradient(158deg,${palette[0]},${palette[1]});
+        border-radius:50% 50% 44% 44% / 84% 84% 16% 16%;
+        transform-origin:50% 100%;
+        transform:rotate(${angle}deg) translateY(-${sz*0.27}px);
+        left:${sz/2 - pw/2}px; top:${sz/2 - ph}px;
+        box-shadow:inset 0 1px 3px rgba(255,255,255,.42);
+      `;
+      box.appendChild(p);
+    }
+    const c = document.createElement('div');
+    const cs = sz * 0.28;
+    c.style.cssText = `
+      position:absolute; width:${cs}px; height:${cs}px;
+      background:radial-gradient(circle,#ffe566,#ffa020);
+      border-radius:50%;
+      left:${sz/2-cs/2}px; top:${sz/2-cs/2}px;
+    `;
+    box.appendChild(c);
+    box.style.width = `${sz}px`;
+    box.style.height = `${sz}px`;
+
+    const dx1=rand(-40,40), dx2=dx1+rand(-40,40), dx3=dx2+rand(-30,30);
+    const r0=rand(-20,20), r1=r0+rand(-35,35), r2=r1+rand(-50,50), r3=r2+rand(-60,60);
+    box.style.left = `${rand(2,92)}%`;
+    box.style.top  = `${rand(-5,20)}%`;
+    box.style.setProperty('--dx1',`${dx1}px`);
+    box.style.setProperty('--dx2',`${dx2}px`);
+    box.style.setProperty('--dx3',`${dx3}px`);
+    box.style.setProperty('--r0',`${r0}deg`);
+    box.style.setProperty('--r1',`${r1}deg`);
+    box.style.setProperty('--r2',`${r2}deg`);
+    box.style.setProperty('--r3',`${r3}deg`);
+    box.style.setProperty('--s1','1');
+    box.style.setProperty('--s2','.9');
+    box.style.animation = `lp-fall ${rand(9,15)}s ${rand(0,.5)}s ease-in-out forwards`;
+    wrap.appendChild(box);
+    box.addEventListener('animationend', () => box.remove(), { once: true });
+  }
+
+  /* ── Hạt phấn ──────────────────────────────────────────────────────── */
   function createDust() {
     const el = document.createElement('div');
     el.className = 'lp';
-    const size = rand(2, 4.5);
-    const palette = mkColor(pick(PALETTES), rand(.4, .7));
-    const left = rand(0, 99);
-    const dur  = rand(5, 9);
-    const delay = rand(0, 0.8);
-    const dx3 = rand(-80, 80);
-
+    const size = rand(1.5, 3);
+    const palette = mkColor(pick(PALETTES), rand(.4,.7));
     el.style.cssText = `
-      left: ${left}%;
-      top: 0;
-      width: ${size}px;
-      height: ${size}px;
-      border-radius: 50%;
-      background: radial-gradient(circle, ${palette[0]}, ${palette[1]});
-      --dx3: ${dx3}px;
-      animation: lp-dust ${dur}s ${delay}s ease-in forwards;
+      left:${rand(0,99)}%; top:0;
+      width:${size}px; height:${size}px;
+      border-radius:50%;
+      background:radial-gradient(circle,${palette[0]},${palette[1]});
+      --dx3:${rand(-80,80)}px;
+      animation:lp-dust ${rand(5,9)}s ${rand(0,.8)}s ease-in forwards;
     `;
     if (wrap.children.length >= MAX_PETALS) return;
     wrap.appendChild(el);
     el.addEventListener('animationend', () => el.remove(), { once: true });
   }
 
-  /* ── Burst đợt nhiều cánh ────────────────────────────────────────────── */
+  /* ── Lá sen ─────────────────────────────────────────────────────────── */
+  function makeLeaf(leftPct) {
+    const el = document.createElement('div');
+    const size = rand(36, 60);
+    const hue = rand(138, 163);
+    const sat = rand(46, 64);
+    const lit = rand(22, 36);
+    const a   = rand(0.50, 0.70).toFixed(2);
+    const notch = rand(20, 30);
+    const from  = rand(165, 185);
+    const rot   = rand(-20, 20);
+    const scY   = rand(0.60, 0.80).toFixed(2);
+    el.style.cssText = `
+      position:absolute;
+      left:${leftPct}%;
+      bottom:${rand(3,18)}px;
+      width:${size}px; height:${size*rand(0.78,0.95)}px;
+      border-radius:50%;
+      background:conic-gradient(
+        from ${from}deg at 50% 56%,
+        transparent 0deg, transparent ${notch}deg,
+        hsla(${hue},${sat}%,${lit}%,${a}) ${notch+2}deg,
+        hsla(${hue},${sat}%,${lit}%,${a}) ${360-notch-2}deg,
+        transparent ${360-notch}deg
+      );
+      --lr:${rot}deg; --ls:${scY};
+      --sw1:${rand(-5,5).toFixed(1)}deg;
+      --sw2:${rand(-5,5).toFixed(1)}deg;
+      animation:lp-sway ${rand(4,7)}s ${rand(0,3)}s ease-in-out infinite;
+      box-shadow:0 3px 10px rgba(0,70,30,.16);
+      will-change:transform;
+    `;
+    return el;
+  }
+
+  /* ── Hoa sen nở dưới hồ ─────────────────────────────────────────────── */
+  function makeBottomFlower(leftPct) {
+    const wrap2 = document.createElement('div');
+    const sz  = rand(18, 30);
+    const pc  = pick([6, 7, 8]);
+    const palette = mkColor(pick(PALETTES), rand(.82, .97));
+    const pw = sz * 0.34, ph = sz * 0.67;
+    const openY = sz * rand(0.23, 0.33);
+    const br = `${rand(-10,10)}deg`;
+    wrap2.style.cssText = `
+      position:absolute;
+      left:${leftPct}%;
+      bottom:${rand(20,50)}px;
+      width:${sz}px; height:${sz}px;
+      will-change:transform;
+      --br:${br};
+      animation:lp-bob ${rand(3,5.5)}s ${rand(0,2)}s ease-in-out infinite;
+    `;
+    for (let i = 0; i < pc; i++) {
+      const angle = (360 / pc) * i;
+      const p = document.createElement('div');
+      p.style.cssText = `
+        position:absolute;
+        width:${pw}px; height:${ph}px;
+        background:linear-gradient(160deg,${palette[0]},${palette[1]});
+        border-radius:50% 50% 44% 44% / 84% 84% 16% 16%;
+        transform-origin:50% 100%;
+        transform:rotate(${angle}deg) translateY(-${openY}px);
+        left:${sz/2-pw/2}px; top:${sz/2-ph}px;
+        box-shadow:inset 0 1px 3px rgba(255,255,255,.44);
+      `;
+      wrap2.appendChild(p);
+    }
+    const cs = sz * 0.30;
+    const center = document.createElement('div');
+    center.style.cssText = `
+      position:absolute; width:${cs}px; height:${cs}px;
+      background:radial-gradient(circle,#ffe566,#ffaa20);
+      border-radius:50%;
+      left:${sz/2-cs/2}px; top:${sz/2-cs/2}px;
+      box-shadow:0 1px 4px rgba(180,90,0,.28);
+    `;
+    wrap2.appendChild(center);
+    return wrap2;
+  }
+
+  /* ── Khởi tạo cảnh hồ sen đáy ──────────────────────────────────────── */
+  function initPond() {
+    const pond = document.createElement('div');
+    pond.className = 'lp-pond';
+    document.body.appendChild(pond);
+
+    const leafCount = Math.max(4, Math.round(window.innerWidth / 105));
+    for (let i = 0; i < leafCount; i++) {
+      const left = (i / leafCount) * 93 + rand(-3, 3);
+      pond.appendChild(makeLeaf(left));
+    }
+
+    const flowerCount = Math.max(2, Math.round(window.innerWidth / 240));
+    for (let i = 0; i < flowerCount; i++) {
+      const left = ((i + 0.6) / flowerCount) * 88 + rand(-4, 4);
+      pond.appendChild(makeBottomFlower(left));
+    }
+  }
+
+  /* ── Burst ──────────────────────────────────────────────────────────── */
   function burst(count, baseDelay = 0) {
     for (let i = 0; i < count; i++) {
       setTimeout(createPetal, baseDelay + i * rand(80, 220));
     }
-    // Vài hạt phấn kèm theo
-    const dustCount = Math.ceil(count * .6);
-    for (let i = 0; i < dustCount; i++) {
+    const dustN = Math.ceil(count * .5);
+    for (let i = 0; i < dustN; i++) {
       setTimeout(createDust, baseDelay + i * rand(100, 300));
     }
   }
 
-  /* ── Khởi động ───────────────────────────────────────────────────────── */
+  /* ── Start ──────────────────────────────────────────────────────────── */
   function start() {
-    // Burst đầu tiên
-    burst(10, 400);
+    initPond();
+    burst(8, 500);
 
-    // Nhịp thường — 2–3 cánh mỗi 1.4s
+    // Cánh rơi đều
     setInterval(() => {
       if (paused) return;
-      const n = Math.random() < .25 ? 4 : Math.random() < .5 ? 3 : 2;
-      burst(n);
+      burst(Math.random() < .25 ? 4 : Math.random() < .5 ? 3 : 2);
     }, 1400);
 
-    // Burst lớn ngẫu nhiên mỗi ~18s
+    // Bông hoa đầy đủ rơi mỗi ~12s
     setInterval(() => {
       if (paused) return;
-      if (Math.random() < .6) burst(rand(6, 10) | 0, 0);
+      if (Math.random() < .65) createFullLotus();
+    }, 12000);
+
+    // Burst lớn mỗi ~18s
+    setInterval(() => {
+      if (paused) return;
+      if (Math.random() < .6) burst(rand(5,9)|0, 0);
     }, 18000);
 
-    // Float lớn mỗi ~8s
+    // Float chậm mỗi 8s
     setInterval(() => {
       if (paused) return;
-      if (Math.random() < .7) {
-        createPetal({ type: 'float', size: rand(18, 32), left: rand(0, 90) });
-      }
+      if (Math.random() < .7) createPetal({ type: 'float', left: rand(0, 90) });
     }, 8000);
   }
 
