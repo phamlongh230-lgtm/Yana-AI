@@ -318,23 +318,23 @@ body {
   max-width: 64px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 
-/* App colors — blue family */
-.app-chat     { background: linear-gradient(145deg, #1d4ed8, #3b82f6); }
-.app-skills   { background: linear-gradient(145deg, #0369a1, #0ea5e9); }
-.app-agents   { background: linear-gradient(145deg, #1e40af, #6366f1); }
-.app-debug    { background: linear-gradient(145deg, #1e3a8a, #2563eb); }
-.app-review   { background: linear-gradient(145deg, #075985, #0284c7); }
-.app-commit   { background: linear-gradient(145deg, #164e63, #0891b2); }
-.app-security { background: linear-gradient(145deg, #1e3a8a, #3730a3); }
-.app-deploy   { background: linear-gradient(145deg, #0c4a6e, #38bdf8); }
-.app-sprint   { background: linear-gradient(145deg, #1d4ed8, #818cf8); }
-.app-docs     { background: linear-gradient(145deg, #1e40af, #60a5fa); }
-.app-stats    { background: linear-gradient(145deg, #0f2a6e, #4f46e5); }
-.app-settings { background: linear-gradient(145deg, #334155, #64748b); }
-.app-test     { background: linear-gradient(145deg, #0369a1, #06b6d4); }
-.app-refactor { background: linear-gradient(145deg, #1e3a8a, #7c3aed); }
-.app-map      { background: linear-gradient(145deg, #0c4a6e, #0ea5e9); }
-.app-pr       { background: linear-gradient(145deg, #1d4ed8, #93c5fd); }
+/* App colors — brand teal + semantic */
+.app-chat     { background: linear-gradient(145deg, hsl(155,58%,20%), hsl(155,52%,36%)); } /* teal — brand */
+.app-skills   { background: linear-gradient(145deg, hsl(160,55%,18%), hsl(160,58%,32%)); } /* teal-green */
+.app-agents   { background: linear-gradient(145deg, #5b21b6, #8b5cf6); }                  /* violet — AI */
+.app-debug    { background: linear-gradient(145deg, #92400e, #f59e0b); }                  /* amber — warning */
+.app-review   { background: linear-gradient(145deg, hsl(175,55%,18%), hsl(175,52%,32%)); }/* teal-cyan */
+.app-commit   { background: linear-gradient(145deg, #14532d, #22c55e); }                  /* green — git */
+.app-security { background: linear-gradient(145deg, #7f1d1d, #ef4444); }                  /* red — security */
+.app-deploy   { background: linear-gradient(145deg, hsl(185,55%,16%), hsl(185,52%,30%)); }/* deep teal */
+.app-sprint   { background: linear-gradient(145deg, #312e81, #818cf8); }                  /* indigo — planning */
+.app-docs     { background: linear-gradient(145deg, hsl(155,52%,16%), hsl(155,48%,30%)); }/* teal — docs */
+.app-stats    { background: linear-gradient(145deg, #065f46, #34d399); }                  /* emerald — stats */
+.app-settings { background: linear-gradient(145deg, #1e293b, #64748b); }                  /* slate — neutral */
+.app-test     { background: linear-gradient(145deg, #14532d, #4ade80); }                  /* green — tests */
+.app-refactor { background: linear-gradient(145deg, #4c1d95, #c084fc); }                  /* purple — refactor */
+.app-map      { background: linear-gradient(145deg, hsl(155,55%,14%), hsl(155,52%,28%)); }/* teal dark — map */
+.app-pr       { background: linear-gradient(145deg, #1e3a8a, #60a5fa); }                  /* blue — PR/GitHub */
 
 /* ── Dock — white liquid glass ── */
 .dock { position: relative; z-index: 5; flex-shrink: 0; padding: 10px 16px 0; }

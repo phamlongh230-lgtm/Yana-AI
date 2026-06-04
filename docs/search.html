@@ -40,6 +40,12 @@
     .item-desc{color:var(--muted);font-size:.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .empty{text-align:center;color:var(--muted);padding:4rem 0}
     .empty span{font-size:3rem;display:block;margin-bottom:1rem}
+    .empty p{font-size:.9rem;margin-top:.5rem;opacity:.6}
+    .highlight{background:hsla(155,52%,42%,.22);color:hsl(155,52%,62%);border-radius:2px;padding:0 1px}
+    .skeleton{background:linear-gradient(90deg,var(--bg2) 25%,#252320 50%,var(--bg2) 75%);background-size:200% 100%;animation:sk-shimmer 1.4s infinite;border-radius:10px;height:64px;border:1px solid var(--border)}
+    @keyframes sk-shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+    .more-btn{display:block;width:100%;padding:.75rem;margin-top:.75rem;background:transparent;border:1px solid var(--border);border-radius:10px;color:var(--muted);font-size:.85rem;cursor:pointer;transition:all .15s}
+    .more-btn:hover{border-color:var(--accent);color:var(--accent)}
     footer{text-align:center;color:var(--muted);font-size:.85rem;padding:3rem 0 2rem}
   @keyframes _pg{from{opacity:0}to{opacity:1}}body{animation:_pg .32s ease-out both}
 </style>
@@ -84,25 +90,38 @@
 <script>
 let INDEX = [];
 let activeType = 'all';
+let _shown = 60;
+let _debounce;
+
+function esc(s) { return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function hi(text, q) {
+  if (!q) return esc(text);
+  const idx = text.toLowerCase().indexOf(q.toLowerCase());
+  if (idx < 0) return esc(text);
+  return esc(text.slice(0, idx)) + `<mark class="highlight">${esc(text.slice(idx, idx+q.length))}</mark>` + esc(text.slice(idx+q.length));
+}
+
+function showSkeleton() {
+  document.getElementById('results').innerHTML = Array(6).fill('<div class="skeleton"></div>').join('');
+}
 
 async function loadData() {
+  showSkeleton();
   const [skills, agents, commands, rules] = await Promise.all([
     fetch('skills-data.json').then(r=>r.json()).catch(()=>[]),
     fetch('agents-data.json').then(r=>r.json()).catch(()=>[]),
     fetch('commands-data.json').then(r=>r.json()).catch(()=>[]),
     fetch('rules-data.json').then(r=>r.json()).catch(()=>[]),
   ]);
-
   INDEX = [
     ...skills.map(s=>({type:'skill',   id:s.id||s.name, name:s.name||s.id, desc:s.desc||''})),
     ...agents.map(a=>({type:'agent',   id:a.id||a.name, name:a.name||a.id, desc:a.desc||a.description||''})),
     ...commands.map(c=>({type:'command',id:c.name||c.id, name:c.name||c.id, desc:c.description||c.desc||''})),
     ...rules.map(r=>({type:'rule',     id:r.name||r.id, name:r.name||r.id, desc:r.description||r.desc||''})),
   ];
-
   document.getElementById('subtitle').textContent =
     `${skills.length.toLocaleString()} skills · ${agents.length} agents · ${commands.length} commands · ${rules.length} rules`;
-
   render('');
 }
 
@@ -119,33 +138,44 @@ function badgeClass(type) {
   return {skill:'badge-skill', agent:'badge-agent', command:'badge-command', rule:'badge-rule'}[type] || '';
 }
 
-function render(q) {
+function render(q, reset=true) {
+  if (reset) _shown = 60;
   const results = search(q, activeType);
-  const shown = results.slice(0, 60);
+  const shown = results.slice(0, _shown);
   const stats = document.getElementById('stats');
   const container = document.getElementById('results');
 
-  stats.textContent = q || activeType !== 'all'
-    ? `${results.length.toLocaleString()} results`
-    : '';
+  stats.textContent = (q || activeType !== 'all') ? `${results.length.toLocaleString()} kết quả` : '';
 
   if (!shown.length) {
-    container.innerHTML = `<div class="empty"><span>🔎</span>No results for "${q}"</div>`;
+    container.innerHTML = `<div class="empty"><span>🔍</span><p>Không tìm thấy kết quả cho "<strong>${esc(q)}</strong>"</p></div>`;
     return;
   }
 
   container.innerHTML = shown.map(item => `
-    <a class="item" href="${item.type === 'skill' ? 'skills.html' : 'marketplace.html'}#${item.id}">
+    <a class="item" href="${item.type==='skill'?'skills.html':'marketplace.html'}#${item.id}">
       <div class="item-top">
-        <span class="item-name">${item.name}</span>
+        <span class="item-name">${hi(item.name, q)}</span>
         <span class="badge ${badgeClass(item.type)}">${item.type}</span>
       </div>
-      <div class="item-desc">${item.desc || '—'}</div>
+      <div class="item-desc">${hi(item.desc||'—', q)}</div>
     </a>
   `).join('');
+
+  if (results.length > _shown) {
+    container.innerHTML += `<button class="more-btn" onclick="loadMore()">Xem thêm ${Math.min(60, results.length-_shown)} kết quả…</button>`;
+  }
 }
 
-document.getElementById('q').addEventListener('input', e => render(e.target.value));
+function loadMore() {
+  _shown += 60;
+  render(document.getElementById('q').value, false);
+}
+
+document.getElementById('q').addEventListener('input', e => {
+  clearTimeout(_debounce);
+  _debounce = setTimeout(() => render(e.target.value), 150);
+});
 
 document.querySelectorAll('.filter-btn').forEach(btn => {
   btn.addEventListener('click', () => {

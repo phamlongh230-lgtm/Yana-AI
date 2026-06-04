@@ -2311,12 +2311,14 @@ function setLang(lang) {
 }
 setLang(currentLang);
 
-// Fade in on scroll
+// Scroll reveal
 const io = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; } });
-}, { threshold: 0.08 });
-document.querySelectorAll('.feat-card,.gate-row,.compat-card').forEach(el => {
-  el.style.cssText += 'opacity:0;transform:translateY(12px);transition:opacity .4s ease,transform .4s ease';
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; io.unobserve(e.target); }
+  });
+}, { threshold: 0.06 });
+document.querySelectorAll('.feat-card,.gate-row,.compat-card,.stat-card,.rt-stat-block').forEach((el, i) => {
+  el.style.cssText += `opacity:0;transform:translateY(14px);transition:opacity .45s ${Math.min(i*25,200)}ms ease,transform .45s ${Math.min(i*25,200)}ms ease`;
   io.observe(el);
 });
 </script>
