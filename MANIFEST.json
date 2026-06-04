@@ -336,7 +336,7 @@
     },
     "hooks": {
       "status": "imported",
-      "count": 45,
+      "count": 46,
       "actual_present": [
         "core/hooks/agent-arbitration.sh",
         "core/hooks/api-destruct-guard.sh",
@@ -361,6 +361,7 @@
         "core/hooks/hook-timeout-guard.sh",
         "core/hooks/intent-inference.sh",
         "core/hooks/log-agent.sh",
+        "core/hooks/multi-agent-lock.sh",
         "core/hooks/permission-auto-approve.sh",
         "core/hooks/prompt-injection-guard.sh",
         "core/hooks/rbac-guard.sh",
