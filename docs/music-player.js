@@ -22,9 +22,20 @@
       events: {
         onReady: function (e) {
           const off = getOffset();
-          if (off > 5) e.target.seekTo(off, true);
-          if (_muted) e.target.mute();
+          if (off > 3) e.target.seekTo(off, true);
           e.target.playVideo();
+          if (_muted) {
+            e.target.mute();
+          } else {
+            // Fade in volume 0→100 over 1.5s to mask init stutter
+            e.target.setVolume(0);
+            let v = 0;
+            const fade = setInterval(() => {
+              v = Math.min(100, v + 6);
+              e.target.setVolume(v);
+              if (v >= 100) clearInterval(fade);
+            }, 90);
+          }
           _syncBtn();
         },
         onStateChange: function (e) {

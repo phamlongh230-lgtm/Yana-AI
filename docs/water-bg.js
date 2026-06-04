@@ -48,6 +48,8 @@ body { isolation: isolate; }
     ];
 
     let t = 0;
+    let _lastFrame = 0;
+    const _FRAME_MS = 1000 / 30; // throttle to 30fps
 
     // Floating lotus petals
     const petals = Array.from({ length: 6 }, (_, i) => ({
@@ -77,7 +79,9 @@ body { isolation: isolate; }
       ctx.restore();
     }
 
-    function draw() {
+    function draw(now) {
+      if (now - _lastFrame < _FRAME_MS) { requestAnimationFrame(draw); return; }
+      _lastFrame = now;
       const w = canvas.width, h = canvas.height;
       ctx.clearRect(0, 0, w, h);
 
@@ -152,7 +156,7 @@ body { isolation: isolate; }
       }
       ctx.restore();
 
-      t += 0.008;
+      t += 0.016; // 30fps equivalent
       requestAnimationFrame(draw);
     }
 

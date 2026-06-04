@@ -192,33 +192,35 @@
     }
   }
 
-  /* ── Start ──────────────────────────────────────────────────────────── */
+  /* ── RAF-based scheduler (no setInterval drift) ────────────────────── */
   function start() {
     burst(8, 500);
 
-    // Cánh rơi đều
-    setInterval(() => {
-      if (paused) return;
-      burst(Math.random() < .25 ? 4 : Math.random() < .5 ? 3 : 2);
-    }, 1400);
+    const T = { burst: 0, lotus: 0, float: 0, big: 0 };
+    const IV = { burst: 1400, lotus: 12000, float: 8000, big: 18000 };
 
-    // Bông hoa đầy đủ rơi mỗi ~12s
-    setInterval(() => {
-      if (paused) return;
-      if (Math.random() < .65) createFullLotus();
-    }, 12000);
-
-    // Burst lớn mỗi ~18s
-    setInterval(() => {
-      if (paused) return;
-      if (Math.random() < .6) burst(rand(5,9)|0, 0);
-    }, 18000);
-
-    // Float chậm mỗi 8s
-    setInterval(() => {
-      if (paused) return;
-      if (Math.random() < .7) createPetal({ type: 'float', left: rand(0, 90) });
-    }, 8000);
+    function tick(now) {
+      if (!paused) {
+        if (now - T.burst > IV.burst) {
+          burst(Math.random() < .25 ? 4 : Math.random() < .5 ? 3 : 2);
+          T.burst = now;
+        }
+        if (now - T.lotus > IV.lotus) {
+          if (Math.random() < .65) createFullLotus();
+          T.lotus = now;
+        }
+        if (now - T.big > IV.big) {
+          if (Math.random() < .6) burst(rand(5,9)|0, 0);
+          T.big = now;
+        }
+        if (now - T.float > IV.float) {
+          if (Math.random() < .7) createPetal({ type: 'float', left: rand(0, 90) });
+          T.float = now;
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
   }
 
   if (document.readyState === 'loading') {

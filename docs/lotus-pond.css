@@ -32,6 +32,10 @@ nav, nav a, nav span, .nav-links a, .nav-logo,
 .stat-card, .hero-card, .glass, section {
   background: rgba(255,255,255,0.78) !important;
   color: hsl(155 45% 22%) !important;
+  box-shadow: 0 2px 12px hsla(155 40% 22% / .08), 0 1px 3px hsla(155 40% 22% / .05) !important;
+}
+.card:hover, .feature-tile:hover, .stat-card:hover, .hero-card:hover {
+  box-shadow: 0 6px 24px hsla(155 40% 22% / .13), 0 2px 6px hsla(155 40% 22% / .07) !important;
 }
 
 /* Override blue accent → xanh hoa sen */
