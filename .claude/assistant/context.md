@@ -1,25 +1,24 @@
 # Current Context
 
-**Cập nhật lần cuối:** 2026-06-03
+**Cập nhật lần cuối:** 2026-06-04 (session sáng — anh đi có việc)
 
 ## Trạng thái
-- yamtam-engine v0.40.0 — MANIFEST ✅ skills 3,457 · agents 95 · CI ✅ xanh
-- Plugin format: openclaw/agentskills compatible ✅ — cài được bằng `npx skills add phamlongh230-lgtm/yamtam-engine`
-- Mail reader: `tools/check-mail.py` IMAP Gmail ✅ — GMAIL_APP_PASSWORD trong ~/.bashrc
-- Supermemory: .mcp.json với Bearer token ✅ — SUPERMEMORY_API_KEY trong ~/.bashrc
-- Token rotation: NPM_TOKEN + CARGO_REGISTRY_TOKEN + PYPI_TOKEN đã set GitHub Secrets ✅
-- GitHub Marketplace review: submitted 02/06 → dự kiến kết quả 05–09/06
-- Disk /home 96% (~200MB free) — cần theo dõi
+- yamtam-engine v0.40.0 — CI ✅ · Pages ✅ · repo clean
+- Disk: 79% (~988MB free) — đã dọn sạch sáng nay
+- Git user: đã fix lại "Vũ Văn Tâm" (bị Gemini set thành "Gemini AI")
+- Submodule codexmate: đã fork → phamlongh230-lgtm/codexmate, VI patch pushed, URL updated
+- lotus-petals.js: cánh sen nhỏ + bông hoa đầy đủ rơi, pause khi tab ẩn, cap 50 nodes
+- Pages: đã fix submodule lỗi → deploy thành công
 
 ## Phase hiện tại: ACTIVE
 
 ## Ưu tiên tiếp theo
-1. **GitHub Marketplace** — chờ review → **CHECK MAIL ĐẦU SESSION: `python3 tools/check-mail.py --from github`**
-2. **Disk** — dọn thêm nếu xuống dưới 150MB
+1. **GitHub Marketplace** — chờ review → CHECK MAIL: `python3 tools/check-mail.py --from github`
+2. Không còn việc gì urgent
 
 ## Đã biết / blockers
-- Disk 96% — tránh pip install nặng, build Rust dùng CARGO_TARGET_DIR=/tmp/yamtam-build
-- headroom: base install OK, cần `pip install "headroom-ai[all]"` để unlock SmartCrusher (cần disk)
+- Token rotation: ✅ DONE (NPM + CARGO + PYPI đã rotate 03/06)
+- Disk: 79% — thoải mái, build Rust được (vẫn nên dùng CARGO_TARGET_DIR=/tmp/yamtam-build)
 - Codexmate chạy bằng `CODEXMATE_PORT=8080 codexmate run` + Web Preview 8080
 
 ## Backup AI stack (khi Claude hết quota)

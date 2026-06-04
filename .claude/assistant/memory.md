@@ -377,6 +377,23 @@ Format: `## YYYY-MM-DD — [tóm tắt 1 dòng]`
 
 **Trạng thái cuối:** v0.40.0 · 3,441 skills · 94 agents · CI xanh ✅ · GitHub Marketplace pending review
 
+---
+
+## 2026-06-04 — Dọn disk + fix git user + lotus perf + Pages fix
+
+**Đã làm:**
+- Dọn disk từ 100% → 79% (xóa Claude 2.1.159/160, cloud-code cache, cargo/src, pip/npm cache, .codex, .9router)
+- Fix git user.name: "Gemini AI" → "Vũ Văn Tâm"
+- Fix Pages deploy: fork codexmate → phamlongh230-lgtm/codexmate, push VI patch, đổi submodule URL
+- lotus-petals.js: shape chụm nhọn, màu sen đậm hơn, pause khi tab ẩn, cap 50 DOM nodes
+- Lazy-load Three.js + GSAP + Lottie (chỉ load khi bấm demo), pause CSS anim khi tab ẩn
+- Bông hoa sen đầy đủ rơi (6-8 cánh + nhụy vàng) mỗi ~12s
+- Bỏ cảnh hồ sen đáy (quá phức tạp, nhiều lỗi)
+
+**Anh quyết định:** Bỏ pond scene, chỉ giữ cánh + bông hoa rơi
+
+**Trạng thái cuối:** v0.40.0 · disk 79% · CI ✅ · Pages ✅ · git user fixed
+
 ## 2026-06-03 — Session 2: openhack + io/changelog/marketplace sync
 
 **Đã làm:**
@@ -406,3 +423,24 @@ Format: `## YYYY-MM-DD — [tóm tắt 1 dòng]`
 - CI xanh ✅
 
 **Trạng thái cuối:** v0.40.0 · 3,457 skills · 95 agents · CI ✅ · 17 commits hôm nay
+
+## 2026-06-03 — Session 5: UI lotus + i18n + weather + music sync
+
+**Đã làm:**
+- fix(music): track list trống (buildSrc undefined), duplicate iframe_api, xung đột yt-music
+- fix(ui): bỏ màu cam → teal hoa sen hsl(155 52% 32/42%) trên tất cả trang
+- fix(ui): gỡ lotus-pond.css khỏi 3 dark pages (guide/changelog/search) — chữ bị chìm
+- fix(ui): lotus-pond.css thêm dark mode reset (html.dark overrides)
+- feat(ui): lotus-petals.js — cánh sen rơi 7 trang + io.html
+- feat(i18n): i18n.js shared engine VI/EN/KO cho 7 trang
+- feat(io): nền teal hoa sen (thay toàn bộ blue), nhạc sync qua music-player.js
+- feat(music): thêm track Nhạc Piano Thư Giãn (fuXfT4Rv_WM)
+- feat(weather): widget Open-Meteo trên index.html + io phone card + io desktop widget
+- chore: codexmate submodule update (i18n + layout)
+
+**Anh quyết định:** Nghỉ ngơi — đang ở Hàn, 2h sáng
+
+**Trạng thái cuối:** v0.40.0 · 3,457 skills · 95 agents · CI ✅ · repo clean · last=1bb7782a
+**Pending:** Token rotation NPM+CARGO+PYPI deadline 07/06 (P0)
+
+---
