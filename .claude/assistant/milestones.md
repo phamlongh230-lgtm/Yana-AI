@@ -6,4 +6,4 @@
 
 | Date | Title | Priority |
 |------|-------|---------|
-| 2026-06-07 | Token rotation (npm + crates.io + PyPI) | P0 |
+| 2026-06-10 | Token rotation (npm + crates.io + PyPI) | P0 |

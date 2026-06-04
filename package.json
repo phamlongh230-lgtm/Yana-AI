@@ -47,6 +47,7 @@
     "CHANGELOG.md"
   ],
   "scripts": {
+    "test": "bash core/tests/hooks/run-hook-tests.sh",
     "postinstall": "node scripts/npm-install.js --auto",
     "deploy": "wrangler deploy",
     "preview": "wrangler dev"

@@ -35,7 +35,6 @@ jobs:
 
       - name: Smoke test — exec
         run: |
-          docker build -f core/sandbox/Dockerfile.sandbox -t yamtam-sandbox:latest core/sandbox/
           docker run --rm \
             --network none --read-only \
             --tmpfs /workspace:rw,size=64m,noexec \
