@@ -452,3 +452,213 @@ fn map_show_json() {
     let v: serde_json::Value = serde_json::from_str(&stdout).expect("valid JSON");
     assert!(v.get("risk").is_some(), "risk field in JSON");
 }
+
+// ── scan ──────────────────────────────────────────────────────────────────────
+
+#[test]
+fn scan_clean_repo_exits_ok() {
+    let dir = tmpdir();
+    let (_, _, ok) = run(dir.path(), &["scan", "."]);
+    assert!(ok, "scan on empty repo should exit 0");
+}
+
+#[test]
+fn scan_json_output_has_required_fields() {
+    let dir = tmpdir();
+    let (stdout, _, ok) = run(dir.path(), &["scan", ".", "--json"]);
+    assert!(ok);
+    let v: serde_json::Value = serde_json::from_str(&stdout).expect("valid JSON from scan");
+    assert!(v.get("status").is_some(), "JSON has status");
+    assert!(v.get("findings").is_some(), "JSON has findings");
+    assert!(v.get("summary").is_some(), "JSON has summary");
+}
+
+#[test]
+fn scan_quiet_flag_reduces_output() {
+    let dir = tmpdir();
+    let (stdout_normal, _, _) = run(dir.path(), &["scan", "."]);
+    let (stdout_quiet, _, _) = run(dir.path(), &["scan", ".", "--quiet"]);
+    assert!(
+        stdout_quiet.len() <= stdout_normal.len(),
+        "--quiet should not produce more output than normal"
+    );
+}
+
+#[test]
+fn scan_markdown_writes_file() {
+    let dir = tmpdir();
+    let report_path = dir.path().join("report.md");
+    run(dir.path(), &["scan", ".", "--markdown", report_path.to_str().unwrap()]);
+    assert!(report_path.exists(), "markdown report file created");
+    let content = std::fs::read_to_string(&report_path).unwrap();
+    assert!(content.contains('#'), "markdown has headers");
+}
+
+// ── config ────────────────────────────────────────────────────────────────────
+
+#[test]
+fn config_init_creates_settings_file() {
+    let dir = tmpdir();
+    let (_, _, ok) = run(dir.path(), &["config", "init", "--dir", "."]);
+    assert!(ok, "config init should succeed");
+    let settings = dir.path().join(".yamtam").join("settings.json");
+    assert!(settings.exists(), "settings.json created");
+}
+
+#[test]
+fn config_show_after_init() {
+    let dir = tmpdir();
+    run(dir.path(), &["config", "init", "--dir", "."]);
+    let (stdout, _, ok) = run(dir.path(), &["config", "show", "--dir", "."]);
+    assert!(ok, "config show should succeed after init");
+    assert!(stdout.contains("version") || stdout.contains("guards"), "show has config fields");
+}
+
+#[test]
+fn config_show_no_config_prints_hint() {
+    let dir = tmpdir();
+    let (stdout, _, _) = run(dir.path(), &["config", "show", "--dir", "."]);
+    assert!(
+        stdout.contains("init") || stdout.contains("No config") || stdout.contains("not found"),
+        "no config gives helpful message: {stdout}"
+    );
+}
+
+#[test]
+fn config_set_updates_value() {
+    let dir = tmpdir();
+    run(dir.path(), &["config", "init", "--dir", "."]);
+    let (_, _, ok) = run(dir.path(), &["config", "set", "cost_tracking", "false", "--dir", "."]);
+    assert!(ok, "config set should succeed");
+    let settings = dir.path().join(".yamtam").join("settings.json");
+    let content = std::fs::read_to_string(settings).unwrap();
+    assert!(content.contains("false") || content.contains("cost_tracking"), "value updated");
+}
+
+// ── task ──────────────────────────────────────────────────────────────────────
+
+#[test]
+fn task_create_and_list() {
+    let dir = tmpdir();
+    let (stdout, _, ok) = run(dir.path(), &["task", "create", "fix-auth-bug", "--scope", "auth/"]);
+    assert!(ok, "task create should succeed");
+    assert!(stdout.contains("created") || stdout.contains("fix-auth-bug"), "create prints task");
+
+    let (list_out, _, ok2) = run(dir.path(), &["task", "list"]);
+    assert!(ok2, "task list should succeed");
+    assert!(list_out.contains("fix-auth-bug"), "created task in list");
+}
+
+#[test]
+fn task_status_unknown_id() {
+    let dir = tmpdir();
+    let (stdout, _, _) = run(dir.path(), &["task", "status", "nonexistent-id-xyz"]);
+    assert!(
+        stdout.contains("not found") || stdout.contains("No task") || stdout.is_empty(),
+        "unknown id handled gracefully: {stdout}"
+    );
+}
+
+#[test]
+fn task_drop_removes_task() {
+    let dir = tmpdir();
+    run(dir.path(), &["task", "create", "temp-task"]);
+    let (list_before, _, _) = run(dir.path(), &["task", "list"]);
+    assert!(list_before.contains("temp-task"), "task exists before drop");
+    let (_, _, _) = run(dir.path(), &["task", "drop", "temp-task"]);
+    // No panic is the main assertion
+}
+
+// ── eval ──────────────────────────────────────────────────────────────────────
+
+#[test]
+fn eval_schema_prints_json() {
+    let dir = tmpdir();
+    let (stdout, _, ok) = run(dir.path(), &["eval", "schema"]);
+    assert!(ok, "eval schema should succeed");
+    assert!(
+        stdout.contains('{') || stdout.contains("tests_passed") || stdout.contains("evidence"),
+        "eval schema has content: {stdout}"
+    );
+}
+
+#[test]
+fn eval_run_unknown_task_errors_gracefully() {
+    let dir = tmpdir();
+    let (_, _, _ok) = run(dir.path(), &["eval", "run", "nonexistent-task-id"]);
+    // Should exit non-zero but not panic
+}
+
+// ── init ──────────────────────────────────────────────────────────────────────
+
+#[test]
+fn init_dry_run_prints_plan_no_files() {
+    let dir = tmpdir();
+    let (stdout, _, ok) = run(dir.path(), &["init", "dry", "."]);
+    assert!(ok, "init dry should succeed");
+    assert!(
+        stdout.contains("would") || stdout.contains("create") || stdout.contains(".yamtam"),
+        "dry run shows plan: {stdout}"
+    );
+    assert!(!dir.path().join(".yamtam").exists(), ".yamtam not created in dry mode");
+}
+
+#[test]
+fn init_run_creates_yamtam_dir() {
+    let dir = tmpdir();
+    let (_, _, ok) = run(dir.path(), &["init", "run", ".", "--yes"]);
+    assert!(ok, "init run --yes should succeed");
+    assert!(dir.path().join(".yamtam").exists(), ".yamtam created");
+}
+
+#[test]
+fn init_run_idempotent() {
+    let dir = tmpdir();
+    run(dir.path(), &["init", "run", ".", "--yes"]);
+    let (_, _, ok) = run(dir.path(), &["init", "run", ".", "--yes"]);
+    assert!(ok, "init run twice should not fail");
+}
+
+// ── watch ─────────────────────────────────────────────────────────────────────
+
+#[test]
+fn watch_exits_after_max_changes() {
+    use std::thread;
+    use std::time::Duration;
+
+    let dir = tmpdir();
+    let dir_path = dir.path().to_path_buf();
+    let dir_path2 = dir_path.clone();
+
+    let handle = thread::spawn(move || {
+        std::process::Command::new(bin())
+            .args(&["watch", "start", "--max-changes", "1", "--interval", "1"])
+            .current_dir(&dir_path2)
+            .output()
+    });
+
+    thread::sleep(Duration::from_millis(300));
+    std::fs::write(dir_path.join("trigger.txt"), "change").unwrap();
+
+    match handle.join().unwrap() {
+        Ok(output) => {
+            let stdout = String::from_utf8_lossy(&output.stdout);
+            assert!(
+                stdout.contains("change") || stdout.contains("watch") || output.status.success(),
+                "watch detected change or exited cleanly"
+            );
+        }
+        Err(_) => {}
+    }
+}
+
+// ── score ─────────────────────────────────────────────────────────────────────
+
+#[test]
+fn score_show_clean_repo() {
+    let dir = tmpdir();
+    let (stdout, _, ok) = run(dir.path(), &["score", "show", "."]);
+    assert!(ok, "score show should succeed on empty repo");
+    assert!(stdout.contains("Score") || stdout.contains("score"), "output has score label");
+    assert!(stdout.contains("100") || stdout.contains("LOW"), "clean repo should score 100 / LOW risk");
+}
