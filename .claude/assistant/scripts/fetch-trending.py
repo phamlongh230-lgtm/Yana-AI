@@ -61,6 +61,8 @@ def fetch_trending(lang: str = "") -> list[dict]:
         if not name_m:
             continue
         name = name_m.group(1)
+        if name.startswith("sponsors/") or name.startswith("orgs/"):
+            continue
 
         # Description
         desc_m = re.search(r'<p[^>]*class="[^"]*col-9[^"]*"[^>]*>\s*(.*?)\s*</p>', article, re.DOTALL)
