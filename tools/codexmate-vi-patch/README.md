@@ -1,6 +1,7 @@
-# Codexmate — Vietnamese (VI) Language Patch
+# Codexmate — VI Patch (yamtam-engine bản riêng)
 
-Thêm tiếng Việt vào codexmate UI (992 strings).
+Patch codexmate local: **VI lên đầu danh sách ngôn ngữ, bỏ tiếng Trung**.  
+Chỉ áp cho bản local dùng với yamtam-engine — không đụng repo codexmate gốc.
 
 ## Cách dùng
 
@@ -15,14 +16,12 @@ python3 tools/codexmate-vi-patch/patch.py
 codexmate run
 ```
 
-Vào **Settings → Language → VI** để bật tiếng Việt.
+Mặc định mở là **Tiếng Việt**. Tiếng Trung (中文) đã bị loại bỏ.
 
 ## Patch bao gồm
 
-- `i18n.dict.mjs` — thêm section `vi` với 992 strings dịch
-- `i18n.mjs` — thêm `vi` vào `normalizeLang()`
-- `layout-header.html` — thêm nút **VI** vào language switch (header + sidebar)
-- `layout-shell.css` — thêm CSS cho `.lang-switch-vi`
+- `vi.mjs` → thay thế toàn bộ locale VI (1225 dòng, đầy đủ 1138 keys)
+- `i18n.mjs` → bỏ `zh` khỏi `LANGUAGE_META`, đặt `vi` lên đầu (mặc định)
 
 ## Re-patch sau khi update codexmate
 
