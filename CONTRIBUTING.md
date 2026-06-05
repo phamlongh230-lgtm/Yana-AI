@@ -1,4 +1,6 @@
-# Contributing to YAMTAM ENGINE
+# Contributing to YAMTAM ENGINE · Đóng góp cho YAMTAM ENGINE
+
+> **[Tiếng Việt bên dưới / Vietnamese below](#tiếng-việt)**
 
 Thank you for helping build the most comprehensive AI agent safety framework.
 
@@ -140,3 +142,87 @@ All adapted content must retain original attribution in the `origin` frontmatter
 ## Questions?
 
 Open a GitHub Issue with label `question`. Response within 48h.
+
+---
+
+## Tiếng Việt
+
+Cảm ơn bạn đã giúp xây dựng framework an toàn cho AI agent toàn diện nhất.
+
+### Bắt đầu nhanh
+
+```bash
+git clone https://github.com/phamlongh230-lgtm/yamtam-engine
+cd yamtam-engine
+bash core/tests/skills/test-skill-triggering.sh  # phải hiện Result: PASS
+bash core/tests/hooks/run-hook-tests.sh          # phải hiện tất cả đạt
+```
+
+### Những gì chúng tôi chấp nhận
+
+| Loại | Được chào đón? | Ghi chú |
+|---|---|---|
+| Skills mới | ✅ | Phải theo đúng định dạng skill (xem bên dưới) |
+| Sửa lỗi hooks/scripts | ✅ | Kèm test case thất bại |
+| Rules mới | ✅ | Không xung đột với rules hiện có |
+| Adapter đa engine | ✅ | Thêm vào `adapters/` |
+| Cải thiện hiệu năng | ✅ | Benchmark trước/sau |
+| Định nghĩa agent mới | ✅ | Phải generic, không gắn với product cụ thể |
+| Code gắn với product | ❌ | Giữ YAMTAM engine-agnostic |
+| Thông tin nhạy cảm / secret | ❌ | Bị từ chối cứng ở giai đoạn PR |
+
+### Thêm Skill mới
+
+Mỗi `SKILL.md` phải bắt đầu bằng frontmatter:
+
+```markdown
+---
+name: ten-skill-cua-ban
+description: >
+  Tóm tắt một dòng bao gồm cụm từ trigger Claude dùng để tải skill này.
+version: 1.0.0
+compatibility: "Claude 4.5+, Sonnet 4.6, Haiku 4.5"
+origin: nguồn/repo-url (Tên giấy phép)   # bắt buộc nếu chuyển thể từ nguồn ngoài
+license: MIT
+deprecated: false
+---
+```
+
+**Các bước đăng ký:**
+
+1. Tạo `core/skills/<name>/SKILL.md` với frontmatter ở trên.
+2. Tự đăng ký vào `core/config/skills-lock.json`:
+```bash
+bash core/scripts/verify-skills-lock.sh
+```
+3. Thêm trigger phrases vào `core/tests/skills/test-skill-triggering.sh`
+4. Chạy kiểm tra: `bash core/tests/skills/test-skill-triggering.sh` → PASS
+5. Cập nhật số đếm trong `MANIFEST.json`, `plugin.json`, `marketplace.json`
+
+### Định dạng commit
+
+```
+type(scope): mô tả ngắn
+
+Types: feat, fix, chore, docs, refactor, test, perf
+Ví dụ:
+  feat(skills): thêm skill redis-patterns (caching + pub/sub)
+  fix(hooks): token-scope-guard false positive trên .env.example
+```
+
+### Checklist Pull Request
+
+```
+□ Test trigger đạt: bash core/tests/skills/test-skill-triggering.sh → PASS
+□ Test hook đạt: bash core/tests/hooks/run-hook-tests.sh → tất cả đạt
+□ Skills-lock đã cập nhật: bash core/scripts/verify-skills-lock.sh → không drift
+□ Không có secret trong diff
+□ Skill ≤ 220 dòng (nếu thêm skill)
+□ MANIFEST + plugin.json + marketplace.json đã cập nhật số đếm
+□ Không có màu hex cứng trong code frontend
+□ Attribution: trường origin trong frontmatter nếu chuyển thể từ nguồn ngoài
+```
+
+### Câu hỏi?
+
+Mở GitHub Issue với nhãn `question`. Phản hồi trong 48 giờ.

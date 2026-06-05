@@ -1,4 +1,6 @@
-# Security Policy — YAMTAM ENGINE
+# Security Policy — YAMTAM ENGINE · Chính sách bảo mật
+
+> **[Tiếng Việt bên dưới / Vietnamese below](#tiếng-việt-1)**
 
 ## Supported Versions
 
@@ -86,10 +88,59 @@ yamtam-engine-v1.8.0-fixed.zip
 
 Do not install YAMTAM from random copied folders, unknown archives, or modified release packs without checking the source.
 
+---
 
-Sau khi commit xong, trong Cloud Shell chỉ cần chạy:
+## Tiếng Việt
 
-```bash
-cd ~/yamtam-engine
-git pull
-git status --short
+### Phiên bản được hỗ trợ
+
+| Phiên bản | Hỗ trợ | Ghi chú |
+|---|---:|---|
+| 1.8.x | ✅ Đang hoạt động | Dòng phát hành ổn định hiện tại |
+| 1.7.x | ⚠️ Chỉ vá lỗi bảo mật | Khuyến nghị nâng cấp |
+| 1.6.x trở xuống | ❌ Hết hỗ trợ | Không còn hỗ trợ bảo mật |
+
+### Báo cáo lỗ hổng bảo mật
+
+**Không mở GitHub Issue công khai cho các lỗ hổng bảo mật.**
+
+Báo cáo riêng tư qua:
+
+- GitHub Security Advisories: repo → tab Security → Report a vulnerability
+- Email: ghi `YAMTAM SECURITY` trong tiêu đề
+
+Chúng tôi sẽ xác nhận báo cáo trong 48 giờ và nhắm vá các vấn đề nghiêm trọng trong 7 ngày.
+
+### Phạm vi
+
+YAMTAM ENGINE là framework quản trị và an toàn cho phát triển có AI hỗ trợ. Đây **không** phải hệ thống xác thực, phân quyền hay quản lý secret cho production.
+
+Các loại vấn đề được coi là nghiêm trọng về bảo mật:
+
+| Loại | Ví dụ |
+|---|---|
+| Hook bypass | Pattern cho phép agent bỏ qua gate push, deploy, hoặc destructive-operation |
+| Lộ secret | Đường dẫn API key, token hoặc credential có thể bị log hoặc expose |
+| Command injection | Hook/script có thể bị lừa chạy lệnh shell ngoài ý muốn |
+| Giả mạo audit log | Cách xóa, viết lại hoặc làm giả audit log mà không bị phát hiện |
+| Đóng gói release không an toàn | Gói release có chứa secret, trạng thái local, hoặc file không mong muốn |
+
+Ngoài phạm vi:
+
+- Lỗ hổng trong Cursor, Aider, GitHub Copilot, Gemini, OpenRouter và các AI tool bên thứ ba
+- Vấn đề trong công cụ bên thứ ba mà agent gọi (gitleaks, semgrep, gh, git, Docker, cloud CLI)
+- Cấu hình sai trong các dự án downstream sau khi cài YAMTAM
+- Hành vi tư vấn cho engine không phải Claude (không có runtime hook được nối)
+
+### Tiết lộ có trách nhiệm
+
+Chúng tôi tuân theo quy trình tiết lộ có phối hợp:
+
+- Ghi nhận người báo cáo trong `CHANGELOG.md` (trừ khi yêu cầu ẩn danh)
+- Không tiết lộ công khai cho đến khi có bản vá hoặc giải pháp tạm thời
+- Không có hành động pháp lý với nghiên cứu bảo mật thiện chí theo chính sách này
+- Ưu tiên vá dựa trên mức độ nghiêm trọng, khả năng khai thác và tác động đến an toàn gói phát hành
+
+### Toàn vẹn phát hành
+
+Các artifact phát hành chính thức được đăng qua GitHub Releases. Không cài YAMTAM từ thư mục sao chép ngẫu nhiên, archive không rõ nguồn gốc, hoặc gói phát hành đã bị chỉnh sửa mà không kiểm tra nguồn.
