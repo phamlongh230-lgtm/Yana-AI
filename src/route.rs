@@ -182,7 +182,7 @@ pub fn classify(task: &str) -> RouteDecision {
 
     // Complex if write/modify signals dominate
     if cplx_score > simp_score || cplx_score >= 0.8 {
-        let conf = (cplx_score / 4.0).min(1.0);
+        let conf = (cplx_score / 2.5).min(1.0);
         let agents: &[&str] = if cplx_signals.iter().any(|s| s.contains("test") || s.contains("debug")) {
             &["qa-engineer", "debugger", "backend-developer"]
         } else if cplx_signals.iter().any(|s| s.contains("refactor") || s.contains("review")) {
