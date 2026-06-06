@@ -109,12 +109,20 @@ const COMPLEX: &[Pattern] = &[
     Pattern { keyword: "delete",         weight: 0.6, label: "delete" },
     Pattern { keyword: "remove",         weight: 0.5, label: "remove" },
     Pattern { keyword: "skill",          weight: 0.5, label: "skill work" },
-    Pattern { keyword: "nâng cấp",       weight: 0.8, label: "upgrade (vi)" },
-    Pattern { keyword: "viết",           weight: 0.7, label: "write (vi)" },
-    Pattern { keyword: "tạo",            weight: 0.6, label: "create (vi)" },
-    Pattern { keyword: "sửa",            weight: 0.7, label: "fix (vi)" },
-    Pattern { keyword: "thêm",           weight: 0.5, label: "add (vi)" },
-    Pattern { keyword: "xây",            weight: 0.7, label: "build (vi)" },
+    Pattern { keyword: "nâng cấp",        weight: 0.8, label: "upgrade (vi)" },
+    Pattern { keyword: "viết",            weight: 0.7, label: "write (vi)" },
+    Pattern { keyword: "tạo",             weight: 0.6, label: "create (vi)" },
+    Pattern { keyword: "sửa",             weight: 0.7, label: "fix (vi)" },
+    Pattern { keyword: "thêm",            weight: 0.5, label: "add (vi)" },
+    Pattern { keyword: "xây",             weight: 0.7, label: "build (vi)" },
+    Pattern { keyword: "phát triển",      weight: 0.8, label: "develop (vi)" },
+    Pattern { keyword: "triển khai",      weight: 0.8, label: "deploy/implement (vi)" },
+    Pattern { keyword: "xây dựng",        weight: 0.8, label: "build (vi)" },
+    Pattern { keyword: "cải thiện",       weight: 0.7, label: "improve (vi)" },
+    Pattern { keyword: "tái cấu trúc",    weight: 0.9, label: "refactor (vi)" },
+    Pattern { keyword: "tối ưu",          weight: 0.8, label: "optimize (vi)" },
+    Pattern { keyword: "tích hợp",        weight: 0.8, label: "integrate (vi)" },
+    Pattern { keyword: "migrate",         weight: 0.8, label: "migrate (vi)" },
 ];
 
 // Simple — read-only / explain / search
@@ -132,7 +140,7 @@ const SIMPLE: &[Pattern] = &[
     Pattern { keyword: "grep",           weight: 0.8, label: "grep" },
     Pattern { keyword: "count",          weight: 0.6, label: "count" },
     Pattern { keyword: "diff",           weight: 0.7, label: "diff" },
-    Pattern { keyword: "log",            weight: 0.6, label: "log" },
+    Pattern { keyword: " log ",           weight: 0.6, label: "log" },
     Pattern { keyword: "summarize",      weight: 0.8, label: "summarize" },
     Pattern { keyword: "describe",       weight: 0.7, label: "describe" },
     Pattern { keyword: "status",         weight: 0.6, label: "status" },
@@ -183,10 +191,21 @@ pub fn classify(task: &str) -> RouteDecision {
     // Complex if write/modify signals dominate
     if cplx_score > simp_score || cplx_score >= 0.8 {
         let conf = (cplx_score / 2.5).min(1.0);
+        let lower = task.to_lowercase();
         let agents: &[&str] = if cplx_signals.iter().any(|s| s.contains("test") || s.contains("debug")) {
             &["qa-engineer", "debugger", "backend-developer"]
-        } else if cplx_signals.iter().any(|s| s.contains("refactor") || s.contains("review")) {
+        } else if cplx_signals.iter().any(|s| s.contains("refactor") || s.contains("review") || s.contains("audit")) {
             &["refactoring-specialist", "code-reviewer-pro"]
+        } else if lower.contains("auth") || lower.contains("security") || lower.contains("jwt") || lower.contains("oauth") || lower.contains("permission") || lower.contains("bảo mật") {
+            &["security-engineer", "backend-developer"]
+        } else if lower.contains("database") || lower.contains("sql") || lower.contains("migration") || lower.contains("schema") || lower.contains("query") || lower.contains("cơ sở dữ liệu") {
+            &["database-expert", "backend-developer"]
+        } else if lower.contains("ui") || lower.contains("frontend") || lower.contains("component") || lower.contains("style") || lower.contains("css") || lower.contains("giao diện") {
+            &["frontend-developer", "ui-ux-designer"]
+        } else if lower.contains("api") || lower.contains("endpoint") || lower.contains("route") || lower.contains("rest") || lower.contains("graphql") {
+            &["backend-developer", "api-designer"]
+        } else if lower.contains("deploy") || lower.contains("docker") || lower.contains("ci") || lower.contains("pipeline") || lower.contains("triển khai") {
+            &["devops-engineer", "deployment-engineer"]
         } else {
             &["backend-developer", "frontend-developer", "fullstack-engineer"]
         };
