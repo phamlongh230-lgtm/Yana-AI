@@ -8,6 +8,22 @@ All notable changes to YAMTAM ENGINE release packs are documented here.
 
 ---
 
+## v0.41.0 — yana-router + mission-dispatcher + +32 trending skills + cleanup
+*2026-06-07*
+
+- **yana-router**: smarter agent selection, VI keyword support, `yamtam-rt route classify`
+- **mission-dispatcher**: parallel multi-agent mission loop, cancel/retry/--instructions, broken pipe fix
+- **mission-run skill**: integrate mission-run vào yana-classify complex path
+- **+32 GitHub trending skills** (Batches 1–5): 3,463→3,495
+  - paddleocr, khoj, bitnet, microsoft/BitNet, ibm/mcp-context-forge, cloudflare/vinext
+  - harry0703/moneyprinter-turbo, cheahjs/free-llm-api, shubhamsaboo/awesome-llm-apps
+  - 0x4m4/hexstrike-ai, run-llama/liteparse, nvidia/cosmos, github/copilot-sdk, và 19 repo khác
+- **Cleanup**: xóa MP3 + 4 .cpp demo, git filter-repo loại Antigravity 123MB khỏi toàn bộ lịch sử
+- **MANIFEST**: bundled_tools.Antigravity-x64 ghi lại git_status + cleaned date
+- **README + homepage**: sync 3,495 skills · 95 agents · 46 hooks (EN/VI/KO)
+
+---
+
 ## v0.40.0 — Multi-agent parallel launcher + Antigravity integration
 *2026-06-05*
 
