@@ -119,35 +119,30 @@
           const off = getOffset();
           if (off > 3) e.target.seekTo(off, true);
 
-          // Execute pending play from button click before player was ready
-          if (_pendingPlay) {
-            _pendingPlay = false;
-            e.target.playVideo();
-          } else {
-            e.target.playVideo();
-          }
+          const shouldPlay = _pendingPlay || wasPlaying();
+          _pendingPlay = false;
 
-          if (_muted) {
-            e.target.mute();
-          } else {
-            e.target.setVolume(0);
-            let v = 0;
-            const fade = setInterval(() => {
-              v = Math.min(100, v + 6);
-              e.target.setVolume(v);
-              if (v >= 100) clearInterval(fade);
-            }, 90);
+          if (shouldPlay) {
+            e.target.playVideo();
+            if (_muted) {
+              e.target.mute();
+            } else {
+              e.target.setVolume(0);
+              let v = 0;
+              const fade = setInterval(() => {
+                v = Math.min(100, v + 6);
+                e.target.setVolume(v);
+                if (v >= 100) clearInterval(fade);
+              }, 90);
+            }
+            // Check if browser blocked autoplay
+            setTimeout(() => {
+              const st = e.target.getPlayerState();
+              if (st !== 1 && st !== 3) _showResumeBtn();
+            }, 1000);
           }
 
           _syncBtn();
-
-          // Check autoplay success after 1s
-          setTimeout(() => {
-            const st = e.target.getPlayerState();
-            if (st !== 1 && st !== 3 && wasPlaying()) {
-              _showResumeBtn();
-            }
-          }, 1000);
         },
 
         onStateChange: function (e) {
