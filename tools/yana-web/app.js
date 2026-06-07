@@ -201,7 +201,7 @@ runBtn.addEventListener('click', async () => {
 });
 
 taskInput.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) runBtn.click();
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); runBtn.click(); }
 });
 
 // ── History ───────────────────────────────────────────────────────────────────
