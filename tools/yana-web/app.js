@@ -12,6 +12,61 @@ const PROVIDER_MODELS = {
 // ── Element refs ──────────────────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
 
+// ── Markdown renderer (no external deps) ──────────────────────────────────────
+function escHtml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function inlineMd(s) {
+  return s
+    .replace(/`([^`]+)`/g, '<code class="md-ic">$1</code>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>');
+}
+
+function renderMd(raw) {
+  const lines  = raw.split('\n');
+  const out    = [];
+  let inCode   = false, codeBuf = [];
+  let inList   = false, listBuf = [];
+
+  function flushList() {
+    if (!inList) return;
+    out.push('<ul class="md-ul">' + listBuf.map(l => `<li>${l}</li>`).join('') + '</ul>');
+    listBuf = []; inList = false;
+  }
+
+  for (const line of lines) {
+    if (line.startsWith('```')) {
+      if (!inCode) { flushList(); inCode = true; codeBuf = []; }
+      else {
+        inCode = false;
+        out.push(`<pre class="md-pre"><code>${escHtml(codeBuf.join('\n'))}</code></pre>`);
+      }
+      continue;
+    }
+    if (inCode) { codeBuf.push(line); continue; }
+
+    const hm = line.match(/^(#{1,3}) (.*)/);
+    if (hm) { flushList(); out.push(`<h${hm[1].length} class="md-h">${inlineMd(escHtml(hm[2]))}</h${hm[1].length}>`); continue; }
+
+    const lm = line.match(/^[-*] (.*)/);
+    if (lm) { inList = true; listBuf.push(inlineMd(escHtml(lm[1]))); continue; }
+
+    const om = line.match(/^\d+\. (.*)/);
+    if (om) { inList = true; listBuf.push(inlineMd(escHtml(om[1]))); continue; }
+
+    if (!line.trim()) { flushList(); out.push('<br>'); continue; }
+
+    flushList();
+    out.push(`<p class="md-p">${inlineMd(escHtml(line))}</p>`);
+  }
+
+  flushList();
+  if (inCode) out.push(`<pre class="md-pre"><code>${escHtml(codeBuf.join('\n'))}</code></pre>`);
+  return out.join('');
+}
+
 const keyInput       = $('api-key-input');
 const saveKeyBtn     = $('save-key-btn');
 const keyStatus      = $('key-status');
@@ -114,8 +169,9 @@ function renderRoute(d) {
 
 // ── SSE streaming ─────────────────────────────────────────────────────────────
 function streamChat(task, apiKey, suggestedAgents, skill) {
-  resultText.textContent = '';
+  resultText.innerHTML = '';
   show(resultCard);
+  let fullText = '';
 
   fetch('/api/chat', {
     method:  'POST',
@@ -127,7 +183,7 @@ function streamChat(task, apiKey, suggestedAgents, skill) {
       skill:    skill || null,
     }),
   }).then(res => {
-    if (!res.ok || !res.body) { resultText.textContent = `HTTP error ${res.status}`; return; }
+    if (!res.ok || !res.body) { resultText.innerHTML = escHtml(`HTTP error ${res.status}`); return; }
     const reader  = res.body.getReader();
     const decoder = new TextDecoder();
     let buf = '';
@@ -144,18 +200,18 @@ function streamChat(task, apiKey, suggestedAgents, skill) {
           if (raw === '[DONE]') return;
           try {
             const evt = JSON.parse(raw);
-            if (evt.text)  resultText.textContent += evt.text;
-            if (evt.error) resultText.textContent += `\n[Error: ${evt.error}]`;
+            if (evt.text)  { fullText += evt.text; resultText.innerHTML = renderMd(fullText); }
+            if (evt.error) { resultText.innerHTML += `<span class="md-err">[Error: ${escHtml(evt.error)}]</span>`; }
           } catch (_) {}
         }
         pump();
       }).catch(err => {
-        resultText.textContent += `\n[stream error: ${err.message}]`;
+        resultText.innerHTML += `<span class="md-err">[stream error: ${escHtml(err.message)}]</span>`;
       });
     }
     pump();
   }).catch(err => {
-    resultText.textContent = `Error: ${err.message}`;
+    resultText.innerHTML = escHtml(`Error: ${err.message}`);
   });
 }
 
@@ -179,12 +235,10 @@ runBtn.addEventListener('click', async () => {
     renderRoute(decision);
 
     if (decision.route === 'external') {
-      resultText.textContent =
-        '⚠ External action detected — manual confirmation required before proceeding.';
+      resultText.innerHTML = '<p class="md-p">⚠ External action detected — manual confirmation required before proceeding.</p>';
       show(resultCard);
     } else if (!getKey()) {
-      resultText.textContent =
-        `Save your ${providerSelect.value} API key above to get an AI response.`;
+      resultText.innerHTML = `<p class="md-p">Save your ${escHtml(providerSelect.value)} API key above to get an AI response.</p>`;
       show(resultCard);
     } else {
       streamChat(task, getKey(), decision.suggested_agents || [], decision.suggested_skill);
@@ -192,7 +246,7 @@ runBtn.addEventListener('click', async () => {
 
     pushHistory(task, decision.route);
   } catch (err) {
-    resultText.textContent = `Error: ${err.message}`;
+    resultText.innerHTML = escHtml(`Error: ${err.message}`);
     show(resultCard);
   } finally {
     runBtn.disabled   = false;

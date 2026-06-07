@@ -44,6 +44,111 @@ Works with **Claude Code**, **Cursor**, **OpenCode**, **Zed**, **Gemini**, **Git
 
 ---
 
+## YAMTAM at a Glance
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                        YAMTAM ENGINE v0.41.0                            │
+│          "The safety layer that stops AI coding agents                  │
+│                    before they break your repo."                        │
+│                                                                         │
+│  Built by Vũ Văn Tâm · 17 · Vietnam · 1 month · 1,129,782 lines        │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+```mermaid
+graph TB
+    %% ── Mission ──────────────────────────────────────────────────────────
+    subgraph MISSION["🎯 Mission — AI coding agent safety layer"]
+        direction LR
+        AGENT["Agent wants\nto run a command"]
+        GATE["9-layer gate\nintercepts every call"]
+        OUT["Execute ✅\nor BLOCK + log 🚫"]
+        AGENT --> GATE --> OUT
+    end
+
+    %% ── Gate layers ──────────────────────────────────────────────────────
+    subgraph GATES["🔒 9-Layer Gate System (L1 → L9)"]
+        direction LR
+        G1["L1\nAnti-evasion\nbase64, pipe-to-shell"]
+        G2["L2\nShell sanitize\nquoting, metacharacters"]
+        G3["L3\nEgress / SSRF\nprivate IPs blocked"]
+        G4["L4\nSupply chain\ntyposquatting, CVEs"]
+        G5["L5\nBlast radius\ndestructive scope cap"]
+        G6["L6\nPermission tier\nagent authority check"]
+        G7["L7\nCode signing\nECDSA-P256"]
+        G8["L8\nMerkle audit\nhash-chain, tamper-proof"]
+        G9["L9\nSovereign overlord\nhuman veto / freeze swarm"]
+        G1 --> G2 --> G3 --> G4 --> G5 --> G6 --> G7 --> G8 --> G9
+    end
+
+    %% ── Core engine ──────────────────────────────────────────────────────
+    subgraph CORE["⚙️ Core Engine"]
+        direction TB
+        SKILLS["📚 3,405 skills\nSKILL.md workflow defs\n(frontend, backend, AI, K8s, sec...)"]
+        AGENTS["🤖 95 specialist agents\n(planner, security-auditor,\ndatabase-expert, tdd-guide...)"]
+        RULES["📜 61 enforced rules\n(security, git, UI, TypeScript,\nAPI security, sandbox...)"]
+        HOOKS["🪝 46 hooks\nPreToolUse · PostToolUse · Stop\n(guard-destructive, truth-gate...)"]
+        CMDS["⚡ 164 slash commands\n/audit · /scan · /route\n/tdd-cycle · /simplify..."]
+        BUS["🚌 Agent message bus\nJSON + ECDSA sig\nreplay-protected, BFT consensus"]
+        MEM["🧠 Memory tiers\nL1 permanent · L2 session\nMerkle-chained, AES-256-GCM"]
+    end
+
+    %% ── Rust runtime ─────────────────────────────────────────────────────
+    subgraph RT["⚡ Rust Runtime — yamtam-rt"]
+        direction LR
+        SCAN["scan · hunt · fix\nVulnerabilities, OWASP,\nsupply chain — 1256× faster"]
+        ROUTE["route · mission\nTask classifier → simple/\ncomplex/external dispatch"]
+        VAULT["graph · vault · doctor\nKnowledge graph,\nskill search, health check"]
+    end
+
+    %% ── Tools ────────────────────────────────────────────────────────────
+    subgraph TOOLS["🛠️ Tools — sub-projects"]
+        direction LR
+        YANA["yana-web ✅\nZero-dep Node.js web UI\nAnthropic · Groq · OpenAI\nSkill routing · SSE streaming"]
+        CODEXMATE["codexmate\nOpenAI Codex integration\nVietnamese patch"]
+        MOSS["moss-tts-nano\nTTS engine"]
+        FINETUNE["finetune-vi\nVietnamese LLM fine-tuning"]
+    end
+
+    %% ── Harness adapters ─────────────────────────────────────────────────
+    subgraph HARNESS["🔌 Harness Adapters (12)"]
+        direction LR
+        H1["Claude Code\nCursor · Zed"]
+        H2["Gemini · Copilot\nAider · OpenCode"]
+        H3["Cloudflare Workers\nGitHub Actions"]
+    end
+
+    %% ── Active branches ──────────────────────────────────────────────────
+    subgraph BRANCHES["🌿 Active Branches"]
+        direction LR
+        BMAIN["main ✅\nv0.41.0 — stable"]
+        BVDEV["v1.8.0-dev\nnext release (in progress)"]
+        BCF["cloudflare/workers-autoconfig\nWorkers zero-config setup"]
+        BCX["codex/fix-hello-bug-in-bn\nCodex compatibility"]
+    end
+
+    %% ── Product funnel ───────────────────────────────────────────────────
+    subgraph FUNNEL["📣 Product Funnel — 'Scan first. Guard later.'"]
+        direction LR
+        F1["① yamtam audit .\n30s · no learning needed\nScan any repo for AI agent risks"]
+        F2["② Policy Kit\nAdopt safe configs piece by piece\n(CLAUDE.md · .mcp.json · CI gates)"]
+        F3["③ Full Control Layer\nAll 9 gates · 95 agents\nMerkle log · Sovereign veto"]
+        F1 --> F2 --> F3
+    end
+
+    %% ── Connections ──────────────────────────────────────────────────────
+    MISSION --> GATES
+    GATES --> CORE
+    CORE --> RT
+    CORE --> TOOLS
+    CORE --> HARNESS
+```
+
+> **Reading the diagram:** every AI tool call flows `MISSION → GATES → CORE`. The Rust runtime (`yamtam-rt`) accelerates the scanner. Sub-project tools (yana-web etc.) use the same gate system. Branches show active development fronts.
+
+---
+
 ## The problem
 
 AI coding agents make mistakes. They `rm -rf` the wrong directory. They push force to main. They hallucinate test results. They commit secrets. By the time you notice, the damage is done.

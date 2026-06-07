@@ -437,10 +437,68 @@ body {
   font-family: var(--font-sans);
   font-size: 0.9375rem;
   line-height: 1.6;
-  white-space: pre-wrap;
   word-break: break-word;
+  overflow-wrap: break-word;
   color: var(--color-foreground);
   max-width: 75ch;
+}
+
+/* Markdown elements */
+.result-text .md-p {
+  margin: 0 0 0.25rem;
+}
+
+.result-text .md-h {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0.875rem 0 0.25rem;
+  color: var(--color-foreground);
+}
+
+.result-text h1.md-h { font-size: 1.5rem; }
+.result-text h2.md-h { font-size: 1.25rem; }
+.result-text h3.md-h { font-size: 1.125rem; }
+
+.result-text .md-pre {
+  background: var(--color-background-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
+  margin: 0.5rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  white-space: pre;
+}
+
+.result-text .md-pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+.result-text .md-ic {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--color-background-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+}
+
+.result-text .md-ul {
+  padding-left: 1.25rem;
+  margin: 0.25rem 0;
+}
+
+.result-text .md-ul li {
+  margin-bottom: 0.2rem;
+}
+
+.result-text .md-err {
+  color: var(--color-danger);
+  font-style: italic;
 }
 
 /* ── Sidebar / history ───────────────────────────────────────────────── */
