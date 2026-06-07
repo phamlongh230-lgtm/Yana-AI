@@ -75,6 +75,9 @@ const welcomeEl      = $('welcome');
 const taskInput      = $('task-input');
 const runBtn         = $('run-btn');
 const historyList    = $('history-list');
+const attachBtn      = $('attach-btn');
+const fileInput      = $('file-input');
+const fileChips      = $('file-chips');
 
 // ── Sidebar toggle ─────────────────────────────────────────────────────────────
 function openSidebar()  { sidebar.classList.add('open');    sidebarOverlay.classList.add('show'); }
@@ -93,6 +96,8 @@ newChatBtn.addEventListener('click', () => {
   closeSidebar();
   chatHistory.length = 0;
   renderHistory();
+  attachedFiles.length = 0;
+  renderFileChips();
 });
 
 // ── Stats ──────────────────────────────────────────────────────────────────────
@@ -264,12 +269,90 @@ function streamChat(task, apiKey, decision) {
   });
 }
 
+// ── File attachments ───────────────────────────────────────────────────────────
+const attachedFiles = [];  // [{ name, size, content }]
+
+function fmtSize(bytes) {
+  if (bytes < 1024) return `${bytes}B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)}KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)}MB`;
+}
+
+function renderFileChips() {
+  fileChips.innerHTML = '';
+  for (let i = 0; i < attachedFiles.length; i++) {
+    const f = attachedFiles[i];
+    const chip = document.createElement('div');
+    chip.className = 'file-chip';
+    chip.innerHTML = `
+      <span class="file-chip-name" title="${escHtml(f.name)}">${escHtml(f.name)}</span>
+      <span class="file-chip-size">${fmtSize(f.size)}</span>
+      <button class="file-chip-remove" type="button" aria-label="Remove file" data-idx="${i}">×</button>`;
+    fileChips.appendChild(chip);
+  }
+  attachBtn.classList.toggle('has-files', attachedFiles.length > 0);
+}
+
+fileChips.addEventListener('click', e => {
+  const btn = e.target.closest('.file-chip-remove');
+  if (!btn) return;
+  const idx = parseInt(btn.dataset.idx, 10);
+  attachedFiles.splice(idx, 1);
+  renderFileChips();
+});
+
+attachBtn.addEventListener('click', () => fileInput.click());
+
+fileInput.addEventListener('change', () => {
+  const MAX_FILE   = 64 * 1024;       // 64 KB per file
+  const MAX_TOTAL  = 256 * 1024;      // 256 KB total
+  const files = Array.from(fileInput.files || []);
+  fileInput.value = '';
+
+  let pending = files.length;
+  if (!pending) return;
+
+  files.forEach(file => {
+    if (file.size > MAX_FILE) {
+      addAiMsg(`<span class="md-err">File <strong>${escHtml(file.name)}</strong> quá lớn (max 64 KB). Hãy paste đoạn code cần thiết thôi nhé.</span>`, {});
+      pending--;
+      return;
+    }
+    const totalAfter = attachedFiles.reduce((s, f) => s + f.size, 0) + file.size;
+    if (totalAfter > MAX_TOTAL) {
+      addAiMsg(`<span class="md-err">Tổng file đính kèm vượt 256 KB. Bỏ bớt file cũ trước nhé.</span>`, {});
+      pending--;
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      attachedFiles.push({ name: file.name, size: file.size, content: reader.result });
+      renderFileChips();
+      pending--;
+    };
+    reader.onerror = () => { pending--; };
+    reader.readAsText(file);
+  });
+});
+
+function buildTaskWithFiles(userText) {
+  if (!attachedFiles.length) return userText;
+  const blocks = attachedFiles.map(f =>
+    `\`\`\`${f.name}\n${f.content}\n\`\`\``
+  ).join('\n\n');
+  return `${blocks}\n\n${userText}`.trim();
+}
+
 // ── Run ────────────────────────────────────────────────────────────────────────
 async function runTask() {
-  const task = taskInput.value.trim();
-  if (!task) { taskInput.focus(); return; }
+  const raw = taskInput.value.trim();
+  if (!raw && !attachedFiles.length) { taskInput.focus(); return; }
+  const userText = raw || '(Xem file đính kèm)';
+  const task = buildTaskWithFiles(userText);
 
-  addUserMsg(task);
+  addUserMsg(userText + (attachedFiles.length ? `\n\n📎 ${attachedFiles.map(f => f.name).join(', ')}` : ''));
+  attachedFiles.length = 0;
+  renderFileChips();
   taskInput.value = '';
   autoResize();
   runBtn.disabled = true;
