@@ -42983,6 +42983,21 @@
       "computedHash": "ceef796e9823a28b67280627cfb5adff7e93cbfc48086ed780574e16b2cb25fd",
       "localPath": "core/skills/mission-run",
       "addedAt": "2026-06-06T13:17:56Z"
+    },
+    "vnpay-integration": {
+      "computedHash": "88a58d00d5db9de1b37d6dcaab1e172536893245cd22bd505cecf7ae10e5565d",
+      "localPath": "core/skills/vnpay-integration",
+      "addedAt": "2026-06-08T06:12:31Z"
+    },
+    "openwork-agent": {
+      "computedHash": "01a1b119c296a62371c7adb565d891edd575aaffa7ce0b0cdba1270cf0aca665",
+      "localPath": "core/skills/openwork-agent",
+      "addedAt": "2026-06-08T06:12:31Z"
+    },
+    "graphify-knowledge-graph": {
+      "computedHash": "2b6e56c88d9d35ae155299d923253a359a9bee4b1e75706574921a8c564f9dab",
+      "localPath": "core/skills/graphify-knowledge-graph",
+      "addedAt": "2026-06-08T06:12:31Z"
     }
   }
 }
