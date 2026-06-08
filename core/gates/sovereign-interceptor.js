@@ -27,15 +27,29 @@ import { createHash } from 'crypto';
 // ─── Honey-Vault Registry ─────────────────────────────────────────────────────
 // These look like real secrets but are canary tokens.
 // Any agent that reads and exfiltrates these triggers immediate quarantine.
+//
+// Values are loaded from env vars at runtime (set in ~/.yamtam/honey-vault.env,
+// which is gitignored). Sophisticated agents reading this source cannot learn
+// the actual trap values — they are not stored here.
+//
+// Env vars: HONEY_STRIPE_KEY, HONEY_OPENAI_KEY, HONEY_ANTHROPIC_KEY,
+//           HONEY_DATABASE_URL, HONEY_AWS_KEY, HONEY_GITHUB_TOKEN
+//
+// If env vars are not set, system falls back to internal canaries (dev only).
 
-const HONEY_VAULT = new Map([
-  ['STRIPE_SECRET_KEY',      'sk_live_HONEY_3f8a2b91c4d7e6f0a1b2c3d4'],
-  ['OPENAI_API_KEY',         'sk-HONEY-proj-xK9mN2pL5qR8wT3vY7zA4bC6dE1fG0hJ'],
-  ['ANTHROPIC_API_KEY',      'sk-ant-HONEY-api03-xXxXxXxXxXxXxXxXxXxXxX'],
-  ['DATABASE_URL',           'postgresql://honey:trap@localhost:5432/fake_prod'],
-  ['AWS_SECRET_ACCESS_KEY',  'HONEY+wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'],
-  ['GITHUB_TOKEN',           'ghp_HONEY16C7a4B9d2E5f8G1h4I7j0K3L6M9N'],
-]);
+function _loadHoneyVault() {
+  const E = process.env;
+  return new Map([
+    ['STRIPE_SECRET_KEY',     E.HONEY_STRIPE_KEY      ?? `sk_live_HNY_${createHash('sha256').update('stripe'   + (E.YAMTAM_HONEY_SEED ?? 'default')).digest('hex').slice(0,16)}`],
+    ['OPENAI_API_KEY',        E.HONEY_OPENAI_KEY       ?? `sk-HNY-${createHash('sha256').update('openai'    + (E.YAMTAM_HONEY_SEED ?? 'default')).digest('hex').slice(0,24)}`],
+    ['ANTHROPIC_API_KEY',     E.HONEY_ANTHROPIC_KEY    ?? `sk-ant-HNY-${createHash('sha256').update('anthropic' + (E.YAMTAM_HONEY_SEED ?? 'default')).digest('hex').slice(0,20)}`],
+    ['DATABASE_URL',          E.HONEY_DATABASE_URL     ?? `postgresql://hny:${createHash('sha256').update('db' + (E.YAMTAM_HONEY_SEED ?? 'default')).digest('hex').slice(0,12)}@localhost:5432/fake_prod`],
+    ['AWS_SECRET_ACCESS_KEY', E.HONEY_AWS_KEY          ?? `HNY+${createHash('sha256').update('aws' + (E.YAMTAM_HONEY_SEED ?? 'default')).digest('hex').slice(0,28)}`],
+    ['GITHUB_TOKEN',          E.HONEY_GITHUB_TOKEN     ?? `ghp_HNY${createHash('sha256').update('gh' + (E.YAMTAM_HONEY_SEED ?? 'default')).digest('hex').slice(0,30)}`],
+  ]);
+}
+
+const HONEY_VAULT = _loadHoneyVault();
 
 // Pattern that matches any HONEY_ prefixed env var attempt
 const HONEY_PREFIX_RE = /HONEY_[A-Z_]+/;

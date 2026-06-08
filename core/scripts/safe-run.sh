@@ -25,9 +25,20 @@ case "$ENGINE" in
   cursor|aider|copilot) HARD_MODE=true ;;
 esac
 
-# Bypass — sovereign override only
+# Bypass — sovereign override only (requires identity verification)
 if [[ "${YAMTAM_SAFE_RUN_BYPASS:-0}" == "1" ]]; then
-  echo "[yamtam/safe-run] BYPASS active (engine=$ENGINE)" >> "$LOG_FILE" 2>/dev/null || true
+  IDENTITY_GATE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/gates/identity-gate.sh"
+  if [[ -f "$IDENTITY_GATE" ]]; then
+    if ! bash "$IDENTITY_GATE" --verify 2>/dev/null; then
+      echo "[yamtam/safe-run] BYPASS denied — identity verification failed" >&2
+      echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] BYPASS-DENIED engine='$ENGINE' cmd='$COMMAND'" >> "$LOG_FILE" 2>/dev/null || true
+      exit 1
+    fi
+  else
+    echo "[yamtam/safe-run] BYPASS denied — identity-gate.sh not found" >&2
+    exit 1
+  fi
+  echo "[yamtam/safe-run] BYPASS active (engine=$ENGINE, identity verified)" >> "$LOG_FILE" 2>/dev/null || true
   eval "$COMMAND"
   exit $?
 fi
