@@ -61,17 +61,8 @@ window.YANA = {
 
   // safety stats now come from GET /api/dashboard (real audit log)
 
-  chat: [
-    { who: "user", text: "Where are we on the v0.9 release? Anything blocking?" },
-    { who: "yana", route: { agent: "Navigator", model: "Claude Sonnet 4.6" },
-      text: "v0.9 is at 72% and on track for Jun 14. Two threads are live: Sentinel is running the safety regression suite (no failures so far, 41 of 58 cases done), and Curator is finalizing the memory snapshot v2 format. Nothing is blocked — but the release notes draft hasn't started, so I've queued Scribe to begin once the snapshot format freezes.",
-      refs: ["Mission: Ship YAMTAM Engine v0.9", "Memory: v0.8 slip → regression gate"] },
-    { who: "user", text: "Good. Have Forge hold any merges to main until the suite finishes." },
-    { who: "yana", route: { agent: "Sentinel", model: "Claude Sonnet 4.6" },
-      text: "Done. I've placed a merge freeze on yamtam-engine/main until the regression suite completes. Forge has 1 open PR (#482) — it will stay in review. I'll lift the freeze automatically and notify you when Sentinel signs off.",
-      action: { label: "Merge freeze · yamtam-engine/main", state: "Active — auto-lifts on suite pass" },
-      refs: ["Policy: Sentinel review required", "PR #482"] },
-  ],
+  // real conversation only — starts empty, persists across page navigation
+  chat: [],
 };
 
 // Pull live stats from MANIFEST.json via server

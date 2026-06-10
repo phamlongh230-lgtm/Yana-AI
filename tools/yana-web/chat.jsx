@@ -52,30 +52,59 @@ function Message({ msg }) {
   );
 }
 
+// Default model per provider — mirrors PROVIDERS defaults in server.js
+const CHAT_MODELS = {
+  claude:     "claude-sonnet-4-6",
+  openai:     "gpt-4o-mini",
+  gemini:     "gemini-2.0-flash",
+  groq:       "llama-3.3-70b-versatile",
+  deepseek:   "deepseek-chat",
+  openrouter: "google/gemma-3-27b-it",
+};
+
 function ContextPanel() {
   const D = window.YANA;
+  const [facts, setFacts] = React.useState(null);
+
+  React.useEffect(() => {
+    fetch("/api/dashboard")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => { if (d) setFacts(d.memories.recent); })
+      .catch(() => {});
+  }, []);
+
+  // Real routing: providers that actually have a key, in send order
+  const keyed = D.providers.filter((p) => YanaVault.hasKey(p.id));
+  const primary  = keyed[0];
+  const fallback = keyed[1];
+
   return (
     <aside style={{ width: 240, flex: "none", display: "flex", flexDirection: "column", gap: "var(--gap)", overflowY: "auto" }}>
       <Card title={L("Routing", "Định tuyến")}>
         <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-          {[[L("Orchestrator", "Điều phối"), "Navigator"], [L("Model", "Mô hình"), "Claude Sonnet 4.6"], [L("Fallback", "Dự phòng"), "GPT-4o"], [L("Router", "Bộ định tuyến"), "Groq · 0.2s"]].map(([k, v]) => (
-            <div key={k} style={{ display: "flex", justifyContent: "space-between", fontSize: 12.5 }}>
-              <span style={{ color: "var(--ink-3)" }}>{k}</span>
-              <span style={{ fontWeight: 500 }}>{v}</span>
+          {[
+            [L("Provider", "Nhà cung cấp"), primary ? primary.name : L("None — add a key", "Chưa có key")],
+            [L("Model", "Mô hình"), primary ? (CHAT_MODELS[primary.id] || "—") : "—"],
+            [L("Fallback", "Dự phòng"), fallback ? fallback.name : "—"],
+            [L("Connected", "Đã kết nối"), keyed.length + " / " + D.providers.length],
+          ].map(([k, v]) => (
+            <div key={k} style={{ display: "flex", justifyContent: "space-between", gap: 8, fontSize: 12.5 }}>
+              <span style={{ color: "var(--ink-3)", flex: "none" }}>{k}</span>
+              <span style={{ fontWeight: 500, textAlign: "right", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{v}</span>
             </div>
           ))}
         </div>
       </Card>
       <Card title={L("Context in use", "Ngữ cảnh đang dùng")}>
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          {D.memories.filter((m) => m.pinned || m.fresh).slice(0, 3).map((m) => (
-            <div key={m.id} style={{ fontSize: 12, color: "var(--ink-2)", lineHeight: 1.45, display: "flex", gap: 7 }}>
-              <span style={{ color: m.pinned ? "var(--gold)" : "var(--pink)", flex: "none", marginTop: 1 }}>
-                {m.pinned ? Icons.pin(13) : Icons.memory(13)}
-              </span>
-              {m.text}
-            </div>
-          ))}
+          {facts && facts.length
+            ? facts.map((m, i) => (
+                <div key={i} style={{ fontSize: 12, color: "var(--ink-2)", lineHeight: 1.45, display: "flex", gap: 7 }}>
+                  <span style={{ color: "var(--pink)", flex: "none", marginTop: 1 }}>{Icons.memory(13)}</span>
+                  {m.text}
+                </div>
+              ))
+            : <span style={{ fontSize: 12, color: "var(--ink-3)" }}>{L("No memories yet.", "Chưa có ký ức nào.")}</span>}
         </div>
       </Card>
       <Card title={L("Safety", "An toàn")}>
@@ -111,6 +140,9 @@ function Chat({ t }) {
     if (el) el.scrollTop = el.scrollHeight;
   }, [msgs, thinking]);
 
+  // Persist the real conversation across page navigation (session-scoped)
+  React.useEffect(() => { D.chat = msgs; }, [msgs]);
+
   // Cancel any in-flight stream on unmount
   React.useEffect(() => {
     return () => { if (readerRef.current) readerRef.current.cancel(); };
@@ -143,10 +175,10 @@ function Chat({ t }) {
       let accumulated = "";
       const msgId = Date.now();
 
-      // Insert placeholder Yana message
+      // Insert placeholder Yana message — route shows the real provider/model
       setMsgs((m) => [...m, {
         who: "yana",
-        route: { agent: "Navigator", model: provider === "claude" ? "Claude Sonnet 4.6" : provider },
+        route: { agent: provider, model: CHAT_MODELS[provider] || provider },
         text: "",
         _id: msgId,
       }]);
@@ -180,8 +212,9 @@ function Chat({ t }) {
       setThinking(false);
       setMsgs((m) => [...m, {
         who: "yana",
-        route: { agent: "Navigator", model: provider },
-        text: "Could not reach the server. Check that Yana is running and a provider key is set.",
+        route: { agent: provider, model: CHAT_MODELS[provider] || provider },
+        text: L("Could not reach the server. Check that Yana is running and a provider key is set.",
+                "Không kết nối được máy chủ. Kiểm tra Yana đang chạy và đã đặt API key."),
       }]);
     }
   }
@@ -191,6 +224,21 @@ function Chat({ t }) {
       <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", minHeight: 0 }}>
         <PageHeader title={L("Conversation", "Trò chuyện")} sub={L("One conversation, many hands — Yana routes each request to the right agent.", "Một cuộc trò chuyện, nhiều bàn tay — Yana chuyển mỗi yêu cầu đến đúng tác nhân.")} />
         <div ref={logRef} style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", gap: "calc(16px * var(--sp))", padding: "4px 4px 16px", minHeight: 0 }}>
+          {msgs.length === 0 && !thinking && (
+            <div style={{ margin: "auto", textAlign: "center", color: "var(--ink-3)", maxWidth: 380 }}>
+              <YanaMark size={34} />
+              <div style={{ fontSize: 14, fontWeight: 500, color: "var(--ink-2)", marginTop: 12 }}>
+                {L("Start a conversation", "Bắt đầu trò chuyện")}
+              </div>
+              <div style={{ fontSize: 12.5, lineHeight: 1.55, marginTop: 6 }}>
+                {getProviderConfig().apiKey
+                  ? L("Yana routes your request to the connected provider and streams the answer here.",
+                      "Yana chuyển yêu cầu của bạn đến nhà cung cấp đã kết nối và trả lời tại đây.")
+                  : L("No provider key set — add one in Providers first.",
+                      "Chưa có API key — thêm key ở mục Nhà cung cấp trước.")}
+              </div>
+            </div>
+          )}
           {msgs.map((m, i) => <Message key={m._id || i} msg={m} />)}
           {thinking && (
             <div style={{ display: "flex", alignItems: "center", gap: 9, color: "var(--ink-3)", fontSize: 12.5 }}>
