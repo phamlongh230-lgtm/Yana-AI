@@ -1,134 +1,124 @@
 ---
 name: supermemory
-description: Managed Memory API for AI agents and apps — ingest content, auto-chunk into searchable memories, build user profiles, resolve contradictions, and retrieve the right context at query time. Ranked #1 on LongMemEval, LoCoMo, ConvoMem.
-license: MIT
-compatibility: yamtam-engine >= 1.3.54
-metadata:
-  origin: yamtam-engine — synthesized from supermemoryai/supermemory (MIT)
-  version: 1.0.0
+description: Persistent memory + RAG + User Profile cho AI agents. #1 LongMemEval benchmark. Thay thế L1/L2 memory thủ công bằng API cloud chuẩn.
 triggers:
-  - "supermemory"
-  - "supermemory API"
-  - "long-term memory agent"
-  - "agent memory across sessions"
-  - "user profile memory"
-  - "personalization layer chatbot"
-  - "memory + RAG without vector DB"
-  - "connect Slack Notion Gmail memory"
-  - "recall past conversations"
-  - "LongMemEval memory"
-  - "managed memory API"
-  - "supermemoryai"
-do_not_use_for:
-  - Tiered memory (user/session/agent) with fine-grained scoping — use mem0 instead
-  - Self-managing OS-style memory with virtual context — use memgpt-virtual-context instead
-  - Fully open-source self-hosted memory pipelines — use mem0 or Letta instead
-see_also:
-  - mem0
-  - memgpt-virtual-context
-  - rag-architect
-  - in-memory-vector-storage
+  - supermemory
+  - persistent memory
+  - nhớ qua session
+  - AI memory
+  - long-term memory
+  - user profile AI
+  - RAG search
+  - tìm kiếm ngữ nghĩa
+  - agent memory
 ---
 
-# supermemory — Managed Memory API for AI Agents
+# supermemory — Memory Infrastructure for AI
 
-**Source:** supermemoryai/supermemory (MIT) — #1 LongMemEval · fast, scalable Memory API
+**Source**: github.com/supermemoryai/supermemory ⭐24k  
+**API**: api.supermemory.ai  
+**MCP**: mcp.supermemory.ai/mcp  
+**Benchmark**: #1 LongMemEval · LoCoMo · ConvoMem
 
-## Why supermemory
-
-Bundles memory storage + RAG into one hosted API. No vector DB to manage.
-Auto-chunks ingested content, resolves contradictions, builds dynamic user profiles,
-and returns the right memories at query time.
-
-## Install
+## Setup nhanh (MCP — không cần cài local)
 
 ```bash
-npm install supermemory    # TypeScript/JS
-pip install supermemory    # Python
+# Thêm MCP server vào Claude Code
+npx -y install-mcp@latest https://mcp.supermemory.ai/mcp --client claude --oauth=yes
 ```
 
-## Core API
+Hoặc thêm thủ công vào `~/.claude/settings.json`:
 
-```typescript
-import Supermemory from 'supermemory'
-
-const client = new Supermemory({ apiKey: process.env.SUPERMEMORY_API_KEY })
-
-// Ingest memory (auto-chunked)
-await client.add("User prefers dark mode and uses VS Code", {
-  containerTag: "user_123"   // isolate per user/agent
-})
-
-// Search memories
-const results = await client.search("user preferences", {
-  containerTag: "user_123"
-})
-
-// Get user profile (built from all memories)
-const profile = await client.profile({ containerTag: "user_123" })
-console.log(profile.summary)   // "User is a developer who prefers dark mode..."
+```json
+{
+  "mcpServers": {
+    "supermemory": {
+      "url": "https://mcp.supermemory.ai/mcp",
+      "headers": {
+        "Authorization": "Bearer sm_YOUR_API_KEY"
+      }
+    }
+  }
+}
 ```
 
-## REST API (direct)
+Lấy API key: [app.supermemory.ai](https://app.supermemory.ai)
 
-```bash
-# Ingest document
-curl -X POST https://api.supermemory.ai/v3/documents \
-  -H "Authorization: Bearer $SUPERMEMORY_API_KEY" \
-  -d '{"content": "...", "containerTag": "agent_session_1"}'
+## 3 khả năng chính
 
-# Search
-curl "https://api.supermemory.ai/v3/search?q=past+decisions&containerTag=agent_session_1" \
-  -H "Authorization: Bearer $SUPERMEMORY_API_KEY"
-```
-
-## Python SDK
+### 1. Memory API — tự học từ conversation
 
 ```python
 from supermemory import Supermemory
-
 client = Supermemory(api_key=os.environ["SUPERMEMORY_API_KEY"])
 
-# Add memory
-client.add("Meeting notes: decided to use Rust for performance layer", {
-    "container_tag": "project_yamtam"
-})
+# Lưu memory sau mỗi conversation
+client.add(
+    content="Anh Tâm thích Rust hơn Java, đang dùng Cloud Shell",
+    container_tag="tam_profile",
+    metadata={"type": "preference", "date": "2026-06-03"}
+)
 
-# Recall
-memories = client.search("architecture decisions", container_tag="project_yamtam")
-for m in memories.results:
-    print(m.content, m.relevance_score)
+# Tìm context liên quan
+context = client.profile(
+    container_tag="tam_profile",
+    query="thói quen làm việc"
+)
+print(context.profile)   # user profile tự generate
+print(context.memories)  # relevant memories
 ```
 
-## Data Source Integrations
+### 2. RAG — tìm kiếm ngữ nghĩa
 
-Supermemory connects natively to:
-- Slack, Notion, Google Drive, Gmail
-- GitHub (issues, PRs, commits)
-- Web pages (via URL ingestion)
-- Any REST endpoint via webhook
+```python
+# Upload tài liệu
+client.add(content=open("guide.md").read(), container_tag="yamtam_docs")
 
-## YAMTAM Integration Pattern
-
-```typescript
-// Use supermemory as external L3 for cross-session agent memory
-const memory = new Supermemory({ apiKey: process.env.SUPERMEMORY_API_KEY })
-
-// On session end — persist important decisions
-await memory.add(sessionSummary, { containerTag: "yamtam_agent" })
-
-// On session start — recall relevant context
-const ctx = await memory.search("current project state", {
-  containerTag: "yamtam_agent",
-  limit: 5
-})
+# Search hybrid (semantic + keyword)
+results = client.search(query="cách cài headroom", container_tag="yamtam_docs")
+for r in results.results:
+    print(r.content[:200])
 ```
 
-## vs mem0
+### 3. User Profile — 50ms latency
 
-| | supermemory | mem0 |
-|--|--|--|
-| Hosting | Managed API | Self-hosted or cloud |
-| Memory tiers | Single container-tag scope | user/session/agent tiers |
-| Benchmarks | #1 LongMemEval | Strong on structured recall |
-| Setup | API key only | More config needed |
+```python
+# Profile tự build từ memories, cập nhật liên tục
+profile = client.profile(container_tag="tam_profile")
+# → stable facts + recent activity combined
+```
+
+## Tích hợp với YAMTAM L1/L2
+
+| YAMTAM hiện tại | Supermemory thay thế |
+|---|---|
+| `core/scripts/add-fact.sh` | `client.add(content, container_tag)` |
+| L1 INDEX.md manual | `client.profile()` tự generate |
+| grep search trong .md files | `client.search()` semantic |
+| Session context bị mất | Persistent across sessions |
+
+## Connectors (auto-sync)
+
+```python
+# Kết nối Google Drive → tự sync
+client.connectors.create(type="google_drive", credentials=...)
+
+# GitHub repo sync
+client.connectors.create(type="github", repo="yamtam-engine")
+```
+
+Supported: Google Drive · Gmail · Notion · OneDrive · GitHub
+
+## Install SDK
+
+```bash
+pip install supermemory        # Python
+npm install supermemory        # TypeScript/Node
+```
+
+## Liên quan YAMTAM
+
+- Thay thế `memory/` manual markdown files
+- Persistent context qua nhiều session (không mất khi compaction)
+- Search ngữ nghĩa qua toàn bộ project history
+- User profile Tâm tự cập nhật theo thời gian

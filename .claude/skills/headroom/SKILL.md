@@ -1,125 +1,113 @@
 ---
 name: headroom
-description: Context compression layer for agent tool outputs, RAG chunks, logs, and inter-agent messages — 60–95% token reduction with no answer quality loss. Deployable as Python lib, TypeScript lib, HTTP proxy, or MCP server.
-license: MIT
-compatibility: yamtam-engine >= 1.3.54
-metadata:
-  origin: yamtam-engine — synthesized from chopratejas/headroom (MIT)
-  version: 1.0.0
+description: Context compression for YAMTAM — nén JSON/structured tool output trước khi vào LLM. Hiệu quả với JSON (50-72% tiết kiệm); text thuần cần bản [all].
 triggers:
-  - "headroom"
-  - "headroom compress"
-  - "compress tool output"
-  - "compress agent context"
-  - "reduce token from tool output"
-  - "compress RAG chunk"
-  - "shrink context window"
-  - "lower LLM API cost"
-  - "compress inter-agent message"
-  - "context compression agent"
-  - "token reduction LLM"
-  - "headroom proxy"
-  - "headroom MCP"
-do_not_use_for:
-  - Binary/stream compression at rest — use zlib-stream-compression instead
-  - Cryptographic encoding or transmission-layer compression
-  - File archiving — use zip-memory-operations instead
-see_also:
-  - prompt-caching-strategy
-  - zlib-stream-compression
-  - rag-architect
-  - mem0
+  - headroom
+  - compress context
+  - nén context
+  - giảm token
+  - context quá dài
+  - tool output lớn
+  - context window full
 ---
 
-# headroom — Context Compression for LLM Agents
+# headroom — Context Compression
 
-**Source:** chopratejas/headroom (MIT) — reversible context compression before LLM call
+**Package**: `headroom-ai` v0.22.4 (PyPI + npm)
+**License**: Apache 2.0
+**Source**: github.com/chopratejas/headroom
 
-## Why headroom
+## Hiệu quả thực tế (đã test v0.22.4)
 
-Tool outputs, search results, and RAG chunks are verbose by design — they're made for humans.
-headroom compresses them for LLMs: 60–95% token reduction, answers stay identical.
+| Input type | Kết quả |
+|---|---|
+| JSON phẳng (100 items) | **~72%** tiết kiệm ✅ |
+| JSON lồng (50 items) | **~53%** tiết kiệm ✅ |
+| Text thuần, git log | 0% — cần `[all]` extras |
+| Conversation history | 0% — `protect_recent` giữ nguyên |
 
-Key differentiator: **content-aware routing** — detects JSON vs code vs prose vs logs and
-applies the right compressor automatically.
+**Khi nào dùng:** API response, RAG chunks, MANIFEST/JSON lớn.
+**Không nên dùng cho:** git log thuần, prose, file .md.
+
+## Cách dùng đúng
+
+### 1. JSON / API response (hoạt động tốt nhất)
+
+```python
+from headroom import compress
+import json
+
+# Nén JSON response trước khi đưa vào messages
+data = json.dumps(large_api_response)
+messages = [{"role": "user", "content": data}]
+
+result = compress(messages, compress_user_messages=True, target_ratio=0.3)
+print(f"{result.tokens_before:,} → {result.tokens_after:,} tokens ({result.compression_ratio*100:.1f}%)")
+
+# Dùng messages đã nén
+compressed = result.messages
+```
+
+### 2. Context gần đầy — auto compress khi cần
+
+```python
+from headroom import compress
+
+# headroom chỉ nén khi tokens gần model_limit
+# Mặc định: model="claude-sonnet-4-5", limit=200K
+result = compress(messages)  # nén nếu > 80% limit
+
+# Chỉ định model cụ thể
+result = compress(messages, model="claude-opus-4-20250514")
+```
+
+### 3. Force compress (không quan tâm đến limit)
+
+```python
+result = compress(
+    messages,
+    compress_user_messages=True,  # compress cả user messages
+    target_ratio=0.3,              # giữ lại 30% tokens
+    protect_recent=0,              # không bảo vệ messages gần đây
+)
+```
+
+### 4. Wrap Claude Code (cần `[all]`)
+
+```bash
+pip install "headroom-ai[all]"
+headroom wrap claude        # wrap Claude Code — nén tự động
+headroom proxy --port 8787  # drop-in proxy, zero code change
+```
+
+### 5. MCP Server
+
+```bash
+headroom mcp install
+# Tools: headroom_compress, headroom_retrieve, headroom_stats
+```
+
+## Tích hợp YAMTAM hooks
+
+```json
+{
+  "type": "command",
+  "command": "headroom init hook ensure",
+  "timeout": 15
+}
+```
 
 ## Install
 
 ```bash
-pip install headroom-ai
-# TypeScript
-npm install headroom-ai
+pip install headroom-ai            # base: JSON compression
+pip install "headroom-ai[all]"    # full: proxy + MCP + ML (text compression)
+npm install headroom-ai            # TypeScript/Node
 ```
 
-## Core API
+## Anti-Fake-Pass
 
-```python
-from headroom import compress
-
-# Universal entry — auto-detects content type via ContentRouter
-result = compress(tool_output)
-print(result.compressed)       # compressed string
-print(result.ratio)            # e.g. 0.15 = 85% reduction
-print(result.tokens_saved)     # estimated tokens saved
-
-# Decompress (reversible)
-from headroom import decompress
-original = decompress(result.compressed)
-```
-
-## Compressor Types
-
-```python
-from headroom import SmartCrusher, CodeCompressor, SharedContext
-
-# JSON arrays / objects
-crusher = SmartCrusher()
-compact = crusher.compress(large_json_response)
-
-# Code files — AST-aware (Python, JS, Go, Rust, Java, C++)
-code_comp = CodeCompressor()
-compact_code = code_comp.compress(source_file)
-
-# Shared inter-agent context (80% smaller)
-ctx = SharedContext()
-ctx.put("search_results", raw_results)   # compressed store
-data = ctx.get("search_results")         # decompress on read
-```
-
-## Deployment Modes
-
-```bash
-# As HTTP proxy (OpenAI/Anthropic-compatible)
-pip install headroom-ai[proxy]
-headroom proxy --port 8080
-# Point your SDK at http://localhost:8080 — compression transparent
-
-# As MCP server
-headroom mcp
-# Add to .claude/settings.json mcpServers
-```
-
-## Agent Integration Pattern
-
-```python
-from headroom import compress
-
-def call_tool(tool_name, args):
-    raw_result = tools[tool_name](**args)
-    # Compress before injecting into agent context
-    compressed = compress(raw_result)
-    return compressed.compressed   # pass to LLM, not raw
-
-# Inter-agent: compress before handoff
-from headroom import SharedContext
-ctx = SharedContext()
-ctx.put("agent_1_findings", agent_1_output)
-# Agent 2 reads compressed — same info, 80% fewer tokens
-```
-
-## When to Use in YAMTAM
-
-- Before passing large tool results to agent context
-- When token budget warnings appear (budget-sentinel at 50%)
-- Compressing search results in RAG pipelines
-- Shrinking inter-agent handoff payloads in `/multi-run`
+- `compress(messages)` với messages nhỏ → 0% (bình thường, chưa cần nén)
+- `compress_user_messages=True` bắt buộc để nén user messages
+- Text thuần không nén được bằng base package — đừng ghi "60-95%" khi chưa test
+- `compression_ratio` = 1 - (after/before), không phải phần trăm tiết kiệm trực tiếp

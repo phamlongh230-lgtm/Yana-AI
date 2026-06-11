@@ -1,135 +1,97 @@
 ---
 name: markitdown
-description: Convert files and office documents to Markdown for LLM ingestion — supports DOCX, XLSX, PPTX, PDF, HTML, CSV, JSON, XML, images (OCR), audio, and ZIP archives. Optimized for RAG pipelines and text analysis, not document fidelity.
-license: MIT
-compatibility: yamtam-engine >= 1.3.54
-metadata:
-  origin: yamtam-engine — synthesized from microsoft/markitdown (MIT)
-  version: 1.0.0
+description: Convert mọi file (PDF, Word, Excel, PowerPoint, Image, Audio, HTML, CSV, YouTube URL) thành Markdown cho LLM. Tích hợp vào YAMTAM vault để import tài liệu.
 triggers:
-  - "markitdown"
-  - "convert document to markdown"
-  - "convert office document to markdown"
-  - "PDF to markdown"
-  - "DOCX to markdown"
-  - "PPTX to markdown"
-  - "XLSX to markdown"
-  - "extract text from document LLM"
-  - "feed document into RAG"
-  - "batch convert files to text"
-  - "OCR image to markdown"
-  - "microsoft markitdown"
-  - "file to markdown LLM"
-do_not_use_for:
-  - High-fidelity document rendering — use Pandoc or LibreOffice instead
-  - Layout-preserving PDF conversion — use pdfplumber or PyMuPDF instead
-  - Production document transformation with complex styling requirements
-see_also:
-  - rag-architect
-  - headroom
-  - in-memory-vector-storage
+  - markitdown
+  - convert file to markdown
+  - pdf to markdown
+  - word to markdown
+  - import document
+  - import pdf
+  - đọc file pdf
+  - convert tài liệu
+  - vault import
+  - đưa file vào vault
 ---
 
-# markitdown — File → Markdown for LLM Pipelines
+# markitdown — File → Markdown Converter
 
-**Source:** microsoft/markitdown (MIT) — lightweight, LLM-optimized document conversion
+**Source**: github.com/microsoft/markitdown  
+**Version**: 0.1.6 (installed)  
+**License**: MIT · Built by Microsoft AutoGen team
 
-## Why markitdown
+## Supported formats
 
-Documents are rich but LLMs need plain text. markitdown strips formatting noise
-and outputs clean Markdown optimized for LLM context and RAG indexing.
-One consistent API regardless of input format.
+| Format | Notes |
+|--------|-------|
+| PDF | Text extraction |
+| Word (.docx) | Full structure |
+| PowerPoint (.pptx) | Slides → Markdown |
+| Excel (.xlsx) | Tables |
+| Image | EXIF + OCR (với LLM) |
+| Audio | Transcription |
+| HTML | Clean text |
+| CSV / JSON / XML | Structured |
+| YouTube URL | Transcript tự động |
+| EPub | Chapters |
 
-## Install
-
-```bash
-pip install 'markitdown[all]'   # all format support
-# or minimal:
-pip install markitdown
-# OCR support:
-pip install 'markitdown[markitdown-ocr]'
-```
-
-## Core API
+## Basic usage
 
 ```python
 from markitdown import MarkItDown
 
 md = MarkItDown()
 
-# Convert any supported file
-result = md.convert("report.docx")
-print(result.text_content)    # clean Markdown string
+# Convert file
+result = md.convert("document.pdf")
+print(result.text_content)
 
-# From URL
-result = md.convert("https://example.com/paper.pdf")
+# Convert URL
+result = md.convert("https://example.com")
 
-# From file stream
-with open("presentation.pptx", "rb") as f:
-    result = md.convert(f, file_extension=".pptx")
+# Convert YouTube → transcript
+result = md.convert("https://youtube.com/watch?v=xxx")
 ```
 
 ## CLI
 
 ```bash
-markitdown report.docx                   # stdout
-markitdown report.pdf > output.md        # to file
-markitdown *.xlsx | llm summarize -      # pipe to LLM
+markitdown document.pdf > output.md
+markitdown document.pdf -o output.md
+markitdown https://example.com -o page.md
 ```
 
-## Supported Formats
+## Tích hợp YAMTAM vault
 
-| Format | Notes |
-|--------|-------|
-| `.docx` | Tables, lists, headings preserved |
-| `.xlsx` | Each sheet → Markdown table |
-| `.pptx` | Each slide → Markdown section |
-| `.pdf` | Text extraction (not OCR) |
-| `.html` | Strips tags, keeps structure |
-| `.csv` | → Markdown table |
-| `.json` / `.xml` | Structured → readable Markdown |
-| Images | OCR via `markitdown-ocr` plugin |
-| Audio | Transcription via plugin |
-| `.zip` | Recurses and converts all contents |
+```bash
+# Import PDF vào vault
+python3 tools/vault-import.py document.pdf
 
-## RAG Pipeline Pattern
+# Import thư mục
+python3 tools/vault-import.py --dir ./docs/ --ext pdf,docx
+
+# Import + ghi vào knowledge base
+python3 tools/vault-import.py report.pdf --tag bao-cao --lang vi
+```
+
+## Với LLM (AI-powered OCR cho ảnh scan)
 
 ```python
+import anthropic
 from markitdown import MarkItDown
-from pathlib import Path
 
-md = MarkItDown()
+client = anthropic.Anthropic()
+md = MarkItDown(llm_client=client, llm_model="claude-haiku-4-5-20251001")
 
-def ingest_documents(doc_dir: str) -> list[dict]:
-    docs = []
-    for path in Path(doc_dir).rglob("*"):
-        if path.suffix in {".docx", ".pdf", ".pptx", ".xlsx", ".html"}:
-            try:
-                result = md.convert(str(path))
-                docs.append({
-                    "source": str(path),
-                    "content": result.text_content,
-                    "char_count": len(result.text_content)
-                })
-            except Exception:
-                pass   # skip unsupported files
-    return docs
-
-# Feed into vector store
-chunks = ingest_documents("./knowledge-base/")
+result = md.convert("scan_bai_thi.jpg")
+print(result.text_content)
 ```
 
-## With headroom (token reduction)
+## Khi nào dùng trong YAMTAM
 
-```python
-from markitdown import MarkItDown
-from headroom import compress
-
-md = MarkItDown()
-result = md.convert("large_report.pdf")
-
-# Compress before injecting into agent context
-compressed = compress(result.text_content)
-print(f"Tokens saved: {compressed.tokens_saved}")
-# Pass compressed.compressed to LLM, not raw text
-```
+- Import sách giáo khoa tiếng Việt (PDF) → vault search
+- Convert báo cáo Word/Excel → context cho Claude
+- Đọc slide PowerPoint → summary tự động
+- Transcribe YouTube tiếng Việt → text searchable
+- Parse CSV lớn → Markdown table cho LLM
+- Đọc tài liệu JNMT (Word, PDF) → AI context
