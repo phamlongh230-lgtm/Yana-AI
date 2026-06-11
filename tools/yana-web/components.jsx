@@ -34,20 +34,21 @@ const Icons = {
   spark:     (s) => <Ic size={s} d={<path d="M10 3c.5 3.9 2.6 6.1 7 7-4.4.9-6.5 3.1-7 7-.5-3.9-2.6-6.1-7-7 4.4-.9 6.5-3.1 7-7Z"/>} />,
 };
 
-/* ---------- Wordmark: lotus bud resting on the water ---------- */
+/* ---------- Wordmark: lotus in bloom on the water (matches login.html) ---------- */
 function YanaMark({ size = 30 }) {
   return (
     <div aria-label="Yana" style={{
       width: size, height: size, borderRadius: size * 0.32, flex: "none",
-      background: "linear-gradient(145deg, color-mix(in oklab, var(--primary) 88%, white), color-mix(in oklab, var(--primary) 60%, var(--pink)))",
-      boxShadow: "inset 0 1px 0 rgba(255,255,255,.5), 0 4px 12px color-mix(in oklab, var(--primary) 28%, transparent)",
+      background: "linear-gradient(150deg, color-mix(in oklab, var(--primary) 92%, white), color-mix(in oklab, var(--primary) 72%, #1d3530))",
+      boxShadow: "inset 0 1px 0 rgba(255,255,255,.4), 0 4px 12px color-mix(in oklab, var(--primary) 28%, transparent)",
       display: "grid", placeItems: "center",
     }}>
-      <svg width={size * 0.62} height={size * 0.62} viewBox="0 0 20 20" fill="none"
-        stroke="rgba(255,255,255,.95)" strokeWidth="1.6" strokeLinecap="round">
-        <path d="M10 2.8C7.5 5.3 7.5 8.7 10 10.7c2.5-2 2.5-5.4 0-7.9Z" />
-        <path d="M4.8 13.3c1.6 1.5 3.3 2.2 5.2 2.2s3.6-.7 5.2-2.2" />
-        <path d="M7.3 16.5c.85.6 1.75.9 2.7.9s1.85-.3 2.7-.9" />
+      <svg width={size * 0.58} height={size * 0.58} viewBox="0 0 24 24" fill="rgba(255,255,255,.95)">
+        <path d="M12 2.6c-2.3 2.9-2.3 6.5 0 8.8 2.3-2.3 2.3-5.9 0-8.8Z" />
+        <path d="M6.4 5.9c-.7 3.5.9 6.4 4.3 7.6-.2-3.5-1.7-6.1-4.3-7.6Z" />
+        <path d="M17.6 5.9c.7 3.5-.9 6.4-4.3 7.6.2-3.5 1.7-6.1 4.3-7.6Z" />
+        <path fill="none" stroke="rgba(255,255,255,.95)" strokeWidth="1.5" strokeLinecap="round"
+          d="M4.6 16.4c2.3 1.8 4.8 2.7 7.4 2.7s5.1-.9 7.4-2.7M8 20.4c1.3.6 2.6.9 4 .9s2.7-.3 4-.9" />
       </svg>
     </div>
   );

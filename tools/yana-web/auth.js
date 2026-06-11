@@ -15,7 +15,8 @@ const DATA_DIR      = path.join(__dirname, '.yana');   // dot-dir: static server
 const AUTH_FILE     = path.join(DATA_DIR, 'auth.json');
 const SESSIONS_FILE = path.join(DATA_DIR, 'sessions.json');
 const COOKIE        = 'yana_sid';
-const SESSION_TTL   = 7 * 24 * 3600 * 1000;            // 7 days
+const SESSION_TTL   = 7 * 24 * 3600 * 1000;            // 7 days (default)
+const REMEMBER_TTL  = 30 * 24 * 3600 * 1000;           // 30 days ("remember me")
 const SCRYPT        = { N: 16384, r: 8, p: 1, keylen: 64 };
 
 const LOGIN_RATE = { windowMs: 15 * 60_000, max: 5, hits: new Map() };
@@ -49,9 +50,9 @@ function isSetUp() {
 }
 
 // ── Sessions ──────────────────────────────────────────────────────────────────
-function createSession() {
+function createSession(remember) {
   const token = crypto.randomBytes(32).toString('hex');
-  sessions[token] = { created: Date.now() };
+  sessions[token] = { created: Date.now(), ttl: remember ? REMEMBER_TTL : SESSION_TTL };
   pruneSessions();
   saveJson(SESSIONS_FILE, sessions);
   return token;
@@ -60,7 +61,7 @@ function createSession() {
 function pruneSessions() {
   const now = Date.now();
   for (const [t, s] of Object.entries(sessions)) {
-    if (now - s.created > SESSION_TTL) delete sessions[t];
+    if (now - s.created > (s.ttl || SESSION_TTL)) delete sessions[t];
   }
 }
 
@@ -76,7 +77,8 @@ function sessionToken(req) {
 function isAuthed(req) {
   const token = sessionToken(req);
   if (!token || !sessions[token]) return false;
-  if (Date.now() - sessions[token].created > SESSION_TTL) {
+  const s = sessions[token];
+  if (Date.now() - s.created > (s.ttl || SESSION_TTL)) {
     delete sessions[token];
     saveJson(SESSIONS_FILE, sessions);
     return false;
@@ -85,8 +87,9 @@ function isAuthed(req) {
 }
 
 function setCookie(res, token) {
+  const ttl = (sessions[token] && sessions[token].ttl) || SESSION_TTL;
   res.setHeader('Set-Cookie',
-    `${COOKIE}=${token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${SESSION_TTL / 1000}`);
+    `${COOKIE}=${token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${ttl / 1000}`);
 }
 
 function clearCookie(res) {
@@ -122,7 +125,7 @@ function handleSetup(req, res, body) {
     json(res, 400, { error: 'Password must be at least 6 characters' }); return;
   }
   saveJson(AUTH_FILE, { ...hashPassword(password), created: new Date().toISOString() });
-  setCookie(res, createSession());
+  setCookie(res, createSession(!!body.remember));
   json(res, 200, { ok: true });
 }
 
@@ -138,7 +141,7 @@ function handleLogin(req, res, body) {
   if (typeof password !== 'string' || !verifyPassword(password, rec)) {
     json(res, 401, { error: 'Wrong password' }); return;
   }
-  setCookie(res, createSession());
+  setCookie(res, createSession(!!body.remember));
   json(res, 200, { ok: true });
 }
 
