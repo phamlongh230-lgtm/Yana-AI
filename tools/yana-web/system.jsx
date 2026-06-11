@@ -5,20 +5,23 @@ function fmtTokens(n) {
   return String(n);
 }
 
+const LIVE_MODEL_PROVIDERS = new Set(["openrouter", "groq", "9router", "ollama"]);
+
 function ProviderCard({ p, usage, onKeyChange }) {
+  const keyless = KEYLESS_PROVIDERS.has(p.id);
   const [hasKey, setHasKey] = React.useState(() => YanaVault.hasKey(p.id));
-  const connected = hasKey; // real: a stored API key means connected
+  const connected = hasKey || keyless; // a stored API key — or an on-device provider
   const [liveModels, setLiveModels] = React.useState(null);
   const [checking, setChecking] = React.useState(false);
 
   async function fetchLiveModels(key) {
-    if (p.id !== "openrouter" && p.id !== "groq") return;
+    if (!LIVE_MODEL_PROVIDERS.has(p.id)) return;
     setChecking(true);
     try {
       const r = await fetch("/api/models", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ provider: p.id, key }),
+        body: JSON.stringify({ provider: p.id, key: key || "" }),
       });
       if (r.ok) {
         const { models } = await r.json();
@@ -27,6 +30,9 @@ function ProviderCard({ p, usage, onKeyChange }) {
     } catch (_) {}
     setChecking(false);
   }
+
+  // On-device providers answer /api/models without a key — probe on mount
+  React.useEffect(() => { if (keyless) fetchLiveModels(""); }, []);
 
   async function promptKey() {
     const current = YanaVault.getKey(p.id) || "";
@@ -72,7 +78,7 @@ function ProviderCard({ p, usage, onKeyChange }) {
         </div>
         <span className={"chip " + (connected ? "" : "gold")} style={{ marginLeft: "auto", fontSize: 11.5 }}>
           <span className={"dot " + (connected ? "on" : "idle")} style={{ width: 6, height: 6, boxShadow: "none" }}></span>
-          {connected ? L("Connected", "Kết nối") : L("Standby", "Dự phòng")}
+          {keyless ? L("On-device", "Trên máy") : connected ? L("Connected", "Kết nối") : L("Standby", "Dự phòng")}
         </span>
       </div>
 
@@ -96,6 +102,12 @@ function ProviderCard({ p, usage, onKeyChange }) {
         ))}
         <div style={{ lineHeight: 1.35, minWidth: 0 }}>
           <div style={{ fontSize: 11, color: "var(--ink-3)" }}>{L("Key", "Khóa")}</div>
+          {keyless ? (
+            <span title={L("On-device provider — no API key needed", "Provider trên máy — không cần API key")}
+              style={{ fontSize: 12, fontWeight: 500, color: "var(--good)" }}>
+              {L("keyless", "không cần")}
+            </span>
+          ) : (
           <button onClick={promptKey} title={L("Click to set API key", "Nhấn để đặt API key")} style={{
             background: "none", border: "none", padding: 0, cursor: "pointer",
             fontSize: 12, fontWeight: 500, color: hasKey ? "var(--good)" : "var(--primary)",
@@ -106,6 +118,7 @@ function ProviderCard({ p, usage, onKeyChange }) {
             </span>
             <span style={{ fontSize: 10, opacity: .6 }}>✎</span>
           </button>
+          )}
         </div>
       </div>
     </div>
@@ -124,11 +137,11 @@ function Providers() {
       .catch(() => {});
   }, []);
 
-  const connected = D.providers.filter((p) => YanaVault.hasKey(p.id)).length;
+  const connected = D.providers.filter((p) => providerAvailable(p.id)).length;
 
   // Connect provider: open the key prompt for the first provider without a key
   async function connectNext() {
-    const next = D.providers.find((p) => !YanaVault.hasKey(p.id));
+    const next = D.providers.find((p) => !KEYLESS_PROVIDERS.has(p.id) && !YanaVault.hasKey(p.id));
     if (!next) { alert(L("All providers are connected.", "Tất cả nhà cung cấp đã kết nối.")); return; }
     const raw = window.prompt(L("API key for ", "API key cho ") + next.name + ":");
     if (raw === null || !raw.trim()) return;
@@ -373,13 +386,72 @@ function AboutYouCard() {
   );
 }
 
+/* ---------- Settings: live data + editable rows (no display-only fakes) ---- */
+
+// Editable text row — click ✎ to rename, persisted in localStorage
+function EditableRow({ label, desc, storeKey, fallback }) {
+  const [v, setV] = React.useState(() => localStorage.getItem(storeKey) || fallback);
+  function edit() {
+    const raw = window.prompt(label + ":", v);
+    if (raw === null) return;
+    const next = raw.trim() || fallback;
+    setV(next);
+    localStorage.setItem(storeKey, next);
+    window.dispatchEvent(new CustomEvent("yana-setting", { detail: { key: storeKey, value: next } }));
+  }
+  return (
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, padding: "calc(11px * var(--sp)) 0", borderBottom: "1px solid var(--border)" }}>
+      <div style={{ lineHeight: 1.35 }}>
+        <div style={{ fontSize: 13.5, fontWeight: 500 }}>{label}</div>
+        {desc && <div style={{ fontSize: 12, color: "var(--ink-3)" }}>{desc}</div>}
+      </div>
+      <button onClick={edit} title={L("Click to edit", "Nhấn để sửa")} style={{
+        background: "none", border: "1px solid var(--border)", padding: "4px 12px",
+        borderRadius: 99, cursor: "pointer", fontSize: 12, color: "var(--primary)",
+        fontWeight: 500, fontFamily: "inherit", display: "flex", alignItems: "center", gap: 5,
+      }}>{v} <span style={{ fontSize: 10, opacity: .6 }}>✎</span></button>
+    </div>
+  );
+}
+
+function detectTimezone() {
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+    const offMin = -new Date().getTimezoneOffset();
+    const sign = offMin >= 0 ? "+" : "−";
+    const hours = Math.floor(Math.abs(offMin) / 60);
+    const mins = Math.abs(offMin) % 60;
+    return "GMT" + sign + hours + (mins ? ":" + String(mins).padStart(2, "0") : "") + " · " + tz.split("/").pop().replace(/_/g, " ");
+  } catch (_) { return "UTC"; }
+}
+
 function Settings({ t, setTweak }) {
+  const D = window.YANA;
   const langDisplay = t.language === "Tiếng Việt"
     ? L("English / Tiếng Việt ✓", "Tiếng Việt ✓ / English")
     : L("English ✓ / Tiếng Việt", "English ✓ / Tiếng Việt");
   function toggleLang() {
     setTweak("language", t.language === "Tiếng Việt" ? "English" : "Tiếng Việt");
   }
+
+  // Live system state — same real sources the dashboard uses
+  const [dash, setDash] = React.useState(null);
+  React.useEffect(() => {
+    fetch("/api/dashboard")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => { if (d) setDash(d); })
+      .catch(() => {});
+  }, []);
+
+  // Default chat provider — same key chat.jsx reads, so this is a real control
+  const [defProvider, setDefProvider] = React.useState(() => localStorage.getItem("yana.chat.provider") || "");
+  function pickProvider(v) {
+    setDefProvider(v);
+    localStorage.setItem("yana.chat.provider", v);
+  }
+  const available = D.providers.filter((p) => providerAvailable(p.id));
+  const chain = available.map((p) => p.name).join(" → ") || L("None — add a key in Providers", "Chưa có — thêm key ở Nhà cung cấp");
+
   return (
     <div data-screen-label="Settings">
       <PageHeader
@@ -389,7 +461,8 @@ function Settings({ t, setTweak }) {
         <AppearanceCard t={t} setTweak={setTweak} />
         <AboutYouCard />
         <Card title={L("Workspace", "Không gian làm việc")}>
-          <SettingRow label={L("Workspace name", "Tên không gian")} value={L("Tâm's Lake", "Mặt hồ của Tâm")} />
+          <EditableRow label={L("Workspace name", "Tên không gian")} storeKey="yana.workspace.name"
+            fallback={L("Yana's Lake", "Mặt hồ của Yana")} />
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, padding: "calc(11px * var(--sp)) 0", borderBottom: "1px solid var(--border)" }}>
             <div style={{ lineHeight: 1.35 }}>
               <div style={{ fontSize: 13.5, fontWeight: 500 }}>{L("Language", "Ngôn ngữ")}</div>
@@ -400,18 +473,36 @@ function Settings({ t, setTweak }) {
               fontWeight: 500, fontFamily: "inherit",
             }}>{langDisplay}</button>
           </div>
-          <SettingRow label={L("Timezone", "Múi giờ")} value="GMT+7 · Hà Nội" />
+          <SettingRow label={L("Timezone", "Múi giờ")}
+            desc={L("Detected from this browser", "Phát hiện từ trình duyệt này")}
+            value={detectTimezone()} />
         </Card>
         <Card title={L("Orchestration", "Điều phối")}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, padding: "calc(11px * var(--sp)) 0", borderBottom: "1px solid var(--border)" }}>
+            <div style={{ lineHeight: 1.35 }}>
+              <div style={{ fontSize: 13.5, fontWeight: 500 }}>{L("Default provider", "Nhà cung cấp mặc định")}</div>
+              <div style={{ fontSize: 12, color: "var(--ink-3)" }}>{L("Used by Chat unless overridden", "Chat dùng mặc định này trừ khi chọn khác")}</div>
+            </div>
+            <select value={defProvider} onChange={(e) => pickProvider(e.target.value)} style={{
+              border: "1px solid var(--border)", borderRadius: 99, padding: "5px 10px",
+              background: "transparent", color: "var(--primary)", fontSize: 12,
+              fontWeight: 500, fontFamily: "inherit", cursor: "pointer", maxWidth: 150,
+            }}>
+              <option value="">{L("Auto (first connected)", "Tự động (kết nối đầu tiên)")}</option>
+              {D.providers.map((p) => (
+                <option key={p.id} value={p.id} disabled={!providerAvailable(p.id)}>
+                  {p.name}{providerAvailable(p.id) ? "" : " 🔒"}
+                </option>
+              ))}
+            </select>
+          </div>
           <SettingRow
-            label={L("Default orchestrator", "Bộ điều phối mặc định")}
-            desc={L("Plans and delegates missions", "Lên kế hoạch và phân công nhiệm vụ")}
-            value="Navigator · Claude" />
-          <SettingRow
-            label={L("Router budget", "Ngân sách định tuyến")}
-            desc={L("Max time for routing decisions", "Thời gian tối đa cho quyết định định tuyến")}
-            value="300 ms · Groq" />
-          <SettingRow label={L("Fallback chain", "Chuỗi dự phòng")} value="GPT → Gemini → OpenRouter" />
+            label={L("Task routing", "Định tuyến tác vụ")}
+            desc={L("yamtam-rt classifier — local, before any provider call", "yamtam-rt classifier — chạy local, trước mọi lệnh gọi provider")}
+            value={L("simple · complex · external", "simple · complex · external")} />
+          <SettingRow label={L("Fallback chain", "Chuỗi dự phòng")}
+            desc={L("Connected providers, in order", "Các nhà cung cấp đã kết nối, theo thứ tự")}
+            value={chain} />
         </Card>
         <Card title={L("Safety", "Bảo mật")}>
           <SettingRow
@@ -419,21 +510,27 @@ function Settings({ t, setTweak }) {
             desc={L("Every agent action is reviewed", "Mọi hành động của tác nhân đều được xem xét")}
             value={L("Strict · deny by default", "Nghiêm ngặt · từ chối mặc định")} />
           <SettingRow
-            label={L("Merge protection", "Bảo vệ merge")}
-            desc={L("Sentinel sign-off before main", "Sentinel xét duyệt trước khi vào main")}
-            value={L("On", "Bật")} />
-          <SettingRow label={L("Incident retention", "Lưu trữ sự cố")} value={L("90 days", "90 ngày")} />
+            label={L("Audit events today", "Sự kiện audit hôm nay")}
+            desc={L("From the L0 hash-chained audit log", "Từ audit log băm chuỗi L0")}
+            value={dash ? String(dash.safety.events_today) : "…"} />
+          <SettingRow
+            label={L("Blocked today", "Đã chặn hôm nay")}
+            desc={dash && dash.safety.last_incident
+              ? L("Last incident: ", "Sự cố gần nhất: ") + dash.safety.last_incident
+              : L("No incidents on record", "Chưa ghi nhận sự cố")}
+            value={dash ? String(dash.safety.blocked_today) : "…"} />
         </Card>
         <Card title={L("Memory", "Bộ nhớ")}>
           <SettingRow
-            label={L("Garden pruning", "Cắt tỉa Vườn ký ức")}
-            desc={L("Gardener's nightly decay pass", "Gardener chạy mỗi đêm để dọn ký ức cũ")}
-            value={L("02:00 daily", "02:00 hằng ngày")} />
+            label={L("L1 atomic facts", "Fact L1")}
+            desc={L("Persisted in memory/L1_atomic", "Lưu tại memory/L1_atomic")}
+            value={dash ? String(dash.memories.total) : "…"} />
           <SettingRow
-            label={L("Pinned memories", "Ký ức đã ghim")}
-            desc={L("Never pruned", "Không bao giờ xóa")}
-            value={L("2 pinned", "2 đã ghim")} />
-          <SettingRow label={L("Storage", "Lưu trữ")} value={L("Local · encrypted", "Cục bộ · mã hóa")} />
+            label={L("Fresh today", "Mới hôm nay")}
+            value={dash ? String(dash.memories.today) : "…"} />
+          <SettingRow label={L("Storage", "Lưu trữ")}
+            desc={L("API keys AES-256-GCM encrypted at rest (rule 66)", "API key mã hóa AES-256-GCM khi lưu (rule 66)")}
+            value={L("Local · encrypted", "Cục bộ · mã hóa")} />
         </Card>
       </div>
     </div>

@@ -36,6 +36,8 @@ const KEYLESS_PROVIDERS = new Set(["ollama"]);
 function providerAvailable(id) {
   return KEYLESS_PROVIDERS.has(id) || YanaVault.hasKey(id);
 }
+window.providerAvailable = providerAvailable;
+window.KEYLESS_PROVIDERS = KEYLESS_PROVIDERS;
 
 function ConfidentialBadge({ tier }) {
   return (
