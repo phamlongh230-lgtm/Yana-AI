@@ -31,6 +31,9 @@
   <a href="https://pypi.org/project/yamtam-engine/">
     <img src="https://img.shields.io/pypi/v/yamtam-engine?style=for-the-badge&logo=pypi&color=3775a9" />
   </a>
+  <a href="https://github.com/marketplace/yamtam-engine">
+    <img src="https://img.shields.io/badge/GitHub-Marketplace-2ea44f?style=for-the-badge&logo=github" />
+  </a>
 </p>
 
 <p align="center">
@@ -51,7 +54,7 @@ Hoạt động với **Claude Code**, **Cursor**, **OpenCode**, **Zed**, **Gemin
 
 > **Mới trong v0.41.0:** [Yana task router](#bộ-định-tuyến-tác-vụ-yana) — tự động phân loại mọi tác vụ thành đơn giản/phức tạp/bên ngoài/**học tập**/**hàng ngày** và điều phối agent. [Yana AI](#yana-ai) chạy trên **100% dữ liệu thực** — kho khóa mã hóa (AES-256-GCM), thống kê provider trực tiếp, bộ nhớ L1 thật và bảng điều khiển audit-log. [Mission dispatcher](#hệ-thống-điều-phối-nhiệm-vụ-mission-dispatcher) — điều phối agent song song theo làn sóng (wave-based), viết bằng Rust. **Core-lock** — manifest SHA-256 ghim 216 tệp cốt lõi chống can thiệp trái phép (quy tắc 67).
 
-**→ [Tài liệu đầy đủ & demo](https://phamlongh230-lgtm.github.io/yamtam-engine/)**
+**→ [Tài liệu đầy đủ & demo](https://phamlongh230-lgtm.github.io/yamtam-engine/)** · **[GitHub Marketplace](https://github.com/marketplace/yamtam-engine)**
 
 → [VISION.md](VISION.md) · [ARCHITECTURE.md](ARCHITECTURE.md) · [ROADMAP.md](ROADMAP.md)
 
@@ -191,6 +194,8 @@ Thực thi (hoặc chặn + ghi log)
 ---
 
 ## Cài đặt nhanh
+
+**→ [Cài từ GitHub Marketplace](https://github.com/marketplace/yamtam-engine)** — một cú click, listing chính thức.
 
 ```bash
 # Plugin Claude Code (hook tự động kết nối)

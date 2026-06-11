@@ -34,6 +34,9 @@
   <a href="https://github.com/phamlongh230-lgtm/yamtam-engine">
     <img src="https://img.shields.io/badge/protected%20by-YAMTAM%20ENGINE-ff6b35?style=for-the-badge" />
   </a>
+  <a href="https://github.com/marketplace/yamtam-engine">
+    <img src="https://img.shields.io/badge/GitHub-Marketplace-2ea44f?style=for-the-badge&logo=github" />
+  </a>
 </p>
 
 <p align="center">
@@ -54,7 +57,7 @@ Works with **Claude Code**, **Cursor**, **OpenCode**, **Zed**, **Gemini**, **Git
 
 > **New in v0.41.0:** [Yana task router](#yana-task-router) — auto-classifies every task into simple/complex/external/**learn**/**daily** and dispatches agents. [Yana AI](#yana-ai) now runs on **100% real data** — encrypted key vault (AES-256-GCM), live provider stats, real L1 memory and audit-log dashboard. [Mission dispatcher](#mission-dispatcher) — wave-based parallel agent orchestration, built in Rust. **Core-lock** — SHA-256 integrity manifest pinning 216 core files against tampering (rule 67).
 
-**→ [Full documentation & demo](https://phamlongh230-lgtm.github.io/yamtam-engine/)**
+**→ [Full documentation & demo](https://phamlongh230-lgtm.github.io/yamtam-engine/)** · **[GitHub Marketplace](https://github.com/marketplace/yamtam-engine)**
 
 → [VISION.md](VISION.md) · [ARCHITECTURE.md](ARCHITECTURE.md) · [ROADMAP.md](ROADMAP.md)
 
@@ -212,6 +215,8 @@ Execute (or block + log)
 ---
 
 ## Quick Install
+
+**→ [Install from GitHub Marketplace](https://github.com/marketplace/yamtam-engine)** — one click, official listing.
 
 ```bash
 # Claude Code plugin (hooks wire automatically)
