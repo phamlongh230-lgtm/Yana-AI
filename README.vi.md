@@ -1,0 +1,516 @@
+<p align="center">
+  <img src="./docs/logo-chatgpt.png" alt="YAMTAM" width="160" />
+</p>
+
+<h1 align="center">YAMTAM ENGINE</h1>
+
+<p align="center">
+  <strong>Lớp điều phối giữa con người và AI — định tuyến, bảo mật và ngữ cảnh cho mọi lĩnh vực.</strong>
+</p>
+
+<p align="center">
+  <em>Phát triển bởi Vũ Văn Tâm · 17 tuổi · Việt Nam · 1,129,782 dòng mã</em>
+</p>
+
+<p align="center">
+  <a href="README.md">English</a> · <strong>Tiếng Việt</strong>
+</p>
+
+<p align="center">
+  <a href="https://github.com/phamlongh230-lgtm/yamtam-engine/actions/workflows/ci.yml">
+    <img src="https://github.com/phamlongh230-lgtm/yamtam-engine/actions/workflows/ci.yml/badge.svg" alt="CI" />
+  </a>
+  <img src="https://img.shields.io/badge/version-v0.41.0-orange?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/license-Apache_2.0-blue?style=for-the-badge" />
+  <a href="https://www.npmjs.com/package/yamtam-engine">
+    <img src="https://img.shields.io/npm/v/yamtam-engine?style=for-the-badge&logo=npm&color=cb3837" />
+  </a>
+  <a href="https://crates.io/crates/yamtam-rt">
+    <img src="https://img.shields.io/crates/v/yamtam-rt?style=for-the-badge&logo=rust&color=ce422b" />
+  </a>
+  <a href="https://pypi.org/project/yamtam-engine/">
+    <img src="https://img.shields.io/pypi/v/yamtam-engine?style=for-the-badge&logo=pypi&color=3775a9" />
+  </a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/🧩_kỹ_năng-3,516-2f7e6e?style=flat-square" />
+  <img src="https://img.shields.io/badge/🤖_agents-97-7d6aa8?style=flat-square" />
+  <img src="https://img.shields.io/badge/📜_quy_tắc-63-b96b80?style=flat-square" />
+  <img src="https://img.shields.io/badge/🪝_hooks-46-b78f3d?style=flat-square" />
+  <img src="https://img.shields.io/badge/⚡_lệnh-164-3a7ca5?style=flat-square" />
+  <img src="https://img.shields.io/badge/🔒_cổng-9_lớp-ce422b?style=flat-square" />
+  <img src="https://img.shields.io/badge/🇻🇳_made_in-Vietnam-da251d?style=flat-square" />
+</p>
+
+---
+
+**YAMTAM ENGINE** là một hệ điều hành agent cá nhân dành cho các công cụ lập trình AI — bao gồm các hook bảo mật runtime, các tầng bộ nhớ, 97 agent chuyên trách, 3,516 kỹ năng và một runtime viết bằng Rust giúp chặn các hành động nguy hiểm của AI trước khi chúng được thực thi.
+
+Hoạt động với **Claude Code**, **Cursor**, **OpenCode**, **Zed**, **Gemini**, **GitHub Copilot**, **Aider**, và nhiều công cụ khác.
+
+> **Mới trong v0.41.0:** [Yana task router](#bộ-định-tuyến-tác-vụ-yana) — tự động phân loại mọi tác vụ thành đơn giản/phức tạp/bên ngoài/**học tập**/**hàng ngày** và điều phối agent. [Yana AI](#yana-ai) chạy trên **100% dữ liệu thực** — kho khóa mã hóa (AES-256-GCM), thống kê provider trực tiếp, bộ nhớ L1 thật và bảng điều khiển audit-log. [Mission dispatcher](#hệ-thống-điều-phối-nhiệm-vụ-mission-dispatcher) — điều phối agent song song theo làn sóng (wave-based), viết bằng Rust. **Core-lock** — manifest SHA-256 ghim 216 tệp cốt lõi chống can thiệp trái phép (quy tắc 67).
+
+**→ [Tài liệu đầy đủ & demo](https://phamlongh230-lgtm.github.io/yamtam-engine/)**
+
+→ [VISION.md](VISION.md) · [ARCHITECTURE.md](ARCHITECTURE.md) · [ROADMAP.md](ROADMAP.md)
+
+> **97 agent này là gì?** Không phải 97 mô hình AI chạy cùng lúc — đó là các vai trò chuyên gia được định nghĩa trước (bảo mật, frontend, backend, kiểm thử, học tập, trợ lý hàng ngày…) dùng để định tuyến và tổ chức công việc. Khi sử dụng bình thường, chỉ agent cần thiết cho tác vụ hiện tại mới được kích hoạt — hầu hết yêu cầu chỉ dùng một mô hình và một tuyến agent duy nhất.
+
+---
+
+## Tổng quan về YAMTAM
+
+```
+┌──────────────────────────────────────────────────────────────────┐
+│                     YAMTAM ENGINE v0.41.0                        │
+│        "Lớp điều phối giữa con người và AI — định tuyến,         │
+│          bảo mật và ngữ cảnh cho mọi lĩnh vực."                  │
+│                                                                  │
+│   Phát triển bởi Vũ Văn Tâm · 17 tuổi · Việt Nam · 1.1M+ dòng    │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+```mermaid
+graph TB
+    %% ── Mission ──────────────────────────────────────────────────────────
+    subgraph MISSION["🎯 Mission — lớp an toàn cho agent lập trình AI"]
+        direction LR
+        AGENT["Agent muốn\nchạy một lệnh"]
+        GATE["Cổng bảo mật 9 lớp\nchặn mọi lượt gọi"]
+        OUT["Thực thi ✅\nhoặc CHẶN + ghi log 🚫"]
+        AGENT --> GATE --> OUT
+    end
+
+    %% ── Gate layers ──────────────────────────────────────────────────────
+    subgraph GATES["🔒 Hệ thống cổng 9 lớp (L1 → L9)"]
+        direction LR
+        G1["L1\nChống lẩn tránh\nbase64, pipe-to-shell"]
+        G2["L2\nLàm sạch shell\nquoting, ký tự đặc biệt"]
+        G3["L3\nEgress / SSRF\nchặn IP nội bộ"]
+        G4["L4\nChuỗi cung ứng\ntyposquatting, CVE"]
+        G5["L5\nBán kính ảnh hưởng\ngiới hạn phạm vi phá hủy"]
+        G6["L6\nTầng phân quyền\nkiểm tra thẩm quyền agent"]
+        G7["L7\nKý số mã nguồn\nECDSA-P256"]
+        G8["L8\nKiểm toán Merkle\nchuỗi băm, chống giả mạo"]
+        G9["L9\nQuyền tối cao\ncon người phủ quyết / đóng băng"]
+        G1 --> G2 --> G3 --> G4 --> G5 --> G6 --> G7 --> G8 --> G9
+    end
+
+    %% ── Core engine ──────────────────────────────────────────────────────
+    subgraph CORE["⚙️ Core Engine"]
+        direction TB
+        SKILLS["📚 3,516 kỹ năng\nĐịnh nghĩa quy trình SKILL.md\n(frontend, backend, AI, K8s, bảo mật...)"]
+        AGENTS["🤖 97 agent chuyên trách\n(planner, security-auditor,\nhoc-tap, daily-assistant...)"]
+        RULES["📜 63 quy tắc bắt buộc\n(bảo mật, git, UI, TypeScript,\nbảo mật API, core-lock...)"]
+        HOOKS["🪝 46 hook\nPreToolUse · PostToolUse · Stop\n(guard-destructive, truth-gate...)"]
+        CMDS["⚡ 164 lệnh slash\n/audit · /scan · /route\n/tdd-cycle · /simplify..."]
+        BUS["🚌 Bus tin nhắn agent\nJSON + chữ ký ECDSA\nchống replay, đồng thuận BFT"]
+        MEM["🧠 Các tầng bộ nhớ\nL1 vĩnh viễn · L2 phiên\nChuỗi Merkle, AES-256-GCM"]
+    end
+
+    %% ── Rust runtime ─────────────────────────────────────────────────────
+    subgraph RT["⚡ Rust Runtime — yamtam-rt"]
+        direction LR
+        SCAN["scan · hunt · fix\nLỗ hổng, OWASP,\nchuỗi cung ứng — nhanh hơn 1256×"]
+        ROUTE["route · mission\nPhân loại tác vụ → điều phối\nđơn giản/phức tạp/bên ngoài"]
+        VAULT["graph · vault · doctor\nĐồ thị tri thức,\ntìm kỹ năng, kiểm tra sức khỏe"]
+    end
+
+    %% ── Tools ────────────────────────────────────────────────────────────
+    subgraph TOOLS["🛠️ Tools — dự án con"]
+        direction LR
+        YANA["yana-ai ✅\nWeb UI Node.js zero-dependency\nAnthropic · Groq · Gemini · OpenAI\nĐịnh tuyến kỹ năng · SSE streaming"]
+        CODEXMATE["codexmate\nTích hợp OpenAI Codex\nBản vá tiếng Việt"]
+        MOSS["moss-tts-nano\nCông cụ chuyển văn bản thành giọng nói"]
+        FINETUNE["finetune-vi\nTinh chỉnh LLM tiếng Việt"]
+    end
+
+    %% ── Harness adapters ─────────────────────────────────────────────────
+    subgraph HARNESS["🔌 Bộ chuyển đổi harness (12)"]
+        direction LR
+        H1["Claude Code\nCursor · Zed"]
+        H2["Gemini · Copilot\nAider · OpenCode"]
+        H3["Cloudflare Workers\nGitHub Actions"]
+    end
+
+    %% ── Connections ──────────────────────────────────────────────────────
+    MISSION --> GATES
+    GATES --> CORE
+    CORE --> RT
+    CORE --> TOOLS
+    CORE --> HARNESS
+```
+
+> **Cách đọc sơ đồ:** mọi lượt gọi công cụ của AI đều chảy theo hướng `MISSION → GATES → CORE`. Runtime Rust (`yamtam-rt`) tăng tốc bộ quét. Các công cụ dự án con (yana-ai, v.v.) dùng chung hệ thống cổng bảo mật.
+
+---
+
+## Vấn đề
+
+Các agent lập trình AI thường mắc sai lầm. Chúng `rm -rf` nhầm thư mục. Chúng force push lên main. Chúng bịa kết quả kiểm thử. Chúng vô tình commit secrets. Đến khi bạn nhận ra thì thiệt hại đã xảy ra rồi.
+
+YAMTAM nằm giữa agent và hệ thống của bạn — mọi lượt gọi công cụ đều phải đi qua cổng an toàn 9 lớp trước khi thực thi.
+
+---
+
+## Cơ chế hoạt động
+
+```
+Agent muốn chạy một lệnh
+         ↓
+[L1] Quét chống lẩn tránh      — chặn base64 decode+exec, pipe-to-shell
+[L2] Làm sạch shell            — quote mọi biến, loại bỏ ký tự đặc biệt
+[L3] Kiểm tra egress           — chặn SSRF, dải IP nội bộ, metadata endpoint
+[L4] Cổng chuỗi cung ứng       — kiểm duyệt mọi gói cài đặt (typosquatting, CVE)
+[L5] Kiểm tra bán kính phá hủy — giới hạn phạm vi tác động nguy hiểm
+[L6] Kiểm tra tầng phân quyền  — xác minh cấp thẩm quyền của agent
+[L7] Xác thực chữ ký số        — ECDSA-P256 trên mã nguồn được sinh ra
+[L8] Nhật ký kiểm toán Merkle  — chuỗi băm chỉ ghi thêm, phát hiện giả mạo
+[L9] Cổng tối cao              — con người phủ quyết, đóng băng swarm, rollback toàn diện
+         ↓
+Thực thi (hoặc chặn + ghi log)
+```
+
+---
+
+## Số liệu
+
+| | |
+|---|---|
+| 🧩 Kỹ năng | **3,516** định nghĩa kỹ năng quy trình |
+| 🤖 Agent | **97** agent chuyên trách |
+| 📜 Quy tắc an toàn | **63** quy tắc được thực thi |
+| 🪝 Hook | **46** hook trước/sau thực thi |
+| ⚡ Lệnh slash | **164** |
+| 🔌 Adapter harness | **12** (Claude Code, Cursor, OpenCode, Zed, Gemini, Copilot, Aider...) |
+| 🦀 Lệnh con Rust | **19** (`scan`, `graph`, `vault`, `route`, `mission`, `hunt`, `fix`, `doctor`...) |
+| ✅ Kiểm tra quy tắc trong CI | **826** |
+| 📦 Tổng mã nguồn | **1,129,782 dòng · 5,439 tệp** |
+
+---
+
+## Cài đặt nhanh
+
+```bash
+# Plugin Claude Code (hook tự động kết nối)
+npm install yamtam-engine && npx yamtam-install
+
+# Python CLI
+pip install yamtam-engine
+
+# Runtime Rust (bộ quét nhanh hơn 1256 lần)
+cargo install yamtam-rt
+```
+
+```bash
+# Xác minh mọi thứ đã kết nối đúng
+yamtam doctor .
+```
+
+---
+
+## Hỗ trợ đa harness
+
+YAMTAM tự thích ứng với công cụ bạn đang dùng:
+
+```bash
+bash core/scripts/switch-engine.sh cursor    # .cursorrules + 7 .cursor/rules/*.mdc
+bash core/scripts/switch-engine.sh opencode  # OPENCODE.md
+bash core/scripts/switch-engine.sh zed       # .zed/settings.json
+bash core/scripts/switch-engine.sh gemini    # GEMINI.md
+bash core/scripts/switch-engine.sh copilot   # .github/copilot-instructions.md
+bash core/scripts/switch-engine.sh status    # kiểm tra cả 12 adapter
+```
+
+---
+
+## GitHub Action
+
+Quét cấu hình agent AI của bất kỳ repo nào trên mỗi PR — secrets, quyền hạn, hook injection, lỗ hổng MCP.
+
+```yaml
+# .github/workflows/yamtam-scan.yml
+- uses: phamlongh230-lgtm/yamtam-engine/.github/actions/scan@main
+  with:
+    fail-on: 'high'       # fail CI khi phát hiện mức HIGH hoặc CRITICAL
+    diff-only: 'true'     # chỉ quét các tệp thay đổi trên PR
+    comment-on-pr: 'true' # đăng tóm tắt kết quả dưới dạng comment trên PR
+```
+
+Tự động đăng comment trên mỗi PR:
+
+```
+🟠 YAMTAM Security Scan — HIGH
+
+| Tiêu chí  | Giá trị |
+|-----------|---------|
+| Rủi ro    | HIGH    |
+| Điểm số   | 58/100  |
+| Phát hiện | 3       |
+```
+
+→ [Mẫu workflow đầy đủ](docs/install/github-action.yml)
+
+---
+
+## Runtime Rust — `yamtam-rt`
+
+19 lệnh con. Hoàn toàn không phụ thuộc Python.
+
+```bash
+yamtam scan .                        # quét bảo mật — secrets, CVE, rủi ro chuỗi cung ứng
+yamtam graph .                       # đồ thị tri thức — phụ thuộc tệp, phân giải import
+yamtam vault search Q                # tìm trong 3,516 kỹ năng theo từ khóa
+yamtam hunt .                        # săn các mẫu bảo mật (OWASP, injection, SSRF)
+yamtam fix .                         # tự động sửa vi phạm quy tắc
+yamtam doctor .                      # kiểm tra sức khỏe toàn hệ thống
+yamtam map .                         # bản đồ bán kính ảnh hưởng — agent chạm được vào đâu?
+yamtam ci                            # chạy tất cả kiểm tra cổng (dùng trong CI)
+yamtam route classify "fix auth bug" # phân loại tác vụ → đơn giản/phức tạp/bên ngoài
+yamtam mission create "add-auth"     # tạo mission agent song song
+```
+
+**Benchmark:** `yamtam scan` trên repo 10k tệp: **nhanh hơn 1256 lần** so với bản Python tương đương.
+
+---
+
+## Kiến trúc bảo mật
+
+```
+core/
+├── hooks/          # 46 hook PreToolUse / PostToolUse / Stop
+├── rules/          # 63 quy tắc bắt buộc (bảo mật, tính đúng đắn, UI, git)
+├── scripts/        # safe-run.sh, verify-core-lock.sh, secure-logger.sh
+├── gates/          # truth_gate.md, action_gate.md
+├── agents/         # 95 định nghĩa agent chuyên trách
+├── skills/         # 3,516 tệp SKILL.md
+├── config/
+│   ├── core-lock.json    # manifest SHA-256 — ghim 216 tệp cốt lõi
+│   └── skills-lock.json  # mã băm nội dung kỹ năng
+└── memory/
+    ├── L1_atomic/  # dữ kiện vĩnh viễn — tồn tại qua các phiên
+    └── L2_session/ # trạng thái phiên — tự hết hạn
+```
+
+Các thuộc tính chính:
+- **Chuỗi kiểm toán Merkle** — mọi hành động đều được ghi log, phát hiện can thiệp
+- **Toàn vẹn core-lock** — manifest SHA-256 phát hiện drift, xóa tệp, chèn quy tắc trái phép trong `core/`
+- **Đồng thuận BFT** — cần 3-trên-N phiếu thuận mới được ghi vào hạ tầng cốt lõi
+- **Quyền tối cao con người** — đóng băng cả 97 agent ngay lập tức
+- **Tầng honeypot** — tệp mồi / biến môi trường giả phát hiện agent bị chiếm quyền
+
+---
+
+## Thực tế khi chạy
+
+```bash
+# Agent thử: git push --force origin main
+[yamtam/02-terminal-validator] BLOCKED — nghiêm cấm force push
+  Lệnh      : git push --force origin main
+  Cổng chặn : L1
+  Cách sửa  : Chạy kiểm tra cổng trước, sau đó push không có --force
+
+# Agent thử: curl http://169.254.169.254/latest/meta-data/
+[yamtam/network-egress] BLOCKED — phát hiện mục tiêu SSRF
+  Host      : 169.254.169.254
+  Cổng chặn : L3
+  Mã thoát  : 3
+
+# Agent thử cài gói chưa kiểm duyệt
+[yamtam/dependency-vetting] BLOCKED — cài đặt gói chưa qua kiểm duyệt
+  Gói       : req-uests@2.28.0
+  Lý do     : typosquatting (gần giống gói 'requests')
+  Cổng chặn : L4
+```
+
+---
+
+## Yana AI
+
+**[Dùng thử trực tuyến →](https://yamtam-engine-production.up.railway.app)**
+
+Yana là giao diện đầu tiên xây trên lõi YAMTAM — một web UI cho phép bất kỳ ai trò chuyện với AI, chuyển đổi provider và dùng định tuyến kỹ năng mà không cần biết gì về hạ tầng bên dưới.
+
+```
+Người dùng → Yana AI → YAMTAM Core (Định tuyến · Bảo mật · Ngữ cảnh) → Mô hình AI
+```
+
+- Không cần đăng ký — dùng API key của chính bạn
+- 🔐 **Kho khóa mã hóa** — khóa lưu bằng AES-256-GCM, master key không thể trích xuất (WebCrypto + IndexedDB), không bao giờ ở dạng plaintext
+- Đa provider: Anthropic · Groq (Llama4 · Qwen3 · Gemma2) · Gemini 2.5 · OpenAI · DeepSeek · OpenRouter
+- 📊 **100% dữ liệu thực** — thống kê provider trực tiếp, vườn bộ nhớ L1, bảng sức khỏe audit-log; không có số liệu demo
+- Định tuyến kỹ năng tích hợp sẵn — gõ tự nhiên, YAMTAM tự điều phối đúng agent
+- **Ngoài lập trình:** học tập (trợ lý học theo phương pháp Socratic), công việc hàng ngày (tóm tắt / lên kế hoạch / soạn thảo)
+- SSE streaming, thân thiện mobile · Phiên bản desktop Electron (`tools/yana-desktop`)
+
+Nếu YAMTAM là lưới điện, Yana là tòa nhà đầu tiên cắm vào dòng điện đó.
+
+---
+
+## Một người xây dựng
+
+Một người. Không đội ngũ. Không gọi vốn.
+
+- Kiến trúc hook, các cổng an toàn, Python CLI
+- Runtime Rust (`yamtam-rt`), 97 agent, 3,516 kỹ năng, hỗ trợ đa harness
+- 12 adapter harness (Claude Code, Cursor, Zed, Gemini, Copilot, Aider…)
+
+3,516 kỹ năng bao phủ: frontend, backend, AI/LLM, bảo mật, Kubernetes, WebAssembly, DevOps, cơ sở dữ liệu, kiểm thử, và nhiều hơn nữa. Hai agent persona mới phục vụ nhu cầu ngoài lập trình: học tập (`hoc-tap`) và năng suất hàng ngày (`daily-assistant`).
+
+---
+
+## Thêm YAMTAM vào repo của bạn
+
+**Huy hiệu tĩnh** — dán vào README của bạn:
+
+```markdown
+[![Protected by YAMTAM](https://img.shields.io/badge/protected%20by-YAMTAM%20ENGINE-ff6b35?style=for-the-badge)](https://github.com/phamlongh230-lgtm/yamtam-engine)
+```
+
+**Huy hiệu audit động** — hiển thị điểm bảo mật trực tiếp:
+
+```bash
+yamtam badge .           # in markdown huy hiệu kèm điểm số hiện tại
+yamtam badge . --json    # xuất định dạng máy đọc được
+```
+
+**GitHub Action** — tự động quét mỗi PR:
+
+```yaml
+- uses: phamlongh230-lgtm/yamtam-engine/.github/actions/scan@main
+  with:
+    fail-on: 'high'
+```
+
+→ [Mẫu workflow đầy đủ](docs/install/github-action.yml)
+
+---
+
+## Bộ định tuyến tác vụ Yana
+
+Mỗi tác vụ đều được phân loại trước khi thực thi — không còn phải đoán nên xử lý tại chỗ hay điều động agent.
+
+```bash
+yamtam route classify "implement JWT refresh token"
+# → { "route": "complex", "gate": "harness", "confidence": 0.36,
+#     "suggested_agents": ["security-engineer", "backend-developer"] }
+
+yamtam route classify "xem git log 10 commit"
+# → { "route": "simple", "gate": "auto", "confidence": 0.43 }
+
+yamtam route classify "deploy to production"
+# → { "route": "external", "gate": "confirm", "confidence": 0.30 }
+```
+
+Năm tuyến định hướng:
+- **simple** → Yana xử lý trực tiếp (chỉ đọc, không cần agent)
+- **skill** → đối chiếu danh mục 3,516 kỹ năng, điều phối đúng agent kỹ năng
+- **learn** → chuyển sang `hoc-tap` — trợ lý học tập kiểu Socratic (học, giải thích, tại sao...)
+- **daily** → chuyển sang `daily-assistant` — tóm tắt / lên kế hoạch / soạn thảo (tóm tắt, viết email, lên kế hoạch...)
+- **complex** → điều phối (các) agent chuyên gia với brief giới hạn phạm vi
+- **external** → dừng lại, xác nhận với con người trước khi tiếp tục
+
+Chọn agent theo chuyên môn: tác vụ auth → `security-engineer`, cơ sở dữ liệu → `database-expert`, UI → `frontend-developer + ui-ux-designer`.
+
+---
+
+## Hệ thống điều phối nhiệm vụ (Mission dispatcher)
+
+Điều phối song song theo làn sóng với cơ chế giải quyết phụ thuộc — viết bằng Rust, không phụ thuộc Python.
+
+```bash
+# 1. Tạo mission
+MID=$(yamtam mission create "implement-auth" | awk '/id:/{print $2}')
+
+# 2. Khai báo task kèm phụ thuộc
+yamtam mission task $MID "design-schema"   --agent database-expert --produces schema.sql
+yamtam mission task $MID "implement-auth"  --agent backend-developer \
+  --consumes schema.sql --produces src/auth.ts
+yamtam mission task $MID "write-tests"     --agent test-engineer \
+  --consumes src/auth.ts --produces tests/auth.test.ts
+
+# 3. Dispatch làn sóng 1 — chỉ chạy task đã đủ điều kiện phụ thuộc
+yamtam mission dispatch $MID --max-parallel 3
+# → brief JSON cho từng agent sẵn sàng
+
+# 4. Đánh dấu hoàn thành, dispatch làn sóng tiếp theo
+yamtam mission done $MID "design-schema" --evidence schema.sql
+yamtam mission dispatch $MID  # → làn sóng 2 được mở khóa
+
+# Hủy / thử lại task bị kẹt
+yamtam mission cancel $MID "implement-auth"
+yamtam mission retry  $MID "write-tests"
+```
+
+Task được đánh dấu **Running** ngay khi dispatch — chạy lại `dispatch` không bao giờ điều phối trùng cùng một task.
+
+---
+
+## Trình khởi chạy đa agent (Multi-agent launcher)
+
+Bật nhiều agent song song có kiểm soát — không vượt ngưỡng, có kill switch:
+
+```bash
+# Bật 3 agent cùng lúc, tối đa 3 chạy song song
+bash core/scripts/multi-agent-launch.sh start \
+  --agents "scanner,auditor,qa-team" \
+  --concurrency 3
+
+# Xem trạng thái real-time
+bash core/scripts/multi-agent-launch.sh status
+
+# Dừng một agent cụ thể
+bash core/scripts/multi-agent-launch.sh kill scanner
+
+# Kill switch — dừng tất cả ngay lập tức
+bash core/scripts/multi-agent-launch.sh kill all
+
+# Xem log của agent
+bash core/scripts/multi-agent-launch.sh log auditor
+```
+
+Hoặc dùng file danh sách task:
+
+```bash
+# tasks.txt — mỗi dòng: tên_agent:mô tả task
+echo "scanner:quét toàn bộ repo
+auditor:kiểm tra hooks
+qa-team:chạy test suite" > tasks.txt
+
+bash core/scripts/multi-agent-launch.sh start --tasks-file tasks.txt --concurrency 4
+```
+
+Output mẫu:
+
+```
+═══ YAMTAM Multi-Agent Launcher ═══
+  Agents     : 3
+  Concurrency: 3 (tối đa chạy song song)
+  Kill switch: bash multi-agent-launch.sh kill all
+
+[LAUNCH] scanner → quét toàn bộ repo    PID 12341
+[LAUNCH] auditor → kiểm tra hooks       PID 12342
+[LAUNCH] qa-team → chạy test suite      PID 12343
+
+[OK] Đã launch 3/3 agents
+```
+
+---
+
+## Giấy phép
+
+Apache 2.0 — miễn phí mãi mãi.
+
+---
+
+## Liên hệ
+
+**Vũ Văn Tâm** · Việt Nam · 17 tuổi
+
+| | |
+|---|---|
+| Email | phamlongh230@gmail.com |
+| Website | [phamlongh230-lgtm.github.io/yamtam-engine](https://phamlongh230-lgtm.github.io/yamtam-engine/) |
+| GitHub | [phamlongh230-lgtm](https://github.com/phamlongh230-lgtm) |
+| Yana AI | [yamtam-engine-production.up.railway.app](https://yamtam-engine-production.up.railway.app) |
