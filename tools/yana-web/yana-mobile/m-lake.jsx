@@ -110,8 +110,9 @@ function MLake({ t, onNav }) {
         <MStat label={L("Memories", "Ký ức")} value={D.stats.memories.toLocaleString()} sub={"+" + D.stats.memoriesToday + L(" today", " hôm nay")} />
       </div>
 
-      <MCard title={L("Active AI Models", "Mô hình đang chạy")} aside={<span className="chip neutral">4 {L("providers", "NCC")}</span>}>
+      <MCard title={L("Active AI Models", "Mô hình đang chạy")} aside={<span className="chip neutral">{D.models.length} {L("providers", "NCC")}</span>}>
         <div style={{ display: "flex", flexDirection: "column" }}>
+          {D.models.length === 0 && <span style={{ fontSize: 12.5, color: "var(--ink-3)" }}>{L("Loading providers…", "Đang tải nhà cung cấp…")}</span>}
           {D.models.map((m) => <MModelRow key={m.id} m={m} />)}
         </div>
       </MCard>
@@ -153,7 +154,7 @@ function MLake({ t, onNav }) {
             {[
               [L("Safety checks", "Kiểm tra an toàn"), D.safety.checksToday.toLocaleString() + L(" today", " hôm nay")],
               [L("Blocked", "Bị chặn"), D.safety.blocked + L(" · ", " · ") + D.safety.pendingReview + L(" in review", " chờ duyệt")],
-              [L("Last incident", "Sự cố gần nhất"), L(D.safety.lastIncident, "27 ngày trước")],
+              [L("Last incident", "Sự cố gần nhất"), D.safety.lastIncident],
               [L("Uptime", "Thời gian chạy"), D.stats.uptimeDays + L(" days", " ngày")],
             ].map(([k, v]) => (
               <div key={k} style={{ lineHeight: 1.35 }}>

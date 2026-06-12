@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="jade">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <title>Yana — Mobile</title>
+  <link rel="preconnect" href="https://fonts.bunny.net" crossorigin />
+  <link href="https://fonts.bunny.net/css?family=be-vietnam-pro:300,400,500,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="yana-mobile/themes.css" />
+  <link rel="stylesheet" href="yana-mobile/mobile.css" />
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- Flag before data.js: enables the mobile hydration block (window.YANA fields) -->
+  <script>window.YANA_MOBILE = true;</script>
+  <script src="data.js"></script>
+  <!-- Shared with desktop: tweaks persist to localStorage (yana.tweaks) -->
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <!-- Mobile shell + screens in dependency order -->
+  <script type="text/babel" src="yana-mobile/m-shell.jsx"></script>
+  <script type="text/babel" src="yana-mobile/m-lake.jsx"></script>
+  <script type="text/babel" src="yana-mobile/m-missions.jsx"></script>
+  <script type="text/babel" src="yana-mobile/m-chat.jsx"></script>
+  <script type="text/babel" src="yana-mobile/m-garden.jsx"></script>
+  <script type="text/babel" src="yana-mobile/m-system.jsx"></script>
+  <script type="text/babel" src="yana-mobile/m-app.jsx"></script>
+</body>
+</html>

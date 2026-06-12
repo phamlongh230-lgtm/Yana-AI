@@ -8,7 +8,8 @@ const M_MEM_KINDS = [
 const M_KIND_VI = { All: "Tất cả", Fact: "Dữ kiện", Knowledge: "Kiến thức", Experience: "Trải nghiệm", Context: "Ngữ cảnh" };
 
 function MMemoryCard({ m }) {
-  const kind = M_MEM_KINDS.find((k) => k.id === m.kind);
+  // L1 kinds outside the four buckets render with the neutral Context style
+  const kind = M_MEM_KINDS.find((k) => k.id === m.kind) || M_MEM_KINDS[3];
   return (
     <div className="glass" style={{ borderRadius: "var(--r-lg)", padding: "15px 16px", display: "flex", flexDirection: "column", gap: 9 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>

@@ -922,6 +922,7 @@ const server = http.createServer(async (req, res) => {
   if (method === 'POST' && pathname === '/api/index')   { await handleApiIndex(req, res); return; }
   if (method === 'POST' && pathname === '/api/route')   { await handleApiRoute(req, res); return; }
   if (method === 'POST' && pathname === '/api/chat')    { await handleApiChat(req, res);  return; }
+  if (method === 'GET' && pathname === '/m')            { res.writeHead(302, { Location: '/mobile.html' }); res.end(); return; }
   if (method === 'GET')                                 { serveStatic(res, pathname === '/' ? '/index.html' : pathname); return; }
 
   res.writeHead(405, { 'Content-Type': 'text/plain' });

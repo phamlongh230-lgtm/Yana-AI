@@ -34,7 +34,7 @@ function MAgents() {
   const [filter, setFilter] = React.useState("all");
   const filters = [["all", L("All", "Tất cả")], ["active", L("Active", "Đang chạy")], ["idle", L("Idle", "Nghỉ")]];
   const list = filter === "all" ? D.agents : D.agents.filter((a) => a.status === filter);
-  const rest = D.stats.agents - D.agents.length;
+  const rest = Math.max(0, D.stats.agents - D.agents.length);
   return (
     <div data-screen-label="Agent Space" style={{ display: "flex", flexDirection: "column", gap: "var(--gap)" }}>
       <MHead title={L("Agents", "Tác nhân")} sub={D.stats.agentsActive + L(" of ", " / ") + D.stats.agents + L(" active · Navigator orchestrates, Sentinel reviews", " hoạt động · Navigator điều phối, Sentinel giám sát")}>
@@ -47,10 +47,10 @@ function MAgents() {
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
         {list.map((a) => <MAgentCard key={a.id} a={a} />)}
-        <div style={{
+        {rest > 0 && <div style={{
           borderRadius: "var(--r-lg)", border: "1.5px dashed var(--border-strong)",
           display: "grid", placeItems: "center", minHeight: 64, color: "var(--ink-3)", fontSize: 12.5, textAlign: "center", padding: 14,
-        }}>+ {rest} {L("more specialist agents", "tác nhân chuyên môn khác")}</div>
+        }}>+ {rest} {L("more specialist agents", "tác nhân chuyên môn khác")}</div>}
       </div>
     </div>
   );
@@ -81,7 +81,7 @@ function MProviderCard({ p }) {
         {p.models.map((m) => <span key={m} className="chip neutral" style={{ fontSize: 11 }}>{m}</span>)}
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, paddingTop: 10, borderTop: "1px solid var(--border)" }}>
-        {[[L("Usage", "Dùng"), p.usage], [L("Latency", "Độ trễ"), p.latency], [L("Key", "Khoá"), p.key]].map(([k, v]) => (
+        {[[L("Usage", "Dùng"), p.usage || "—"], [L("Latency", "Độ trễ"), p.latency || "—"], [L("Key", "Khoá"), p.key || L("Not set", "Chưa đặt")]].map(([k, v]) => (
           <div key={k} style={{ lineHeight: 1.35, minWidth: 0 }}>
             <div style={{ fontSize: 10.5, color: "var(--ink-3)" }}>{k}</div>
             <div style={{ fontSize: 11.5, fontWeight: 500, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{v}</div>

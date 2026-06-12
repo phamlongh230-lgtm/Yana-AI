@@ -46,6 +46,14 @@ function App() {
   const mainRef = React.useRef(null);
   window.YANA_LANG = t.language === "Tiếng Việt" ? "vi" : "en";
 
+  // data.js hydrates window.YANA from the real APIs after mount — re-render
+  // when each batch lands so the screens pick up live values
+  const [, forceData] = React.useReducer((x) => x + 1, 0);
+  React.useEffect(() => {
+    window.addEventListener("yana:data", forceData);
+    return () => window.removeEventListener("yana:data", forceData);
+  }, []);
+
   React.useEffect(() => applyTweaks(t), [t]);
   React.useEffect(() => localStorage.setItem("yana.m.page", page), [page]);
   // scroll the page region back to top on navigation
