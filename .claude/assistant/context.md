@@ -17,7 +17,8 @@
 ## Phase hiện tại: ACTIVE
 
 ## Ưu tiên tiếp theo
-1. **PUSH yamtam-engine** — 3 commits local chưa push (922ee30b rule 69 + ADR-006, 79595557 submodule bump, + assistant sync). Giữ lại vì luật git-push-enforcement yêu cầu anh ra lệnh push main rõ ràng
+1. ~~PUSH yamtam-engine~~ ✅ ĐÃ PUSH (anh ra lệnh 12/06 chiều) — main đồng bộ origin tới 0a19487e+
+   **Credential mới (12/06 chiều):** token ĐÃ GỠ khỏi remote URL — auth giờ qua GIT_ASKPASS của IDE + credential cache in-memory 8h (`credential.helper = cache --timeout=28800`). KHÔNG còn ghp_ plaintext trên disk (đã grep verify .git/config, submodule, ~/.gitconfig, ~/.git-credentials). Lưu ý: terminal ngoài IDE sẽ hỏi credential — paste token, cache giữ 8h trong RAM
 2. **PR #193 — reply ĐÃ ĐĂNG** (12/06 chiều, issuecomment-4688928819, đủ 3 điểm + evidence). Token classic ghp_ hiện tại COMMENT ĐƯỢC sang repo SakuraByteCore (ghi chú cũ "fine-grained không comment được" đã lỗi thời). Còn chờ: ymkiux phản hồi + maintainer approve workflow (Actions chưa chạy trên 885fd60) + 1 review
 3. **Bump action pins lên Node 24** — deadline 16/06/2026 (còn 4 ngày!); publish.yml đang Node 20. Cần token workflow scope
 4. **L6 follow-up (từ ADR-006)** — gate tooling tự động: wrap-up linter, completion-state check trong truth gate, cognitive-debt backlog. Hiện mới enforcement hành vi
