@@ -158,6 +158,7 @@ function App() {
     missions: () => <MissionCenter />,
     memory: () => <MemoryGarden />,
     skills: () => <Skills />,
+    html:      () => <HtmlMaker />,
     providers: () => <Providers />,
     settings: () => <Settings t={t} setTweak={setTweak} />,
   }[page] || (() => <Dashboard t={t} onNav={setPage} />);

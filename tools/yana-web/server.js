@@ -940,6 +940,218 @@ async function readJsonBody(req, res, maxBytes) {
   catch (_) { jsonError(res, 400, 'Invalid JSON'); return null; }
 }
 
+// ── HTML Skill Loader (html-anything integration) ─────────────────────────────
+const HTML_SKILLS_DIR = path.join(__dirname, 'html-skills');
+
+// World-class design system prompt — prepended to every skill's prompt body.
+// Source: nexu-io/html-anything shared.ts SHARED_DESIGN_DIRECTIVES
+const SHARED_DESIGN_DIRECTIVES = `
+你是世界级的视觉设计师 + 资深前端工程师。请输出一份**自包含的单文件 HTML**，要求：
+
+【内容驱动数量 — 最高优先级, 覆盖模板里的任何数字】
+- 模板只定义"可用版面 / 风格 / 配色 / 字体 / 组件库", **不定义** slide / 帧 / 卡片 / section 的数量。
+- 输出的 slide / frame / card / section 数量**完全由【用户内容】的实际长度和信息结构决定**。必须**完整覆盖**用户内容的每一个要点、章节、数据组, **不许总结、压缩、丢弃信息**。
+- 如果模板正文里写了类似"挑 6-10 张组成 deck / 输出 6-10 帧 / 3-6 张卡片"的数字, **一律视为短示例下的参考下限, 不是上限**。短内容可以低于该范围, 长内容应远超该范围。
+- 模板里的版式名指**可复用的版式池**, 同一个版式允许在不同内容上多次出现, 不是页数上限。
+- 先把【用户内容】按语义切成若干段, 每一段 → 至少一个独立的 slide / section / card。
+
+【硬性技术要求】
+- 直接把完整的 HTML 文档作为助手回复的正文流式输出。不要先说"我来生成"之类的话。
+- 文档以 \`<!DOCTYPE html>\` 开头, 末尾以 \`</html>\` 结束。
+- 在 \`<head>\` 中通过 CDN 引入 Tailwind v3 Play (https://cdn.tailwindcss.com) 与所需的 Google Fonts。
+- 不要引用任何外部图片 URL（除非你能保证 URL 长期有效；优先使用 CSS / SVG 内联绘制）。
+- 必要的脚本（图表、动画）通过 jsdelivr CDN 引入；保持单文件可双击打开即用。
+- 输出**纯 HTML**, 不要用 markdown 代码围栏包裹, 不要任何解释性文字。第一个字符必须是 \`<\`。
+
+【设计准则 — 世界级标准】
+- 排版: 中文优先 \`Noto Sans SC\` / \`Noto Serif SC\`, 英文 \`Inter\` / \`Manrope\` / \`SF Pro\` 风格。
+- 色彩: 使用 1 个主色 + 2 个中性色 + 至多 1 个强调色; 大胆留白; 不使用纯黑纯白 (#000/#fff), 改用 \`#0a0a0a\` / \`#fafafa\`。
+- 网格: 8 px 基线; 段落最大宽度 65 ch; 标题与正文有清晰的层级。
+- 微观细节: 圆角统一 (rounded-xl/2xl), 投影柔和 (shadow-sm/lg), 边框 1px \`#e5e7eb\` / \`#262626\`。
+- 动效: 仅在必要处使用 \`transition-all\` 或入场 fade-in; 不要喧宾夺主。
+- 无障碍: 颜色对比度 ≥ 4.5; 重要交互有 focus 态。
+
+【内容真实性】
+- **必须使用用户提供的真实数据**, 不要编造、不要 lorem ipsum、不要 "Your text here"。
+- 如果用户数据是结构化数据 (CSV/JSON), 请提取关键洞察并以图表/表格呈现。
+- 中文与英文混排时, 中英文之间留半角空格 (盘古之白)。
+
+`;
+
+function parseHtmlSkillFrontmatter(raw) {
+  const m = /^---\s*\r?\n([\s\S]*?)\r?\n---\s*\r?\n?([\s\S]*)$/m.exec(raw);
+  if (!m) return { fm: {}, body: raw };
+  const block = m[1];
+  const body  = (m[2] || '').trim();
+  const fm    = {};
+  for (const line of block.split(/\r?\n/)) {
+    const mm = /^([a-zA-Z_][a-zA-Z0-9_]*)\s*:\s*(.*)$/.exec(line);
+    if (!mm) continue;
+    const key = mm[1];
+    let val   = mm[2].trim();
+    if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+      val = val.slice(1, -1).replace(/\\"/g, '"');
+    }
+    if (key === 'featured' || key === 'recommended') {
+      const n = Number(val);
+      if (Number.isFinite(n)) fm[key] = n;
+    } else if (key === 'tags') {
+      const arr = /^\[(.*)\]$/.exec(val);
+      if (arr) {
+        fm.tags = arr[1].split(',')
+          .map(s => s.trim().replace(/^["']|["']$/g, '').replace(/\\"/g, '"'))
+          .filter(Boolean);
+      }
+    } else {
+      fm[key] = val;
+    }
+  }
+  return { fm, body };
+}
+
+let HTML_SKILLS_CACHE = null;
+
+function listHtmlSkills() {
+  if (HTML_SKILLS_CACHE) return HTML_SKILLS_CACHE;
+  const out = [];
+  let dirents = [];
+  try { dirents = fs.readdirSync(HTML_SKILLS_DIR, { withFileTypes: true }); } catch (_) {}
+  for (const ent of dirents) {
+    if (!ent.isDirectory()) continue;
+    const id = ent.name;
+    if (!/^[a-z0-9][a-z0-9-]*$/i.test(id)) continue;
+    let raw = '';
+    try { raw = fs.readFileSync(path.join(HTML_SKILLS_DIR, id, 'SKILL.md'), 'utf8'); } catch (_) { continue; }
+    const { fm } = parseHtmlSkillFrontmatter(raw);
+    out.push({
+      id,
+      zhName:     fm.zh_name || fm.name || id,
+      enName:     fm.en_name || id,
+      emoji:      fm.emoji || '✨',
+      category:   fm.category || 'other',
+      scenario:   fm.scenario || 'general',
+      aspectHint: fm.aspect_hint || '',
+      tags:       Array.isArray(fm.tags) ? fm.tags : [],
+    });
+  }
+  HTML_SKILLS_CACHE = out;
+  return out;
+}
+
+function loadHtmlSkill(id) {
+  if (!/^[a-z0-9][a-z0-9-]*$/i.test(id)) return null;
+  let raw = '';
+  try { raw = fs.readFileSync(path.join(HTML_SKILLS_DIR, id, 'SKILL.md'), 'utf8'); } catch (_) { return null; }
+  const { fm, body } = parseHtmlSkillFrontmatter(raw);
+  return {
+    id,
+    zhName:     fm.zh_name || fm.name || id,
+    enName:     fm.en_name || id,
+    emoji:      fm.emoji || '✨',
+    aspectHint: fm.aspect_hint || '',
+    body,
+  };
+}
+
+function assembleHtmlPrompt(skillBody, content, format) {
+  return `${SHARED_DESIGN_DIRECTIVES}${skillBody.trim()}
+
+【输入格式】: ${format}
+【用户内容】:
+${content}
+`;
+}
+
+function buildHtmlRequestBody(p, modelId, prompt) {
+  const hostname = p.hostname || '';
+  if (hostname.includes('google') || hostname.includes('generativelanguage')) {
+    return JSON.stringify({
+      contents: [{ role: 'user', parts: [{ text: prompt }] }],
+      generationConfig: { maxOutputTokens: 8096 },
+    });
+  }
+  if (hostname.includes('anthropic') || modelId.startsWith('claude')) {
+    return JSON.stringify({
+      model: modelId, max_tokens: 8096, stream: true,
+      messages: [{ role: 'user', content: prompt }],
+    });
+  }
+  return JSON.stringify({
+    model: modelId, max_tokens: 8096, stream: true,
+    messages: [{ role: 'user', content: prompt }],
+  });
+}
+
+// GET /api/html/skills
+function handleApiHtmlSkills(req, res) {
+  const skills = listHtmlSkills();
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify({ total: skills.length, skills }));
+}
+
+// POST /api/html/convert
+async function handleApiHtmlConvert(req, res) {
+  let body;
+  try { body = await readBody(req, 512 * 1024); }
+  catch (e) { jsonError(res, e && e.status === 413 ? 413 : 400, 'Bad request'); return; }
+
+  let parsed;
+  try { parsed = JSON.parse(body); } catch (_) { jsonError(res, 400, 'Invalid JSON'); return; }
+
+  const { skillId, content, format = 'text', provider: providerKey, apiKey, model } = parsed;
+  if (!skillId || typeof skillId !== 'string') { jsonError(res, 400, 'Missing skillId'); return; }
+  if (!content  || typeof content  !== 'string' || !content.trim()) { jsonError(res, 400, 'Missing content'); return; }
+
+  const skill = loadHtmlSkill(skillId);
+  if (!skill) { jsonError(res, 400, `Unknown skill: ${skillId}`); return; }
+
+  const p = PROVIDERS[providerKey] || PROVIDERS.anthropic;
+  if (!p.keyless && (!apiKey || typeof apiKey !== 'string')) { jsonError(res, 400, 'Missing apiKey'); return; }
+
+  const prompt   = assembleHtmlPrompt(skill.body, content.trim(), String(format || 'text'));
+  const modelId  = (typeof model === 'string' && model.trim()) ? model.trim() : p.defaultModel;
+  const reqBody  = buildHtmlRequestBody(p, modelId, prompt);
+  const reqPath  = p.buildPath ? p.buildPath(modelId, apiKey) : p.path;
+
+  const options = {
+    hostname: p.hostname,
+    port:     p.port,
+    path:     reqPath,
+    method:   'POST',
+    headers:  { ...p.headers(apiKey), 'content-length': Buffer.byteLength(reqBody) },
+  };
+  const transport = (p.protocol === 'http' && p.hostname === '127.0.0.1') ? http : https;
+
+  res.writeHead(200, {
+    'Content-Type':  'text/event-stream',
+    'Cache-Control': 'no-cache',
+    'Connection':    'keep-alive',
+  });
+
+  const upstreamReq = transport.request(options, upstreamRes => {
+    if (upstreamRes.statusCode < 200 || upstreamRes.statusCode >= 300) {
+      let errBody = '';
+      upstreamRes.on('data', c => { errBody += c; });
+      upstreamRes.on('end', () => {
+        let detail = '';
+        try { const j = JSON.parse(errBody); detail = j.error?.message || j.message || ''; } catch (_) {}
+        res.write(`data: ${JSON.stringify({ error: `Upstream HTTP ${upstreamRes.statusCode}${detail ? ': ' + detail : ''}` })}\n\n`);
+        res.end();
+      });
+      return;
+    }
+    pipeNormalizedSSE(upstreamRes, res, p.extractText, null);
+  });
+
+  upstreamReq.on('error', () => {
+    res.write(`data: ${JSON.stringify({ error: 'Upstream connection failed' })}\n\n`);
+    res.end();
+  });
+
+  upstreamReq.write(reqBody);
+  upstreamReq.end();
+}
+
 // Auth endpoints + the login page itself are public; everything else needs a
 // session. Unauthenticated page loads bounce to /login.html, API calls get 401.
 async function handleAuthRoutes(req, res, pathname, method) {
@@ -1014,8 +1226,10 @@ const server = http.createServer(async (req, res) => {
   if (method === 'POST' && pathname === '/api/models')  { handleApiModels(req, res);  return; }
   if (method === 'POST' && pathname === '/api/index')   { await handleApiIndex(req, res); return; }
   if (method === 'POST' && pathname === '/api/route')   { await handleApiRoute(req, res); return; }
-  if (method === 'POST' && pathname === '/api/ocr')     { await handleApiOcr(req, res);   return; }
-  if (method === 'POST' && pathname === '/api/chat')    { await handleApiChat(req, res);  return; }
+  if (method === 'POST' && pathname === '/api/ocr')          { await handleApiOcr(req, res);         return; }
+  if (method === 'POST' && pathname === '/api/chat')         { await handleApiChat(req, res);        return; }
+  if (method === 'GET'  && pathname === '/api/html/skills')  { handleApiHtmlSkills(req, res);        return; }
+  if (method === 'POST' && pathname === '/api/html/convert') { await handleApiHtmlConvert(req, res); return; }
   if (method === 'GET' && pathname === '/m')            { res.writeHead(302, { Location: '/mobile/index.html' }); res.end(); return; }
   if (method === 'GET' && pathname === '/') {
     // Redirect so relative asset paths in index.html resolve against the correct base URL
