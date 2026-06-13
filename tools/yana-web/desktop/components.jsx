@@ -34,6 +34,7 @@ const Icons = {
   spark:     (s) => <Ic size={s} d={<path d="M10 3c.5 3.9 2.6 6.1 7 7-4.4.9-6.5 3.1-7 7-.5-3.9-2.6-6.1-7-7 4.4-.9 6.5-3.1 7-7Z"/>} />,
   menu:      (s) => <Ic size={s} d={<path d="M3.5 6h13M3.5 10h13M3.5 14h13"/>} />,
   attach:    (s) => <Ic size={s} d={<path d="M17.8 9.2l-7.6 7.6a5 5 0 0 1-7.08-7.08l7.65-7.65a3.3 3.3 0 0 1 4.7 4.7L7.8 13.9a1.65 1.65 0 0 1-2.35-2.35l7.07-7.07"/>} />,
+  pencil:    (s) => <Ic size={s} d={<><path d="M14 3.5a1.9 1.9 0 0 1 2.5 2.5L6 17H3v-3L14 3.5Z"/><path d="m12.5 5 2.5 2.5"/></>} />,
 };
 
 /* ---------- Wordmark: lotus in bloom on the water (matches login.html) ---------- */
