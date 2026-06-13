@@ -58,7 +58,30 @@ function MAgents() {
 
 /* ---------- Providers ---------- */
 function MProviderCard({ p }) {
-  const connected = p.status === "connected";
+  const keyless = p.id === "ollama" || p.id === "9router";
+  const vault = typeof YanaVault !== "undefined" ? YanaVault : null;
+  const [hasKey, setHasKey] = React.useState(() => keyless || !!(vault && vault.getKey(p.id)));
+  const connected = hasKey;
+
+  async function promptKey() {
+    if (!vault) { window.alert(L("Vault not available.", "Vault chưa sẵn sàng.")); return; }
+    const current = vault.getKey(p.id) || "";
+    const raw = window.prompt(
+      L("API key for ", "API key cho ") + p.name + L(" (leave blank to clear):", " (để trống để xóa):"),
+      current
+    );
+    if (raw === null) return;
+    const trimmed = raw.trim();
+    if (trimmed) { await vault.setKey(p.id, trimmed); setHasKey(true); }
+    else         { vault.removeKey(p.id); setHasKey(false); }
+  }
+
+  const keyDisplay = keyless
+    ? L("Keyless", "Không cần key")
+    : hasKey
+      ? (vault && vault.getKey(p.id) || "").slice(0, 8) + "····"
+      : L("Not set", "Chưa đặt");
+
   return (
     <div className="glass" style={{ borderRadius: "var(--r-lg)", padding: "15px 16px", display: "flex", flexDirection: "column", gap: 11 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 11 }}>
@@ -80,13 +103,16 @@ function MProviderCard({ p }) {
       <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
         {p.models.map((m) => <span key={m} className="chip neutral" style={{ fontSize: 11 }}>{m}</span>)}
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, paddingTop: 10, borderTop: "1px solid var(--border)" }}>
-        {[[L("Usage", "Dùng"), p.usage || "—"], [L("Latency", "Độ trễ"), p.latency || "—"], [L("Key", "Khoá"), p.key || L("Not set", "Chưa đặt")]].map(([k, v]) => (
-          <div key={k} style={{ lineHeight: 1.35, minWidth: 0 }}>
-            <div style={{ fontSize: 10.5, color: "var(--ink-3)" }}>{k}</div>
-            <div style={{ fontSize: 11.5, fontWeight: 500, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{v}</div>
-          </div>
-        ))}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, paddingTop: 10, borderTop: "1px solid var(--border)" }}>
+        <div style={{ lineHeight: 1.35, minWidth: 0 }}>
+          <div style={{ fontSize: 10.5, color: "var(--ink-3)" }}>{L("Key", "Khoá")}</div>
+          <div style={{ fontSize: 11.5, fontWeight: 500, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: 160 }}>{keyDisplay}</div>
+        </div>
+        {!keyless && (
+          <button onClick={promptKey} className={"pill-" + (hasKey ? "neutral" : "primary")} style={{ padding: "6px 13px", fontSize: 12 }}>
+            {hasKey ? L("Change", "Đổi") : L("Set key", "Thêm key")}
+          </button>
+        )}
       </div>
     </div>
   );
@@ -94,12 +120,11 @@ function MProviderCard({ p }) {
 
 function MProviders() {
   const D = window.YANA;
-  const connected = D.providers.filter((p) => p.status === "connected").length;
+  const vault = typeof YanaVault !== "undefined" ? YanaVault : null;
+  const connected = vault ? D.providers.filter((p) => p.id === "ollama" || p.id === "9router" || vault.getKey(p.id)).length : 0;
   return (
     <div data-screen-label="Providers" style={{ display: "flex", flexDirection: "column", gap: "var(--gap)" }}>
-      <MHead title={L("Providers", "Nhà cung cấp")} sub={connected + L(" of ", " / ") + D.providers.length + L(" connected · Groq routes, YAMTAM supervises", " đã nối · Groq định tuyến, YAMTAM giám sát")}>
-        <button className="pill-primary" style={{ padding: "8px 13px" }}>{Icons.plus(15)} {L("Connect", "Kết nối")}</button>
-      </MHead>
+      <MHead title={L("Providers", "Nhà cung cấp")} sub={connected + " / " + D.providers.length + L(" connected", " đã nối")} />
       <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
         {D.providers.map((p) => <MProviderCard key={p.id} p={p} />)}
       </div>

@@ -916,7 +916,7 @@ const server = http.createServer(async (req, res) => {
   // Public surface: health probe, auth endpoints, welcome + login pages
   if (method === 'GET' && pathname === '/health') { res.writeHead(200, { 'Content-Type': 'application/json' }); res.end(JSON.stringify({ ok: true, skills: skillCount() })); return; }
   if (await handleAuthRoutes(req, res, pathname, method)) return;
-  if (method === 'GET' && (pathname === '/login.html' || pathname === '/welcome.html' || pathname === '/logo.png')) { serveStatic(res, pathname); return; }
+  if (method === 'GET' && (pathname === '/login.html' || pathname === '/welcome.html' || pathname === '/logo.png')) { serveStatic(res, pathname === '/logo.png' ? pathname : '/desktop' + pathname); return; }
 
   if (!auth.isAuthed(req)) { rejectUnauthed(res, pathname, method); return; }
 
@@ -947,14 +947,14 @@ const server = http.createServer(async (req, res) => {
   if (method === 'POST' && pathname === '/api/index')   { await handleApiIndex(req, res); return; }
   if (method === 'POST' && pathname === '/api/route')   { await handleApiRoute(req, res); return; }
   if (method === 'POST' && pathname === '/api/chat')    { await handleApiChat(req, res);  return; }
-  if (method === 'GET' && pathname === '/m')            { res.writeHead(302, { Location: '/mobile.html' }); res.end(); return; }
+  if (method === 'GET' && pathname === '/m')            { res.writeHead(302, { Location: '/mobile/index.html' }); res.end(); return; }
   if (method === 'GET') {
     let file = pathname;
     if (pathname === '/') {
       // Phones land on the mobile shell automatically; ?desktop=1 opts out
       const mobileUA    = /Mobi|Android|iPhone/i.test(req.headers['user-agent'] || '');
       const wantDesktop = /[?&]desktop=1/.test(req.url || '');
-      file = (mobileUA && !wantDesktop) ? '/mobile.html' : '/index.html';
+      file = (mobileUA && !wantDesktop) ? '/mobile/index.html' : '/desktop/index.html';
     }
     serveStatic(res, file); return;
   }

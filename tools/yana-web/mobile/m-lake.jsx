@@ -18,21 +18,39 @@ function MComposer({ onNav }) {
     ["Summarize overnight", "Tóm tắt qua đêm"],
     ["Prune stale memories", "Dọn ký ức cũ"],
   ];
-  function begin(text) {
+  async function begin(text) {
     const goal = (text || v).trim();
     if (!goal) return;
-    const id = "m" + Date.now();
-    D.missions.unshift({
-      id, name: goal, owner: "Navigator", progress: 4, due: "Planning", status: "analyzing",
-      tasks: [
-        { name: "Understanding the goal", agent: "Navigator", state: "active" },
-        { name: "Choosing agents & skills", agent: "Navigator", state: "queued" },
-        { name: "Drafting a plan for your review", agent: "Navigator", state: "queued" },
-      ],
-    });
-    D._openMission = id;
-    D.stats.missionsActive += 1;
     onNav("missions");
+    // POST to real API — server classifies the goal and creates starter tasks
+    try {
+      const r = await fetch("/api/missions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ goal }),
+      });
+      if (r.ok) {
+        const { mission } = await r.json();
+        D.missions.unshift(mission);
+        D._openMission = mission.id;
+        D.stats.missionsActive += 1;
+        window.dispatchEvent(new Event("yana:data"));
+      }
+    } catch (_) {
+      // Offline fallback — local optimistic entry shown until server responds
+      const id = "m" + Date.now();
+      D.missions.unshift({
+        id, name: goal, owner: "Navigator", progress: 0, due: "Planning", status: "analyzing",
+        tasks: [
+          { name: "Understanding the goal", agent: "Navigator", state: "active" },
+          { name: "Choosing agents & skills", agent: "Navigator", state: "queued" },
+          { name: "Drafting a plan for your review", agent: "Navigator", state: "queued" },
+        ],
+      });
+      D._openMission = id;
+      D.stats.missionsActive += 1;
+      window.dispatchEvent(new Event("yana:data"));
+    }
   }
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>

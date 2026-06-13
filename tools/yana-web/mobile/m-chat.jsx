@@ -1,4 +1,43 @@
-// Yana Mobile — Conversation. Context (Routing/Memory/Safety) folds into a sheet.
+// Yana Mobile — Conversation. Calls /api/chat with SSE streaming — mirrors chat.jsx.
+
+/* ── Mobile-local helpers (chat.jsx not loaded on mobile) ─────────────────── */
+const M_CHAT_MODELS = {
+  claude: "claude-sonnet-4-6", openai: "gpt-4o-mini", gemini: "gemini-2.0-flash",
+  groq: "llama-3.3-70b-versatile", deepseek: "deepseek-chat",
+  openrouter: "google/gemma-3-27b-it", "9router": "kr/claude-sonnet-4.5", ollama: "llama3.2",
+};
+const M_KEYLESS = new Set(["ollama"]);
+
+function mGetProviderConfig() {
+  if (typeof YanaVault === "undefined") return { provider: "claude", apiKey: "" };
+  const order = ["claude", "openai", "gemini", "groq", "deepseek", "openrouter", "9router"];
+  for (const id of order) {
+    if (M_KEYLESS.has(id)) continue;
+    const key = YanaVault.getKey(id);
+    if (key) return { provider: id, apiKey: key };
+  }
+  return { provider: "claude", apiKey: "" };
+}
+
+function mAboutContext() {
+  const parts = [];
+  for (const [id, label] of [["who","Who"],["strengths","Strengths"],["style","Response style"]]) {
+    const v = localStorage.getItem("yana.about." + id);
+    if (v && v.trim()) parts.push(label + ": " + v.trim());
+  }
+  return parts.join("\n");
+}
+
+const M_CONFIDENTIAL = ["bí mật","confidential","đừng lưu","don't save","#mật","#private","off the record"];
+const M_SOVEREIGN    = ["chỉ mình anh biết","sovereign only","#sovereign","local model only"];
+function mDetectSensitivity(text) {
+  const lo = (text || "").toLowerCase();
+  if (M_SOVEREIGN.some((m) => lo.includes(m)))    return "sovereign";
+  if (M_CONFIDENTIAL.some((m) => lo.includes(m))) return "confidential";
+  return null;
+}
+
+
 function MRouteChip({ route }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 6 }}>
@@ -95,30 +134,114 @@ function MChat() {
   const [thinking, setThinking] = React.useState(false);
   const [ctx, setCtx] = React.useState(false);
   const logRef = React.useRef(null);
+  const readerRef = React.useRef(null);
 
   React.useEffect(() => {
     const el = logRef.current;
     if (el) el.scrollTop = el.scrollHeight;
   }, [msgs, thinking]);
 
-  function send() {
+  // Persist chat history (non-confidential only)
+  React.useEffect(() => {
+    D.chat = msgs;
+    try {
+      localStorage.setItem("yana.chat", JSON.stringify(
+        msgs.filter((m) => !m.confidential).slice(-60)
+      ));
+    } catch (_) {}
+  }, [msgs]);
+
+  React.useEffect(() => { return () => { if (readerRef.current) readerRef.current.cancel(); }; }, []);
+
+  async function send() {
     const text = draft.trim();
     if (!text || thinking) return;
-    setMsgs((m) => [...m, { who: "user", text }]);
+
+    const tier = mDetectSensitivity(text);
+    setMsgs((m) => [...m, { who: "user", text, confidential: !!tier, tier }]);
     setDraft("");
     setThinking(true);
-    setTimeout(() => {
+
+    let { provider, apiKey } = mGetProviderConfig();
+    if (tier === "sovereign") { provider = "ollama"; apiKey = ""; }
+    const model = M_CHAT_MODELS[provider] || "";
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(tier
+          ? { task: text, apiKey, provider, model, sensitivity: tier }
+          : { task: text, apiKey, provider, model, about: mAboutContext() }),
+      });
+
+      if (!res.ok || !res.body) throw new Error("HTTP " + res.status);
+
+      const reader = res.body.getReader();
+      readerRef.current = reader;
+      const decoder = new TextDecoder();
+      let buf = "";
+      let accumulated = "";
+      const msgId = Date.now();
+
       setMsgs((m) => [...m, {
         who: "yana",
-        route: { agent: "Navigator", model: "Claude Opus 4.5" },
-        text: L(
-          "Noted — I've logged that and routed it to the right agent. You'll see progress in the Mission Center, and I'll surface anything that needs your decision.",
-          "Đã ghi nhận và chuyển đến đúng tác nhân. Bạn sẽ thấy tiến độ ở Trung tâm nhiệm vụ, tôi sẽ báo khi cần bạn quyết định."
-        ),
-        refs: [L("Memory: new context entry", "Ký ức: mục ngữ cảnh mới")],
+        route: { agent: provider, model: model + (tier ? " · 🔒" : "") },
+        text: "", confidential: !!tier, tier, _id: msgId,
       }]);
       setThinking(false);
-    }, 1100);
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buf += decoder.decode(value, { stream: true });
+        const lines = buf.split("\n");
+        buf = lines.pop();
+        for (const line of lines) {
+          if (!line.startsWith("data: ")) continue;
+          const payload = line.slice(6).trim();
+          if (payload === "[DONE]") break;
+          try {
+            const obj = JSON.parse(payload);
+            if (obj.error) accumulated += "\n[Error: " + obj.error + "]";
+            else if (obj.text) accumulated += obj.text;
+            const snap = accumulated;
+            setMsgs((m) => m.map((msg) => msg._id === msgId ? { ...msg, text: snap } : msg));
+          } catch (_) {}
+        }
+      }
+
+      // ChatGPT-style memory — strip MEMORY: line and persist it
+      if (!tier) {
+        const mm = accumulated.match(/(?:^|\n)\s*MEMORY:\s*(.+?)\s*$/);
+        if (mm && mm[1]) {
+          const fact  = mm[1];
+          const shown = accumulated.slice(0, mm.index).trimEnd();
+          setMsgs((m) => m.map((msg) =>
+            msg._id === msgId
+              ? { ...msg, text: shown || msg.text, refs: [...(msg.refs || []), L("🌱 Remembered: ", "🌱 Đã nhớ: ") + fact] }
+              : msg
+          ));
+          fetch("/api/memory", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text: fact }),
+          }).catch(() => {});
+        }
+      }
+    } catch (err) {
+      setThinking(false);
+      setMsgs((m) => [...m, {
+        who: "yana",
+        route: { agent: provider, model },
+        confidential: !!tier, tier,
+        text: tier === "sovereign"
+          ? L("Cannot reach local model. SOVEREIGN content only goes to Ollama (127.0.0.1:11434) — run `ollama serve`.",
+              "Không kết nối được model local. Nội dung SOVEREIGN chỉ đến Ollama (127.0.0.1:11434) — chạy `ollama serve`.")
+          : L("Server error. Check Yana is running and an API key is set in Providers.",
+              "Lỗi kết nối. Kiểm tra Yana đang chạy và đã thêm API key trong Providers."),
+      }]);
+    }
   }
 
   return (
