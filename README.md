@@ -385,7 +385,20 @@ User → Yana AI → YAMTAM Core (Router · Safety · Context) → Model
 
 - Zero signup — bring your own API key
 - 🔐 **Encrypted key vault** — keys stored AES-256-GCM, master key non-extractable (WebCrypto + IndexedDB), never plaintext
-- Multi-provider: Anthropic · Groq (Llama4 · Qwen3 · Gemma2) · Gemini 2.5 · OpenAI · DeepSeek · OpenRouter
+- Multi-provider: Anthropic · Groq · Gemini · OpenAI · DeepSeek · OpenRouter · 9Router · Ollama
+
+**Provider setup** — bring your own key, keys encrypted locally (never sent to YAMTAM):
+
+| Provider | Type | Setup |
+|----------|------|-------|
+| **Claude** | Cloud | API key → [console.anthropic.com/settings/keys](https://console.anthropic.com/settings/keys) |
+| **OpenAI** | Cloud | API key → [platform.openai.com/api-keys](https://platform.openai.com/api-keys) |
+| **Gemini** | Cloud | API key → [aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey) |
+| **Groq** | Cloud | API key → [console.groq.com/keys](https://console.groq.com/keys) |
+| **DeepSeek** | Cloud | API key → [platform.deepseek.com/api_keys](https://platform.deepseek.com/api_keys) |
+| **OpenRouter** | Cloud | API key → [openrouter.ai/settings/keys](https://openrouter.ai/settings/keys) |
+| **9Router** | Local | `npm install -g 9router` → `9router` (runs on `localhost:20128`) |
+| **Ollama** | Local | [ollama.com/download](https://ollama.com/download) → `ollama serve` → `ollama pull llama3.2` |
 - 📊 **100% real data** — live provider stats, L1 memory garden, audit-log health panel; zero demo numbers
 - Skill routing built in — type naturally, YAMTAM dispatches the right agent
 - **Non-coding use cases:** learning (Socratic learning assistant), daily work (summarize / plan / draft)

@@ -7,6 +7,17 @@ function fmtTokens(n) {
 
 const LIVE_MODEL_PROVIDERS = new Set(["openrouter", "groq", "9router", "ollama"]);
 
+const PROVIDER_SETUP = {
+  claude:     { url: "https://console.anthropic.com/settings/keys",   label: "Get key → console.anthropic.com" },
+  openai:     { url: "https://platform.openai.com/api-keys",          label: "Get key → platform.openai.com" },
+  gemini:     { url: "https://aistudio.google.com/app/apikey",        label: "Get key → aistudio.google.com" },
+  groq:       { url: "https://console.groq.com/keys",                 label: "Get key → console.groq.com" },
+  deepseek:   { url: "https://platform.deepseek.com/api_keys",        label: "Get key → platform.deepseek.com" },
+  openrouter: { url: "https://openrouter.ai/settings/keys",           label: "Get key → openrouter.ai" },
+  "9router":  { cmd: "npm install -g 9router",  cmd2: "9router",      label: "Local gateway — run on port 20128" },
+  ollama:     { url: "https://ollama.com/download", cmd: "ollama serve", cmd2: "ollama pull llama3.2", label: "On-device — ollama.com/download" },
+};
+
 function ProviderCard({ p, usage, onKeyChange }) {
   const keyless = KEYLESS_PROVIDERS.has(p.id);
   const [hasKey, setHasKey] = React.useState(() => YanaVault.hasKey(p.id));
@@ -83,6 +94,32 @@ function ProviderCard({ p, usage, onKeyChange }) {
       </div>
 
       <div style={{ fontSize: 12.5, color: "var(--ink-2)", lineHeight: 1.5 }}>{p.role}</div>
+
+      {(() => {
+        const s = PROVIDER_SETUP[p.id];
+        if (!s) return null;
+        const isLocal = p.id === "9router" || p.id === "ollama";
+        if (!isLocal && connected) return null;
+        return (
+          <div style={{
+            fontSize: 11.5, borderRadius: 8, padding: "8px 11px", lineHeight: 1.6,
+            background: "var(--primary-soft)", color: "var(--ink-2)",
+          }}>
+            {isLocal ? (
+              <>
+                <div style={{ fontWeight: 500, marginBottom: 3, color: "var(--primary)" }}>{s.label}</div>
+                {s.url && <div><a href={s.url} target="_blank" rel="noreferrer" style={{ color: "var(--primary)" }}>{s.url}</a></div>}
+                {s.cmd  && <div style={{ fontFamily: "monospace", marginTop: 2 }}>$ {s.cmd}</div>}
+                {s.cmd2 && <div style={{ fontFamily: "monospace" }}>$ {s.cmd2}</div>}
+              </>
+            ) : (
+              <a href={s.url} target="_blank" rel="noreferrer" style={{ color: "var(--primary)", fontWeight: 500 }}>
+                {s.label} ↗
+              </a>
+            )}
+          </div>
+        );
+      })()}
 
       <div>
         <div style={{ fontSize: 11, color: "var(--ink-3)", marginBottom: 5 }}>
