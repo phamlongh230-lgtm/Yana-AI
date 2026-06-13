@@ -63,7 +63,8 @@ releases/*.bundle
 releases/*.bundle.sha256
 yamtam-transfer*.zip
 yamtam-patch-files*.zip
-.claude/assistant/memory.md
+# assistant brain — lives in the private yamtam-private repo, never here
+.claude/assistant/
 come_my_way.mp3
 .aider*
 
