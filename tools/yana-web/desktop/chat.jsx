@@ -353,6 +353,9 @@ function Chat({ t }) {
     const text = draft.trim();
     if (!text || thinking) return;
 
+    // Ensure vault has finished decrypting keys from IndexedDB before reading
+    if (typeof YanaVault !== "undefined") await YanaVault.ready;
+
     // Rule 68 — classify before the first byte leaves this page
     const detected = detectSensitivity(text);
     const tier = detected === "sovereign" ? "sovereign"
