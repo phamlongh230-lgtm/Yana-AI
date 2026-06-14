@@ -66,16 +66,30 @@ const PROVIDERS = {
   groq: {
     hostname:     'api.groq.com',
     path:         '/openai/v1/chat/completions',
-    vision:       false,
+    vision:       true,
     defaultModel: 'llama-3.3-70b-versatile',
     headers: key => ({
       'Authorization': `Bearer ${key}`,
       'content-type':  'application/json',
     }),
-    body: (model, system, task) => JSON.stringify({
-      model, max_tokens: 2048, stream: true,
-      messages: [{ role: 'system', content: system }, { role: 'user', content: task }],
-    }),
+    body: (model, system, task, images) => {
+      const userContent = (images && images.length)
+        ? [
+            ...images.map(img => ({
+              type: 'image_url',
+              image_url: { url: `data:${img.mimeType};base64,${img.data}` },
+            })),
+            { type: 'text', text: task },
+          ]
+        : task;
+      return JSON.stringify({
+        model, max_tokens: 2048, stream: true,
+        messages: [
+          { role: 'system', content: system },
+          { role: 'user',   content: userContent },
+        ],
+      });
+    },
     extractText: evt => evt?.choices?.[0]?.delta?.content || null,
   },
 

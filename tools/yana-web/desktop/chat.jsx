@@ -125,7 +125,7 @@ const MODEL_CHOICES = {
   openai:     ["gpt-4o-mini", "gpt-4o"],
   gemini:     ["gemini-2.0-flash", "gemini-1.5-pro", "gemini-1.5-flash"],
   deepseek:   ["deepseek-chat", "deepseek-reasoner"],
-  groq:       ["llama-3.3-70b-versatile"],
+  groq:       ["llama-3.3-70b-versatile", "llama-3.2-90b-vision-preview", "llama-3.2-11b-vision-preview"],
   openrouter: ["google/gemma-3-27b-it"],
   "9router":  ["kr/claude-sonnet-4.5"],
   ollama:     ["llama3.2"],
@@ -246,14 +246,18 @@ function Chat({ t }) {
   // Model per provider — persisted; live lists fetched for CHAT_LIVE_MODELS
   const [modelSel, setModelSel] = React.useState(loadModelChoices);
   const [liveModels, setLiveModels] = React.useState({});  // providerId -> [ids]
+  const [visionImage, setVisionImage] = React.useState(null); // {data, mimeType, name}
   const logRef  = React.useRef(null);
   const readerRef = React.useRef(null);
   const fileRef = React.useRef(null);
+  const visionRef = React.useRef(null);
   const [ocrBusy, setOcrBusy] = React.useState(false);
 
   const activeProvider = providerSel || getProviderConfig().provider;
   const modelOptions = liveModels[activeProvider] || MODEL_CHOICES[activeProvider] || [];
   const activeModel = modelSel[activeProvider] || CHAT_MODELS[activeProvider] || (modelOptions[0] || "");
+
+  const isVisionModel = (model) => model && model.includes("vision");
 
   function pickModel(v) {
     setModelSel((prev) => {
@@ -332,6 +336,19 @@ function Chat({ t }) {
     }
   }
 
+  function handleVisionAttach(e) {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const dataUrl = ev.target.result; // data:image/jpeg;base64,...
+      const [header, data] = dataUrl.split(",");
+      const mimeType = header.replace("data:", "").replace(";base64", "");
+      setVisionImage({ data, mimeType, name: file.name });
+    };
+    reader.readAsDataURL(file);
+  }
+
   async function send() {
     const text = draft.trim();
     if (!text || thinking) return;
@@ -344,6 +361,7 @@ function Chat({ t }) {
 
     setMsgs((m) => [...m, { who: "user", text, confidential: !!tier, tier }]);
     setDraft("");
+    setVisionImage(null);
     setThinking(true);
 
     // Sovereign: local model only — never a cloud provider
@@ -371,7 +389,8 @@ function Chat({ t }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(tier
           ? { task: text, apiKey, provider, model, sensitivity: tier }
-          : { task: text, apiKey, provider, model, skill, about: aboutContext() }),
+          : { task: text, apiKey, provider, model, skill, about: aboutContext(),
+              images: visionImage ? [visionImage] : undefined }),
       });
 
       if (!res.ok || !res.body) {
@@ -499,6 +518,7 @@ function Chat({ t }) {
         </div>
         <div className="glass-strong" style={{ borderRadius: "var(--r-lg)", padding: "10px 10px 10px 16px", display: "flex", alignItems: "center", gap: 12 }}>
           <input type="file" ref={fileRef} accept="image/*,.pdf" style={{ display: "none" }} onChange={handleOcr} />
+          <input type="file" ref={visionRef} accept="image/*" style={{ display: "none" }} onChange={handleVisionAttach} />
           <input
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
@@ -518,6 +538,29 @@ function Chat({ t }) {
             }}>
             {ocrBusy ? "…" : Icons.attach(15)}
           </button>
+          {isVisionModel(activeModel) && (
+            <button
+              onClick={() => visionRef.current && visionRef.current.click()}
+              aria-label={L("Attach image for vision", "Đính kèm ảnh để nhận dạng")}
+              title={L("Send image to Llama Vision", "Gửi ảnh tới Llama Vision")}
+              style={{
+                width: 32, height: 32, borderRadius: 9, border: "1px solid var(--border)", cursor: "pointer",
+                background: visionImage ? "var(--primary-soft)" : "transparent",
+                color: visionImage ? "var(--primary)" : "var(--ink-2)",
+                display: "grid", placeItems: "center", flex: "none",
+                opacity: visionImage ? 1 : 0.6,
+              }}>
+              {visionImage ? "🖼️" : Icons.attach(15)}
+            </button>
+          )}
+          {visionImage && (
+            <span
+              style={{ fontSize: 11, color: "var(--ink-2)", cursor: "pointer", flex: "none", maxWidth: 100, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+              onClick={() => setVisionImage(null)}
+              title={L("Remove image", "Xóa ảnh")}>
+              {visionImage.name} ✕
+            </span>
+          )}
           <button
             onClick={() => setConfMode((v) => !v)}
             aria-pressed={confMode}
