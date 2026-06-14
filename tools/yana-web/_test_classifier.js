@@ -1,7 +1,7 @@
 'use strict';
 // Tests for the yamtam-core classifier (route + rule-68 sensitivity).
 // Run: node _test_classifier.js
-const { createClassifier, classifySensitivity } = require('yamtam-core/src/classifier.js');
+const { createClassifier, classifySensitivity } = require('./lib/classifier');
 const { classify } = createClassifier({});
 
 let pass = 0, fail = 0;

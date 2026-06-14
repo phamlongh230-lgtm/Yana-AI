@@ -1,8 +1,8 @@
 'use strict';
 // Tests for the yamtam-core router — binary missing → JS classifier fallback.
 // Run: node _test_router.js
-const { createRouter }     = require('yamtam-core/src/router.js');
-const { createClassifier } = require('yamtam-core/src/classifier.js');
+const { createRouter }     = require('./lib/router');
+const { createClassifier } = require('./lib/classifier');
 
 const { classify } = createClassifier({});
 // No wrapperPath → the native yamtam-rt spawn always fails → fallback path

@@ -29,11 +29,6 @@
         "from": "../yana-web",
         "to": "yana-web",
         "filter": ["**/*", "!node_modules/**", "!dist/**"]
-      },
-      {
-        "from": "../../packages/yamtam-core",
-        "to": "yamtam-core",
-        "filter": ["**/*", "!node_modules/**"]
       }
     ],
     "linux": {

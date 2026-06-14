@@ -9,7 +9,7 @@
 
 const fs   = require('fs');
 const path = require('path');
-const { classifySensitivity } = require('yamtam-core');
+const { classifySensitivity } = require('./lib/core');
 
 // Same persistent data dir as auth.js — YANA_DATA_DIR points at a mounted
 // volume (e.g. /data on Railway) so missions survive redeploys.
