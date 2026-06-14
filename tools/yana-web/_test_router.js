@@ -1,5 +1,5 @@
 'use strict';
-// Tests for the yamtam-core router — binary missing → JS classifier fallback.
+// Tests for the router — binary missing → JS classifier fallback.
 // Run: node _test_router.js
 const { createRouter }     = require('./lib/router');
 const { createClassifier } = require('./lib/classifier');

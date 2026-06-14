@@ -52,7 +52,7 @@ function sanitizeTasks(tasks) {
   })).filter(t => t.name);
 }
 
-// ── Handlers (routeFn = yamtam-core route(), injected by server.js) ──────────
+// ── Handlers (routeFn = route(), injected by server.js) ──────────────────────
 function handleList(req, res) {
   json(res, 200, { missions: load().map(withProgress) });
 }
