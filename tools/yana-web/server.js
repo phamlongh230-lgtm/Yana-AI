@@ -766,6 +766,7 @@ async function handleApiRoute(req, res) {
 
 // ── Usage tracking — real numbers for the UI (in-memory, per server session) ──
 const USAGE = Object.create(null); // provider -> { requests, chars, totalMs, lastTs }
+const YANA_DATA_DIR = process.env.YANA_DATA_DIR || path.join(__dirname, '.yana');
 
 function recordUsage(provider, chars, ms) {
   const u = USAGE[provider] || (USAGE[provider] = { requests: 0, chars: 0, totalMs: 0, lastTs: 0 });
@@ -773,6 +774,7 @@ function recordUsage(provider, chars, ms) {
   u.chars   += chars;
   u.totalMs += ms;
   u.lastTs   = Date.now();
+  try { _persistDailyUsage(provider, chars); } catch (_) {}
 }
 
 // GET /api/usage — per-provider session stats (tokens are a chars/4 estimate)
@@ -788,6 +790,176 @@ function handleApiUsage(req, res) {
   }
   res.writeHead(200, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify({ usage: out }));
+}
+
+// ── Sessions ─────────────────────────────────────────────────────────────────
+const SESSIONS_FILE = path.join(YANA_DATA_DIR, 'sessions.json');
+const MAX_SESSIONS  = 500;
+
+function loadSessions() {
+  try { return JSON.parse(fs.readFileSync(SESSIONS_FILE, 'utf8')); } catch (_) { return []; }
+}
+function saveSessions(list) {
+  fs.mkdirSync(YANA_DATA_DIR, { recursive: true });
+  fs.writeFileSync(SESSIONS_FILE, JSON.stringify(list, null, 2));
+}
+
+function handleApiSessionsList(req, res) {
+  const sessions = loadSessions();
+  const list = sessions.map(({ id, title, createdAt, updatedAt, provider, model, messageCount }) =>
+    ({ id, title, createdAt, updatedAt, provider, model, messageCount: messageCount || 0 }));
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify({ sessions: list.slice().reverse() }));
+}
+
+function handleApiSessionGet(req, res, id) {
+  const s = loadSessions().find(x => x.id === id);
+  if (!s) { jsonError(res, 404, 'Session not found'); return; }
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify(s));
+}
+
+async function handleApiSessionsCreate(req, res) {
+  const body = await readJsonBody(req, res, 1024 * 1024);
+  if (!body) return;
+  const { title, messages, provider, model } = body;
+  if (!title || !Array.isArray(messages)) { jsonError(res, 400, 'title and messages required'); return; }
+  const sessions = loadSessions();
+  const id  = 'sess-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7);
+  const now = Date.now();
+  sessions.push({ id, title: String(title).slice(0, 200), createdAt: now, updatedAt: now,
+    provider: provider || 'unknown', model: model || '', messageCount: messages.length, messages });
+  if (sessions.length > MAX_SESSIONS) sessions.splice(0, sessions.length - MAX_SESSIONS);
+  saveSessions(sessions);
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify({ id }));
+}
+
+function handleApiSessionDelete(req, res, id) {
+  let sessions = loadSessions();
+  const before = sessions.length;
+  sessions = sessions.filter(s => s.id !== id);
+  if (sessions.length === before) { jsonError(res, 404, 'Session not found'); return; }
+  saveSessions(sessions);
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify({ ok: true }));
+}
+
+// ── Analytics — persistent daily usage log ─────────────────────────────────
+const ANALYTICS_FILE = path.join(YANA_DATA_DIR, 'usage-daily.json');
+
+function _loadAnalytics() {
+  try { return JSON.parse(fs.readFileSync(ANALYTICS_FILE, 'utf8')); } catch (_) { return {}; }
+}
+function _saveAnalytics(data) {
+  fs.mkdirSync(YANA_DATA_DIR, { recursive: true });
+  fs.writeFileSync(ANALYTICS_FILE, JSON.stringify(data));
+}
+function _todayKey() { return new Date().toISOString().slice(0, 10); }
+function _persistDailyUsage(provider, chars) {
+  const key = _todayKey();
+  const data = _loadAnalytics();
+  if (!data[key]) data[key] = {};
+  const p = data[key][provider] || (data[key][provider] = { chars: 0, requests: 0 });
+  p.chars += chars; p.requests += 1;
+  const keys = Object.keys(data).sort();
+  if (keys.length > 90) delete data[keys[0]];
+  _saveAnalytics(data);
+}
+
+function handleApiAnalytics(req, res) {
+  const params  = new url.URL('http://x' + (req.url || '')).searchParams;
+  const days    = Math.min(90, Math.max(1, parseInt(params.get('days') || '7', 10)));
+  const data    = _loadAnalytics();
+  const provSet = new Set();
+  const result  = [];
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const key = d.toISOString().slice(0, 10);
+    const day = { date: key, total_tokens: 0, total_requests: 0, by_provider: {} };
+    if (data[key]) {
+      for (const [p, s] of Object.entries(data[key])) {
+        provSet.add(p);
+        day.by_provider[p] = { tokens: Math.round(s.chars / 4), requests: s.requests };
+        day.total_tokens   += Math.round(s.chars / 4);
+        day.total_requests += s.requests;
+      }
+    }
+    result.push(day);
+  }
+  // Merge in-memory session usage for today
+  const todayEntry = result[result.length - 1];
+  for (const [k, u] of Object.entries(USAGE)) {
+    provSet.add(k);
+    if (!todayEntry.by_provider[k]) {
+      todayEntry.by_provider[k] = { tokens: Math.round(u.chars / 4), requests: u.requests };
+      todayEntry.total_tokens   += Math.round(u.chars / 4);
+      todayEntry.total_requests += u.requests;
+    }
+  }
+  const totalTokens   = result.reduce((s, d) => s + d.total_tokens,   0);
+  const totalRequests = result.reduce((s, d) => s + d.total_requests, 0);
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify({ days, total_tokens: totalTokens, total_requests: totalRequests,
+    providers: [...provSet], daily: result }));
+}
+
+// ── Cron Jobs ─────────────────────────────────────────────────────────────────
+const CRON_FILE     = path.join(YANA_DATA_DIR, 'cron-jobs.json');
+const MAX_CRON_JOBS = 50;
+
+function loadCron() {
+  try { return JSON.parse(fs.readFileSync(CRON_FILE, 'utf8')); } catch (_) { return []; }
+}
+function saveCron(list) {
+  fs.mkdirSync(YANA_DATA_DIR, { recursive: true });
+  fs.writeFileSync(CRON_FILE, JSON.stringify(list, null, 2));
+}
+
+function handleApiCronList(req, res) {
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify({ jobs: loadCron() }));
+}
+
+async function handleApiCronCreate(req, res) {
+  const body = await readJsonBody(req, res);
+  if (!body) return;
+  const { name, schedule, prompt, provider, model } = body;
+  if (!name || !schedule || !prompt) { jsonError(res, 400, 'name, schedule, prompt required'); return; }
+  const jobs = loadCron();
+  if (jobs.length >= MAX_CRON_JOBS) { jsonError(res, 429, 'Max cron jobs reached'); return; }
+  const id = 'cron-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7);
+  jobs.push({ id, name: String(name).slice(0, 100), schedule, prompt: String(prompt).slice(0, 2000),
+    provider: provider || 'anthropic', model: model || '', active: true,
+    createdAt: Date.now(), lastRun: null, nextRun: null, runCount: 0 });
+  saveCron(jobs);
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify({ id }));
+}
+
+async function handleApiCronUpdate(req, res, id) {
+  const body = await readJsonBody(req, res);
+  if (!body) return;
+  const jobs = loadCron();
+  const idx  = jobs.findIndex(j => j.id === id);
+  if (idx === -1) { jsonError(res, 404, 'Job not found'); return; }
+  for (const k of ['name', 'schedule', 'prompt', 'provider', 'model', 'active']) {
+    if (body[k] !== undefined) jobs[idx][k] = body[k];
+  }
+  jobs[idx].updatedAt = Date.now();
+  saveCron(jobs);
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify({ ok: true }));
+}
+
+function handleApiCronDelete(req, res, id) {
+  let jobs = loadCron();
+  const before = jobs.length;
+  jobs = jobs.filter(j => j.id !== id);
+  if (jobs.length === before) { jsonError(res, 404, 'Job not found'); return; }
+  saveCron(jobs);
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify({ ok: true }));
 }
 
 // ── GET /api/dashboard — real system state (L1 memory, audit log, uptime) ─────
@@ -1443,6 +1615,25 @@ const server = http.createServer(async (req, res) => {
   if (method === 'POST' && pathname === '/api/missions/delete') {
     const body = await readJsonBody(req, res); if (body) missions.handleDelete(req, res, body); return;
   }
+  // Sessions
+  if (method === 'GET'    && pathname === '/api/sessions') { handleApiSessionsList(req, res); return; }
+  if (method === 'POST'   && pathname === '/api/sessions') { await handleApiSessionsCreate(req, res); return; }
+  if (pathname.startsWith('/api/sessions/')) {
+    const sid = pathname.slice('/api/sessions/'.length);
+    if (sid && method === 'GET')    { handleApiSessionGet(req, res, sid);    return; }
+    if (sid && method === 'DELETE') { handleApiSessionDelete(req, res, sid); return; }
+  }
+  // Analytics
+  if (method === 'GET' && pathname === '/api/analytics') { handleApiAnalytics(req, res); return; }
+  // Cron
+  if (method === 'GET'  && pathname === '/api/cron') { handleApiCronList(req, res); return; }
+  if (method === 'POST' && pathname === '/api/cron') { await handleApiCronCreate(req, res); return; }
+  if (pathname.startsWith('/api/cron/')) {
+    const cid = pathname.slice('/api/cron/'.length);
+    if (cid && method === 'PATCH')  { await handleApiCronUpdate(req, res, cid); return; }
+    if (cid && method === 'DELETE') { handleApiCronDelete(req, res, cid);       return; }
+  }
+
   if (method === 'POST' && pathname === '/api/models')  { handleApiModels(req, res);  return; }
   if (method === 'POST' && pathname === '/api/index')   { await handleApiIndex(req, res); return; }
   if (method === 'POST' && pathname === '/api/route')   { await handleApiRoute(req, res); return; }

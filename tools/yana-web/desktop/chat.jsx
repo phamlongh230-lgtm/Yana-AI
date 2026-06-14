@@ -504,6 +504,21 @@ function Chat({ t }) {
             body: JSON.stringify({ text: fact }),
           }).catch(() => {});
         }
+
+        // Auto-save to Sessions history (rule 68: confidential turns excluded)
+        const sessionTitle = text.length > 70 ? text.slice(0, 70) + "…" : text;
+        fetch("/api/sessions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: sessionTitle,
+            provider, model: model || provider,
+            messages: [
+              { role: "user",      content: text,        ts: Date.now() },
+              { role: "assistant", content: accumulated, ts: Date.now() },
+            ],
+          }),
+        }).catch(() => {});
       }
     } catch (err) {
       setThinking(false);
