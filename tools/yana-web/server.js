@@ -237,6 +237,52 @@ const PROVIDERS = {
     },
     extractText: evt => evt?.choices?.[0]?.delta?.content || null,
   },
+
+  xai: {
+    hostname:     'api.x.ai',
+    path:         '/v1/chat/completions',
+    vision:       true,
+    defaultModel: 'grok-3-mini',
+    headers: key => ({
+      'Authorization': `Bearer ${key}`,
+      'content-type':  'application/json',
+    }),
+    body: (model, system, task, images) => {
+      const userContent = (images && images.length)
+        ? [
+            ...images.map(img => ({
+              type: 'image_url',
+              image_url: { url: `data:${img.mimeType};base64,${img.data}` },
+            })),
+            { type: 'text', text: task },
+          ]
+        : task;
+      return JSON.stringify({
+        model, max_tokens: 2048, stream: true,
+        messages: [
+          { role: 'system', content: system },
+          { role: 'user',   content: userContent },
+        ],
+      });
+    },
+    extractText: evt => evt?.choices?.[0]?.delta?.content || null,
+  },
+
+  novita: {
+    hostname:     'api.novita.ai',
+    path:         '/v3/openai/chat/completions',
+    vision:       false,
+    defaultModel: 'meta-llama/llama-3.1-70b-instruct',
+    headers: key => ({
+      'Authorization': `Bearer ${key}`,
+      'content-type':  'application/json',
+    }),
+    body: (model, system, task) => JSON.stringify({
+      model, max_tokens: 2048, stream: true,
+      messages: [{ role: 'system', content: system }, { role: 'user', content: task }],
+    }),
+    extractText: evt => evt?.choices?.[0]?.delta?.content || null,
+  },
 };
 
 // ── Codebase BM25 index (in-memory, server-scoped) ────────────────────────────
@@ -485,6 +531,24 @@ async function handleApiModels(req, res) {
       headers:  k => ({ 'Authorization': `Bearer ${k}` }),
       transform: data => (data.data || [])
         .filter(m => m.id && !m.id.startsWith('whisper') && !m.id.startsWith('distil'))
+        .map(m => ({ id: m.id, name: m.id }))
+        .sort((a, b) => a.id.localeCompare(b.id)),
+    },
+    xai: {
+      hostname: 'api.x.ai',
+      path:     '/v1/models',
+      headers:  k => ({ 'Authorization': `Bearer ${k}` }),
+      transform: data => (data.data || [])
+        .filter(m => m.id)
+        .map(m => ({ id: m.id, name: m.id }))
+        .sort((a, b) => a.id.localeCompare(b.id)),
+    },
+    novita: {
+      hostname: 'api.novita.ai',
+      path:     '/v3/openai/models',
+      headers:  k => ({ 'Authorization': `Bearer ${k}` }),
+      transform: data => (data.data || [])
+        .filter(m => m.id)
         .map(m => ({ id: m.id, name: m.id }))
         .sort((a, b) => a.id.localeCompare(b.id)),
     },

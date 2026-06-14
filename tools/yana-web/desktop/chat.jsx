@@ -114,6 +114,8 @@ const CHAT_MODELS = {
   groq:       "llama-3.3-70b-versatile",
   deepseek:   "deepseek-chat",
   openrouter: "google/gemma-3-27b-it",
+  xai:        "grok-3-mini",
+  novita:     "meta-llama/llama-3.1-70b-instruct",
   "9router":  "kr/claude-sonnet-4.5",
   ollama:     "llama3.2",
 };
@@ -127,10 +129,12 @@ const MODEL_CHOICES = {
   deepseek:   ["deepseek-chat", "deepseek-reasoner"],
   groq:       ["llama-3.3-70b-versatile", "meta-llama/llama-4-scout-17b-16e-instruct"],
   openrouter: ["google/gemma-3-27b-it"],
+  xai:        ["grok-3-mini", "grok-3", "grok-2-vision-1212"],
+  novita:     ["meta-llama/llama-3.1-70b-instruct", "meta-llama/llama-3.1-8b-instruct"],
   "9router":  ["kr/claude-sonnet-4.5"],
   ollama:     ["llama3.2"],
 };
-const CHAT_LIVE_MODELS = new Set(["groq", "openrouter", "9router", "ollama"]);
+const CHAT_LIVE_MODELS = new Set(["groq", "openrouter", "xai", "novita", "9router", "ollama"]);
 
 const MODEL_STORE = "yana.chat.models"; // { providerId: modelId } — persisted
 
@@ -257,7 +261,7 @@ function Chat({ t }) {
   const modelOptions = liveModels[activeProvider] || MODEL_CHOICES[activeProvider] || [];
   const activeModel = modelSel[activeProvider] || CHAT_MODELS[activeProvider] || (modelOptions[0] || "");
 
-  const isVisionModel = (_model) => ["claude", "openai", "gemini", "groq", "openrouter"].includes(activeProvider);
+  const isVisionModel = (_model) => ["claude", "openai", "gemini", "groq", "openrouter", "xai"].includes(activeProvider);
 
   function pickModel(v) {
     setModelSel((prev) => {

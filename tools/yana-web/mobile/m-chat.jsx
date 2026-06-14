@@ -4,7 +4,9 @@
 const M_CHAT_MODELS = {
   claude: "claude-sonnet-4-6", openai: "gpt-4o-mini", gemini: "gemini-2.0-flash",
   groq: "llama-3.3-70b-versatile", deepseek: "deepseek-chat",
-  openrouter: "google/gemma-3-27b-it", "9router": "kr/claude-sonnet-4.5", ollama: "llama3.2",
+  openrouter: "google/gemma-3-27b-it", xai: "grok-3-mini",
+  novita: "meta-llama/llama-3.1-70b-instruct",
+  "9router": "kr/claude-sonnet-4.5", ollama: "llama3.2",
 };
 const M_KEYLESS = new Set(["ollama", "9router"]);
 
@@ -26,6 +28,13 @@ const M_MODEL_CATALOG = [
   // Deepseek
   { id: "deepseek-chat",                  provider: "deepseek",   tag: "Code",      label: "DeepSeek Chat",        desc: "Code + lý luận" },
   { id: "deepseek-reasoner",              provider: "deepseek",   tag: "Mạnh",      label: "DeepSeek Reasoner",    desc: "Suy luận chuỗi dài" },
+  // xAI (Grok)
+  { id: "grok-3-mini",                    provider: "xai",        tag: "Nhanh",     label: "Grok 3 Mini",          desc: "Nhanh, đa năng" },
+  { id: "grok-3",                         provider: "xai",        tag: "Mạnh",      label: "Grok 3",               desc: "Mạnh nhất của xAI" },
+  { id: "grok-2-vision-1212",             provider: "xai",        tag: "Vision",    label: "Grok 2 Vision",        desc: "Nhận dạng ảnh" },
+  // Novita
+  { id: "meta-llama/llama-3.1-70b-instruct", provider: "novita", tag: "Mạnh",      label: "Llama 3.1 70B",        desc: "Open source, mạnh" },
+  { id: "meta-llama/llama-3.1-8b-instruct",  provider: "novita", tag: "Nhanh",     label: "Llama 3.1 8B",         desc: "Nhẹ, miễn phí" },
   // Ollama
   { id: "llama3.2",                       provider: "ollama",     tag: "Local",     label: "Llama 3.2 (local)",    desc: "On-device, không cần key" },
 ];
@@ -118,7 +127,7 @@ function MMessage({ msg }) {
 }
 
 const M_ALL_PROVIDERS = Object.keys(M_CHAT_MODELS);
-const M_LIVE_PROVIDERS = new Set(["groq", "openrouter", "9router", "ollama"]);
+const M_LIVE_PROVIDERS = new Set(["groq", "openrouter", "xai", "novita", "9router", "ollama"]);
 
 function MModelPickerSheet({ open, onClose, activeProvider, activeModel, onModelChange, liveModels }) {
   // Use live model list if available, fall back to curated catalog
@@ -275,7 +284,7 @@ function MChat() {
 
   const { provider: _activeProvider } = mGetProviderConfig(overrideProvider);
   const _activeModel = overrideModel || M_CHAT_MODELS[_activeProvider] || _activeProvider;
-  const isVisionModel = (_m) => ["claude", "openai", "gemini", "groq", "openrouter"].includes(_activeProvider);
+  const isVisionModel = (_m) => ["claude", "openai", "gemini", "groq", "openrouter", "xai"].includes(_activeProvider);
 
   // Fetch real model list for live providers (groq, openrouter, etc.)
   React.useEffect(() => {
