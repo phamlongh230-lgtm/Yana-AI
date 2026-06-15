@@ -94,6 +94,7 @@ function Sidebar({ page, onNav }) {
   const [account, setAccount] = useState(null);
   const [open, setOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState(() => localStorage.getItem("yana.avatar-url") || null);
   const profileRef = React.useRef(null);
 
   useEffect(() => {
@@ -101,6 +102,12 @@ function Sidebar({ page, onNav }) {
       .then((r) => r.json())
       .then((d) => setAccount(d.username || null))
       .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    const onAvatarUpdate = () => setAvatarUrl(localStorage.getItem("yana.avatar-url") || null);
+    window.addEventListener("yana-avatar-changed", onAvatarUpdate);
+    return () => window.removeEventListener("yana-avatar-changed", onAvatarUpdate);
   }, []);
 
   useEffect(() => {
@@ -189,13 +196,20 @@ function Sidebar({ page, onNav }) {
           {/* Clickable profile row */}
           <button onClick={() => setProfileOpen((v) => !v)} className="profile-row">
             <div className="sidebar-avatar-wrap">
-              <div className="sidebar-avatar" style={{
-                background: "linear-gradient(145deg, var(--primary), color-mix(in oklab, var(--primary) 60%, var(--gold)))",
-                color: "white", fontSize: 13, fontWeight: 700,
-                border: "2px solid rgba(var(--surface-rgb), 0.5)",
-              }}>
-                {(account || "Y").trim().charAt(0).toUpperCase()}
-              </div>
+              {avatarUrl ? (
+                <img src={avatarUrl} alt="avatar" style={{
+                  width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover",
+                  border: "2px solid rgba(var(--surface-rgb), 0.5)", display: "block",
+                }} />
+              ) : (
+                <div className="sidebar-avatar" style={{
+                  background: "linear-gradient(145deg, var(--primary), color-mix(in oklab, var(--primary) 60%, var(--gold)))",
+                  color: "white", fontSize: 13, fontWeight: 700,
+                  border: "2px solid rgba(var(--surface-rgb), 0.5)",
+                }}>
+                  {(account || "Y").trim().charAt(0).toUpperCase()}
+                </div>
+              )}
             </div>
             <div style={{ flex: 1, minWidth: 0, lineHeight: 1.3, textAlign: "left" }}>
               <div style={{

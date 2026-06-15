@@ -488,12 +488,31 @@ function ProfileHero({ t, setTweak, dash }) {
   const [dispName, setDispName] = React.useState(() =>
     localStorage.getItem("yana.display-name") || account || "Yana AI"
   );
+  const [avatarUrl, setAvatarUrl] = React.useState(() =>
+    localStorage.getItem("yana.avatar-url") || null
+  );
+  const avatarInputRef = React.useRef(null);
+
   function editName() {
     const raw = window.prompt(L("Display name:", "Tên hiển thị:"), dispName);
     if (raw === null) return;
     const next = raw.trim() || account || "Yana AI";
     setDispName(next);
     localStorage.setItem("yana.display-name", next);
+  }
+
+  function onAvatarChange(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const url = ev.target.result;
+      setAvatarUrl(url);
+      localStorage.setItem("yana.avatar-url", url);
+      window.dispatchEvent(new CustomEvent("yana-avatar-changed"));
+    };
+    reader.readAsDataURL(file);
+    e.target.value = "";
   }
 
   const memberSince = React.useMemo(() => {
@@ -576,13 +595,36 @@ function ProfileHero({ t, setTweak, dash }) {
 
       {/* Avatar + info row */}
       <div style={{ display: "flex", alignItems: "center", gap: 18, padding: "22px 24px 20px", position: "relative" }}>
-        <div className="sidebar-avatar-wrap" style={{ width: 56, height: 56, flexShrink: 0 }}>
-          <div className="sidebar-avatar" style={{
-            fontSize: 21, fontWeight: 700,
-            background: "linear-gradient(145deg, var(--primary), color-mix(in oklab, var(--primary) 60%, var(--gold, #c9a227)))",
-            color: "white",
-            border: "2.5px solid rgba(var(--surface-rgb), 0.55)",
-          }}>{initial}</div>
+        <div className="sidebar-avatar-wrap"
+          onClick={() => avatarInputRef.current?.click()}
+          title={L("Change photo", "Đổi ảnh đại diện")}
+          style={{ width: 56, height: 56, flexShrink: 0, position: "relative", cursor: "pointer" }}
+        >
+          <input ref={avatarInputRef} type="file" accept="image/*" style={{ display: "none" }} onChange={onAvatarChange} />
+          {avatarUrl ? (
+            <img src={avatarUrl} alt="avatar" style={{
+              width: 56, height: 56, borderRadius: "50%", objectFit: "cover",
+              border: "2.5px solid rgba(var(--surface-rgb), 0.55)",
+              display: "block",
+            }} />
+          ) : (
+            <div className="sidebar-avatar" style={{
+              fontSize: 21, fontWeight: 700,
+              background: "linear-gradient(145deg, var(--primary), color-mix(in oklab, var(--primary) 60%, var(--gold, #c9a227)))",
+              color: "white",
+              border: "2.5px solid rgba(var(--surface-rgb), 0.55)",
+            }}>{initial}</div>
+          )}
+          <div style={{
+            position: "absolute", inset: 0, borderRadius: "50%",
+            background: "rgba(0,0,0,0.45)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            opacity: 0, transition: "opacity .15s",
+            fontSize: 18,
+          }} onMouseEnter={e => e.currentTarget.style.opacity = 1}
+             onMouseLeave={e => e.currentTarget.style.opacity = 0}>
+            📷
+          </div>
         </div>
 
         <div style={{ flex: 1, minWidth: 0 }}>
