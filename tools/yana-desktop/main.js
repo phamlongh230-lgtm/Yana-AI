@@ -57,13 +57,30 @@ function createWindow() {
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
+      webviewTag: true,
     },
   });
 
+  // Strip X-Frame-Options + CSP from localhost responses so Codexmate embeds in iframe cleanly
+  mainWindow.webContents.session.webRequest.onHeadersReceived(
+    { urls: ['http://127.0.0.1:*/*', 'http://localhost:*/*'] },
+    (details, callback) => {
+      const headers = Object.fromEntries(
+        Object.entries(details.responseHeaders || {}).filter(
+          ([k]) => !['x-frame-options', 'content-security-policy'].includes(k.toLowerCase())
+        )
+      );
+      callback({ responseHeaders: headers });
+    }
+  );
+
   mainWindow.loadURL('http://127.0.0.1:' + PORT);
 
-  // Open external links in the OS browser, not inside the app window
+  // Localhost popups stay in-app; external links open in OS browser
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    if (url.startsWith('http://127.0.0.1') || url.startsWith('http://localhost')) {
+      return { action: 'allow' };
+    }
     shell.openExternal(url);
     return { action: 'deny' };
   });

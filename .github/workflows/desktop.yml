@@ -1,0 +1,62 @@
+name: Desktop Build
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: linux
+            artifact: "*.AppImage"
+          - os: macos-latest
+            platform: mac
+            artifact: "*.dmg"
+          - os: windows-latest
+            platform: win
+            artifact: "*.exe"
+
+    runs-on: ${{ matrix.os }}
+    name: Build (${{ matrix.platform }})
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
+        with:
+          node-version: '20'
+
+      - name: Install yana-desktop dependencies
+        working-directory: tools/yana-desktop
+        run: npm install
+
+      - name: Build app
+        working-directory: tools/yana-desktop
+        run: npm run build:${{ matrix.platform }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
+        with:
+          name: yana-desktop-${{ matrix.platform }}
+          path: tools/yana-desktop/dist/${{ matrix.artifact }}
+          retention-days: 30
+
+      - name: Attach to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@da05d552573ad5aba039daea1a452d2b0cac0bf7
+        with:
+          files: tools/yana-desktop/dist/${{ matrix.artifact }}
+          fail_on_unmatched_files: false
