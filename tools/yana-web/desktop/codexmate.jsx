@@ -1,4 +1,4 @@
-// Yana AI — Codexmate integration: embed Codexmate web UI inside Yana
+// Yana AI — Codexmate launcher (X-Frame-Options blocks iframe embed; use tab instead)
 const { useState, useEffect, useRef } = React;
 
 function CodemateTool() {
@@ -24,25 +24,36 @@ function CodemateTool() {
     check(safe);
   }
 
+  const url = "http://127.0.0.1:" + port;
+
   return (
-    <div data-screen-label="Codexmate" style={{
-      display: "flex", flexDirection: "column", height: "100%", minHeight: 0, gap: "var(--gap)",
-    }}>
+    <div data-screen-label="Codexmate" style={{ display: "flex", flexDirection: "column", gap: "var(--gap)" }}>
       <PageHeader
         title="Codexmate"
         sub={L(
           "Claude Code session manager · agent tasks · config health",
           "Quản lý phiên Claude Code · nhiệm vụ agent · kiểm tra cấu hình",
-        )}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <span className={"dot " + (status === "up" ? "on" : "off")} />
-          <span style={{ fontSize: 12, color: "var(--ink-3)" }}>
+        )} />
+
+      <div className="glass" style={{
+        borderRadius: "var(--r-lg)", padding: "var(--pad-card)",
+        display: "flex", flexDirection: "column", gap: 20, maxWidth: 560,
+      }}>
+        {/* Status row */}
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <span className={"dot " + (status === "up" ? "on" : "off")} style={{ flex: "none" }} />
+          <span style={{ fontSize: 14, fontWeight: 500 }}>
             {status === "checking"
               ? L("Checking…", "Đang kiểm tra…")
               : status === "up"
-                ? L("Running", "Đang chạy")
-                : L("Not running", "Chưa chạy")}
+                ? L("Codexmate is running", "Codexmate đang chạy")
+                : L("Codexmate is not running", "Codexmate chưa chạy")}
           </span>
+        </div>
+
+        {/* Port config */}
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <span style={{ fontSize: 13, color: "var(--ink-2)" }}>{L("Port", "Cổng")}</span>
           <input
             ref={inputRef}
             defaultValue={port}
@@ -50,71 +61,59 @@ function CodemateTool() {
             onKeyDown={e => { if (e.key === "Enter") savePort(e.target.value); }}
             placeholder="8080"
             style={{
-              width: 58, padding: "4px 8px", borderRadius: 8,
+              width: 72, padding: "5px 10px", borderRadius: 8,
               border: "1px solid var(--border)", background: "transparent",
-              color: "var(--ink)", fontSize: 12, fontFamily: "inherit",
+              color: "var(--ink)", fontSize: 13, fontFamily: "inherit",
             }}
           />
           <button
             onClick={() => check(inputRef.current ? inputRef.current.value : port)}
             style={{
-              padding: "5px 12px", borderRadius: 8,
+              padding: "5px 13px", borderRadius: 8,
               border: "1px solid var(--border)", background: "transparent",
               color: "var(--ink-2)", cursor: "pointer",
-              fontSize: 12, fontFamily: "inherit",
+              fontSize: 13, fontFamily: "inherit",
             }}>
-            {L("Refresh", "Làm mới")}
+            {L("Check", "Kiểm tra")}
           </button>
+        </div>
+
+        {/* Open button — primary CTA */}
+        {status === "up" ? (
           <a
-            href={"http://127.0.0.1:" + port}
+            href={url}
             target="_blank"
             rel="noreferrer"
             style={{
-              padding: "5px 12px", borderRadius: 8,
-              border: "1px solid var(--border)", background: "transparent",
-              color: "var(--ink-2)", cursor: "pointer",
-              fontSize: 12, fontFamily: "inherit",
-              textDecoration: "none", display: "inline-block",
-            }}>
-            {L("Open in tab ↗", "Mở tab mới ↗")}
+              display: "inline-flex", alignItems: "center", gap: 8, alignSelf: "flex-start",
+              padding: "10px 22px", borderRadius: "var(--r-sm)",
+              background: "var(--primary)", color: "white",
+              fontSize: 14, fontWeight: 500, textDecoration: "none",
+              transition: "opacity .15s",
+            }}
+            onMouseEnter={e => e.currentTarget.style.opacity = ".85"}
+            onMouseLeave={e => e.currentTarget.style.opacity = "1"}>
+            {Icons.code(15)}
+            {L("Open Codexmate ↗", "Mở Codexmate ↗")}
           </a>
-        </div>
-      </PageHeader>
-
-      {status === "up" ? (
-        <iframe
-          src={"http://127.0.0.1:" + port}
-          style={{
-            flex: 1, border: "none", borderRadius: "var(--r-lg)",
-            display: "block", minHeight: 0,
-          }}
-          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
-          title="Codexmate"
-        />
-      ) : (
-        <div className="glass" style={{
-          borderRadius: "var(--r-lg)", padding: "var(--pad-card)",
-          display: "flex", flexDirection: "column", gap: 14, maxWidth: 520,
-        }}>
-          <div style={{ fontSize: 15, fontWeight: 500 }}>
-            {L("Codexmate is not running", "Codexmate chưa chạy")}
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <div style={{ fontSize: 13.5, color: "var(--ink-2)", lineHeight: 1.6 }}>
+              {L(
+                "Start Codexmate first, then click Check above.",
+                "Khởi động Codexmate trước rồi bấm Kiểm tra.",
+              )}
+            </div>
+            <pre style={{
+              margin: 0, padding: "11px 14px", borderRadius: "var(--r-sm)",
+              background: "rgba(var(--shadow-rgb), .08)",
+              fontSize: 12.5,
+              fontFamily: "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+              color: "var(--ink-2)",
+            }}>{"CODEXMATE_PORT=" + port + " codexmate run"}</pre>
           </div>
-          <div style={{ fontSize: 13.5, color: "var(--ink-2)", lineHeight: 1.6 }}>
-            {L(
-              "Start Codexmate on the port configured above, then click Refresh.",
-              "Khởi động Codexmate trên cổng đã cài ở trên rồi bấm Làm mới.",
-            )}
-          </div>
-          <pre style={{
-            margin: 0, padding: "12px 14px",
-            borderRadius: "var(--r-sm)",
-            background: "rgba(var(--shadow-rgb), .08)",
-            fontSize: 12.5,
-            fontFamily: "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
-            color: "var(--ink-2)",
-          }}>{"CODEXMATE_PORT=" + port + " codexmate run"}</pre>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
