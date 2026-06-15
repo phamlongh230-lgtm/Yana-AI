@@ -14,9 +14,9 @@ in this session. The Mutator proposes; the human commits.
 
 1. Read `$ARGUMENTS` — understand the skill's stated goal and constraints.
 2. If `$ARGUMENTS` is missing or the file does not exist, stop and ask the user.
-3. Check if `$ARGUMENTS` is a YAMTAM core file (path contains `core/hooks/`,
+3. Check if `$ARGUMENTS` is a Yana AI core file (path contains `core/hooks/`,
    `core/scripts/`, or `gates/`). If so, stop and tell the user:
-   > "This is a YAMTAM core file. Changes require a separate approval cycle —
+   > "This is a Yana AI core file. Changes require a separate approval cycle —
    > do not run /improve-skill on it directly."
 
 State the skill's goal in one sentence before proceeding.

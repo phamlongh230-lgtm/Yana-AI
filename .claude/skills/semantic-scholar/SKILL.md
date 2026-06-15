@@ -4,7 +4,7 @@ description: "Use when asked about citation counts, paper impact, who cited a pa
 ---
 
 # Semantic Scholar Skill
-# Source: NousResearch/hermes-agent (MIT) — Semantic Scholar API pattern adapted for YAMTAM
+# Source: NousResearch/hermes-agent (MIT) — Semantic Scholar API pattern adapted for Yana AI
 # Tier: TIER 3 — PRODUCTIVITY
 
 Tra cứu citation, impact, và references của paper khoa học qua Semantic Scholar API.
@@ -27,7 +27,7 @@ Rate limit: 1 request/giây không cần API key. Có JSON response, dễ parse 
 ```
 Base URL: https://api.semanticscholar.org/graph/v1/
 Auth:     Không cần key cho rate ≤ 1 req/s
-Headers:  User-Agent: yamtam-research/1.0 (optional nhưng tốt)
+Headers:  User-Agent: yana-ai-research/1.0 (optional nhưng tốt)
 Limit:    1 req/s — sleep 1 between calls
 ```
 
@@ -43,7 +43,7 @@ ARXIV_ID="2303.08774"
 FIELDS="title,authors,year,citationCount,referenceCount,citations,references,abstract"
 
 curl -s "https://api.semanticscholar.org/graph/v1/paper/arXiv:${ARXIV_ID}?fields=${FIELDS}" \
-  -H "User-Agent: yamtam-research/1.0" \
+  -H "User-Agent: yana-ai-research/1.0" \
   -o /tmp/s2_paper.json
 sleep 1
 ```

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yamtam rule add — add a custom rule to the local scanner."""
+"""yana-ai rule add — add a custom rule to the local scanner."""
 
 import argparse
 import os
@@ -17,7 +17,7 @@ SEVERITIES = ("CRITICAL", "HIGH", "MED", "LOW")
 MATCH_TYPES = ("regex", "json", "exists", "not_exists", "size_gt")
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -87,7 +87,7 @@ def cmd_add(args):
 
     print()
     print(c(GREEN, f"  ✓ Rule {rule_id} added to {CUSTOM_FILE}"))
-    print(f"  Run: yamtam audit . --only custom")
+    print(f"  Run: yana-ai audit . --only custom")
     print()
 
 
@@ -96,7 +96,7 @@ def cmd_list(args):
     checks = data.get("checks", [])
     print()
     if not checks:
-        print(c(DIM, "  No custom rules. Add one: yamtam rule add --id CUSTOM001 ..."))
+        print(c(DIM, "  No custom rules. Add one: yana-ai rule add --id CUSTOM001 ..."))
         print()
         return
     print(c(BOLD, f"  Custom rules ({len(checks)}) — {CUSTOM_FILE}"))
@@ -121,7 +121,7 @@ def cmd_remove(args):
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="yamtam rule",
+    parser = argparse.ArgumentParser(prog="yana-ai rule",
                                      description="Manage custom scanner rules")
     sub = parser.add_subparsers(dest="subcmd")
 

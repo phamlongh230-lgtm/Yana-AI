@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Privilege Isolation Rule
+# Yana AI — Privilege Isolation Rule
 # Source: smithy-rs orthogonal permission model (Apache 2.0) — github.com/awslabs/smithy-rs
 # Tier: TIER 1 — SECURITY
 
@@ -10,7 +10,7 @@
 
 ## Core Rule
 
-Agents MUST NOT write to any environment configuration file unless `YAMTAM_SCOPE_OK=1`
+Agents MUST NOT write to any environment configuration file unless `YANA_SCOPE_OK=1`
 is explicitly set in the current shell environment by the user.
 
 **Protected file patterns (orthogonal — applies regardless of running skill):**
@@ -43,8 +43,8 @@ Any spawned subagent       → CANNOT write .env
 Even if user says "just fix it quickly" → CANNOT write .env
 ```
 
-The bypass key `YAMTAM_SCOPE_OK=1` does NOT propagate to subprocesses or subagents.
-The agent MUST `unset YAMTAM_SCOPE_OK` immediately after the scoped write.
+The bypass key `YANA_SCOPE_OK=1` does NOT propagate to subprocesses or subagents.
+The agent MUST `unset YANA_SCOPE_OK` immediately after the scoped write.
 
 ---
 
@@ -53,28 +53,28 @@ The agent MUST `unset YAMTAM_SCOPE_OK` immediately after the scoped write.
 ```bash
 # Step 1 — User must explicitly authorize in the current session message
 # Step 2 — Agent sets the key, performs write, unsets immediately
-export YAMTAM_SCOPE_OK=1
+export YANA_SCOPE_OK=1
 # ... perform the single authorized write ...
-unset YAMTAM_SCOPE_OK
+unset YANA_SCOPE_OK
 
 # Step 3 — Agent MUST log via:
 core/scripts/secure-logger.sh scope_override "wrote <filename> — user-authorized"
 ```
 
-Subagents spawned during a scope_override session do NOT inherit `YAMTAM_SCOPE_OK=1`.
+Subagents spawned during a scope_override session do NOT inherit `YANA_SCOPE_OK=1`.
 
 ---
 
 ## Detection in safe-run.sh
 
-When a command targets a protected pattern without `YAMTAM_SCOPE_OK=1`:
+When a command targets a protected pattern without `YANA_SCOPE_OK=1`:
 
 ```
-[yamtam/privilege-isolation] BLOCKED — write to protected file
+[yana-ai/privilege-isolation] BLOCKED — write to protected file
   File    : <path>
   Command : <full command>
   Gate    : L2
-  Fix     : User must explicitly set YAMTAM_SCOPE_OK=1 in current session
+  Fix     : User must explicitly set YANA_SCOPE_OK=1 in current session
 ```
 
 Exit code: **3** (distinct from blacklist block exit 1)
@@ -84,7 +84,7 @@ Exit code: **3** (distinct from blacklist block exit 1)
 ## Constraint Hierarchy (smithy-rs model)
 
 Smithy-rs enforces constraints as first-class citizens that cannot be stripped by
-downstream handlers. YAMTAM applies the same principle: privilege isolation is a
+downstream handlers. Yana AI applies the same principle: privilege isolation is a
 constraint on the agent execution model, not a suggestion.
 
 ```
@@ -101,6 +101,6 @@ Audit Layer            → core/memory/audit/agent-actions.log
 ```
 ❌ "I'll just update .env to make the test pass"
 ❌ "The user implied it's OK because they said 'fix everything'"
-❌ "YAMTAM_SCOPE_OK=1 was set earlier in the session so it still counts"
-❌ Passing YAMTAM_SCOPE_OK=1 via --env to a subagent spawn
+❌ "YANA_SCOPE_OK=1 was set earlier in the session so it still counts"
+❌ Passing YANA_SCOPE_OK=1 via --env to a subagent spawn
 ```

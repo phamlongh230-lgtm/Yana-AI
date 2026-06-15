@@ -18,11 +18,11 @@
 
 - `python3 tests/test_validate_spec.py`
 - `python3 tests/test_context_pack_check.py`
-- `python3 tests/test_yamtamignore.py`
+- `python3 tests/test_yana-aiignore.py`
 - `python3 tests/test_harness_schema_examples.py`
-- `bash bin/yamtam validate-spec examples/specs/valid-task-spec.json --json`
-- `bash bin/yamtam validate-spec examples/specs/valid-task-spec.json --context-pack examples/context-packs/valid-basic --json`
-- `bash bin/yamtam check-context examples/context-packs/valid-basic --json`
+- `bash bin/yana-ai validate-spec examples/specs/valid-task-spec.json --json`
+- `bash bin/yana-ai validate-spec examples/specs/valid-task-spec.json --context-pack examples/context-packs/valid-basic --json`
+- `bash bin/yana-ai check-context examples/context-packs/valid-basic --json`
 
 ---
 
@@ -68,6 +68,6 @@ without breaking existing workflows or exit-code contracts.
 
 ## Positioning
 
-- **Public:** YAMTAM Agent Auditor
+- **Public:** Yana AI Agent Auditor
 - **Internal:** Harness Scaling / Control Layer
 - Do not market as “12 layers”.

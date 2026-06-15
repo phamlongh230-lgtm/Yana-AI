@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — API Security Gate
+# Yana AI — API Security Gate
 # Source: OWASP/API-Security-Top-10 (CC BY-SA 4.0) — github.com/OWASP/API-Security-Top-10
 # Gate: Action Gate L3 (API code review)
 
@@ -82,7 +82,7 @@ router.post('/auth/reset-password', rateLimiter({ max: 5, window: '15m' }), hand
 ## Violation Response
 
 ```
-[yamtam/api-security-gate] BLOCKED — missing Tier A security control
+[yana-ai/api-security-gate] BLOCKED — missing Tier A security control
   Endpoint : <method> <path>
   Missing  : <control name>
   OWASP    : <API ID>

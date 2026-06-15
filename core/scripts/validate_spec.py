@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate task spec file against .yamtam/schemas/spec.schema.json.
+"""Validate task spec file against .yana-ai/schemas/spec.schema.json.
 
 Exit codes:
   0 valid
@@ -76,7 +76,7 @@ def _mk_finding(message: str, *, finding_id: str, severity: str = "medium", file
 def _json_payload(*, status: str, exit_code: int, mode: str, target: str, findings: list[dict[str, str]], context_pack: dict[str, object]) -> dict[str, object]:
     return {
         "schema_version": "1.0",
-        "tool": "yamtam",
+        "tool": "yana-ai",
         "command": "validate-spec",
         "status": status,
         "exit_code": exit_code,
@@ -110,11 +110,11 @@ def _parse_args(argv: list[str]) -> tuple[Path, Path | None, bool] | None:
 def main() -> int:
     parsed = _parse_args(sys.argv)
     if parsed is None:
-        return _fail("Usage: yamtam validate-spec <spec-file> [--context-pack <context-pack-dir>] [--json]")
+        return _fail("Usage: yana-ai validate-spec <spec-file> [--context-pack <context-pack-dir>] [--json]")
 
     spec_path, context_pack_path, json_mode = parsed
     repo_root = Path(__file__).resolve().parents[2]
-    schema_path = repo_root / ".yamtam/schemas/spec.schema.json"
+    schema_path = repo_root / ".yana-ai/schemas/spec.schema.json"
 
     mode = "fallback-structural"
     cp_payload: dict[str, object] = {

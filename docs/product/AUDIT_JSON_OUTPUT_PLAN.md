@@ -7,10 +7,10 @@
 
 ## 1) Current state
 
-- `yamtam audit` currently provides human-readable terminal output by default.
+- `yana-ai audit` currently provides human-readable terminal output by default.
 - `validate-spec` and `check-context` already support `--json` with schema-backed contract checks.
 - Validator JSON contract now has:
-  - schema file: `.yamtam/schemas/validator-output.schema.json`
+  - schema file: `.yana-ai/schemas/validator-output.schema.json`
   - regression test: `tests/test_validator_json_schema.py`
   - CI coverage for that test.
 - Audit path already supports structured-like outputs in other formats (`--markdown`, `--sarif`), but no stable, documented `--json` contract is yet locked similarly to validator commands.
@@ -31,7 +31,7 @@
 
 ## 3) Minimal JSON output contract
 
-Proposed top-level fields for `yamtam audit --json`:
+Proposed top-level fields for `yana-ai audit --json`:
 
 - `schema_version`
 - `tool`
@@ -61,7 +61,7 @@ Exit code must preserve existing behavior contract used by audit command.
 ```json
 {
   "schema_version": "1.0",
-  "tool": "yamtam",
+  "tool": "yana-ai",
   "command": "audit",
   "status": "ok | findings | error",
   "exit_code": 0,
@@ -102,7 +102,7 @@ Allow additional properties initially for forward compatibility.
 ```json
 {
   "schema_version": "1.0",
-  "tool": "yamtam",
+  "tool": "yana-ai",
   "command": "audit",
   "status": "ok",
   "exit_code": 0,
@@ -127,7 +127,7 @@ Allow additional properties initially for forward compatibility.
 ```json
 {
   "schema_version": "1.0",
-  "tool": "yamtam",
+  "tool": "yana-ai",
   "command": "audit",
   "status": "findings",
   "exit_code": 1,
@@ -160,7 +160,7 @@ Allow additional properties initially for forward compatibility.
 ```json
 {
   "schema_version": "1.0",
-  "tool": "yamtam",
+  "tool": "yana-ai",
   "command": "audit",
   "status": "error",
   "exit_code": 2,
@@ -191,7 +191,7 @@ Allow additional properties initially for forward compatibility.
 ## 6) Validation / test plan
 
 1. Add schema file (future phase):
-   - `.yamtam/schemas/audit-output.schema.json`
+   - `.yana-ai/schemas/audit-output.schema.json`
 2. Add test file (future phase):
    - `tests/test_audit_json_schema.py`
 3. Test cases:
@@ -242,7 +242,7 @@ If triggered, rollback to prior stable behavior and continue with a narrower pat
 
 `audit --json` milestone is done when all conditions are true:
 
-1. `bash bin/yamtam audit . --json` emits valid JSON only.
+1. `bash bin/yana-ai audit . --json` emits valid JSON only.
 2. Exit codes remain compatible with existing audit semantics.
 3. `audit-output.schema.json` exists and validates emitted payloads.
 4. Regression test covers success/findings/error shapes.

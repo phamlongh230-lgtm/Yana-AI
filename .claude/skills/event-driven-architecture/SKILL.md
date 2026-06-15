@@ -7,7 +7,7 @@ description: >
   transaction", "message queue", "Kafka", "publish/subscribe", "event-driven",
   or "how to coordinate across services without direct calls".
   Do NOT use for: real-time WebSocket UI patterns — that is a frontend concern.
-origin: yamtam-original
+origin: yana-ai-original
 license: MIT © 2025 Vũ Văn Tâm
 version: 1.0.0
 compatibility: "Any backend stack. Patterns apply to Kafka, RabbitMQ, SQS, EventBridge."

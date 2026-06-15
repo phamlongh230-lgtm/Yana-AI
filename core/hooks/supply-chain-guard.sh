@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Hook
+# Yana AI Hook
 # Version: 1.7.0
 # Status: active
 # Description: L4.5 Supply Chain Guard — block unsafe package installs, pipe-to-shell, typosquatting
@@ -18,12 +18,12 @@
 #   JSON + exit 2   — block
 #   additionalContext + exit 0 — warn
 #
-# Bypass: YAMTAM_SUPPLY_OK=1
+# Bypass: YANA_SUPPLY_OK=1
 # Test seam: SUPPLY_CHAIN_TEST_CMD="<command>"
 
 set -uo pipefail
 
-[[ "${YAMTAM_SUPPLY_OK:-}" == "1" ]] && exit 0
+[[ "${YANA_SUPPLY_OK:-}" == "1" ]] && exit 0
 
 command -v jq >/dev/null 2>&1 || exit 0
 
@@ -75,27 +75,27 @@ warn() {
 # curl/wget piped directly to bash/sh/zsh — classic supply chain attack vector
 if printf '%s' "$CMD" | grep -qE \
   '(curl|wget)\s+[^|]+\|\s*(bash|sh|zsh|fish|dash|ksh|python[23]?|node|ruby|perl)'; then
-  deny "Blocked [L4.5 Supply Chain]: pipe-to-shell detected ('curl ... | bash' or 'wget ... | sh'). This pattern executes untrusted remote code without review. Download the script first, inspect it, then run it. Rule: core/rules/44-supply-chain-vetting.md | Bypass: YAMTAM_SUPPLY_OK=1"
+  deny "Blocked [L4.5 Supply Chain]: pipe-to-shell detected ('curl ... | bash' or 'wget ... | sh'). This pattern executes untrusted remote code without review. Download the script first, inspect it, then run it. Rule: core/rules/44-supply-chain-vetting.md | Bypass: YANA_SUPPLY_OK=1"
 fi
 
 # ── Hard block: install from non-registry URL ─────────────────────────────────
 # npm/yarn install from raw git, tarball, or HTTP without integrity hash
 if printf '%s' "$CMD" | grep -qE \
   '(npm|yarn|pnpm)\s+(install|add|i)\s+(https?://|git\+https?://|github:|gitlab:|bitbucket:)'; then
-  deny "Blocked [L4.5 Supply Chain]: installing npm package from direct URL/git source. URL-based installs bypass registry integrity checks. Use the published registry version or pin a specific commit hash with integrity verification. Bypass: YAMTAM_SUPPLY_OK=1"
+  deny "Blocked [L4.5 Supply Chain]: installing npm package from direct URL/git source. URL-based installs bypass registry integrity checks. Use the published registry version or pin a specific commit hash with integrity verification. Bypass: YANA_SUPPLY_OK=1"
 fi
 
 # pip install from git or direct URL without hash
 if printf '%s' "$CMD" | grep -qE \
   '(pip|pip3|pipx|uv pip)\s+install\s+[^-][^ ]*(git\+https?://|https?://[^/]+/[^#]+\.tar\.gz)' \
   && ! printf '%s' "$CMD" | grep -qE '#(sha256|md5|sha512):'; then
-  deny "Blocked [L4.5 Supply Chain]: installing Python package from git/URL without integrity hash. Add '#sha256:<hash>' anchor or use a registry-published version. Bypass: YAMTAM_SUPPLY_OK=1"
+  deny "Blocked [L4.5 Supply Chain]: installing Python package from git/URL without integrity hash. Add '#sha256:<hash>' anchor or use a registry-published version. Bypass: YANA_SUPPLY_OK=1"
 fi
 
 # ── Hard block: --ignore-scripts disabled check bypass ───────────────────────
 # Some attacks rely on lifecycle scripts; only block if also from suspicious source
 if printf '%s' "$CMD" | grep -qE '(npm|yarn|pnpm).*(--ignore-scripts=false|--unsafe-perm)'; then
-  deny "Blocked [L4.5 Supply Chain]: '--ignore-scripts=false' or '--unsafe-perm' re-enables package lifecycle scripts that may have been disabled for safety. Review why this flag is needed. Bypass: YAMTAM_SUPPLY_OK=1"
+  deny "Blocked [L4.5 Supply Chain]: '--ignore-scripts=false' or '--unsafe-perm' re-enables package lifecycle scripts that may have been disabled for safety. Review why this flag is needed. Bypass: YANA_SUPPLY_OK=1"
 fi
 
 # ── Warn: typosquatting lookalike package names ───────────────────────────────
@@ -114,7 +114,7 @@ TYPOSQUATS=(
 for fake in "${!TYPOSQUATS[@]}"; do
   real="${TYPOSQUATS[$fake]}"
   if printf '%s' "$CMD" | grep -qE "(npm|yarn|pnpm|pip)\s+(install|add|i)\s+.*\b${fake}\b"; then
-    deny "Blocked [L4.5 Supply Chain]: possible typosquatting detected — '${fake}' looks like '${real}'. Verify the package name before installing. Rule: core/rules/44-supply-chain-vetting.md | Bypass: YAMTAM_SUPPLY_OK=1"
+    deny "Blocked [L4.5 Supply Chain]: possible typosquatting detected — '${fake}' looks like '${real}'. Verify the package name before installing. Rule: core/rules/44-supply-chain-vetting.md | Bypass: YANA_SUPPLY_OK=1"
   fi
 done
 
@@ -127,7 +127,7 @@ if printf '%s' "$CMD" | grep -qE '(npm|yarn|pnpm)\s+(install|i)\b' \
     [[ -f "$lockfile" ]] && HAS_LOCK=1 && break
   done
   if [[ "$HAS_LOCK" == "0" ]]; then
-    warn "⚠️  Supply Chain Guard [L4.5]: No lock file found (package-lock.json / yarn.lock / pnpm-lock.yaml) before running install. Lock files pin dependency versions and integrity hashes. Consider committing a lock file first. Reference: core/rules/44-supply-chain-vetting.md | Bypass: YAMTAM_SUPPLY_OK=1"
+    warn "⚠️  Supply Chain Guard [L4.5]: No lock file found (package-lock.json / yarn.lock / pnpm-lock.yaml) before running install. Lock files pin dependency versions and integrity hashes. Consider committing a lock file first. Reference: core/rules/44-supply-chain-vetting.md | Bypass: YANA_SUPPLY_OK=1"
   fi
 fi
 

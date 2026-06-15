@@ -8,7 +8,7 @@
 #                                   [--semgrep]
 #
 # Modes:
-#   rules   (default) — L1-L5 YAMTAM rule compliance check
+#   rules   (default) — L1-L5 Yana AI rule compliance check
 #   experts            — 12 OWASP expert families, recon → scenario → findings
 #   full               — rules + experts
 #
@@ -95,7 +95,7 @@ run_layer() {
 
   # Build prompt
   local prompt
-  prompt="You are running a YAMTAM security audit for gate layer $layer ($label).
+  prompt="You are running a Yana AI security audit for gate layer $layer ($label).
 
 The rules below define what violations to look for.
 The source files below are the code to audit.

@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Human Gate Policy
+# Yana AI — Human Gate Policy
 # Source: neovim/neovim confirm() pattern + Human-in-the-Loop safety research
 
 **Status:** Active  

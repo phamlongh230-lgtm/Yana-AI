@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-YAMTAM Doctor — runtime health check before starting an agent session.
+Yana AI Doctor — runtime health check before starting an agent session.
 Fast, deterministic, no LLM needed. Exits 0 if healthy, 1 if warnings, 2 if failures.
 """
 
@@ -140,7 +140,7 @@ def check_claude_settings(target: str) -> Check:
     if issues:
         return Check("WARN", "claude settings",
                      "risky config: " + ", ".join(issues),
-                     "Run: yamtam audit . --only agent-config  for details")
+                     "Run: yana-ai audit . --only agent-config  for details")
     return Check("OK", "claude settings", f"found, {len(allow)} allowed tools")
 
 
@@ -178,7 +178,7 @@ def check_mcp_config(target: str) -> Check:
     if issues:
         return Check("WARN", "MCP config",
                      f"{rel}: {'; '.join(issues)}",
-                     "Run: yamtam audit . --only mcp-config  for details")
+                     "Run: yana-ai audit . --only mcp-config  for details")
     return Check("OK", "MCP config", f"{rel}: {n} server{'s' if n != 1 else ''}")
 
 
@@ -217,7 +217,7 @@ def check_python() -> Check:
     )
     if result.returncode != 0:
         return Check("FAIL", "python3",
-                     "not found — required for yamtam audit",
+                     "not found — required for yana-ai audit",
                      "Install python3: https://python.org")
     version = result.stdout.strip() or result.stderr.strip()
     try:
@@ -265,53 +265,53 @@ def check_node() -> Check:
     return Check("OK", "node.js", result.stdout.strip())
 
 
-def check_yamtam_version() -> Check:
-    """Check yamtam CLI is accessible and report version."""
+def check_yana-ai_version() -> Check:
+    """Check yana-ai CLI is accessible and report version."""
     script_dir = Path(__file__).resolve().parent
-    bin_path   = script_dir.parent.parent / "bin" / "yamtam"
+    bin_path   = script_dir.parent.parent / "bin" / "yana-ai"
     if not bin_path.exists():
-        return Check("WARN", "yamtam CLI", "bin/yamtam not found",
-                     "Ensure you are running from the yamtam-engine root directory")
+        return Check("WARN", "yana-ai CLI", "bin/yana-ai not found",
+                     "Ensure you are running from the yana-ai root directory")
     result = subprocess.run([str(bin_path), "version"], capture_output=True, text=True)
     if result.returncode != 0:
-        return Check("WARN", "yamtam CLI", "bin/yamtam found but version check failed")
-    return Check("OK", "yamtam CLI", result.stdout.strip())
+        return Check("WARN", "yana-ai CLI", "bin/yana-ai found but version check failed")
+    return Check("OK", "yana-ai CLI", result.stdout.strip())
 
 
-def check_yamtam_hooks_wired(target: str) -> Check:
+def check_yana-ai_hooks_wired(target: str) -> Check:
     """Check if any safety hooks are wired in .claude/settings.json."""
     import json as _json
     settings_path = Path(target) / ".claude" / "settings.json"
     if not settings_path.exists():
-        return Check("WARN", "yamtam hooks",
+        return Check("WARN", "yana-ai hooks",
                      ".claude/settings.json not found — no hooks active",
-                     "Run: yamtam init . or yamtam guard install all")
+                     "Run: yana-ai init . or yana-ai guard install all")
     try:
         with open(settings_path) as f:
             data = _json.load(f)
         hooks = data.get("hooks", [])
         hook_count = sum(len(h.get("hooks",[])) for h in hooks)
         if hook_count == 0:
-            return Check("WARN", "yamtam hooks",
+            return Check("WARN", "yana-ai hooks",
                          "settings.json found but no hooks configured",
-                         "Run: yamtam guard install all --target .")
-        return Check("OK", "yamtam hooks", f"{hook_count} hook(s) configured")
+                         "Run: yana-ai guard install all --target .")
+        return Check("OK", "yana-ai hooks", f"{hook_count} hook(s) configured")
     except Exception:
-        return Check("WARN", "yamtam hooks", "Could not parse .claude/settings.json")
+        return Check("WARN", "yana-ai hooks", "Could not parse .claude/settings.json")
 
 
-def check_yamtam_scanners() -> Check:
+def check_yana-ai_scanners() -> Check:
     script_dir = Path(__file__).resolve().parent
     # scanners live two levels up from core/scripts/
     scanner_dir = script_dir.parent.parent / "scanner"
     if not scanner_dir.exists():
-        return Check("WARN", "yamtam scanners", "scanner/ directory not found — audit will use built-in rules only",
+        return Check("WARN", "yana-ai scanners", "scanner/ directory not found — audit will use built-in rules only",
                      "Run: git clone or restore the scanner/ directory alongside core/")
     ymls = list(scanner_dir.glob("*.yml"))
     if not ymls:
-        return Check("WARN", "yamtam scanners", "scanner/ found but contains no .yml rule files",
-                     "Restore rule files or run: yamtam audit . to see which rules are missing")
-    return Check("OK", "yamtam scanners", f"{len(ymls)} rule file{'s' if len(ymls) != 1 else ''} in scanner/")
+        return Check("WARN", "yana-ai scanners", "scanner/ found but contains no .yml rule files",
+                     "Restore rule files or run: yana-ai audit . to see which rules are missing")
+    return Check("OK", "yana-ai scanners", f"{len(ymls)} rule file{'s' if len(ymls) != 1 else ''} in scanner/")
 
 
 # ── Runner ────────────────────────────────────────────────────────────────────
@@ -332,9 +332,9 @@ def run_doctor(target: str, no_color: bool = False, quiet: bool = False) -> dict
     checks.append(check_anthropic_key())
     checks.append(check_node())
     checks.append(check_ci_env())
-    checks.append(check_yamtam_scanners())
-    checks.append(check_yamtam_version())
-    checks.append(check_yamtam_hooks_wired(target))
+    checks.append(check_yana-ai_scanners())
+    checks.append(check_yana-ai_version())
+    checks.append(check_yana-ai_hooks_wired(target))
 
     counts = {"OK": 0, "WARN": 0, "FAIL": 0, "INFO": 0}
     for ck in checks:
@@ -368,8 +368,8 @@ def render(report: dict, no_color: bool = False, quiet: bool = False, fix: bool 
     lines += [
         "",
         c(CYAN + BOLD, "┌─────────────────────────────────────────────────────┐", nc),
-        c(CYAN + BOLD, "│  YAMTAM Doctor — Runtime Health Check               │", nc),
-        c(CYAN + BOLD, "│  github.com/phamlongh230-lgtm/yamtam-engine          │", nc),
+        c(CYAN + BOLD, "│  Yana AI Doctor — Runtime Health Check               │", nc),
+        c(CYAN + BOLD, "│  github.com/phamlongh230-lgtm/yana-ai          │", nc),
         c(CYAN + BOLD, "└─────────────────────────────────────────────────────┘", nc),
         "",
         f"  Target:  {report['target']}",
@@ -414,7 +414,7 @@ def main() -> None:
     import argparse
 
     parser = argparse.ArgumentParser(
-        prog="yamtam doctor",
+        prog="yana-ai doctor",
         description="Check your environment before starting an AI agent session.",
     )
     parser.add_argument("target", nargs="?", default=".",

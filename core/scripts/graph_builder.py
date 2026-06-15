@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-graph_builder.py — knowledge graph pipeline for yamtam graph build
+graph_builder.py — knowledge graph pipeline for yana-ai graph build
 
 Adapted from Lum1104/Understand-Anything (MIT) — pipeline architecture,
 node/edge schema, layer heuristics.
@@ -10,7 +10,7 @@ Stages:
   2. file_analyze   — extract nodes (files, functions, classes) + edges, batched
   3. arch_analyze   — assign architectural layers by directory heuristics
   4. tour_build     — dependency-ordered guided tour
-  5. assemble       — write .yamtam/graph/knowledge-graph.json
+  5. assemble       — write .yana-ai/graph/knowledge-graph.json
 """
 
 import ast
@@ -26,11 +26,11 @@ from pathlib import Path
 
 SCHEMA_VERSION = "1.0"
 BATCH_SIZE = 20
-GRAPH_DIR = ".yamtam/graph"
+GRAPH_DIR = ".yana-ai/graph"
 GRAPH_FILE = "knowledge-graph.json"
 
 IGNORE_DIRS = {
-    "node_modules", ".git", ".yamtam", "dist", "build", "__pycache__",
+    "node_modules", ".git", ".yana-ai", "dist", "build", "__pycache__",
     ".cache", "coverage", ".next", "target", "venv", ".venv", ".tox",
     "vendor", "tmp", ".tmp", "releases", ".claude-plugin",
 }
@@ -82,7 +82,7 @@ CYAN = "\033[36m"; DIM = "\033[2m"; YELLOW = "\033[33m"; RESET = "\033[0m"
 
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -595,7 +595,7 @@ def build_graph(target: str, quiet: bool = False) -> dict:
 
     if not quiet:
         print()
-        print(c(BOLD, "  yamtam graph build"))
+        print(c(BOLD, "  yana-ai graph build"))
         print(c(DIM, f"  {target}"))
         print()
 

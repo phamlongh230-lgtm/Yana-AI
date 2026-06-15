@@ -1,5 +1,5 @@
-# YAMTAM ENGINE — Rule Consistency Policy
-# Source: nedcodes-ok/rule-gen (cursor-doctor pattern) + yamtam-original
+# Yana AI — Rule Consistency Policy
+# Source: nedcodes-ok/rule-gen (cursor-doctor pattern) + yana-ai-original
 
 **Status:** Active  
 **Enforced by:** All agents before creating a new skill or rule  

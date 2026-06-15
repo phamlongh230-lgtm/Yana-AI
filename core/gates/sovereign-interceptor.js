@@ -28,7 +28,7 @@ import { createHash } from 'crypto';
 // These look like real secrets but are canary tokens.
 // Any agent that reads and exfiltrates these triggers immediate quarantine.
 //
-// Values are loaded from env vars at runtime (set in ~/.yamtam/honey-vault.env,
+// Values are loaded from env vars at runtime (set in ~/.yana-ai/honey-vault.env,
 // which is gitignored). Sophisticated agents reading this source cannot learn
 // the actual trap values — they are not stored here.
 //
@@ -40,12 +40,12 @@ import { createHash } from 'crypto';
 function _loadHoneyVault() {
   const E = process.env;
   return new Map([
-    ['STRIPE_SECRET_KEY',     E.HONEY_STRIPE_KEY      ?? `sk_live_HNY_${createHash('sha256').update('stripe'   + (E.YAMTAM_HONEY_SEED ?? 'default')).digest('hex').slice(0,16)}`],
-    ['OPENAI_API_KEY',        E.HONEY_OPENAI_KEY       ?? `sk-HNY-${createHash('sha256').update('openai'    + (E.YAMTAM_HONEY_SEED ?? 'default')).digest('hex').slice(0,24)}`],
-    ['ANTHROPIC_API_KEY',     E.HONEY_ANTHROPIC_KEY    ?? `sk-ant-HNY-${createHash('sha256').update('anthropic' + (E.YAMTAM_HONEY_SEED ?? 'default')).digest('hex').slice(0,20)}`],
-    ['DATABASE_URL',          E.HONEY_DATABASE_URL     ?? `postgresql://hny:${createHash('sha256').update('db' + (E.YAMTAM_HONEY_SEED ?? 'default')).digest('hex').slice(0,12)}@localhost:5432/fake_prod`],
-    ['AWS_SECRET_ACCESS_KEY', E.HONEY_AWS_KEY          ?? `HNY+${createHash('sha256').update('aws' + (E.YAMTAM_HONEY_SEED ?? 'default')).digest('hex').slice(0,28)}`],
-    ['GITHUB_TOKEN',          E.HONEY_GITHUB_TOKEN     ?? `ghp_HNY${createHash('sha256').update('gh' + (E.YAMTAM_HONEY_SEED ?? 'default')).digest('hex').slice(0,30)}`],
+    ['STRIPE_SECRET_KEY',     E.HONEY_STRIPE_KEY      ?? `sk_live_HNY_${createHash('sha256').update('stripe'   + (E.YANA_HONEY_SEED ?? 'default')).digest('hex').slice(0,16)}`],
+    ['OPENAI_API_KEY',        E.HONEY_OPENAI_KEY       ?? `sk-HNY-${createHash('sha256').update('openai'    + (E.YANA_HONEY_SEED ?? 'default')).digest('hex').slice(0,24)}`],
+    ['ANTHROPIC_API_KEY',     E.HONEY_ANTHROPIC_KEY    ?? `sk-ant-HNY-${createHash('sha256').update('anthropic' + (E.YANA_HONEY_SEED ?? 'default')).digest('hex').slice(0,20)}`],
+    ['DATABASE_URL',          E.HONEY_DATABASE_URL     ?? `postgresql://hny:${createHash('sha256').update('db' + (E.YANA_HONEY_SEED ?? 'default')).digest('hex').slice(0,12)}@localhost:5432/fake_prod`],
+    ['AWS_SECRET_ACCESS_KEY', E.HONEY_AWS_KEY          ?? `HNY+${createHash('sha256').update('aws' + (E.YANA_HONEY_SEED ?? 'default')).digest('hex').slice(0,28)}`],
+    ['GITHUB_TOKEN',          E.HONEY_GITHUB_TOKEN     ?? `ghp_HNY${createHash('sha256').update('gh' + (E.YANA_HONEY_SEED ?? 'default')).digest('hex').slice(0,30)}`],
   ]);
 }
 

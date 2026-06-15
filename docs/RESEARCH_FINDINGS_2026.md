@@ -1,4 +1,4 @@
-# YAMTAM ENGINE - 2026 Research Findings
+# Yana AI - 2026 Research Findings
 
 **Date:** 2026-05-23
 **Research Method:** GitHub CLI analysis
@@ -15,7 +15,7 @@
 - **Description:** A programming framework for agentic AI
 - **Status:** Actively maintained, no 2026 releases yet
 
-**Relevant for YAMTAM:**
+**Relevant for Yana AI:**
 - Multi-agent conversation framework
 - Agent orchestration patterns
 - Tool use and function calling
@@ -29,7 +29,7 @@
 - **Description:** Build resilient agents
 - **Status:** Very active, released yesterday!
 
-**Relevant for YAMTAM:**
+**Relevant for Yana AI:**
 - State management patterns
 - Multi-agent coordination
 - Checkpointing and persistence
@@ -46,7 +46,7 @@
 - **Description:** Framework for orchestrating role-playing, autonomous AI agents
 - **Status:** Very active, released 5 days ago
 
-**Relevant for YAMTAM:**
+**Relevant for Yana AI:**
 - Role-based agent orchestration
 - Collaborative intelligence patterns
 - Task delegation and handoffs
@@ -62,7 +62,7 @@
 - **Description:** Educational framework exploring ergonomic, lightweight multi-agent orchestration
 - **Status:** Active, managed by OpenAI Solution team
 
-**Relevant for YAMTAM:**
+**Relevant for Yana AI:**
 - Lightweight orchestration patterns
 - Ergonomic agent coordination
 - OpenAI's recommended patterns
@@ -76,12 +76,12 @@
 - **Description:** OWASP Top 10 for Large Language Model Apps
 - **Status:** Very active, updated today
 
-**Relevant for YAMTAM:**
+**Relevant for Yana AI:**
 - Latest LLM security threats
 - Defense patterns
 - Compliance requirements
 
-**ACTION:** Map YAMTAM's L0-L5 gates to OWASP LLM Top 10
+**ACTION:** Map Yana AI's L0-L5 gates to OWASP LLM Top 10
 
 ---
 
@@ -100,7 +100,7 @@
 **Implementation:**
 - Study langgraph-sdk 0.3.15 release notes
 - Extract state management patterns
-- Integrate with YAMTAM's L2 session memory
+- Integrate with Yana AI's L2 session memory
 - Add graph-based agent coordination
 
 ---
@@ -115,7 +115,7 @@
 
 **Implementation:**
 - Analyze CrewAI 1.14.5 changes
-- Map to YAMTAM's 90 agents
+- Map to Yana AI's 90 agents
 - Add role-based routing
 - Implement handoff protocols
 

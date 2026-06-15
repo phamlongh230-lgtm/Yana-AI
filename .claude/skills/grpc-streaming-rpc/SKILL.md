@@ -1,10 +1,10 @@
 ---
 name: grpc-streaming-rpc
 description: gRPC bidirectional streaming RPC over HTTP/2 for real-time agent clusters. Service definition, unary/server-stream/bidi-stream patterns, deadline propagation, and TLS mutual auth. Sources: grpc/grpc-node (Apache-2.0).
-origin: yamtam-engine — synthesized from grpc/grpc-node (Apache-2.0)
+origin: yana-ai — synthesized from grpc/grpc-node (Apache-2.0)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.50
+compatibility: yana-ai >= 1.3.50
 ---
 
 # /grpc-streaming-rpc
@@ -27,7 +27,7 @@ compatibility: yamtam-engine >= 1.3.50
 
 ```protobuf
 syntax = "proto3";
-package yamtam;
+package yana-ai;
 
 service AgentBus {
   // Unary
@@ -62,11 +62,11 @@ const packageDef = protoLoader.loadSync('agent_bus.proto', {
   defaults:   true,
   oneofs:     true,
 })
-const { yamtam } = grpc.loadPackageDefinition(packageDef)
+const { yana-ai } = grpc.loadPackageDefinition(packageDef)
 
 const server = new grpc.Server()
 
-server.addService(yamtam.AgentBus.service, {
+server.addService(yana-ai.AgentBus.service, {
   dispatchTask(call, callback) {
     const { tool, params_json } = call.request
     const taskId = `task-${Date.now()}`
@@ -102,7 +102,7 @@ server.bindAsync('0.0.0.0:50051',
 ## gRPC client with deadline
 
 ```javascript
-const client = new yamtam.AgentBus(
+const client = new yana-ai.AgentBus(
   'localhost:50051',
   grpc.credentials.createInsecure()
 )
@@ -137,7 +137,7 @@ const credentials = grpc.credentials.createSsl(
   readFileSync('agent.key'),       // client private key
   readFileSync('agent.crt'),       // client certificate
 )
-const client = new yamtam.AgentBus('agent-node-2:50051', credentials)
+const client = new yana-ai.AgentBus('agent-node-2:50051', credentials)
 ```
 
 ---

@@ -1,19 +1,19 @@
-# OPENCODE.md — YAMTAM ENGINE Operating Manual
+# OPENCODE.md — Yana AI Operating Manual
 
 > If you are an AI assistant entering this repository via OpenCode, read this file first.
-> This is the OpenCode adapter for YAMTAM ENGINE governance.
+> This is the OpenCode adapter for Yana AI governance.
 
 ---
 
 ## What this repo is
 
-YAMTAM ENGINE is a personal agent operating system for Claude Code, Cursor, OpenCode, and other AI coding harnesses.
+Yana AI is a personal agent operating system for Claude Code, Cursor, OpenCode, and other AI coding harnesses.
 
 - **8,550 skills** in `core/skills/` — reference implementations for common dev tasks
 - **93 agents** in `core/agents/` — specialist agent definitions
 - **61 security rules** in `core/rules/` — enforced at runtime
 - **46 safety hooks** in `core/hooks/` — fire before dangerous actions
-- **Rust runtime** in `yamtam-rt/` — `yamtam scan`, `yamtam graph`, `yamtam vault`, etc.
+- **Rust runtime** in `yana-rt/` — `yana-ai scan`, `yana-ai graph`, `yana-ai vault`, etc.
 
 ---
 
@@ -22,7 +22,7 @@ YAMTAM ENGINE is a personal agent operating system for Claude Code, Cursor, Open
 1. `OPENCODE.md` ← you are here
 2. `gates/truth_gate.md` — evidence rules before any completion claim
 3. `gates/action_gate.md` — rules before write/commit/deploy
-4. `docs/SEPARATION.md` — boundary between YAMTAM and target product
+4. `docs/SEPARATION.md` — boundary between Yana AI and target product
 5. `core/memory/L1_atomic/INDEX.md` — known facts and constraints
 
 ---
@@ -84,4 +84,4 @@ Register in `core/config/skills-lock.json` after adding.
 
 ## Full docs
 
-→ https://phamlongh230-lgtm.github.io/yamtam-engine/
+→ https://phamlongh230-lgtm.github.io/yana-ai/

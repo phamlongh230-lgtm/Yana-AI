@@ -1,4 +1,4 @@
-# YAMTAM Engine — Minimal Ephemeral Sandbox
+# Yana AI Engine — Minimal Ephemeral Sandbox
 # Purpose: run untrusted agent tool commands in complete isolation
 # Base:    Alpine 3.20 (< 8MB) — no package manager bloat
 # Network: disabled at runtime (--network=none)
@@ -36,6 +36,6 @@ ENTRYPOINT ["/usr/local/bin/sandbox-entrypoint.sh"]
 CMD ["echo", "[sandbox] no command provided"]
 
 # Labels for audit trail
-LABEL org.yamtam.component="sandbox"
-LABEL org.yamtam.gate="L3"
-LABEL org.yamtam.isolation="process+filesystem+network"
+LABEL org.yana.component="sandbox"
+LABEL org.yana.gate="L3"
+LABEL org.yana.isolation="process+filesystem+network"

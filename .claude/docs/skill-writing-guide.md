@@ -1,8 +1,8 @@
-# YAMTAM ENGINE — Skill Writing Guide
+# Yana AI — Skill Writing Guide
 
 **Status:** Active
 **Adapted from:** AgentSkills best-practices.mdx + optimizing-descriptions.mdx
-  (Apache 2.0 © 2025 Anthropic, PBC) — adapted for YAMTAM, not copied verbatim.
+  (Apache 2.0 © 2025 Anthropic, PBC) — adapted for Yana AI, not copied verbatim.
 **Spec reference:** docs/skill-spec.md
 **Template:** core/templates/SKILL_TEMPLATE.md
 
@@ -119,7 +119,7 @@ Examples of bad gotchas:
 
 ### Anti-Fake-Pass Rules
 Measurable evidence the agent must show before claiming done.
-Every YAMTAM skill must have this section.
+Every Yana AI skill must have this section.
 
 ```markdown
 ## Anti-Fake-Pass Rules

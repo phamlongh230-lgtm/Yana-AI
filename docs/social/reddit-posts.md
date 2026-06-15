@@ -15,7 +15,7 @@ We all know Claude Code is powerful. But it also makes real mistakes — force-p
 wrong rm -rf, suggesting packages that turn out to be typosquatted. By the time you notice, 
 it's done.
 
-I spent the last month building YAMTAM ENGINE: a hook layer that sits between Claude Code 
+I spent the last month building Yana AI: a hook layer that sits between Claude Code 
 and your system, acting like a vigilant safety net for every tool call.
 
 What it catches:
@@ -30,16 +30,16 @@ Also works with Cursor, OpenCode, Zed, Gemini, Copilot — 12 harness adapters t
 What's included:
 - 3,432 skill definitions (frontend, backend, AI/LLM, K8s, security, WASM...)  
 - 93 specialist agent definitions
-- Rust CLI: yamtam scan, yamtam graph, yamtam vault, yamtam doctor
+- Rust CLI: yana-ai scan, yana-ai graph, yana-ai vault, yana-ai doctor
 - Blast radius map — shows exactly what the agent can touch in your repo
 
 Install:
-  npm install yamtam-engine && npx yamtam-install
+  npm install yana-ai && npx yana-ai-install
 
 Built by one person (17yo, Vietnam) in ~1 month. Apache 2.0, free forever.
 
-Repo: https://github.com/phamlongh230-lgtm/yamtam-engine
-Docs: https://phamlongh230-lgtm.github.io/yamtam-engine/
+Repo: https://github.com/phamlongh230-lgtm/yana-ai
+Docs: https://phamlongh230-lgtm.github.io/yana-ai/
 ```
 
 ---
@@ -48,34 +48,34 @@ Docs: https://phamlongh230-lgtm.github.io/yamtam-engine/
 
 **Title:**
 ```
-yamtam-rt: Rust CLI for AI agent safety — 17 subcommands, 1256x faster than Python (scan, graph, vault, blast-radius map)
+yana-rt: Rust CLI for AI agent safety — 17 subcommands, 1256x faster than Python (scan, graph, vault, blast-radius map)
 ```
 
 **Body:**
 ```
-Released yamtam-rt on crates.io — the Rust runtime powering YAMTAM ENGINE, 
+Released yana-rt on crates.io — the Rust runtime powering Yana AI, 
 a safety OS for AI coding agents.
 
-cargo install yamtam-rt
+cargo install yana-rt
 
 17 subcommands. The main ones:
 
-yamtam scan .       — secrets, CVEs, supply chain risks
-yamtam graph .      — knowledge graph (import resolution: Rust/TS/Python/Go)
-yamtam vault search — search 3,432 skill definitions
-yamtam hunt .       — OWASP pattern hunting (injection, SSRF, XSS...)
-yamtam map .        — blast radius map (what can the agent access?)
-yamtam fix .        — auto-fix rule violations
-yamtam doctor .     — full system health check
-yamtam ci           — CI gate runner (826 rule checks)
-yamtam watch .      — file watcher with hook triggers
+yana-ai scan .       — secrets, CVEs, supply chain risks
+yana-ai graph .      — knowledge graph (import resolution: Rust/TS/Python/Go)
+yana-ai vault search — search 3,432 skill definitions
+yana-ai hunt .       — OWASP pattern hunting (injection, SSRF, XSS...)
+yana-ai map .        — blast radius map (what can the agent access?)
+yana-ai fix .        — auto-fix rule violations
+yana-ai doctor .     — full system health check
+yana-ai ci           — CI gate runner (826 rule checks)
+yana-ai watch .      — file watcher with hook triggers
 
 Stack: clap, serde, walkdir, regex, sha2, ureq, rayon
 
-Benchmark: yamtam scan on a 10k-file repo → 1256x faster than the Python equivalent.
+Benchmark: yana-ai scan on a 10k-file repo → 1256x faster than the Python equivalent.
 
-Repo: https://github.com/phamlongh230-lgtm/yamtam-engine
-Crate: https://crates.io/crates/yamtam-rt
+Repo: https://github.com/phamlongh230-lgtm/yana-ai
+Crate: https://crates.io/crates/yana-rt
 ```
 
 ---
@@ -113,8 +113,8 @@ An agent can write to logs, then delete evidence of its own mistakes.
 Gate: Merkle hash chain — every entry includes SHA256 of previous.
 Deletion breaks the chain → detected instantly.
 
-The full system (YAMTAM ENGINE) is open source:
-https://github.com/phamlongh230-lgtm/yamtam-engine
+The full system (Yana AI) is open source:
+https://github.com/phamlongh230-lgtm/yana-ai
 
 1,026,000 lines, built by one person (17yo) in ~1 month. AMA.
 ```
@@ -130,7 +130,7 @@ How I built a Merkle-chained audit log and 9-layer gate system for AI coding age
 
 **Body:**
 ```
-I built YAMTAM ENGINE — a safety OS for AI coding tools — and wanted to share some 
+I built Yana AI — a safety OS for AI coding tools — and wanted to share some 
 implementation details that might be interesting.
 
 Two things I'm most proud of technically:
@@ -141,7 +141,7 @@ where this_hash = SHA256(all fields including prev_hash).
 If any line is deleted or modified, the chain breaks → tamper detected instantly.
 This was inspired by Google's Trillian verifiable log.
 
-2. Blast radius mapping (yamtam map)
+2. Blast radius mapping (yana-ai map)
 Reads agent configs, MCP settings, .claude/settings.json, GitHub workflows.
 Outputs a permission map: what files/commands/endpoints can this agent actually reach?
 Useful for auditing before you give an agent more permissions.
@@ -150,9 +150,9 @@ Other gates: SSRF prevention (resolves DNS then checks RFC1918/link-local),
 supply chain (typosquatting + CVE scan), shell sanitization (shellcheck-inspired), 
 ECDSA code signing, BFT consensus for core infra writes.
 
-Stack: Rust (yamtam-rt) + Python CLI + 46 bash hooks + 61 rule files.
+Stack: Rust (yana-rt) + Python CLI + 46 bash hooks + 61 rule files.
 
-Repo: https://github.com/phamlongh230-lgtm/yamtam-engine
+Repo: https://github.com/phamlongh230-lgtm/yana-ai
 
 Built by one person in ~1 month, 17yo from Vietnam.
 ```

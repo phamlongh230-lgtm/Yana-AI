@@ -1,10 +1,10 @@
 ---
 name: lint-staged-git-hook
 description: lint-staged pre-commit hook for running linters only on Git-staged files. Pattern-matched task runners, auto-fix before commit, integration with husky, and staged-only analysis to minimize CI overhead. Sources: okonet/lint-staged (MIT).
-origin: yamtam-engine — synthesized from okonet/lint-staged (MIT)
+origin: yana-ai — synthesized from okonet/lint-staged (MIT)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.49
+compatibility: yana-ai >= 1.3.49
 ---
 
 # /lint-staged-git-hook
@@ -92,7 +92,7 @@ export default {
 
 ---
 
-## Integration with yamtam tool-proxy.sh hook
+## Integration with yana-ai tool-proxy.sh hook
 
 ```bash
 # .husky/pre-commit — runs before every commit
@@ -102,7 +102,7 @@ set -e
 # 1. lint-staged (fast, staged-only)
 npx lint-staged
 
-# 2. yamtam security gate on staged files
+# 2. yana-ai security gate on staged files
 STAGED=$(git diff --cached --name-only --diff-filter=ACM)
 if [ -n "$STAGED" ]; then
   echo "$STAGED" | xargs -I{} bash core/scripts/tool-proxy.sh "cat {}" 2>/dev/null || true

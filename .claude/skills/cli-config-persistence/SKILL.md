@@ -1,17 +1,17 @@
 ---
 name: cli-config-persistence
 description: Hierarchical JSON config persistence for CLI agent tools. sindresorhus/conf patterns, schema validation, encryption for secrets, config migration, and XDG-compliant storage paths. Sources: sindresorhus/conf.
-origin: yamtam-engine — synthesized from sindresorhus/conf (MIT)
+origin: yana-ai — synthesized from sindresorhus/conf (MIT)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.48
+compatibility: yana-ai >= 1.3.48
 ---
 
 # /cli-config-persistence
 
 ## When to Use
 
-- Store persistent settings for yamtam CLI tools (session defaults, feature flags)
+- Store persistent settings for yana-ai CLI tools (session defaults, feature flags)
 - Config that survives between terminal sessions in Codespaces
 - Encrypted storage for API keys in CLI tools (avoid plain .env files)
 - Typed config with JSON Schema validation at read/write time
@@ -37,7 +37,7 @@ interface YamtamConfig {
 }
 
 const config = new Conf<YamtamConfig>({
-  projectName:   'yamtam-engine',
+  projectName:   'yana-ai',
   projectVersion: '1.3.48',
   schema: {
     version:        { type: 'string' },
@@ -46,7 +46,7 @@ const config = new Conf<YamtamConfig>({
     maxAgents:      { type: 'number',  default: 87, minimum: 1, maximum: 500 },
     apiBaseUrl:     { type: 'string',  default: 'https://api.anthropic.com' },
   },
-  // Config path: ~/.config/yamtam-engine/config.json (XDG)
+  // Config path: ~/.config/yana-ai/config.json (XDG)
 })
 
 // Read
@@ -72,8 +72,8 @@ import Conf from 'conf'
 import crypto from 'crypto'
 
 const secrets = new Conf({
-  projectName:     'yamtam-secrets',
-  encryptionKey:   process.env.YAMTAM_CONFIG_KEY ?? crypto.randomBytes(32).toString('hex'),
+  projectName:     'yana-ai-secrets',
+  encryptionKey:   process.env.YANA_CONFIG_KEY ?? crypto.randomBytes(32).toString('hex'),
   // → file on disk is AES-256-CBC encrypted — unreadable without key
 })
 
@@ -87,7 +87,7 @@ const key = secrets.get('anthropic.apiKey') as string
 
 ```javascript
 const config = new Conf({
-  projectName: 'yamtam-engine',
+  projectName: 'yana-ai',
   migrations: {
     '1.3.47': (store) => {
       // Rename old key
@@ -109,12 +109,12 @@ const config = new Conf({
 ## Config file path
 
 ```bash
-# Linux:  ~/.config/yamtam-engine/config.json
-# macOS:  ~/Library/Preferences/yamtam-engine/config.json
-# Windows: %APPDATA%/yamtam-engine/config.json
+# Linux:  ~/.config/yana-ai/config.json
+# macOS:  ~/Library/Preferences/yana-ai/config.json
+# Windows: %APPDATA%/yana-ai/config.json
 
 # Print config location
-node -e "const Conf=require('conf'); const c=new Conf({projectName:'yamtam-engine'}); console.log(c.path)"
+node -e "const Conf=require('conf'); const c=new Conf({projectName:'yana-ai'}); console.log(c.path)"
 ```
 
 ---

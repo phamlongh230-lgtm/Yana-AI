@@ -24,7 +24,7 @@ src/
 requirements*.txt
 *.py[cod]
 __pycache__/
-.yamtam/
+.yana/
 .claude/state/
 .claude/settings*.json
 core/scripts/__pycache__/

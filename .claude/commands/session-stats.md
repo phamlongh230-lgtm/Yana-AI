@@ -6,7 +6,7 @@ version: 1.6.0
 
 # /session-stats
 
-Summary of all YAMTAM hook activity in this session.
+Summary of all Yana AI hook activity in this session.
 
 ```python
 #!/usr/bin/env python3
@@ -71,7 +71,7 @@ avg   = int(sum(scores) / total) if total else 0
 
 print()
 print('  ╔══════════════════════════════════════════════╗')
-print('  ║          YAMTAM SESSION STATS                ║')
+print('  ║          Yana AI SESSION STATS                ║')
 print('  ╚══════════════════════════════════════════════╝')
 print()
 print(f'  Risk actions scored : {total}')

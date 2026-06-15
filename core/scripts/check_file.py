@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yamtam check <file> — scan a single file against all matching rules."""
+"""yana-ai check <file> — scan a single file against all matching rules."""
 
 import argparse
 import glob
@@ -17,7 +17,7 @@ GREEN = "\033[32m"; CYAN  = "\033[36m"; DIM   = "\033[2m"; RESET = "\033[0m"
 SEV_COLOR = {"CRITICAL": RED, "HIGH": RED, "MED": YELLOW, "MEDIUM": YELLOW, "LOW": ""}
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -117,7 +117,7 @@ def run_check(filepath: str, rule: dict) -> list[dict]:
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="yamtam check",
+        prog="yana-ai check",
         description="Scan a single file against all matching rules",
     )
     parser.add_argument("file",   help="File to scan")
@@ -147,7 +147,7 @@ def main():
         return
 
     print()
-    print(c(BOLD, f"  yamtam check") + c(DIM, f" — {args.file}"))
+    print(c(BOLD, f"  yana-ai check") + c(DIM, f" — {args.file}"))
     print()
 
     if not findings:

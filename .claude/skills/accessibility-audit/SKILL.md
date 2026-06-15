@@ -14,7 +14,7 @@ compatibility: "Any HTML/JSX/TSX output. Framework-agnostic checks."
 ---
 
 <!-- Adapted from vercel-labs/agent-skills (MIT) — accessibility audit concept and WCAG rule coverage.
-     All content written original for YAMTAM. Rule descriptions derived from WCAG 2.1 public spec (W3C). -->
+     All content written original for Yana AI. Rule descriptions derived from WCAG 2.1 public spec (W3C). -->
 
 ## When to Use
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE — Live Demo Script
+# Yana AI — Live Demo Script
 # Run: bash docs/demo.sh
 # Record this with: asciinema rec demo.cast
 
@@ -18,7 +18,7 @@ pause() { sleep "${1:-1}"; }
 banner() {
   echo ""
   echo -e "${CYAN}${BOLD}╔══════════════════════════════════════════╗${RESET}"
-  echo -e "${CYAN}${BOLD}║        YAMTAM ENGINE — Live Demo         ║${RESET}"
+  echo -e "${CYAN}${BOLD}║        Yana AI — Live Demo         ║${RESET}"
   echo -e "${CYAN}${BOLD}║   Personal Agent OS for Claude Code      ║${RESET}"
   echo -e "${CYAN}${BOLD}╚══════════════════════════════════════════╝${RESET}"
   echo ""
@@ -31,18 +31,18 @@ show_cmd() {
 }
 
 block() {
-  echo -e "${RED}${BOLD}[YAMTAM BLOCK]${RESET} $1"
+  echo -e "${RED}${BOLD}[Yana AI BLOCK]${RESET} $1"
   echo -e "${RED}  Decision: DENY${RESET}"
   pause 0.8
 }
 
 warn() {
-  echo -e "${YELLOW}${BOLD}[YAMTAM WARN]${RESET} $1"
+  echo -e "${YELLOW}${BOLD}[Yana AI WARN]${RESET} $1"
   pause 0.8
 }
 
 pass() {
-  echo -e "${GREEN}${BOLD}[YAMTAM ALLOW]${RESET} $1"
+  echo -e "${GREEN}${BOLD}[Yana AI ALLOW]${RESET} $1"
   pause 0.8
 }
 
@@ -84,7 +84,7 @@ echo ""
 echo -e "AI tries to run:  ${RED}kubectl delete deployment production-api${RESET}"
 pause 1
 show_cmd "kubectl delete deployment production-api"
-block "deploy-gate.sh — kubectl delete blocked. Set YAMTAM_DEPLOY_APPROVED=1 to override."
+block "deploy-gate.sh — kubectl delete blocked. Set YANA_DEPLOY_APPROVED=1 to override."
 echo ""
 pause 1
 
@@ -117,5 +117,5 @@ echo -e "  ${YELLOW}WARNED ${RESET}  unverified claim"
 echo -e "  ${GREEN}ALLOWED${RESET}  git status"
 echo ""
 echo -e "${GRAY}46 hooks · 826 checks · 3,516 skills · Apache 2.0${RESET}"
-echo -e "${GRAY}github.com/phamlongh230-lgtm/yamtam-engine${RESET}"
+echo -e "${GRAY}github.com/phamlongh230-lgtm/yana-ai${RESET}"
 echo ""

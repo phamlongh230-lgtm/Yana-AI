@@ -1,5 +1,5 @@
 # router/model-routing-policy.yml
-# YAMTAM Model Routing Policy
+# Yana AI Model Routing Policy
 #
 # Declares which model tier to use for each task type.
 # Inspired by freellmapi's priority-based fallback chain with penalty decay:
@@ -7,8 +7,8 @@
 #   - cheap model for deterministic/scan work
 #   - strong model for judgment/security/release decisions
 #
-# Usage: yamtam router suggest --task <task_type>
-# (future: yamtam will read this before spawning any LLM-assisted check)
+# Usage: yana-ai router suggest --task <task_type>
+# (future: yana-ai will read this before spawning any LLM-assisted check)
 
 version: "1.0"
 
@@ -51,7 +51,7 @@ tasks:
 
   - task: "audit_scan"
     tier: offline
-    reason: "yamtam audit is fully rule-based. Never spend tokens on what grep can do."
+    reason: "yana-ai audit is fully rule-based. Never spend tokens on what grep can do."
 
   - task: "doctor_check"
     tier: offline

@@ -1,17 +1,17 @@
 ---
 name: prometheus-scraping-rules
 description: Prometheus scrape configuration, recording rules, alerting rules, and Alertmanager routing. Service discovery, relabeling, federation, and cluster-wide agent health monitoring. Sources: prometheus/prometheus (Apache-2.0).
-origin: yamtam-engine — synthesized from prometheus/prometheus (Apache-2.0)
+origin: yana-ai — synthesized from prometheus/prometheus (Apache-2.0)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.52
+compatibility: yana-ai >= 1.3.52
 ---
 
 # /prometheus-scraping-rules
 
 ## When to Use
 
-- Scrape all yamtam agent /metrics endpoints automatically via K8s service discovery
+- Scrape all yana-ai agent /metrics endpoints automatically via K8s service discovery
 - Recording rules: pre-compute expensive queries (agent error rate per namespace)
 - Alerting rules: fire alert when agent p99 latency > SLA for > 2 minutes
 - Federation: aggregate metrics from multiple clusters into a global Prometheus
@@ -32,10 +32,10 @@ global:
 
 scrape_configs:
   # Kubernetes pod discovery — scrape any pod with annotation
-  - job_name: yamtam-agents
+  - job_name: yana-ai-agents
     kubernetes_sd_configs:
       - role: pod
-        namespaces: { names: [yamtam, yamtam-sandbox] }
+        namespaces: { names: [yana-ai, yana-ai-sandbox] }
     relabel_configs:
       # Only scrape pods with annotation prometheus.io/scrape: "true"
       - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
@@ -64,13 +64,13 @@ scrape_configs:
 ## Recording rules (pre-compute expensive queries)
 
 ```yaml
-# rules/yamtam_recording.yaml
+# rules/yana-ai_recording.yaml
 groups:
-  - name: yamtam.recording
+  - name: yana-ai.recording
     interval: 30s
     rules:
       # Error rate per agent (5-minute window)
-      - record: yamtam:agent_error_rate:rate5m
+      - record: yana-ai:agent_error_rate:rate5m
         expr: |
           sum by (agent_id, namespace) (
             rate(llm_requests_total{status="error"}[5m])
@@ -80,7 +80,7 @@ groups:
           )
 
       # p99 TTFT per model
-      - record: yamtam:ttft_p99:5m
+      - record: yana-ai:ttft_p99:5m
         expr: |
           histogram_quantile(0.99,
             sum by (model, le) (rate(llm_ttft_seconds_bucket[5m]))
@@ -92,21 +92,21 @@ groups:
 ## Alerting rules
 
 ```yaml
-# rules/yamtam_alerts.yaml
+# rules/yana-ai_alerts.yaml
 groups:
-  - name: yamtam.alerts
+  - name: yana-ai.alerts
     rules:
       - alert: AgentHighErrorRate
-        expr: yamtam:agent_error_rate:rate5m > 0.05
+        expr: yana-ai:agent_error_rate:rate5m > 0.05
         for: 2m
-        labels:     { severity: warning, team: yamtam }
+        labels:     { severity: warning, team: yana-ai }
         annotations:
           summary:     "Agent {{ $labels.agent_id }} error rate {{ $value | humanizePercentage }}"
           description: "Agent in namespace {{ $labels.namespace }} exceeds 5% error rate"
-          runbook_url: "https://wiki/yamtam/runbooks/high-error-rate"
+          runbook_url: "https://wiki/yana-ai/runbooks/high-error-rate"
 
       - alert: AgentDown
-        expr: up{job="yamtam-agents"} == 0
+        expr: up{job="yana-ai-agents"} == 0
         for: 1m
         labels:     { severity: critical }
         annotations:
@@ -128,14 +128,14 @@ route:
   routes:
     - match: { severity: critical }
       receiver: pagerduty
-    - match: { team: yamtam }
-      receiver: slack-yamtam
+    - match: { team: yana-ai }
+      receiver: slack-yana-ai
 
 receivers:
-  - name: slack-yamtam
+  - name: slack-yana-ai
     slack_configs:
       - api_url: "$SLACK_WEBHOOK"
-        channel: "#yamtam-alerts"
+        channel: "#yana-ai-alerts"
         text: "{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"
 ```
 

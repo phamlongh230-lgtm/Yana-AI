@@ -63,7 +63,7 @@ fn cmd_fix(rule_id: &str, target: &str, dry_run: bool) -> Result<()> {
         "AC003" => fix_ac003(target, dry_run),
         "CI007" => fix_ci007(target, dry_run),
         "MCP001"=> fix_mcp001(target, dry_run),
-        other   => anyhow::bail!("No auto-fix for '{}'. Run: yamtam-rt fix list", other),
+        other   => anyhow::bail!("No auto-fix for '{}'. Run: yana-rt fix list", other),
     }
 }
 

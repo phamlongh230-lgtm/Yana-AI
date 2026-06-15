@@ -30,7 +30,7 @@ BOLD  = "\033[1m"; GREEN = "\033[32m"; RED = "\033[31m"
 CYAN  = "\033[36m"; DIM  = "\033[2m"; YELLOW = "\033[33m"; RESET = "\033[0m"
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -87,7 +87,7 @@ def build_frontmatter(prefix: str, skill_name: str, orig: dict,
         f'origin: "{source_url} (skill: {skill_name})"',
         f"license: {license_str}",
         f'version: "1.0.0"',
-        f'compatibility: "yamtam-engine >= 0.14.0"',
+        f'compatibility: "yana-ai >= 0.14.0"',
         "---",
     ]
     return "\n".join(lines) + "\n"
@@ -197,7 +197,7 @@ def main():
     source_url  = args.source_url or f"github.com/{source.name}"
 
     print()
-    print(c(BOLD, f"  import {source.name} → yamtam core/skills/  [{args.prefix}--*]"))
+    print(c(BOLD, f"  import {source.name} → yana-ai core/skills/  [{args.prefix}--*]"))
     if args.dry_run:
         print(c(YELLOW, "  DRY RUN"))
     print(c(DIM,  f"  License: {license_str}  |  Source: {source_url}"))

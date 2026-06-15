@@ -7,7 +7,7 @@
     "/usr/bin",
     "/home/codespace/.local/bin",
     "/home/codespace/.nvm/versions/node/current/bin",
-    "/workspaces/yamtam-engine/core/scripts"
+    "/workspaces/yana-ai/core/scripts"
   ],
 
   "PYTHONPATH_allowed": [

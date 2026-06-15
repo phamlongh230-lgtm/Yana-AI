@@ -13,7 +13,7 @@
 set -uo pipefail
 
 PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$(pwd)}"
-TIER_FILE="${YAMTAM_SKILL_TIERS:-$PROJECT_ROOT/core/config/skill-tiers.json}"
+TIER_FILE="${YANA_SKILL_TIERS:-$PROJECT_ROOT/core/config/skill-tiers.json}"
 
 if [[ ! -f "$TIER_FILE" ]]; then
   echo "✗ skill-tiers.json not found at $TIER_FILE" >&2
@@ -99,7 +99,7 @@ print(f"   {desc}")
 
 if tier == 'GATED':
     print("   → Requires sovereign approval before loading.")
-    print("   → Set YAMTAM_SKILL_GATE_APPROVED=<skill-name> to grant.")
+    print("   → Set YANA_SKILL_GATE_APPROVED=<skill-name> to grant.")
 elif tier == 'MANUAL_ONLY':
     print("   → Only load when user explicitly requests this type of work.")
 elif tier == 'DEPRECATED':

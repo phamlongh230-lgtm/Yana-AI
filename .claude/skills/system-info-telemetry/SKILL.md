@@ -1,10 +1,10 @@
 ---
 name: system-info-telemetry
 description: Hardware and OS telemetry collection for agent resource monitoring. CPU temperature, memory usage, disk I/O, network interfaces, battery, and process-level resource extraction. Sources: sebhildebrandt/systeminformation.
-origin: yamtam-engine — synthesized from sebhildebrandt/systeminformation (MIT)
+origin: yana-ai — synthesized from sebhildebrandt/systeminformation (MIT)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.48
+compatibility: yana-ai >= 1.3.48
 ---
 
 # /system-info-telemetry
@@ -87,7 +87,7 @@ async function preflightCheck(): Promise<{ ok: boolean; reason?: string }> {
 
 ```javascript
 import StatsD from 'node-statsd'
-const stats = new StatsD({ prefix: 'yamtam.host.' })
+const stats = new StatsD({ prefix: 'yana-ai.host.' })
 
 async function startMetricsLoop(intervalMs = 15_000): Promise<void> {
   setInterval(async () => {

@@ -1,17 +1,17 @@
 ---
 name: p2p-chronicle-log
 description: P2P append-only action log for distributed agent audit trails. Peer-to-peer replication, content-addressed entries, causal ordering, and tamper-evident chain without central coordinator. Sources: mafintosh/chronicle (MIT).
-origin: yamtam-engine — synthesized from mafintosh/chronicle (MIT), hypercore (MIT)
+origin: yana-ai — synthesized from mafintosh/chronicle (MIT), hypercore (MIT)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.50
+compatibility: yana-ai >= 1.3.50
 ---
 
 # /p2p-chronicle-log
 
 ## When to Use
 
-- Distribute the yamtam audit log across multiple agent nodes without a central server
+- Distribute the yana-ai audit log across multiple agent nodes without a central server
 - Causal ordering: agent B sees agent A's action before acting on it
 - Tamper-evident: Merkle-backed log where any edit breaks all downstream hashes
 - Offline-first: agents append locally, sync when peers reconnect

@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Execution Environment Policy
+# Yana AI — Execution Environment Policy
 # Source: docker/cli sandbox philosophy + it-at-m/macos-virtualbox-vm isolation model
 
 **Status:** Active  
@@ -18,7 +18,7 @@
 
 | Tier | Environment | Use for |
 |---|---|---|
-| 0 | `/tmp/yamtam-sandbox-*` | Single-command experiments, quick checks |
+| 0 | `/tmp/yana-ai-sandbox-*` | Single-command experiments, quick checks |
 | 1 | Git worktree | Feature branches, multi-file changes |
 | 2 | Docker container | Full integration tests, dependency installs |
 | 3 | GitHub Codespaces (default) | Main development environment — already isolated from host |
@@ -29,7 +29,7 @@
 
 ```bash
 # Gate: run skill trigger tests in temp copy first
-SANDBOX=$(mktemp -d /tmp/yamtam-sandbox-XXXXXX)
+SANDBOX=$(mktemp -d /tmp/yana-ai-sandbox-XXXXXX)
 cp -r core/tests/ "$SANDBOX/"
 cp -r core/skills/ "$SANDBOX/"
 cp -r core/config/ "$SANDBOX/"
@@ -70,7 +70,7 @@ RUN npm test
 docker run --rm \
   --read-only \
   -v "$(pwd)/test-results:/workspace/test-results" \
-  yamtam-test-runner:latest
+  yana-ai-test-runner:latest
 ```
 
 ---
@@ -157,7 +157,7 @@ subprocess.run(['/usr/bin/git', 'status', '--short'], check=True, shell=False)
 ### Violation Response
 
 ```
-[yamtam/execution-environment] BLOCKED — banned runtime function detected
+[yana-ai/execution-environment] BLOCKED — banned runtime function detected
   Function : <function name>
   File     : <path>:<line>
   Rule     : execution-environment.md § Banned Runtime Functions
@@ -187,7 +187,7 @@ WORKSPACE = $CLAUDE_PROJECT_DIR (or cwd)
 ✅ ALLOWED — paths within workspace:
    ./src/config.ts
    core/rules/new-rule.md
-   /workspaces/yamtam-engine/MANIFEST.json
+   /workspaces/yana-ai/MANIFEST.json
 ```
 
 Pre-commit gate check in `verify-rules.sh`:
@@ -252,5 +252,5 @@ SANDBOX=$(mktemp -d)
 trap "rm -rf '$SANDBOX'" EXIT
 
 # Named sandboxes expire after 24h
-find /tmp -name "yamtam-sandbox-*" -mtime +1 -exec rm -rf {} + 2>/dev/null || true
+find /tmp -name "yana-ai-sandbox-*" -mtime +1 -exec rm -rf {} + 2>/dev/null || true
 ```

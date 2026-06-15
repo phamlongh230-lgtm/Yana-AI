@@ -24,7 +24,7 @@ pub struct BusEvent {
 
 fn bus_path() -> PathBuf {
     std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."))
-        .join(".yamtam").join("bus.jsonl")
+        .join(".yana-ai").join("bus.jsonl")
 }
 
 fn bus_append(event: &BusEvent) {

@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Audit Hardening: Hash-Chain Log
+# Yana AI — Audit Hardening: Hash-Chain Log
 
 **Version:** 1.0
 **Status:** Active
@@ -23,7 +23,7 @@ entry_n.hash = SHA256(entry_n.content + entry_n-1.hash)
 The first entry uses a known genesis value:
 
 ```
-entry_1.prev_hash = SHA256("YAMTAM_GENESIS")
+entry_1.prev_hash = SHA256("YANA_GENESIS")
 ```
 
 If any entry is modified, its hash no longer matches — and every subsequent entry's `prev_hash` also breaks, making tampering immediately detectable.

@@ -6,7 +6,7 @@ const { execFile } = require('child_process');
 /**
  * createRouter({ classify, wrapperPath }) → { route }
  *
- * Tries the yamtam-rt native binary first; falls back to JS classifier.
+ * Tries the yana-rt native binary first; falls back to JS classifier.
  */
 function createRouter({ classify, wrapperPath } = {}) {
   const WRAPPER = wrapperPath || null;

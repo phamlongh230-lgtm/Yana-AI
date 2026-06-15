@@ -1,17 +1,17 @@
 ---
 name: bunyan-syslog-bridge
 description: Bridge Bunyan structured JSON logs to syslog and centralized log aggregators. bunyan-syslog stream, log level mapping, RFC5424 structured data, and dual-write (file + syslog) audit patterns. Sources: trentm/node-bunyan-syslog.
-origin: yamtam-engine — synthesized from trentm/node-bunyan-syslog (MIT), bunyan (MIT)
+origin: yana-ai — synthesized from trentm/node-bunyan-syslog (MIT), bunyan (MIT)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.48
+compatibility: yana-ai >= 1.3.48
 ---
 
 # /bunyan-syslog-bridge
 
 ## When to Use
 
-- Forward yamtam structured JSON audit logs to centralized syslog/SIEM
+- Forward yana-ai structured JSON audit logs to centralized syslog/SIEM
 - Dual-write: local JSON file + syslog for redundant audit trail
 - Map bunyan log levels (10-60) to syslog severity (0-7)
 - Integrate with journald/rsyslog on Linux Codespaces hosts
@@ -30,7 +30,7 @@ import bunyan      from 'bunyan'
 import bsyslog     from 'bunyan-syslog'
 
 const log = bunyan.createLogger({
-  name:     'yamtam-agent',
+  name:     'yana-ai-agent',
   hostname: 'codespaces',
   streams: [
     // Stream 1: structured JSON file (append-only audit)
@@ -76,7 +76,7 @@ FATAL  (60)  → CRIT    (2)
 ```javascript
 // Child logger with persistent context
 const sessionLog = log.child({
-  sessionId: process.env.YAMTAM_SESSION_ID,
+  sessionId: process.env.YANA_SESSION_ID,
   version:   '1.3.48',
 })
 

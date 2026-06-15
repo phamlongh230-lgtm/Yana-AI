@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Hook
+# Yana AI Hook
 # Version: 1.3.26
 # Status: active
 # Description: Emit telemetry events to session log
 # Last Reviewed: 2026-05-19
-# PostToolUse hook — YAMTAM ENGINE v1.2 Local Telemetry
+# PostToolUse hook — Yana AI v1.2 Local Telemetry
 # Local-only, factual telemetry. Does not estimate token usage and does not send
 # network requests. This exists to support later dashboards without fake data.
 

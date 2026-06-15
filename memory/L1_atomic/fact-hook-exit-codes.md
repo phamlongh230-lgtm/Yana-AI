@@ -1,10 +1,10 @@
 ---
 id: fact-hook-exit-codes
 type: fact
-statement: YAMTAM hooks use exit 0 to allow, exit 0 + stdout to warn, and JSON + exit 2 to block a tool call.
+statement: Yana AI hooks use exit 0 to allow, exit 0 + stdout to warn, and JSON + exit 2 to block a tool call.
 source: file:core/hooks/guard-destructive.sh
 confidence: high
-scope: YAMTAM
+scope: Yana AI
 tags: [hook, exit-code, format]
 forbidden_assumptions:
   - Do not assume non-zero exit always blocks — only exit 2 with JSON blocks

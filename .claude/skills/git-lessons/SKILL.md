@@ -68,7 +68,7 @@ git log --grep="^fix:" --pretty=format:"%an %s" | sort | uniq -c | sort -rn | he
 # Recent fixes in the last 30 days
 git log --grep="^fix:" --oneline --after="30 days ago"
 
-# Fixes that touched hooks (YAMTAM-specific)
+# Fixes that touched hooks (Yana AI-specific)
 git log --grep="^fix:" --oneline -- "*.sh" "*.js"
 ```
 

@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Hook
+# Yana AI Hook
 # Version: 1.3.26
 # Status: active
 # Description: Warn when agent reads secrets or writes to product directories
 # Last Reviewed: 2026-05-19
-# PreToolUse hook — YAMTAM ENGINE Scope Guard
+# PreToolUse hook — Yana AI Scope Guard
 #
 # Warns when Write/Edit/MultiEdit targets product directories that
-# YAMTAM-scoped tasks must not touch without explicit cross-scope approval.
+# Yana AI-scoped tasks must not touch without explicit cross-scope approval.
 #
 # Guarded paths (from gates/action_gate.md § Scope Rules):
 #   app/  components/  lib/  db/  migrations/  public/
@@ -18,7 +18,7 @@
 #   - Logs to .claude/state/scope-guard.log
 #
 # Bypass:
-#   YAMTAM_SCOPE_OK=1  — set for one command when cross-scope is approved
+#   YANA_SCOPE_OK=1  — set for one command when cross-scope is approved
 #
 # Fails open on parse errors.
 #
@@ -26,7 +26,7 @@
 
 set -uo pipefail
 
-[[ "${YAMTAM_SCOPE_OK:-}" == "1" ]] && exit 0
+[[ "${YANA_SCOPE_OK:-}" == "1" ]] && exit 0
 
 command -v jq >/dev/null 2>&1 || exit 0
 
@@ -62,7 +62,7 @@ case "$TARGET_NORM" in
   db/*|db)                 VIOLATION="db/ (product database schema)" ;;
   migrations/*|migrate/*)  VIOLATION="migrations/ (database migrations — irreversible risk)" ;;
   public/*|public)         VIOLATION="public/ (product static assets)" ;;
-  # src/ is yamtam-rt Rust runtime — part of YAMTAM, not a separate product
+  # src/ is yana-rt Rust runtime — part of Yana AI, not a separate product
   # src/*) VIOLATION="src/ ..." ;;  ← intentionally disabled
 esac
 
@@ -93,7 +93,7 @@ printf '%s | tool=%s | agent=%s | target=%s | violation=%s\n' \
 jq -n --arg v "$VIOLATION" --arg t "$TARGET_NORM" '{
   hookSpecificOutput: {
     hookEventName: "PreToolUse",
-    additionalContext: ("⚠️  Scope Guard: writing to " + $t + " crosses the YAMTAM scope boundary (" + $v + "). YAMTAM-scoped tasks must not edit product code without explicit cross-scope approval from the user in this session. If approved, set YAMTAM_SCOPE_OK=1 and state the scope approval in your response. Reference: gates/action_gate.md § Scope Rules. Logged to .claude/state/scope-guard.log.")
+    additionalContext: ("⚠️  Scope Guard: writing to " + $t + " crosses the Yana AI scope boundary (" + $v + "). Yana AI-scoped tasks must not edit product code without explicit cross-scope approval from the user in this session. If approved, set YANA_SCOPE_OK=1 and state the scope approval in your response. Reference: gates/action_gate.md § Scope Rules. Logged to .claude/state/scope-guard.log.")
   }
 }'
 

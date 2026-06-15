@@ -63,7 +63,7 @@ const REVIEW_SIGNALS = [
 ];
 
 // ── Rule 68 — sensitivity tiers ──────────────────────────────────────────────
-// Canonical marker tables live in src/route.rs (yamtam-rt). This JS mirror
+// Canonical marker tables live in src/route.rs (yana-rt). This JS mirror
 // keeps the fallback classifier and the web UI honest when the binary is
 // missing or stale. Tier decides persistence + which model may see the text.
 

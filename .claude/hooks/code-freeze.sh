@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Hook
+# Yana AI Hook
 # Version: 1.3.26
 # Status: active
 # Description: Block commits when code freeze flag is active

@@ -80,5 +80,5 @@ output bloat patterns. Consider /budget-mode on for future sessions.
 - Never send data externally.
 - Do not round or adjust the numbers from the script.
 - If the script is missing (.claude/scripts/session-cost.sh not found),
-  say: "Script not found. Ensure the YAMTAM release pack is installed in this project."
+  say: "Script not found. Ensure the Yana AI release pack is installed in this project."
 - Do NOT claim these are API-verified billing numbers — they are local usage records.

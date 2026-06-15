@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-yamtam harness — generate harness adapter files from core/rules/
-Usage: yamtam harness [--target cursor|opencode|zed|all] [--output DIR] [--dry-run]
+yana-ai harness — generate harness adapter files from core/rules/
+Usage: yana-ai harness [--target cursor|opencode|zed|all] [--output DIR] [--dry-run]
 """
 import argparse
 import json
@@ -102,7 +102,7 @@ def export_cursor(rules: list[dict], output_dir: Path, dry_run: bool) -> list[st
 
     for rule in rules:
         cat   = rule["category"]
-        fname = f"yamtam-{cat}-{rule['file'].replace('.md','')}.mdc"
+        fname = f"yana-ai-{cat}-{rule['file'].replace('.md','')}.mdc"
         globs = CATEGORY_GLOBS.get(cat, ["**/*"])
         always = str(cat in ALWAYS_APPLY).lower()
 
@@ -114,7 +114,7 @@ def export_cursor(rules: list[dict], output_dir: Path, dry_run: bool) -> list[st
         if block:
             body += f"\n## Examples\n\n{block}"
 
-        mdc = f"---\ndescription: YAMTAM {rule['title']} — auto-generated from core/rules/{rule['file']}\nglobs: {json.dumps(globs)}\nalwaysApply: {always}\n---\n\n{body.strip()}\n"
+        mdc = f"---\ndescription: Yana AI {rule['title']} — auto-generated from core/rules/{rule['file']}\nglobs: {json.dumps(globs)}\nalwaysApply: {always}\n---\n\n{body.strip()}\n"
 
         dest = out / fname
         generated.append(str(dest.relative_to(output_dir)))
@@ -150,16 +150,16 @@ def _extract_code_examples(text: str) -> str:
 
 def export_opencode(rules: list[dict], output_dir: Path, dry_run: bool) -> list[str]:
     lines = [
-        "# OPENCODE.md — YAMTAM ENGINE Operating Manual",
+        "# OPENCODE.md — Yana AI Operating Manual",
         f"> Auto-generated {datetime.now().strftime('%Y-%m-%d')} from core/rules/ · v{VERSION}",
         "> If you are an AI assistant entering via OpenCode, read this file first.",
         "",
         "## What this repo is",
         "",
-        "YAMTAM ENGINE is a personal agent OS for Claude Code, Cursor, OpenCode, Zed, and other AI coding harnesses.",
+        "Yana AI is a personal agent OS for Claude Code, Cursor, OpenCode, Zed, and other AI coding harnesses.",
         "8,550 skills · 93 agents · 61 security rules · 46 safety hooks · Rust runtime",
         "",
-        "Full docs: https://phamlongh230-lgtm.github.io/yamtam-engine/",
+        "Full docs: https://phamlongh230-lgtm.github.io/yana-ai/",
         "",
         "---",
         "",
@@ -228,7 +228,7 @@ def export_zed(rules: list[dict], output_dir: Path, dry_run: bool) -> list[str]:
     ]
 
     prompt = (
-        "You are operating under YAMTAM ENGINE governance in this repository.\n\n"
+        "You are operating under Yana AI governance in this repository.\n\n"
         "Read AGENTS.md first. Then gates/truth_gate.md.\n\n"
         "Hard prohibitions:\n"
         + "\n".join(f"- {p}" for p in prohibitions) +
@@ -236,7 +236,7 @@ def export_zed(rules: list[dict], output_dir: Path, dry_run: bool) -> list[str]:
         + "\n".join(f"- {c}" for c in constraints) +
         "\n\nBefore git push: bash core/scripts/drift-check.sh must show CLEAN.\n\n"
         "This repo has 8,550 skills in core/skills/, 93 agents, and a Rust runtime.\n"
-        "Full docs: https://phamlongh230-lgtm.github.io/yamtam-engine/"
+        "Full docs: https://phamlongh230-lgtm.github.io/yana-ai/"
     )
 
     settings = {
@@ -259,7 +259,7 @@ def export_zed(rules: list[dict], output_dir: Path, dry_run: bool) -> list[str]:
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="yamtam harness",
+        prog="yana-ai harness",
         description="Generate harness adapter files from core/rules/",
     )
     parser.add_argument("--target", choices=["cursor", "opencode", "zed", "all"], default="all")

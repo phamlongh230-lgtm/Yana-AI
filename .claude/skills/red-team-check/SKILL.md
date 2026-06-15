@@ -6,7 +6,7 @@ description: >
   Use when the user asks to find security issues, audit the codebase for vulnerabilities,
   run a red team check, or scan for security bugs. Requires ownership confirmation via
   security-scope-gate before starting. Only runs against repos the user owns.
-origin: yamtam
+origin: yana-ai
 version: 1.0.0
 compatibility: >
   Local codebase only. Requires security-scope-gate.md confirmation before starting.
@@ -14,7 +14,7 @@ compatibility: >
 ---
 
 <!-- Concept inspired by Strix (Apache 2.0) — scan mode taxonomy and OWASP framing.
-     All content written original for YAMTAM. No code ported. -->
+     All content written original for Yana AI. No code ported. -->
 
 ## When to Use
 
@@ -58,7 +58,7 @@ See `docs/security-scan-modes.md` for full taxonomy.
 Before manual review, run the security tools script to get machine-detected findings:
 
 ```bash
-YAMTAM_SCOPE_CONFIRMED=1 bash core/scripts/run-security-tools.sh --mode <quick|targeted|deep>
+YANA_SCOPE_CONFIRMED=1 bash core/scripts/run-security-tools.sh --mode <quick|targeted|deep>
 ```
 
 - If tools are installed: their output becomes **Hard Evidence** in the finding list

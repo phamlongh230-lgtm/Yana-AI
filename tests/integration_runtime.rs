@@ -1,4 +1,4 @@
-/// Integration tests for yamtam-rt: bus, memory, plugin shell parsing
+/// Integration tests for yana-rt: bus, memory, plugin shell parsing
 ///
 /// Each test runs in an isolated tmpdir via the binary CLI so real file I/O
 /// is exercised end-to-end.
@@ -10,7 +10,7 @@ use std::process::Command;
 fn bin() -> PathBuf {
     let mut p = std::env::current_exe().unwrap();
     p.pop(); p.pop(); // target/debug/deps → target
-    p.push("yamtam-rt");
+    p.push("yana-rt");
     p
 }
 
@@ -23,7 +23,7 @@ fn run(dir: &std::path::Path, args: &[&str]) -> (String, String, bool) {
         .args(args)
         .current_dir(dir)
         .output()
-        .expect("run yamtam-rt");
+        .expect("run yana-rt");
     (
         String::from_utf8_lossy(&out.stdout).to_string(),
         String::from_utf8_lossy(&out.stderr).to_string(),
@@ -42,7 +42,7 @@ fn bus_emit_creates_jsonl() {
     assert!(ok, "emit should succeed");
     assert!(stdout.contains("emitted"), "should print emitted");
 
-    let bus_file = dir.path().join(".yamtam").join("bus.jsonl");
+    let bus_file = dir.path().join(".yana-ai").join("bus.jsonl");
     assert!(bus_file.exists(), "bus.jsonl should be created");
     let content = fs::read_to_string(&bus_file).unwrap();
     assert!(content.contains("task.assign"), "event type in bus");
@@ -55,7 +55,7 @@ fn bus_emit_auto_logs_to_l3() {
     run(dir.path(), &[
         "bus", "emit", "agent-a", "*", "broadcast", r#"{"msg":"hello"}"#,
     ]);
-    let l3_file = dir.path().join(".yamtam").join("l3.jsonl");
+    let l3_file = dir.path().join(".yana-ai").join("l3.jsonl");
     assert!(l3_file.exists(), "L3 auto-log should be created on emit");
     let content = fs::read_to_string(&l3_file).unwrap();
     assert!(content.contains("bus:"), "L3 key should start with bus:");
@@ -123,7 +123,7 @@ fn memory_upsert_updates_existing() {
     let (out, _, _) = run(dir.path(), &["memory", "get", "k"]);
     assert!(out.contains("v2"), "value should be updated");
     assert!(!out.contains("v1"), "old value should be gone");
-    let l3 = fs::read_to_string(dir.path().join(".yamtam").join("l3.jsonl")).unwrap();
+    let l3 = fs::read_to_string(dir.path().join(".yana-ai").join("l3.jsonl")).unwrap();
     assert_eq!(l3.lines().filter(|l| l.contains("\"key\":\"k\"")).count(), 1, "only 1 entry after upsert");
 }
 
@@ -239,7 +239,7 @@ fn bus_emit_no_cost_when_payload_missing_tokens() {
     let dir = tmpdir();
     // Emit without token fields → no cost entry
     run(dir.path(), &["bus", "emit", "a", "b", "ping", r#"{"msg":"hello"}"#]);
-    let ledger = dir.path().join(".yamtam").join("ledger.jsonl");
+    let ledger = dir.path().join(".yana-ai").join("ledger.jsonl");
     assert!(!ledger.exists(), "no ledger when tokens absent");
 }
 
@@ -251,7 +251,7 @@ fn doctor_run_exits_ok() {
     // init git repo so git checks pass
     Command::new("git").args(["init"]).current_dir(dir.path()).output().ok();
     let (stdout, _, _) = run(dir.path(), &["doctor", "run", "."]);
-    assert!(stdout.contains("git installed") || stdout.contains("yamtam doctor"),
+    assert!(stdout.contains("git installed") || stdout.contains("yana-ai doctor"),
         "doctor output shown");
 }
 
@@ -384,7 +384,7 @@ fn graph_build_and_show() {
 
     let (_, _, ok) = run(dir.path(), &["graph", "build", ".", "--quiet"]);
     assert!(ok, "graph build ok");
-    assert!(dir.path().join(".yamtam/graph/knowledge-graph.json").exists(),
+    assert!(dir.path().join(".yana-ai/graph/knowledge-graph.json").exists(),
         "graph JSON created");
 
     let (show, _, ok2) = run(dir.path(), &["graph", "show", "."]);
@@ -510,7 +510,7 @@ fn config_init_creates_settings_file() {
     let dir = tmpdir();
     let (_, _, ok) = run(dir.path(), &["config", "init", "--dir", "."]);
     assert!(ok, "config init should succeed");
-    let settings = dir.path().join(".yamtam").join("settings.json");
+    let settings = dir.path().join(".yana-ai").join("settings.json");
     assert!(settings.exists(), "settings.json created");
 }
 
@@ -539,7 +539,7 @@ fn config_set_updates_value() {
     run(dir.path(), &["config", "init", "--dir", "."]);
     let (_, _, ok) = run(dir.path(), &["config", "set", "cost_tracking", "false", "--dir", "."]);
     assert!(ok, "config set should succeed");
-    let settings = dir.path().join(".yamtam").join("settings.json");
+    let settings = dir.path().join(".yana-ai").join("settings.json");
     let content = std::fs::read_to_string(settings).unwrap();
     assert!(content.contains("false") || content.contains("cost_tracking"), "value updated");
 }
@@ -606,18 +606,18 @@ fn init_dry_run_prints_plan_no_files() {
     let (stdout, _, ok) = run(dir.path(), &["init", "dry", "."]);
     assert!(ok, "init dry should succeed");
     assert!(
-        stdout.contains("would") || stdout.contains("create") || stdout.contains(".yamtam"),
+        stdout.contains("would") || stdout.contains("create") || stdout.contains(".yana-ai"),
         "dry run shows plan: {stdout}"
     );
-    assert!(!dir.path().join(".yamtam").exists(), ".yamtam not created in dry mode");
+    assert!(!dir.path().join(".yana-ai").exists(), ".yana-ai not created in dry mode");
 }
 
 #[test]
-fn init_run_creates_yamtam_dir() {
+fn init_run_creates_yana-ai_dir() {
     let dir = tmpdir();
     let (_, _, ok) = run(dir.path(), &["init", "run", ".", "--yes"]);
     assert!(ok, "init run --yes should succeed");
-    assert!(dir.path().join(".yamtam").exists(), ".yamtam created");
+    assert!(dir.path().join(".yana-ai").exists(), ".yana-ai created");
 }
 
 #[test]

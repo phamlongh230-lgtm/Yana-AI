@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE — Red Team Attack Scenario Tests
+# Yana AI — Red Team Attack Scenario Tests
 # Tests that all defense rules BLOCK known attack payloads.
 # PASS = attack was blocked. FAIL = attack got through (defense gap).
 #
@@ -38,7 +38,7 @@ assert_pattern_in_rule() {
 }
 
 echo "════════════════════════════════════════════════════════"
-echo " YAMTAM Red Team — Attack Scenario Tests"
+echo " Yana AI Red Team — Attack Scenario Tests"
 echo " Scope: own repo | Purpose: verify defenses hold"
 echo "════════════════════════════════════════════════════════"
 
@@ -126,8 +126,8 @@ assert_pattern_in_rule "kubectl delete gated"           "kubectl delete"        
 
 # Test depth enforcement via env var pattern
 DEPTH_CHECK=$(bash -c '
-  export YAMTAM_AGENT_DEPTH=4
-  [[ ${YAMTAM_AGENT_DEPTH:-0} -gt 3 ]] && echo "BLOCKED" || echo "ALLOWED"
+  export YANA_AGENT_DEPTH=4
+  [[ ${YANA_AGENT_DEPTH:-0} -gt 3 ]] && echo "BLOCKED" || echo "ALLOWED"
 ')
 if [[ "$DEPTH_CHECK" == "BLOCKED" ]]; then
   log_pass "Agent depth > 3 detected by depth check logic"

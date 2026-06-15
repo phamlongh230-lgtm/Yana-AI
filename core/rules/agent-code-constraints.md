@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Agent Code Constraints
+# Yana AI — Agent Code Constraints
 # Source: peterhallen/Coding-Standards hard metrics
 
 **Status:** Active  

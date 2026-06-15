@@ -10,7 +10,7 @@ description: >
   "Docker security", "distroless", or "container image best practices".
   Do NOT use for: Kubernetes deployment of that image — see kubernetes-patterns.
   Do NOT use for: container registry setup — see cicd-patterns.
-origin: yamtam-original
+origin: yana-ai-original
 license: MIT © 2026 Vũ Văn Tâm
 version: 1.0.0
 compatibility: "Docker ≥ 24, BuildKit enabled (default since Docker 23). docker-compose v2."

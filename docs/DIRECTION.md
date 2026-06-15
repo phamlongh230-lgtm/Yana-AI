@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Direction: Harness Scaling Layer
+# Yana AI — Direction: Harness Scaling Layer
 
 **Status:** Planned — not yet implemented
 **Version target:** v1.9.x
@@ -9,7 +9,7 @@
 
 ## Tóm tắt
 
-Public brand vẫn là: **YAMTAM Agent Auditor — Audit first. Guard later.**
+Public brand vẫn là: **Yana AI Agent Auditor — Audit first. Guard later.**
 
 Bên trong architecture, bổ sung **5 lớp Harness Add-on** để lấp đúng 5 lỗ trống hiện tại của harness:
 spec discipline, context control, skill routing, memory hygiene, runtime/cost governance.
@@ -63,9 +63,9 @@ L5    Destructive Guard      (đang có — guard-destructive.sh)
 
 **Files cần tạo:**
 ```
-.yamtam/policies/spec-gate.md
-.yamtam/schemas/spec.schema.json
-.yamtam/templates/task-spec.md
+.yana-ai/policies/spec-gate.md
+.yana-ai/schemas/spec.schema.json
+.yana-ai/templates/task-spec.md
 ```
 
 **Priority:** NOW (giúp Auditor khác biệt ngay)
@@ -85,9 +85,9 @@ L5    Destructive Guard      (đang có — guard-destructive.sh)
 
 **Files cần tạo:**
 ```
-.yamtam/policies/context-governance.md
-.yamtam/context-packs/README.md
-.yamtam/scanner/context-risk-checks.yml
+.yana-ai/policies/context-governance.md
+.yana-ai/context-packs/README.md
+.yana-ai/scanner/context-risk-checks.yml
 ```
 
 **Priority:** NOW (giúp Auditor khác biệt ngay)
@@ -116,9 +116,9 @@ docs-only       → no runtime/test-heavy skill
 
 **Files cần tạo:**
 ```
-.yamtam/policies/skill-routing.md
-.yamtam/indexes/skills-index.json
-.yamtam/scanner/skill-routing-checks.yml
+.yana-ai/policies/skill-routing.md
+.yana-ai/indexes/skills-index.json
+.yana-ai/scanner/skill-routing-checks.yml
 ```
 
 **Priority:** LATER (sau Context Governance)
@@ -138,10 +138,10 @@ docs-only       → no runtime/test-heavy skill
 
 **Files cần tạo:**
 ```
-.yamtam/memory/decisions.md
-.yamtam/memory/known-risks.md
-.yamtam/policies/memory-hygiene.md
-.yamtam/scanner/memory-hygiene-checks.yml
+.yana-ai/memory/decisions.md
+.yana-ai/memory/known-risks.md
+.yana-ai/policies/memory-hygiene.md
+.yana-ai/scanner/memory-hygiene-checks.yml
 ```
 
 **Priority:** LATER (khó đo hơn — implement sau cùng)
@@ -167,9 +167,9 @@ docs-only       → no runtime/test-heavy skill
 
 **Files cần tạo:**
 ```
-.yamtam/policies/runtime-cost.md
-.yamtam/schemas/run-log.schema.json
-.yamtam/reports/task-report-template.md
+.yana-ai/policies/runtime-cost.md
+.yana-ai/schemas/run-log.schema.json
+.yana-ai/reports/task-report-template.md
 ```
 
 **Priority:** NOW (trực tiếp support Auditor output)
@@ -190,10 +190,10 @@ Phase 4 (v1.9.3):  L3.8 Memory Hygiene Gate
 ## Messaging công khai (không thay đổi)
 
 ```
-YAMTAM Agent Auditor
+Yana AI Agent Auditor
 Audit first. Guard later.
 
-YAMTAM audits and hardens the harness around AI coding agents.
+Yana AI audits and hardens the harness around AI coding agents.
 ```
 
 Không quảng bá "12 lớp". Harness Scaling là internal architecture.
@@ -203,16 +203,16 @@ Không quảng bá "12 lớp". Harness Scaling là internal architecture.
 ## Files cần tạo (checklist)
 
 - [ ] `docs/architecture/HARNESS_SCALING_LAYERS.md` — full spec
-- [ ] `.yamtam/schemas/spec.schema.json`
-- [ ] `.yamtam/schemas/run-log.schema.json`
-- [ ] `.yamtam/policies/spec-gate.md`
-- [ ] `.yamtam/policies/context-governance.md`
-- [ ] `.yamtam/policies/skill-routing.md`
-- [ ] `.yamtam/policies/memory-hygiene.md`
-- [ ] `.yamtam/policies/runtime-cost.md`
-- [ ] `.yamtam/templates/task-spec.md`
-- [ ] `.yamtam/context-packs/README.md`
-- [ ] `.yamtam/indexes/skills-index.json`
-- [ ] `.yamtam/memory/decisions.md`
-- [ ] `.yamtam/memory/known-risks.md`
-- [ ] `.yamtam/reports/task-report-template.md`
+- [ ] `.yana-ai/schemas/spec.schema.json`
+- [ ] `.yana-ai/schemas/run-log.schema.json`
+- [ ] `.yana-ai/policies/spec-gate.md`
+- [ ] `.yana-ai/policies/context-governance.md`
+- [ ] `.yana-ai/policies/skill-routing.md`
+- [ ] `.yana-ai/policies/memory-hygiene.md`
+- [ ] `.yana-ai/policies/runtime-cost.md`
+- [ ] `.yana-ai/templates/task-spec.md`
+- [ ] `.yana-ai/context-packs/README.md`
+- [ ] `.yana-ai/indexes/skills-index.json`
+- [ ] `.yana-ai/memory/decisions.md`
+- [ ] `.yana-ai/memory/known-risks.md`
+- [ ] `.yana-ai/reports/task-report-template.md`

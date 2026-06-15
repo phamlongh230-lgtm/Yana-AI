@@ -14,7 +14,7 @@
 ### A. Runtime / scripts
 
 **Primary files**
-- `bin/yamtam`
+- `bin/yana-ai`
 - `core/scripts/audit_scanner.py`
 - `core/scripts/validate_spec.py`
 - `core/scripts/check_context_pack.py`
@@ -35,7 +35,7 @@
 - `tests/test_validate_spec.py`
 - `tests/test_context_pack_check.py`
 - `tests/test_audit_json_mvp.py`
-- `tests/test_yamtamignore.py`
+- `tests/test_yana-aiignore.py`
 
 **Coverage gaps**
 - Limited direct invariants for textual/human output contract stability.
@@ -46,10 +46,10 @@
 ### B. Schemas / scanner data
 
 **Primary files**
-- `.yamtam/schemas/spec.schema.json`
-- `.yamtam/schemas/run-log.schema.json`
-- `.yamtam/schemas/validator-output.schema.json`
-- `.yamtam/schemas/examples/*`
+- `.yana-ai/schemas/spec.schema.json`
+- `.yana-ai/schemas/run-log.schema.json`
+- `.yana-ai/schemas/validator-output.schema.json`
+- `.yana-ai/schemas/examples/*`
 - `scanner/compiled/*.json`
 
 **Change intent**
@@ -77,7 +77,7 @@
 
 **Primary files**
 - `tests/test_harness_schema_examples.py`
-- `tests/test_yamtamignore.py`
+- `tests/test_yana-aiignore.py`
 - `tests/test_validate_spec.py`
 - `tests/test_context_pack_check.py`
 - `tests/test_validator_json_schema.py`
@@ -105,8 +105,8 @@
 **Primary files**
 - `docs/product/*` (checkpoint + roadmap plans)
 - `docs/architecture/*`
-- `.yamtam/policies/*`
-- `.yamtam/context-packs/README.md`
+- `.yana-ai/policies/*`
+- `.yana-ai/context-packs/README.md`
 - `examples/context-packs/*`
 - `examples/specs/*`
 
@@ -147,9 +147,9 @@ Run these before any large follow-up task:
 2. `python3 tests/test_validator_json_schema.py`
 3. `python3 tests/test_validate_spec.py`
 4. `python3 tests/test_context_pack_check.py`
-5. `python3 tests/test_yamtamignore.py`
+5. `python3 tests/test_yana-aiignore.py`
 6. `python3 -m pytest tests/test_audit_json_mvp.py`
-7. `bash bin/yamtam audit . --json >/tmp/yamtam-audit.json && python3 -m json.tool /tmp/yamtam-audit.json >/dev/null`
+7. `bash bin/yana-ai audit . --json >/tmp/yana-ai-audit.json && python3 -m json.tool /tmp/yana-ai-audit.json >/dev/null`
 
 ---
 

@@ -41,7 +41,7 @@ Tier P (privileged — human-gated):
   Disk I/O: unlimited (audited)
   PIDs:     128
   Timeout:  300s per tool call
-  Requires: YAMTAM_IRREVERSIBLE_OK=1 + human approval
+  Requires: YANA_IRREVERSIBLE_OK=1 + human approval
 ```
 
 ## Enforcement Mechanisms

@@ -1,10 +1,10 @@
 ---
 name: yjs-crdt-sync
 description: Yjs CRDT shared types for conflict-free real-time multi-agent data sync. Y.Map/Y.Array/Y.Text operations, awareness protocol, WebSocket provider, and offline-first merge semantics. Sources: yjs/yjs (MIT).
-origin: yamtam-engine — synthesized from yjs/yjs (MIT)
+origin: yana-ai — synthesized from yjs/yjs (MIT)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.50
+compatibility: yana-ai >= 1.3.50
 ---
 
 # /yjs-crdt-sync
@@ -33,7 +33,7 @@ const doc      = new Y.Doc()
 const config   = doc.getMap('agent-config')
 
 // Connect to sync server
-const provider = new WebsocketProvider('ws://localhost:1234', 'yamtam-swarm', doc)
+const provider = new WebsocketProvider('ws://localhost:1234', 'yana-ai-swarm', doc)
 
 provider.on('status', ({ status }) => console.log('[yjs]', status))
 
@@ -108,7 +108,7 @@ const awareness = provider.awareness
 
 // Set local agent state
 awareness.setLocalState({
-  agentId: process.env.YAMTAM_AGENT_ID,
+  agentId: process.env.YANA_AGENT_ID,
   status:  'running',
   tier:    'power',
 })

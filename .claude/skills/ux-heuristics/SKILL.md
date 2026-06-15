@@ -7,13 +7,13 @@ description: >
   or "why is this UI confusing to users".
   Do NOT use for code quality or accessibility — use output-enforcement or
   accessibility-audit for those.
-origin: yamtam
+origin: yana-ai
 version: 1.0.0
 compatibility: "Any UI — web, mobile, desktop. Works from code, screenshot, or description."
 ---
 
 <!-- Heuristics based on Nielsen's 10 Usability Heuristics (public domain, Jakob Nielsen 1994/2020).
-     YAMTAM skill structure, severity scoring, and Anti-Fake-Pass section are original. -->
+     Yana AI skill structure, severity scoring, and Anti-Fake-Pass section are original. -->
 
 ## When to Use
 

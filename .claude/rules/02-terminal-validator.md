@@ -1,5 +1,5 @@
-# YAMTAM ENGINE — Terminal Command Validator
-# Source: guardrails-ai/guardrails (validator pattern) + yamtam safe-run.sh
+# Yana AI — Terminal Command Validator
+# Source: guardrails-ai/guardrails (validator pattern) + yana-ai safe-run.sh
 
 **Status:** Active  
 **Enforced by:** safe-run.sh wrapper, all agents before Bash tool calls  

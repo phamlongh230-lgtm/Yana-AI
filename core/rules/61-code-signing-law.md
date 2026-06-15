@@ -11,7 +11,7 @@ Agent generates code artifact (JS/shell/Python)
         ↓
 sovereign-interceptor.js scans AST → PASS required
         ↓
-System signs: ECDSA-P256(SHA256(artifact_content), YAMTAM_SIGNING_KEY)
+System signs: ECDSA-P256(SHA256(artifact_content), YANA_SIGNING_KEY)
         ↓
 Signature + artifact stored together in releases/signed/
         ↓
@@ -22,8 +22,8 @@ Before execution: verify signature
 
 ## Key Management
 
-- Signing key: `YAMTAM_SIGNING_KEY` — stored in vault, never in env at runtime
-- Verification key: `YAMTAM_VERIFY_KEY` — public, embedded in system
+- Signing key: `YANA_SIGNING_KEY` — stored in vault, never in env at runtime
+- Verification key: `YANA_VERIFY_KEY` — public, embedded in system
 - Key rotation: every 30 days or on security event
 - Old signatures remain valid for 7 days post-rotation (grace period)
 

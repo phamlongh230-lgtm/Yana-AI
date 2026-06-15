@@ -1,9 +1,9 @@
-# YAMTAM ENGINE — Anti-Fake-Pass Gate
+# Yana AI — Anti-Fake-Pass Gate
 
 **Version:** 1.0
 **Status:** Active — prompt-enforced
 **Companion:** gates/truth_gate.md (L3 language layer) — this gate is L4 process layer
-**Concept inspired by:** ECC EVALUATION.md (MIT © 2026 Affaan Mustafa) — fully rewritten for YAMTAM
+**Concept inspired by:** ECC EVALUATION.md (MIT © 2026 Affaan Mustafa) — fully rewritten for Yana AI
 
 ---
 

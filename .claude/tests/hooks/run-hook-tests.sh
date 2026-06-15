@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE v1.3.26 — Hook Test Suite
+# Yana AI v1.3.26 — Hook Test Suite
 # Tests hooks with mock stdin inputs to verify block/warn logic.
 # Supports running from any directory.
 
@@ -22,7 +22,7 @@ fi
 FAIL_COUNT=0
 TOTAL_COUNT=0
 
-echo "=== YAMTAM Hook Test Suite v1.3.26 ==="
+echo "=== Yana AI Hook Test Suite v1.3.26 ==="
 echo "Hooks directory: $HOOKS_DIR"
 echo ""
 
@@ -86,7 +86,7 @@ echo "--- api-destruct-guard.sh ---"
 test_hook "api-destruct-guard.sh" "Block curl DELETE" '{"tool_name":"Bash","tool_input":{"command":"curl -X DELETE https://api.railway.app/v1/project"}}' "deny"
 test_hook "api-destruct-guard.sh" "Block GraphQL mutation" '{"tool_name":"Bash","tool_input":{"command":"curl -X POST -d \"mutation { volumeDelete(id: 1) }\" https://api.railway.app/graphql"}}' "deny"
 test_hook "api-destruct-guard.sh" "Allow safe GET" '{"tool_name":"Bash","tool_input":{"command":"curl https://api.github.com/repos/owner/repo"}}' "allow"
-test_hook "api-destruct-guard.sh" "Bypass with flag" '{"tool_name":"Bash","tool_input":{"command":"curl -X DELETE https://api.railway.app/v1/project"}}' "allow" "YAMTAM_PROD_APPROVED" "1"
+test_hook "api-destruct-guard.sh" "Bypass with flag" '{"tool_name":"Bash","tool_input":{"command":"curl -X DELETE https://api.railway.app/v1/project"}}' "allow" "YANA_PROD_APPROVED" "1"
 
 # 2. token-scope-guard.sh (Warns, doesn't deny)
 echo ""
@@ -121,7 +121,7 @@ test_truth_gate() {
     local test_name=$1
     local text_input=$2
     local expect_warn=$3   # "warn" or "allow"
-    local use_bypass=${4:-"no"}  # "bypass" to set YAMTAM_TRUTH_GATE_BYPASS=1
+    local use_bypass=${4:-"no"}  # "bypass" to set YANA_TRUTH_GATE_BYPASS=1
 
     TOTAL_COUNT=$((TOTAL_COUNT + 1))
 
@@ -135,7 +135,7 @@ test_truth_gate() {
 
     local output
     if [[ "$use_bypass" == "bypass" ]]; then
-        output=$(TRUTH_GATE_TEST_TEXT="$text_input" YAMTAM_TRUTH_GATE_BYPASS=1 bash "$HOOKS_DIR/truth-gate-guard.sh" <<< '{}' 2>/dev/null || true)
+        output=$(TRUTH_GATE_TEST_TEXT="$text_input" YANA_TRUTH_GATE_BYPASS=1 bash "$HOOKS_DIR/truth-gate-guard.sh" <<< '{}' 2>/dev/null || true)
     else
         output=$(TRUTH_GATE_TEST_TEXT="$text_input" bash "$HOOKS_DIR/truth-gate-guard.sh" <<< '{}' 2>/dev/null || true)
     fi
@@ -207,7 +207,7 @@ test_hook "cost-guard.sh" "Allow safe Bash" \
   "allow"
 test_hook "cost-guard.sh" "Bypass suppresses block" \
   '{"tool_name":"Bash","tool_input":{"command":"grep -r password ."}}' \
-  "allow" "YAMTAM_COST_GUARD_BYPASS" "1"
+  "allow" "YANA_COST_GUARD_BYPASS" "1"
 
 # 7. commit-gate.sh
 # Uses COMMIT_GATE_TEST_STAGED env var to inject staged file list (pipe-separated).
@@ -233,7 +233,7 @@ test_commit_gate() {
     local input='{"tool_name":"Bash","tool_input":{"command":"git commit -m \"feat: update\""}}'
     local output
     if [[ "$bypass" == "bypass" ]]; then
-        output=$(echo "$input" | COMMIT_GATE_TEST_STAGED="$staged_files" YAMTAM_SCOPE_OK=1 \
+        output=$(echo "$input" | COMMIT_GATE_TEST_STAGED="$staged_files" YANA_SCOPE_OK=1 \
             bash "$HOOKS_DIR/commit-gate.sh" 2>/dev/null || true)
     else
         output=$(echo "$input" | COMMIT_GATE_TEST_STAGED="$staged_files" \
@@ -265,7 +265,7 @@ test_commit_gate "Warn on .env staged" \
     ".env.production" "warn"
 test_commit_gate "Warn on multiple product files" \
     "app/page.tsx|lib/auth.ts|README.md" "warn"
-test_commit_gate "Allow YAMTAM-only staged files" \
+test_commit_gate "Allow Yana AI-only staged files" \
     "core/hooks/guard-destructive.sh|ROADMAP.md" "allow"
 test_commit_gate "Allow empty staged list" \
     "" "allow"
@@ -305,7 +305,7 @@ test_hook "deploy-gate.sh" "Allow Read tool" \
   "allow"
 test_hook "deploy-gate.sh" "Bypass suppresses block" \
   '{"tool_name":"Bash","tool_input":{"command":"kubectl apply -f k8s/deployment.yaml"}}' \
-  "allow" "YAMTAM_DEPLOY_APPROVED" "1"
+  "allow" "YANA_DEPLOY_APPROVED" "1"
 
 # 9. session-trust.sh
 echo ""
@@ -413,7 +413,7 @@ IDENTITY_GATE="$CLAUDE_DIR/gates/identity-gate.sh"
 
 echo -n "identity-gate [sovereign auto-auth from env]... "
 TOTAL_COUNT=$((TOTAL_COUNT + 1))
-_ig_out=$(YAMTAM_SOVEREIGN_NAME="Vũ Văn Tâm" bash "$IDENTITY_GATE" 2>&1)
+_ig_out=$(YANA_SOVEREIGN_NAME="Vũ Văn Tâm" bash "$IDENTITY_GATE" 2>&1)
 if echo "$_ig_out" | grep -q "SOVEREIGN"; then
     echo "PASS"
 else
@@ -423,7 +423,7 @@ fi
 
 echo -n "identity-gate [case-insensitive: lowercase name]... "
 TOTAL_COUNT=$((TOTAL_COUNT + 1))
-_ig_out=$(YAMTAM_SOVEREIGN_NAME="vũ văn tâm" bash "$IDENTITY_GATE" 2>&1)
+_ig_out=$(YANA_SOVEREIGN_NAME="vũ văn tâm" bash "$IDENTITY_GATE" 2>&1)
 if echo "$_ig_out" | grep -q "SOVEREIGN"; then
     echo "PASS"
 else
@@ -451,8 +451,8 @@ BUDGET_FILE="$BUDGET_TMP/token-budget.json"
 
 echo -n "circuit-breaker [allows first call]... "
 TOTAL_COUNT=$((TOTAL_COUNT + 1))
-_cb_out=$(YAMTAM_TOKEN_BUDGET="$BUDGET_FILE" YAMTAM_CIRCUIT_STATE="$CIRCUIT_TMP" \
-   CLAUDE_TOOL_NAME="test-tool" YAMTAM_MAX_FIX_ATTEMPTS=5 \
+_cb_out=$(YANA_TOKEN_BUDGET="$BUDGET_FILE" YANA_CIRCUIT_STATE="$CIRCUIT_TMP" \
+   CLAUDE_TOOL_NAME="test-tool" YANA_MAX_FIX_ATTEMPTS=5 \
    bash "$CLAUDE_DIR/hooks/token-budget-guard.sh" 2>&1 || true)
 if echo "$_cb_out" | grep -q "OK"; then
     echo "PASS"
@@ -469,8 +469,8 @@ d = {'session_start':'2026-01-01T00:00:00Z','total_tokens_used':0,'actions':[],
      'loop_attempts':{'circuit-test-tool':5},'fast_tier_triggered':False}
 pathlib.Path('$BUDGET_FILE').write_text(json.dumps(d))
 "
-_cb_out=$(YAMTAM_TOKEN_BUDGET="$BUDGET_FILE" YAMTAM_CIRCUIT_STATE="$CIRCUIT_TMP" \
-   CLAUDE_TOOL_NAME="circuit-test-tool" YAMTAM_MAX_FIX_ATTEMPTS=5 \
+_cb_out=$(YANA_TOKEN_BUDGET="$BUDGET_FILE" YANA_CIRCUIT_STATE="$CIRCUIT_TMP" \
+   CLAUDE_TOOL_NAME="circuit-test-tool" YANA_MAX_FIX_ATTEMPTS=5 \
    bash "$CLAUDE_DIR/hooks/token-budget-guard.sh" 2>&1 || true)
 if echo "$_cb_out" | grep -qE "CIRCUIT BREAKER|HARD BLOCK"; then
     echo "PASS"
@@ -480,8 +480,8 @@ else
 fi
 echo -n "circuit-breaker [bypass flag skips all checks]... "
 TOTAL_COUNT=$((TOTAL_COUNT + 1))
-_cb_out=$(YAMTAM_BUDGET_BYPASS=1 YAMTAM_TOKEN_BUDGET="$BUDGET_FILE" \
-   YAMTAM_CIRCUIT_STATE="$CIRCUIT_TMP" CLAUDE_TOOL_NAME="any" \
+_cb_out=$(YANA_BUDGET_BYPASS=1 YANA_TOKEN_BUDGET="$BUDGET_FILE" \
+   YANA_CIRCUIT_STATE="$CIRCUIT_TMP" CLAUDE_TOOL_NAME="any" \
    bash "$CLAUDE_DIR/hooks/token-budget-guard.sh" 2>&1 || true)
 if echo "$_cb_out" | grep -q "BYPASS"; then
     echo "PASS"
@@ -512,7 +512,7 @@ test_injection() {
     echo -n "Testing prompt-injection-guard.sh [$test_name]... "
     local output exit_code
     if [[ "$bypass" == "bypass" ]]; then
-        output=$(PROMPT_INJECT_TEST_INPUT="$inject_text" YAMTAM_PROMPT_INJECT_BYPASS=1 \
+        output=$(PROMPT_INJECT_TEST_INPUT="$inject_text" YANA_PROMPT_INJECT_BYPASS=1 \
             bash "$hook" <<< '{}' 2>/dev/null || true)
     else
         output=$(PROMPT_INJECT_TEST_INPUT="$inject_text" \
@@ -568,7 +568,7 @@ test_supply() {
     echo -n "Testing supply-chain-guard.sh [$test_name]... "
     local output
     if [[ "$bypass" == "bypass" ]]; then
-        output=$(SUPPLY_CHAIN_TEST_CMD="$cmd" YAMTAM_SUPPLY_OK=1 \
+        output=$(SUPPLY_CHAIN_TEST_CMD="$cmd" YANA_SUPPLY_OK=1 \
             bash "$hook" <<< '{}' 2>/dev/null || true)
     else
         output=$(SUPPLY_CHAIN_TEST_CMD="$cmd" \
@@ -628,7 +628,7 @@ test_validator() {
     echo -n "Testing tool-validator.sh [$test_name]... "
     local output
     if [[ "$bypass" == "bypass" ]]; then
-        output=$(TOOL_VALID_TEST_INPUT="$input_json" YAMTAM_TOOL_VALID_BYPASS=1 \
+        output=$(TOOL_VALID_TEST_INPUT="$input_json" YANA_TOOL_VALID_BYPASS=1 \
             bash "$hook" <<< '{}' 2>/dev/null || true)
     else
         output=$(TOOL_VALID_TEST_INPUT="$input_json" \

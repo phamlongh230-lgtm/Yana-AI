@@ -56,23 +56,23 @@ jobs:
         uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0 (node24)
         with:
           tag_name: ${{ env.TAG }}
-          name: "YAMTAM ENGINE ${{ env.TAG }}"
+          name: "Yana AI ${{ env.TAG }}"
           body: |
-            ## YAMTAM ENGINE ${{ env.TAG }}
+            ## Yana AI ${{ env.TAG }}
 
             Install with:
             ```
-            /plugin install phamlongh230-lgtm/yamtam-engine
+            /plugin install phamlongh230-lgtm/yana-ai
             ```
 
             Or manually:
             ```bash
-            unzip yamtam-engine-${{ env.VERSION }}-fixed.zip -d /path/to/project/.claude/
+            unzip yana-ai-${{ env.VERSION }}-fixed.zip -d /path/to/project/.claude/
             bash /path/to/project/.claude/tests/hooks/run-hook-tests.sh
             ```
 
-            See [ROADMAP.md](https://github.com/phamlongh230-lgtm/yamtam-engine/blob/main/ROADMAP.md) for changelog.
+            See [ROADMAP.md](https://github.com/phamlongh230-lgtm/yana-ai/blob/main/ROADMAP.md) for changelog.
           files: |
-            releases/yamtam-engine-v${{ env.VERSION }}-fixed.zip
-            releases/yamtam-engine-latest.zip
+            releases/yana-ai-v${{ env.VERSION }}-fixed.zip
+            releases/yana-ai-latest.zip
           fail_on_unmatched_files: true

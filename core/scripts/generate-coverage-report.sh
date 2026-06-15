@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE v1.2 coverage wrapper
+# Yana AI v1.2 coverage wrapper
 # Runs a real configured coverage script if present. No simulated coverage.
 
 set -euo pipefail

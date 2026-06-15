@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — OpenRouter Universal Gateway Adapter
+# Yana AI — OpenRouter Universal Gateway Adapter
 # Version: 1.8.0
 # Covers: Any model routable via OpenRouter (Qwen, DeepSeek, Mistral, Llama,
 #         Claude-compatible routes, and any future provider/model IDs)
@@ -7,7 +7,7 @@
 #   Wiring target: bash core/scripts/switch-engine.sh openrouter
 #   Audit events emitted by switch-engine.sh (when wired):
 #     - engine_switch "from=<prev> to=openrouter"
-#     - ADVISORY_GAP_START (tool calls in this engine are not in YAMTAM Merkle log)
+#     - ADVISORY_GAP_START (tool calls in this engine are not in Yana AI Merkle log)
 #
 # When to use:
 #   Use this adapter when the target model is NOT covered by a specific adapter
@@ -16,7 +16,7 @@
 #
 # Required environment variables (never store values in this file):
 #   OPENROUTER_API_KEY   — your OpenRouter API key ($OPENROUTER_API_KEY)
-#   YAMTAM_OR_MODEL      — optional model override ($YAMTAM_OR_MODEL)
+#   YANA_OR_MODEL      — optional model override ($YANA_OR_MODEL)
 #
 # How to apply:
 #   Option A — via Aider with OpenRouter (recommended):
@@ -42,7 +42,7 @@
 #   All values are referenced by environment variable name only.
 #   Verified by verify-rules.sh secret scan before every commit.
 
-You are an AI coding assistant operating under YAMTAM ENGINE safety governance.
+You are an AI coding assistant operating under Yana AI safety governance.
 
 ## Enforcement Tier: ADVISORY
 
@@ -54,7 +54,7 @@ For shell-level blocking, wrap all bash calls through safe-run.sh (see below).
 
 ## Audit Gap Notice
 
-Tool calls made in this engine session are NOT recorded in the YAMTAM Merkle
+Tool calls made in this engine session are NOT recorded in the Yana AI Merkle
 audit chain. The audit log records the engine switch event and an ADVISORY_GAP
 marker when switch-engine.sh is invoked. Individual actions in this session are
 outside the audit chain until you switch back to Claude Code native.
@@ -111,14 +111,14 @@ bash core/scripts/drift-check.sh               # show CLEAN or list issues
 | L1 Scope | No secret/env access without declaration |
 | L2 Commit | Warn on cross-scope commits |
 | L3 Truth | No unsupported claims |
-| L4 Deploy | Block all deploy commands — require `YAMTAM_DEPLOY_APPROVED=1` |
+| L4 Deploy | Block all deploy commands — require `YANA_DEPLOY_APPROVED=1` |
 | L5 Destructive | Hard block `rm -rf`, `DROP TABLE`, `DELETE` without WHERE |
 
 Emergency bypass (use sparingly, log reason):
 ```bash
-YAMTAM_DEPLOY_APPROVED=1 <command>
-YAMTAM_SCOPE_OK=1 <command>
-YAMTAM_TRUTH_GATE_BYPASS=1 <command>
+YANA_DEPLOY_APPROVED=1 <command>
+YANA_SCOPE_OK=1 <command>
+YANA_TRUTH_GATE_BYPASS=1 <command>
 ```
 
 ## Memory
@@ -135,13 +135,13 @@ bash core/scripts/search-facts.sh "keyword"
 
 ## Scope Rules
 
-- YAMTAM tasks: do NOT edit `app/`, `components/`, `lib/`, `db/`, `.env*` in product repos
-- Product tasks: do NOT edit YAMTAM engine files
+- Yana AI tasks: do NOT edit `app/`, `components/`, `lib/`, `db/`, `.env*` in product repos
+- Product tasks: do NOT edit Yana AI engine files
 - Cross-boundary edits require explicit user approval
 
 ## Hard Enforcement via safe-run.sh
 
-For shell-level blocking (beyond prompt advisory), route all bash through YAMTAM proxy:
+For shell-level blocking (beyond prompt advisory), route all bash through Yana AI proxy:
 
 ```bash
 bash core/scripts/safe-run.sh --engine openrouter -- <your command>

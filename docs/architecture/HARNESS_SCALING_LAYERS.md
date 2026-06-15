@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Harness Scaling Layers (Internal Architecture)
+# Yana AI — Harness Scaling Layers (Internal Architecture)
 
 **Status:** Planned architecture layer set (documentation only)  
 **Version target:** v1.9.x  
@@ -10,7 +10,7 @@
 
 Public-facing positioning stays:
 
-- **YAMTAM Agent Auditor**
+- **Yana AI Agent Auditor**
 - **Audit first. Guard later.**
 
 The Harness Scaling model in this document is **internal architecture** used to guide roadmap sequencing and implementation quality. It is not a public marketing claim.

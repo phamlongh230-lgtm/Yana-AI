@@ -19,7 +19,7 @@ check() {
   fi
 }
 
-echo "=== YAMTAM count validation ==="
+echo "=== Yana AI count validation ==="
 
 # Đọc MANIFEST (dùng grep thô để tránh phụ thuộc jq)
 skills_manifest=$(grep '"skills_count"' "$MANIFEST" | grep -o '[0-9]*' | head -1)

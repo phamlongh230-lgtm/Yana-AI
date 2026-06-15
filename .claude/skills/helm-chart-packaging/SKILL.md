@@ -1,20 +1,20 @@
 ---
 name: helm-chart-packaging
 description: Helm chart creation, templating, and lifecycle management. Chart structure, values.yaml overrides, named templates, hooks, dependency management, and programmatic chart operations via Helm SDK. Sources: helm/helm (Apache-2.0).
-origin: yamtam-engine — synthesized from helm/helm (Apache-2.0)
+origin: yana-ai — synthesized from helm/helm (Apache-2.0)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.52
+compatibility: yana-ai >= 1.3.52
 ---
 
 # /helm-chart-packaging
 
 ## When to Use
 
-- Package yamtam agent deployment as a reusable, versioned Helm chart
+- Package yana-ai agent deployment as a reusable, versioned Helm chart
 - Parameterize deployments: different tiers, replicas, resource limits via values.yaml
 - Chart hooks: run database migration Job before deployment, cleanup Job after delete
-- Dependency management: yamtam chart depends on Redis, PostgreSQL subcharts
+- Dependency management: yana-ai chart depends on Redis, PostgreSQL subcharts
 
 ## Do NOT use for
 
@@ -26,7 +26,7 @@ compatibility: yamtam-engine >= 1.3.52
 ## Chart directory structure
 
 ```
-yamtam-agent/
+yana-ai-agent/
 ├── Chart.yaml           ← chart metadata
 ├── values.yaml          ← default values (override at deploy time)
 ├── templates/
@@ -45,7 +45,7 @@ yamtam-agent/
 
 ```yaml
 apiVersion: v2
-name:        yamtam-agent
+name:        yana-ai-agent
 description: Yamtam agent deployment chart
 type:        application
 version:     1.3.52          # chart version (SemVer)
@@ -66,7 +66,7 @@ dependencies:
 replicaCount: 2
 
 image:
-  repository: ghcr.io/yamtam/agent
+  repository: ghcr.io/yana-ai/agent
   pullPolicy:  IfNotPresent
   tag:         ""   # defaults to Chart.appVersion
 
@@ -98,24 +98,24 @@ redis:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "yamtam-agent.fullname" . }}
-  labels: {{ include "yamtam-agent.labels" . | nindent 4 }}
+  name: {{ include "yana-ai-agent.fullname" . }}
+  labels: {{ include "yana-ai-agent.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
-    matchLabels: {{ include "yamtam-agent.selectorLabels" . | nindent 6 }}
+    matchLabels: {{ include "yana-ai-agent.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      labels: {{ include "yamtam-agent.selectorLabels" . | nindent 8 }}
+      labels: {{ include "yana-ai-agent.selectorLabels" . | nindent 8 }}
     spec:
       containers:
         - name: agent
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - name:  YAMTAM_TIER
+            - name:  YANA_TIER
               value: {{ .Values.agent.tier | quote }}
-            - name:  YAMTAM_SKILLS
+            - name:  YANA_SKILLS
               value: {{ .Values.agent.skills | join "," | quote }}
           resources: {{ toYaml .Values.resources | nindent 12 }}
 ```
@@ -126,22 +126,22 @@ spec:
 
 ```bash
 # Install
-helm install yamtam-prod ./yamtam-agent \
-  --namespace yamtam --create-namespace \
+helm install yana-ai-prod ./yana-ai-agent \
+  --namespace yana-ai --create-namespace \
   --set agent.tier=power \
   --set replicaCount=4
 
 # Upgrade (rolling update)
-helm upgrade yamtam-prod ./yamtam-agent \
-  --namespace yamtam \
+helm upgrade yana-ai-prod ./yana-ai-agent \
+  --namespace yana-ai \
   --set image.tag=1.3.53 \
   --atomic   # rollback automatically if upgrade fails
 
 # Rollback to previous release
-helm rollback yamtam-prod 0  # 0 = previous revision
+helm rollback yana-ai-prod 0  # 0 = previous revision
 
 # Dry-run (render templates without applying)
-helm install --dry-run --debug yamtam-test ./yamtam-agent
+helm install --dry-run --debug yana-ai-test ./yana-ai-agent
 ```
 
 ---

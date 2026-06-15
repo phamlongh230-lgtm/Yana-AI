@@ -1,7 +1,7 @@
 /**
- * YAMTAM Structured Output Validator
+ * Yana AI Structured Output Validator
  * Version: 1.8.0
- * Purpose: Enforces that Agent responses follow the YAMTAM structural requirements
+ * Purpose: Enforces that Agent responses follow the Yana AI structural requirements
  * (Intent, Rationale, Evidence) and comply with OWASP LLM02.
  */
 
@@ -13,7 +13,7 @@ const REQUIRED_SECTIONS = ['Intent', 'Rationale', 'Evidence'];
 function validateOutput(content) {
   const findings = [];
   
-  // 1. Check for required YAMTAM sections
+  // 1. Check for required Yana AI sections
   REQUIRED_SECTIONS.forEach(section => {
     const regex = new RegExp(`^#*\\s*${section}:?`, 'mi');
     if (!regex.test(content)) {
@@ -64,14 +64,14 @@ if (require.main === module) {
     const result = validateOutput(content);
     
     if (!result.valid) {
-      console.error('--- YAMTAM STRUCTURED OUTPUT VALIDATION FAILED ---');
+      console.error('--- Yana AI STRUCTURED OUTPUT VALIDATION FAILED ---');
       result.findings.forEach(f => {
         console.error(`[${f.level}] ${f.message}`);
         if (f.suggestion) console.error(`  Suggestion: ${f.suggestion}`);
       });
       process.exit(1);
     } else {
-      console.log('--- YAMTAM STRUCTURED OUTPUT VALIDATION PASSED ---');
+      console.log('--- Yana AI STRUCTURED OUTPUT VALIDATION PASSED ---');
       process.exit(0);
     }
   } catch (err) {

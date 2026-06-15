@@ -1,10 +1,10 @@
 ---
 name: a2a-protocol-patterns
 description: Agent-to-Agent (A2A) protocol — Google 2025, 150+ org backing. Agent Cards discovery, task lifecycle (submitted→working→completed), artifacts (text/structured/video), opaque task model. MCP vs A2A split. Auth: bearer/mTLS/signed. Sources: rohitg00/ai-engineering-from-scratch (Apache-2.0).
-origin: yamtam-engine — synthesized from rohitg00/ai-engineering-from-scratch (Apache-2.0)
+origin: yana-ai — synthesized from rohitg00/ai-engineering-from-scratch (Apache-2.0)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.54
+compatibility: yana-ai >= 1.3.54
 ---
 
 # /a2a-protocol-patterns
@@ -61,8 +61,8 @@ interface AgentCard {
 }
 
 // Example
-const yamtamAgentCard: AgentCard = {
-  name:       "yamtam-security-agent",
+const yana-aiAgentCard: AgentCard = {
+  name:       "yana-ai-security-agent",
   version:    "1.0.0",
   skills:     ["red-team-check", "blue-team-fix", "leak-check"],
   endpoints:  { tasks: "https://agents.example.com/tasks" },
@@ -112,7 +112,7 @@ const app   = express();
 const tasks = new Map<string, A2ATask>();
 
 // Discovery
-app.get("/.well-known/agent.json", (req, res) => res.json(yamtamAgentCard));
+app.get("/.well-known/agent.json", (req, res) => res.json(yana-aiAgentCard));
 
 // Submit task
 app.post("/tasks", express.json(), async (req, res) => {

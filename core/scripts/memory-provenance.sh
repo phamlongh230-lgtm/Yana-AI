@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Script
+# Yana AI Script
 # Version: 1.6.0 | Status: active
 # Description: Memory Provenance — show source, age, confidence, and expiry for each L1 fact
 # Last Reviewed: 2026-05-23
@@ -69,7 +69,7 @@ for f in sorted(l1_path.glob('*.md')):
 
 print()
 print('  ╔══════════════════════════════════════════════╗')
-print('  ║         YAMTAM MEMORY PROVENANCE             ║')
+print('  ║         Yana AI MEMORY PROVENANCE             ║')
 print('  ╚══════════════════════════════════════════════╝')
 print()
 

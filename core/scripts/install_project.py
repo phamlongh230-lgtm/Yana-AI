@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yamtam install [target] — one-command project setup."""
+"""yana-ai install [target] — one-command project setup."""
 
 import argparse
 import json
@@ -17,7 +17,7 @@ BOLD  = "\033[1m"; GREEN = "\033[32m"; YELLOW = "\033[33m"
 RED   = "\033[31m"; CYAN  = "\033[36m"; DIM   = "\033[2m"; RESET = "\033[0m"
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -26,8 +26,8 @@ def step(n, total, label):
     print(f"  {c(CYAN, f'[{n}/{total}]')} {label}")
 
 
-YAMTAMIGNORE_DEFAULT = """\
-# .yamtamignore — suppress known-safe findings
+Yana AIIGNORE_DEFAULT = """\
+# .yana-aiignore — suppress known-safe findings
 # Format: RULE_ID:path/to/file   or   path/glob/**
 #
 # Examples:
@@ -37,10 +37,10 @@ YAMTAMIGNORE_DEFAULT = """\
 
 GITIGNORE_ADDITIONS = """\
 
-# YAMTAM
-.yamtam/
-yamtam-audit.sarif
-yamtam-audit-report.md
+# Yana AI
+.yana-ai/
+yana-ai-audit.sarif
+yana-ai-audit-report.md
 """
 
 
@@ -101,8 +101,8 @@ def run_audit(target: str) -> dict | None:
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="yamtam install",
-        description="One-command yamtam setup for a project",
+        prog="yana-ai install",
+        description="One-command yana-ai setup for a project",
     )
     parser.add_argument("target", nargs="?", default=".",
                         help="Project directory (default: .)")
@@ -111,30 +111,30 @@ def main():
     parser.add_argument("--no-audit", action="store_true",
                         help="Skip initial audit scan")
     parser.add_argument("--guards", action="store_true",
-                        help="Also install runtime guards (yamtam guard install all)")
+                        help="Also install runtime guards (yana-ai guard install all)")
     args = parser.parse_args()
 
     target = os.path.abspath(args.target)
     total  = 5 + (1 if args.guards else 0)
 
     print()
-    print(c(BOLD, "  yamtam install") + c(DIM, f" — {target}"))
+    print(c(BOLD, "  yana-ai install") + c(DIM, f" — {target}"))
     if args.dry_run:
         print(c(YELLOW, "  [dry-run mode — no files will be written]"))
     print()
 
-    # 1. .yamtamignore
-    step(1, total, ".yamtamignore")
+    # 1. .yana-aiignore
+    step(1, total, ".yana-aiignore")
     write_if_missing(
-        os.path.join(target, ".yamtamignore"),
-        YAMTAMIGNORE_DEFAULT, ".yamtamignore", args.dry_run
+        os.path.join(target, ".yana-aiignore"),
+        Yana AIIGNORE_DEFAULT, ".yana-aiignore", args.dry_run
     )
 
     # 2. .gitignore additions
-    step(2, total, ".gitignore — add YAMTAM entries")
+    step(2, total, ".gitignore — add Yana AI entries")
     append_if_missing(
         os.path.join(target, ".gitignore"),
-        GITIGNORE_ADDITIONS, "# YAMTAM", ".gitignore additions", args.dry_run
+        GITIGNORE_ADDITIONS, "# Yana AI", ".gitignore additions", args.dry_run
     )
 
     # 3. Claude settings template
@@ -154,24 +154,24 @@ def main():
     )
 
     # 5. CI workflow example
-    step(5, total, ".github/workflows/yamtam-audit.yml")
-    wf_src  = os.path.join(REPO_ROOT, ".github", "workflows", "yamtam-audit.yml")
-    wf_dest = os.path.join(target, ".github", "workflows", "yamtam-audit.yml")
+    step(5, total, ".github/workflows/yana-ai-audit.yml")
+    wf_src  = os.path.join(REPO_ROOT, ".github", "workflows", "yana-ai-audit.yml")
+    wf_dest = os.path.join(target, ".github", "workflows", "yana-ai-audit.yml")
     if os.path.exists(wf_src) and not os.path.exists(wf_dest):
         if args.dry_run:
-            print(f"     {c(YELLOW, 'would write')} yamtam-audit.yml workflow")
+            print(f"     {c(YELLOW, 'would write')} yana-ai-audit.yml workflow")
         else:
             os.makedirs(os.path.dirname(wf_dest), exist_ok=True)
             shutil.copy2(wf_src, wf_dest)
-            print(f"     {c(GREEN, '✓')} .github/workflows/yamtam-audit.yml")
+            print(f"     {c(GREEN, '✓')} .github/workflows/yana-ai-audit.yml")
     elif os.path.exists(wf_dest):
-        print(f"     {c(DIM, 'skip')} yamtam-audit.yml (already exists)")
+        print(f"     {c(DIM, 'skip')} yana-ai-audit.yml (already exists)")
 
     # 6. Guards (optional)
     if args.guards:
-        step(6, total, "runtime guards (yamtam guard install all)")
+        step(6, total, "runtime guards (yana-ai guard install all)")
         if args.dry_run:
-            print(f"     {c(YELLOW, 'would run')} yamtam guard install all --target {target}")
+            print(f"     {c(YELLOW, 'would run')} yana-ai guard install all --target {target}")
         else:
             r = subprocess.run(
                 [sys.executable, GUARD_PY, "install", "all", "--target", target],
@@ -199,7 +199,7 @@ def main():
                 print(f"  Top findings:")
                 for f in top:
                     print(f"    {c(rc, f['severity'])} {f['id']}  {f.get('file','')}")
-                print(f"  Run: yamtam audit {target}  for full report")
+                print(f"  Run: yana-ai audit {target}  for full report")
         print()
 
     print(c(GREEN, "  ✓ Setup complete."))
@@ -207,9 +207,9 @@ def main():
     print("  Next steps:")
     print(f"    1. Review .claude/settings.recommended.json → rename to settings.json")
     print(f"    2. Review .mcp.recommended.json → rename to .mcp.json")
-    print(f"    3. Run: yamtam audit {target if target != os.getcwd() else '.'}")
+    print(f"    3. Run: yana-ai audit {target if target != os.getcwd() else '.'}")
     if args.guards:
-        print(f"    4. Guards active — check: yamtam guard status")
+        print(f"    4. Guards active — check: yana-ai guard status")
     print()
 
 

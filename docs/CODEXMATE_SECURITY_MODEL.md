@@ -2,7 +2,7 @@
 
 > **Role split:**
 > Codexmate = AI Coding Tools Control Panel (UI / provider / session / usage)
-> YAMTAM = Safety & Policy Engine (guards / audit / truth gate / rules)
+> Yana AI = Safety & Policy Engine (guards / audit / truth gate / rules)
 
 ---
 
@@ -36,7 +36,7 @@ If you run it on a shared machine or cloud environment, treat port access as equ
 
 ## Command execution
 
-Any button or workflow that triggers shell commands must go through YAMTAM gates:
+Any button or workflow that triggers shell commands must go through Yana AI gates:
 
 | Blocked without explicit confirm |
 |----------------------------------|
@@ -75,16 +75,16 @@ MVP surface — do not expand without reason:
 
 ---
 
-## YAMTAM integration points
+## Yana AI integration points
 
-Codexmate delegates all enforcement to YAMTAM:
+Codexmate delegates all enforcement to Yana AI:
 
-| Codexmate action | YAMTAM gate |
+| Codexmate action | Yana AI gate |
 |-----------------|-------------|
 | Run command via Orchestration | `safe-run.sh` + `02-terminal-validator.md` |
-| Export config file | `03-privilege-isolation.md` (YAMTAM_SCOPE_OK check) |
+| Export config file | `03-privilege-isolation.md` (YANA_SCOPE_OK check) |
 | Install package via Docs panel | `44-supply-chain-vetting.md` |
 | Any external HTTP fetch | `network-egress-law.md` (SSRF block) |
 | Hook modification | `49-immutable-infrastructure-law.md` |
 
-Codexmate is the **control panel**. YAMTAM is the **safety engine**. Neither replaces the other.
+Codexmate is the **control panel**. Yana AI is the **safety engine**. Neither replaces the other.

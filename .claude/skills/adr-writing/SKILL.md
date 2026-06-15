@@ -7,7 +7,7 @@ description: >
   this decision", "architecture decision record", "why did we choose X over Y",
   or "we need a record of this choice". Do NOT use for: general documentation
   writing — ADRs are specifically for significant architecture decisions.
-origin: yamtam-original
+origin: yana-ai-original
 license: MIT © 2025 Vũ Văn Tâm
 version: 1.0.0
 compatibility: "Any project. Format follows MADR (Markdown Architectural Decision Records)."

@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Shell Sanitization Law
+# Yana AI — Shell Sanitization Law
 # Source: koalaman/shellcheck SC2086/SC2091/SC2094/injection rules (GPL-3.0)
 # github.com/koalaman/shellcheck
 # Gate: Action Gate L2 (pre-execution shell validation)
@@ -119,7 +119,7 @@ IFS=$'\n\t'         # safe IFS — prevents word splitting on spaces
 ## Violation Response
 
 ```
-[yamtam/shell-sanitize] BLOCKED — unsafe shell pattern detected
+[yana-ai/shell-sanitize] BLOCKED — unsafe shell pattern detected
   File    : <path>:<line>
   Pattern : <SC code> — <description>
   Gate    : L2

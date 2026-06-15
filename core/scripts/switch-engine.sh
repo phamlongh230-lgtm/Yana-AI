@@ -29,9 +29,9 @@ usage() {
   echo "  opencode   — activates OPENCODE.md (native harness file)"
   echo "  zed        — activates .zed/settings.json with custom_system_prompt"
   echo "  continue   — generates .continue/config.json fragment (advisory mode)"
-  echo "  windsurf   — generates .windsurf/rules/yamtam.md (Cascade workspace rule)"
-  echo "  kiro       — generates .kiro/steering/yamtam.md (always-included steering)"
-  echo "  antigravity — generates .agent/rules/yamtam.md (workspace rule, ≤12K chars)"
+  echo "  windsurf   — generates .windsurf/rules/yana-ai.md (Cascade workspace rule)"
+  echo "  kiro       — generates .kiro/steering/yana-ai.md (always-included steering)"
+  echo "  antigravity — generates .agent/rules/yana-ai.md (workspace rule, ≤12K chars)"
   echo "  status     — show which adapters are currently active"
   echo ""
   echo "Options:"
@@ -46,7 +46,7 @@ usage() {
 # _FROM_ENGINE reads the last engine_switch entry from the audit log; falls back
 # to "unknown" when the log is absent or uses the old free-form format.
 _OPERATOR=$(git config user.name 2>/dev/null | tr ' ' '_' | tr -d '|"' || echo "unknown")
-_AUDIT_LOG="${YAMTAM_LOG_DIR:-core/memory/audit}/agent-actions.log"
+_AUDIT_LOG="${YANA_LOG_DIR:-core/memory/audit}/agent-actions.log"
 _FROM_ENGINE="unknown"
 if [[ -f "$_AUDIT_LOG" ]]; then
   _LAST_SWITCH=$(grep "| engine_switch |" "$_AUDIT_LOG" 2>/dev/null | tail -1 || true)
@@ -69,7 +69,7 @@ case "$ENGINE" in
 
     echo -e "${GREEN}✓ ADVISORY_GAP_END${NC}"
     echo "  Returning to Claude Code native — OS-level hooks active via .claude/settings.json."
-    echo "  All tool calls are recorded in the YAMTAM Merkle audit chain."
+    echo "  All tool calls are recorded in the Yana AI Merkle audit chain."
     echo ""
     echo "Hooks in core/hooks/ are enforced at runtime via .claude/settings.json"
     echo "Run: bash core/tests/hooks/run-hook-tests.sh to verify"
@@ -87,11 +87,11 @@ case "$ENGINE" in
     fi
 
     # ── Hard enforcement: inject safe-run proxy rule into Cursor ──────────────
-    MDC=".cursor/rules/yamtam-hard-enforcement.mdc"
+    MDC=".cursor/rules/yana-ai-hard-enforcement.mdc"
     if [[ "$DRY_RUN" -eq 1 ]]; then
       [[ -d ".cursor/rules" ]] || echo -e "${CYAN}[dry-run] Would create .cursor/rules/${NC}"
       [[ -f "$MDC" ]] && echo -e "${CYAN}[dry-run] Would backup $MDC before overwrite${NC}"
-      echo -e "${CYAN}[dry-run] Would write $MDC (YAMTAM hard enforcement rule)${NC}"
+      echo -e "${CYAN}[dry-run] Would write $MDC (Yana AI hard enforcement rule)${NC}"
     else
     mkdir -p ".cursor/rules"
 
@@ -104,11 +104,11 @@ case "$ENGINE" in
 
     cat > "$MDC" << 'CURSOREOF'
 ---
-description: YAMTAM Hard Enforcement — all bash commands must route through safe-run.sh
+description: Yana AI Hard Enforcement — all bash commands must route through safe-run.sh
 alwaysApply: true
 ---
 
-# YAMTAM Security Gate — Cursor Hard Enforcement
+# Yana AI Security Gate — Cursor Hard Enforcement
 
 **MANDATORY:** Every bash/shell command you generate MUST be prefixed with the safe-run proxy:
 
@@ -132,21 +132,21 @@ bash core/scripts/safe-run.sh --engine cursor git push --force
 
 ## Why
 
-YAMTAM's L0–L5 gate stack screens every command for destructive patterns, LD_PRELOAD hijacks,
+Yana AI's L0–L5 gate stack screens every command for destructive patterns, LD_PRELOAD hijacks,
 pipe-to-shell exploits, and elevated-risk operations before execution.
 Cursor does not have a native hook layer — safe-run.sh is the enforcement proxy.
 
 ## Violations
 
 Any command executed without the safe-run proxy is a TIER-2 security violation.
-Log: /tmp/yamtam-audit.log
+Log: /tmp/yana-ai-audit.log
 CURSOREOF
     echo -e "${GREEN}✓ Hard enforcement rule written${NC}: $MDC"
 
     # Log via secure-logger.sh if available
     LOGGER="core/scripts/secure-logger.sh"
     if [[ -x "$LOGGER" ]]; then
-      bash "$LOGGER" engine_switch "to_engine=cursor from_engine=$_FROM_ENGINE mode=hard-runtime generated_file=.cursor/rules/yamtam-hard-enforcement.mdc operator=$_OPERATOR" 2>/dev/null || true
+      bash "$LOGGER" engine_switch "to_engine=cursor from_engine=$_FROM_ENGINE mode=hard-runtime generated_file=.cursor/rules/yana-ai-hard-enforcement.mdc operator=$_OPERATOR" 2>/dev/null || true
     fi
     fi  # end dry-run guard
 
@@ -177,7 +177,7 @@ CURSOREOF
     echo -e "${GREEN}✓ Aider adapter ready${NC}"
 
     if [[ "$DRY_RUN" -eq 1 ]]; then
-      echo -e "${CYAN}[dry-run] Would write .aider.conf.yml (YAMTAM Aider configuration)${NC}"
+      echo -e "${CYAN}[dry-run] Would write .aider.conf.yml (Yana AI Aider configuration)${NC}"
     else
     # Log via secure-logger.sh if available
     LOGGER="core/scripts/secure-logger.sh"
@@ -188,10 +188,10 @@ CURSOREOF
 
     # ── Hard enforcement: write .aider.conf.yml with safe-run proxy ───────────
     cat > ".aider.conf.yml" << 'AIDEREOF'
-# YAMTAM Hard Enforcement — Aider configuration
+# Yana AI Hard Enforcement — Aider configuration
 # Generated by: bash core/scripts/switch-engine.sh aider
 
-# Route all bash commands through YAMTAM safe-run proxy
+# Route all bash commands through Yana AI safe-run proxy
 shell: bash core/scripts/safe-run.sh --engine aider
 
 # Governance system prompt
@@ -214,11 +214,11 @@ AIDEREOF
     echo ""
     echo -e "${YELLOW}⚠ ADVISORY_GAP_START${NC}"
     echo "  Aider enforces safe-run.sh via the shell: config directive — stronger than prompt-only."
-    echo "  However, Aider has no native YAMTAM hook layer (OS-level intercept is Claude Code only)."
-    echo "  Individual Aider tool calls are NOT recorded in the YAMTAM Merkle audit chain."
+    echo "  However, Aider has no native Yana AI hook layer (OS-level intercept is Claude Code only)."
+    echo "  Individual Aider tool calls are NOT recorded in the Yana AI Merkle audit chain."
     echo -e "${YELLOW}ADVISORY_GAP_END${NC}"
     echo ""
-    echo -e "${CYAN}Run aider with YAMTAM governance:${NC}"
+    echo -e "${CYAN}Run aider with Yana AI governance:${NC}"
     echo ""
     echo "  aider --model claude-sonnet-4-6"
     echo ""
@@ -262,7 +262,7 @@ AIDEREOF
     echo "  L1  Scope    — no secret/env access without declaration"
     echo "  L2  Commit   — warn on cross-scope commits"
     echo "  L3  Truth    — no unsupported completion claims"
-    echo "  L4  Deploy   — requires YAMTAM_DEPLOY_APPROVED=1"
+    echo "  L4  Deploy   — requires YANA_DEPLOY_APPROVED=1"
     echo "  L5  Destruct — hard block rm -rf / DROP TABLE / DELETE without WHERE"
     echo ""
     echo "GEMINI.md is read automatically by Gemini Code CLI on startup."
@@ -298,7 +298,7 @@ AIDEREOF
     echo "  L1  Scope    — prompt-instructed (no runtime intercept)"
     echo "  L2  Commit   — prompt-instructed"
     echo "  L3  Truth    — prompt-instructed"
-    echo "  L4  Deploy   — prompt-instructed (YAMTAM_DEPLOY_APPROVED=1 in prompt)"
+    echo "  L4  Deploy   — prompt-instructed (YANA_DEPLOY_APPROVED=1 in prompt)"
     echo "  L5  Destruct — prompt-instructed (model refuses; not shell-blocked)"
     echo ""
     echo -e "${CYAN}Run Qwen via Aider + OpenRouter (use placeholders — do not paste real keys here):${NC}"
@@ -349,7 +349,7 @@ AIDEREOF
     echo "  L1  Scope    — prompt-instructed (no runtime intercept)"
     echo "  L2  Commit   — prompt-instructed"
     echo "  L3  Truth    — prompt-instructed"
-    echo "  L4  Deploy   — prompt-instructed (YAMTAM_DEPLOY_APPROVED=1 in prompt)"
+    echo "  L4  Deploy   — prompt-instructed (YANA_DEPLOY_APPROVED=1 in prompt)"
     echo "  L5  Destruct — prompt-instructed (model refuses; not shell-blocked)"
     echo ""
     echo -e "${CYAN}Run DeepSeek via Aider (use placeholders — do not paste real keys here):${NC}"
@@ -389,8 +389,8 @@ AIDEREOF
 
     echo ""
     echo -e "${YELLOW}⚠ ADVISORY_GAP_START${NC}"
-    echo "  OpenRouter has no native YAMTAM hook layer."
-    echo "  Tool calls in this session are NOT recorded in the YAMTAM Merkle audit chain."
+    echo "  OpenRouter has no native Yana AI hook layer."
+    echo "  Tool calls in this session are NOT recorded in the Yana AI Merkle audit chain."
     echo "  The engine_switch event above is the only audit entry for this session."
     echo "  Enforcement is prompt-advisory only; safe-run.sh is NOT auto-wired."
     echo "  For shell-level blocking, manually prefix commands:"
@@ -402,7 +402,7 @@ AIDEREOF
     echo "  L1  Scope    — prompt-instructed (no runtime intercept)"
     echo "  L2  Commit   — prompt-instructed"
     echo "  L3  Truth    — prompt-instructed"
-    echo "  L4  Deploy   — prompt-instructed (YAMTAM_DEPLOY_APPROVED=1 in prompt)"
+    echo "  L4  Deploy   — prompt-instructed (YANA_DEPLOY_APPROVED=1 in prompt)"
     echo "  L5  Destruct — prompt-instructed (model refuses; not shell-blocked)"
     echo ""
     echo -e "${CYAN}Run any OpenRouter model via Aider (use placeholders — do not paste real keys here):${NC}"
@@ -467,8 +467,8 @@ CONTINUEEOF
 
     echo ""
     echo -e "${YELLOW}⚠ ADVISORY_GAP_START${NC}"
-    echo "  Continue.dev has no native YAMTAM hook layer."
-    echo "  Tool calls in this session are NOT recorded in the YAMTAM Merkle audit chain."
+    echo "  Continue.dev has no native Yana AI hook layer."
+    echo "  Tool calls in this session are NOT recorded in the Yana AI Merkle audit chain."
     echo "  Enforcement is prompt-advisory only; safe-run.sh is NOT auto-wired."
     echo "  For shell-level blocking, manually prefix commands:"
     echo "    bash core/scripts/safe-run.sh --engine continue -- <command>"
@@ -500,7 +500,7 @@ CONTINUEEOF
     fi
     echo ""
     echo -e "${YELLOW}Advisory gap active.${NC} OPENCODE.md loaded by OpenCode natively."
-    echo "  YAMTAM safety hooks are NOT enforced at the OS level in OpenCode."
+    echo "  Yana AI safety hooks are NOT enforced at the OS level in OpenCode."
     echo "  Rules are advisory via OPENCODE.md system prompt injection only."
     echo ""
     echo "  Key constraints active:"
@@ -523,7 +523,7 @@ CONTINUEEOF
     fi
     echo ""
     echo -e "${YELLOW}Advisory gap active.${NC} .zed/settings.json loaded by Zed natively."
-    echo "  YAMTAM safety hooks are NOT enforced at the OS level in Zed."
+    echo "  Yana AI safety hooks are NOT enforced at the OS level in Zed."
     echo "  Rules are advisory via custom_system_prompt in .zed/settings.json only."
     echo ""
     echo "  To update the system prompt: edit .zed/settings.json → custom_system_prompt"
@@ -533,9 +533,9 @@ CONTINUEEOF
     # Markdown-rules engines — same generation pattern, different destination
     ADAPTER="adapters/$ENGINE.md"
     case "$ENGINE" in
-      windsurf)    DEST=".windsurf/rules/yamtam.md"  ; READER="Windsurf Cascade" ;;
-      kiro)        DEST=".kiro/steering/yamtam.md"   ; READER="Kiro IDE & CLI"   ;;
-      antigravity) DEST=".agent/rules/yamtam.md"     ; READER="Google Antigravity" ;;
+      windsurf)    DEST=".windsurf/rules/yana-ai.md"  ; READER="Windsurf Cascade" ;;
+      kiro)        DEST=".kiro/steering/yana-ai.md"   ; READER="Kiro IDE & CLI"   ;;
+      antigravity) DEST=".agent/rules/yana-ai.md"     ; READER="Google Antigravity" ;;
     esac
     if [[ ! -f "$ADAPTER" ]]; then
       echo -e "${RED}✗ $ADAPTER missing${NC}"
@@ -564,7 +564,7 @@ CONTINUEEOF
 
     echo ""
     echo -e "${YELLOW}Advisory gap active.${NC} $DEST loaded by $READER natively."
-    echo "  YAMTAM safety hooks are NOT enforced at the OS level in $READER."
+    echo "  Yana AI safety hooks are NOT enforced at the OS level in $READER."
     echo "  Rules are advisory via the generated rules file only."
     echo ""
     echo "  Key constraints active:"
@@ -574,7 +574,7 @@ CONTINUEEOF
     ;;
 
   status)
-    echo "=== YAMTAM Engine Adapter Status ==="
+    echo "=== Yana AI Engine Adapter Status ==="
     echo ""
     [[ -f ".cursorrules" ]] \
       && echo -e "  ${GREEN}✓${NC} Cursor    .cursorrules ($(wc -l < .cursorrules) lines)" \
@@ -609,15 +609,15 @@ CONTINUEEOF
     [[ -f ".zed/settings.json" ]] \
       && echo -e "  ${GREEN}✓${NC} Zed       .zed/settings.json" \
       || echo -e "  ${YELLOW}✗${NC} Zed       .zed/settings.json missing"
-    [[ -f ".windsurf/rules/yamtam.md" ]] \
-      && echo -e "  ${GREEN}✓${NC} Windsurf  .windsurf/rules/yamtam.md" \
-      || echo -e "  ${YELLOW}✗${NC} Windsurf  .windsurf/rules/yamtam.md missing"
-    [[ -f ".kiro/steering/yamtam.md" ]] \
-      && echo -e "  ${GREEN}✓${NC} Kiro      .kiro/steering/yamtam.md" \
-      || echo -e "  ${YELLOW}✗${NC} Kiro      .kiro/steering/yamtam.md missing"
-    [[ -f ".agent/rules/yamtam.md" ]] \
-      && echo -e "  ${GREEN}✓${NC} Antigrav  .agent/rules/yamtam.md" \
-      || echo -e "  ${YELLOW}✗${NC} Antigrav  .agent/rules/yamtam.md missing"
+    [[ -f ".windsurf/rules/yana-ai.md" ]] \
+      && echo -e "  ${GREEN}✓${NC} Windsurf  .windsurf/rules/yana-ai.md" \
+      || echo -e "  ${YELLOW}✗${NC} Windsurf  .windsurf/rules/yana-ai.md missing"
+    [[ -f ".kiro/steering/yana-ai.md" ]] \
+      && echo -e "  ${GREEN}✓${NC} Kiro      .kiro/steering/yana-ai.md" \
+      || echo -e "  ${YELLOW}✗${NC} Kiro      .kiro/steering/yana-ai.md missing"
+    [[ -f ".agent/rules/yana-ai.md" ]] \
+      && echo -e "  ${GREEN}✓${NC} Antigrav  .agent/rules/yana-ai.md" \
+      || echo -e "  ${YELLOW}✗${NC} Antigrav  .agent/rules/yana-ai.md missing"
     echo ""
     echo -e "  ${GREEN}✓${NC} Claude    native (hooks in core/hooks/)"
     ;;

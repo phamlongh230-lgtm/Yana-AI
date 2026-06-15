@@ -1,8 +1,8 @@
-# YAMTAM ENGINE — Security Scan Modes
+# Yana AI — Security Scan Modes
 
 **Version:** 1.0
 **Used by:** core/skills/red-team-check, core/commands/security-scan.md
-**Concept inspired by:** Strix scan mode taxonomy (Apache 2.0) — rewritten for YAMTAM
+**Concept inspired by:** Strix scan mode taxonomy (Apache 2.0) — rewritten for Yana AI
 
 ---
 

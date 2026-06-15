@@ -1,10 +1,10 @@
 ---
 name: cadvisor-container-metrics
 description: cAdvisor container resource metrics from Linux cgroups. CPU throttling detection, OOM kill monitoring, memory working set vs cache, network I/O per container, and integration with Prometheus scraping. Sources: google/cadvisor (Apache-2.0).
-origin: yamtam-engine — synthesized from google/cadvisor (Apache-2.0)
+origin: yana-ai — synthesized from google/cadvisor (Apache-2.0)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.52
+compatibility: yana-ai >= 1.3.52
 ---
 
 # /cadvisor-container-metrics
@@ -64,24 +64,24 @@ spec:
 
 ```promql
 # CPU throttling — percentage of time throttled (high = need more CPU limit)
-rate(container_cpu_throttled_seconds_total{namespace="yamtam"}[5m])
-  / rate(container_cpu_usage_seconds_total{namespace="yamtam"}[5m])
+rate(container_cpu_throttled_seconds_total{namespace="yana-ai"}[5m])
+  / rate(container_cpu_usage_seconds_total{namespace="yana-ai"}[5m])
 
 # OOM kills (kernel killed container for exceeding memory limit)
-increase(container_oom_events_total{namespace="yamtam"}[1h])
+increase(container_oom_events_total{namespace="yana-ai"}[1h])
 
 # Memory working set (actual active memory — what to set limits based on)
-container_memory_working_set_bytes{namespace="yamtam"}
+container_memory_working_set_bytes{namespace="yana-ai"}
 
 # Memory cache (page cache — can be evicted, not "real" usage)
-container_memory_cache{namespace="yamtam"}
+container_memory_cache{namespace="yana-ai"}
 
 # Usable: working_set = memory - cache
 # Set memory.limits to ~1.5× max working set observed over 7 days
 
 # Network receive/transmit bytes per second
-rate(container_network_receive_bytes_total{namespace="yamtam"}[5m])
-rate(container_network_transmit_bytes_total{namespace="yamtam"}[5m])
+rate(container_network_receive_bytes_total{namespace="yana-ai"}[5m])
+rate(container_network_transmit_bytes_total{namespace="yana-ai"}[5m])
 ```
 
 ---
@@ -105,18 +105,18 @@ Alert: working_set > 80% of limit → increase memory limit or fix memory leak
 
 ```yaml
 groups:
-  - name: yamtam.container
+  - name: yana-ai.container
     rules:
       - alert: ContainerOOMKilled
-        expr: increase(container_oom_events_total{namespace=~"yamtam.*"}[5m]) > 0
+        expr: increase(container_oom_events_total{namespace=~"yana-ai.*"}[5m]) > 0
         labels: { severity: critical }
         annotations:
           summary: "Container {{ $labels.container }} OOM killed in {{ $labels.namespace }}"
 
       - alert: HighCPUThrottling
         expr: |
-          rate(container_cpu_throttled_seconds_total{namespace=~"yamtam.*"}[5m])
-          / rate(container_cpu_usage_seconds_total{namespace=~"yamtam.*"}[5m]) > 0.5
+          rate(container_cpu_throttled_seconds_total{namespace=~"yana-ai.*"}[5m])
+          / rate(container_cpu_usage_seconds_total{namespace=~"yana-ai.*"}[5m]) > 0.5
         for: 5m
         labels: { severity: warning }
         annotations:

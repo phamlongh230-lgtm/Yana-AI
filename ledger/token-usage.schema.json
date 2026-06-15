@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "YAMTAM Token Usage Ledger",
+  "title": "Yana AI Token Usage Ledger",
   "description": "Per-session token and cost ledger — append-only, one entry per LLM call",
   "version": "0.1.0",
   "type": "object",

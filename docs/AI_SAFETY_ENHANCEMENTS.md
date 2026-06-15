@@ -1,4 +1,4 @@
-# AI Safety Enhancement Recommendations for YAMTAM ENGINE
+# AI Safety Enhancement Recommendations for Yana AI
 
 **Date:** 2026-05-23
 **Source:** Agent analysis of OWASP, Garak, Guardrails AI, and industry patterns
@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-Agent completed comprehensive analysis of YAMTAM's security architecture and identified **15 high-impact enhancements** based on latest AI safety research from OWASP LLM Top 10, Garak red-teaming, and Guardrails AI patterns.
+Agent completed comprehensive analysis of Yana AI's security architecture and identified **15 high-impact enhancements** based on latest AI safety research from OWASP LLM Top 10, Garak red-teaming, and Guardrails AI patterns.
 
 **Current Strengths:**
 - 6-layer gate system (L0-L5) with progressive enforcement
@@ -37,7 +37,7 @@ Agent completed comprehensive analysis of YAMTAM's security architecture and ide
 # If agent echoes canary → prompt extraction detected
 
 CANARY_TOKENS=(
-  "<!-- YAMTAM_CANARY_${SESSION_ID} -->"
+  "<!-- YANA_CANARY_${SESSION_ID} -->"
   "INTERNAL_MARKER_DO_NOT_ECHO_${RANDOM_UUID}"
 )
 

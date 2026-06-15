@@ -1,6 +1,6 @@
 ---
 name: markitdown
-description: Convert mọi file (PDF, Word, Excel, PowerPoint, Image, Audio, HTML, CSV, YouTube URL) thành Markdown cho LLM. Tích hợp vào YAMTAM vault để import tài liệu.
+description: Convert mọi file (PDF, Word, Excel, PowerPoint, Image, Audio, HTML, CSV, YouTube URL) thành Markdown cho LLM. Tích hợp vào Yana AI vault để import tài liệu.
 triggers:
   - markitdown
   - convert file to markdown
@@ -61,7 +61,7 @@ markitdown document.pdf -o output.md
 markitdown https://example.com -o page.md
 ```
 
-## Tích hợp YAMTAM vault
+## Tích hợp Yana AI vault
 
 ```bash
 # Import PDF vào vault
@@ -87,7 +87,7 @@ result = md.convert("scan_bai_thi.jpg")
 print(result.text_content)
 ```
 
-## Khi nào dùng trong YAMTAM
+## Khi nào dùng trong Yana AI
 
 - Import sách giáo khoa tiếng Việt (PDF) → vault search
 - Convert báo cáo Word/Excel → context cho Claude

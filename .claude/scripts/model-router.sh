@@ -3,12 +3,12 @@
 # Analyzes prompt length/complexity and assigns --tier flag (fast | power)
 #
 # Usage:  bash core/scripts/model-router.sh [prompt_file_or_stdin]
-# Output: exports YAMTAM_MODEL_TIER (fast|power) and YAMTAM_TOKEN_ESTIMATE
-# Env:    YAMTAM_POWER_THRESHOLD  — token count above which → power tier (default: 800)
-#         YAMTAM_FAST_PATTERNS    — comma-list of low-complexity keywords
+# Output: exports YANA_MODEL_TIER (fast|power) and YANA_TOKEN_ESTIMATE
+# Env:    YANA_POWER_THRESHOLD  — token count above which → power tier (default: 800)
+#         YANA_FAST_PATTERNS    — comma-list of low-complexity keywords
 #
 # Exit codes:
-#   0  — routing decision made, YAMTAM_MODEL_TIER set
+#   0  — routing decision made, YANA_MODEL_TIER set
 #   1  — cannot read input
 #
 # Tier definitions:
@@ -18,9 +18,9 @@
 # Source: berriai/litellm (cost tracking), dqbd/tiktoken (token counting)
 set -uo pipefail
 
-POWER_THRESHOLD="${YAMTAM_POWER_THRESHOLD:-800}"
-FAST_PATTERNS="${YAMTAM_FAST_PATTERNS:-format,lint,count,list,echo,rename,grep,sort,trim}"
-LOG_FILE="${YAMTAM_PROXY_LOG:-releases/logs/tool-proxy.log}"
+POWER_THRESHOLD="${YANA_POWER_THRESHOLD:-800}"
+FAST_PATTERNS="${YANA_FAST_PATTERNS:-format,lint,count,list,echo,rename,grep,sort,trim}"
+LOG_FILE="${YANA_PROXY_LOG:-releases/logs/tool-proxy.log}"
 
 # ─── Read input ──────────────────────────────────────────────────────────────
 INPUT=""
@@ -38,7 +38,7 @@ fi
 # ─── Token estimation (4 chars ≈ 1 token) ────────────────────────────────────
 CHAR_COUNT="${#INPUT}"
 TOKEN_ESTIMATE=$(( CHAR_COUNT / 4 ))
-export YAMTAM_TOKEN_ESTIMATE="$TOKEN_ESTIMATE"
+export YANA_TOKEN_ESTIMATE="$TOKEN_ESTIMATE"
 
 # ─── Complexity signals ───────────────────────────────────────────────────────
 LOWER_INPUT="${INPUT,,}"   # lowercase for pattern matching
@@ -81,7 +81,7 @@ else
   TIER="fast"
 fi
 
-export YAMTAM_MODEL_TIER="$TIER"
+export YANA_MODEL_TIER="$TIER"
 
 # ─── Logging ─────────────────────────────────────────────────────────────────
 TS="$(date -u +%Y-%m-%dT%H:%M:%SZ)"

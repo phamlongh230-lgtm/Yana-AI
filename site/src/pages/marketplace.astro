@@ -3,9 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 ---
 <BaseLayout
-  title="YAMTAM Marketplace — Skills & Agents"
+  title="Yana AI Marketplace — Skills & Agents"
   description="Install any skill or agent in one command. 2,571 items available."
-  ogUrl="https://phamlongh230-lgtm.github.io/yamtam-engine/marketplace"
+  ogUrl="https://phamlongh230-lgtm.github.io/yana-ai/marketplace"
   active="marketplace"
 >
   <Nav slot="nav" active="marketplace" />
@@ -60,7 +60,7 @@ import Nav from '../components/Nav.astro';
   </style>
 
   <div class="hero">
-    <h1 data-i18n="hero.title">YAMTAM Marketplace</h1>
+    <h1 data-i18n="hero.title">Yana AI Marketplace</h1>
     <p>3,457 skills · 95 agents · 45 hooks · 164 commands · 61 rules</p>
     <div class="search-hero">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z"/></svg>
@@ -91,7 +91,7 @@ import Nav from '../components/Nav.astro';
           <div class="featured-label">⭐ Featured category</div>
           <div class="featured-name">Security</div>
           <div class="featured-desc">Prompt injection guards, secret scanning, OWASP checks, supply chain vetting</div>
-          <div class="featured-badge">🛡️ YAMTAM</div>
+          <div class="featured-badge">🛡️ Yana AI</div>
         </div>
         <div class="featured-card" style="background:linear-gradient(135deg,hsl(142,55%,36%),hsl(170,60%,35%))" onclick="document.getElementById('search').value='agent';applySearch()">
           <div class="featured-label">🔥 Most popular</div>
@@ -124,7 +124,7 @@ import Nav from '../components/Nav.astro';
   <script is:inline slot="scripts">
   let SKILLS=[],AGENTS=[],HOOKS=[],COMMANDS=[],RULES=[],ALL=[];
   let currentType='all',currentCat='all',currentQ='';
-  const SKILL_CAT_MAP={yamtam:{label:'YAMTAM Core',icon:'🛡️',color:'#3b82f6'},openai:{label:'OpenAI Plugins',icon:'🔌',color:'#10a37f'},terminal:{label:'TerminalSkills',icon:'⚡',color:'#6366f1'},venice:{label:'Venice AI',icon:'🎨',color:'#f59e0b'},sports:{label:'Sports',icon:'🏆',color:'#22c55e'}};
+  const SKILL_CAT_MAP={yana-ai:{label:'Yana AI Core',icon:'🛡️',color:'#3b82f6'},openai:{label:'OpenAI Plugins',icon:'🔌',color:'#10a37f'},terminal:{label:'TerminalSkills',icon:'⚡',color:'#6366f1'},venice:{label:'Venice AI',icon:'🎨',color:'#f59e0b'},sports:{label:'Sports',icon:'🏆',color:'#22c55e'}};
   const AGENT_DOM_MAP={core:{label:'Core Dev',icon:'⚙️',color:'#3b82f6'},quality:{label:'QA/Review',icon:'✅',color:'#10a37f'},infra:{label:'Infra/DevOps',icon:'🏗️',color:'#6366f1'},business:{label:'Business',icon:'💼',color:'#f59e0b'},'data-ai':{label:'Data / AI',icon:'🧠',color:'#bc8cff'}};
   const MODEL_COLORS={opus:'#f43f5e',sonnet:'#3b82f6',haiku:'#10a37f'};
   function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
@@ -140,7 +140,7 @@ import Nav from '../components/Nav.astro';
     document.getElementById('cards').innerHTML=shown.length?shown.map(item=>item._type==='skill'?renderSkillCard(item):item._type==='agent'?renderAgentCard(item):item._type==='hook'?renderHookCard(item):item._type==='command'?renderCommandCard(item):renderRuleCard(item)).join(''):'<div class="empty"><h3>No results found</h3></div>';
     buildSidebar();updateCounts();
   }
-  function renderSkillCard(s){const meta=SKILL_CAT_MAP[s.ns]||{label:s.ns,icon:'📦',color:'#8b949e'},ic=`<div class="card-icon" style="background:${meta.color}22">${meta.icon}</div>`,cmd=`npx yamtam-install --skill ${s.id||s.name}`;return `<div class="mkt-card"><div class="card-head">${ic}<div style="flex:1;min-width:0"><div class="card-title">${esc(s.short||s.name)}</div></div></div><div class="card-desc">${esc(s.desc)}</div><div class="card-footer"><div class="card-tags"><span class="tag" style="background:${meta.color}18;color:${meta.color}">${meta.icon} ${meta.label}</span>${s.license?`<span class="tag" style="background:hsla(142,55%,36%,.1);color:var(--green)">${esc(s.license)}</span>`:''}</div><button class="install-btn" onclick="copyInstall(this,'${esc(cmd)}')">Install</button></div></div>`;}
+  function renderSkillCard(s){const meta=SKILL_CAT_MAP[s.ns]||{label:s.ns,icon:'📦',color:'#8b949e'},ic=`<div class="card-icon" style="background:${meta.color}22">${meta.icon}</div>`,cmd=`npx yana-ai-install --skill ${s.id||s.name}`;return `<div class="mkt-card"><div class="card-head">${ic}<div style="flex:1;min-width:0"><div class="card-title">${esc(s.short||s.name)}</div></div></div><div class="card-desc">${esc(s.desc)}</div><div class="card-footer"><div class="card-tags"><span class="tag" style="background:${meta.color}18;color:${meta.color}">${meta.icon} ${meta.label}</span>${s.license?`<span class="tag" style="background:hsla(142,55%,36%,.1);color:var(--green)">${esc(s.license)}</span>`:''}</div><button class="install-btn" onclick="copyInstall(this,'${esc(cmd)}')">Install</button></div></div>`;}
   function renderAgentCard(a){const meta=AGENT_DOM_MAP[a.domain]||{label:a.domain,icon:'🤖',color:'#8b949e'},mc=MODEL_COLORS[a.model]||'#8b949e',ic=`<div class="card-icon" style="background:${meta.color}22">${meta.icon}</div>`,cmd=`/agent ${a.name}`;return `<div class="mkt-card"><div class="card-head">${ic}<div style="flex:1;min-width:0"><div class="card-title">${esc(a.name)}</div></div></div><div class="card-desc">${esc(a.desc)}</div><div class="card-footer"><div class="card-tags"><span class="tag" style="background:${meta.color}18;color:${meta.color}">${meta.icon} ${meta.label}</span><span class="tag" style="background:${mc}18;color:${mc}">${esc(a.model)}</span></div><button class="install-btn" onclick="copyInstall(this,'${esc(cmd)}')">Use</button></div></div>`;}
   const EC={PreToolUse:'#f43f5e',PostToolUse:'#10a37f',SessionStart:'#3b82f6'};
   function renderHookCard(h){const ec=EC[h.event]||'#8b949e',cmd=`bash core/hooks/${h.name}.sh`;return `<div class="mkt-card"><div class="card-head"><div class="card-icon" style="background:${ec}22">🪝</div><div style="flex:1;min-width:0"><div class="card-title">${esc(h.name)}</div></div></div><div class="card-desc">${esc(h.desc)||'Runtime safety hook'}</div><div class="card-footer"><div class="card-tags"><span class="tag" style="background:${ec}18;color:${ec}">${esc(h.event)}</span></div><button class="install-btn" onclick="copyInstall(this,'${esc(cmd)}')">Copy</button></div></div>`;}

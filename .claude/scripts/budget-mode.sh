@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Budget Mode toggle — YAMTAM ENGINE v1.2 patch
+# Budget Mode toggle — Yana AI v1.2 patch
 # Manages .claude/state/BUDGET_MODE deterministically without depending on Claude.
 #
 # Usage:

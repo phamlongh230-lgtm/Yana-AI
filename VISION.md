@@ -1,4 +1,4 @@
-# YAMTAM — Vision
+# Yana AI — Vision
 
 **Author:** Vũ Văn Tâm  
 **Written:** 2026-06-07  
@@ -6,9 +6,9 @@
 
 ---
 
-## YAMTAM là gì?
+## Yana AI là gì?
 
-YAMTAM là **lớp điều phối giữa con người và AI**.
+Yana AI là **lớp điều phối giữa con người và AI**.
 
 Không phải agent. Không phải chatbot. Không phải framework.
 
@@ -20,7 +20,7 @@ Bốn thứ đó là lõi. Không thêm.
 ```
 Con người
     ↓
-[ Routing · Safety · Orchestration · Context ]   ← YAMTAM core
+[ Routing · Safety · Orchestration · Context ]   ← Yana AI core
     ↓
 AI (Claude · GPT · Gemini · bất kỳ model nào)
     ↓
@@ -29,7 +29,7 @@ Kết quả
 
 ---
 
-## YAMTAM không phải là gì?
+## Yana AI không phải là gì?
 
 - Không phải một AI coding assistant
 - Không phải một framework để thêm agent và skill vô tận
@@ -41,13 +41,13 @@ Kết quả
 
 ## 5 năm nữa
 
-Nếu YAMTAM thành công, người dùng sẽ không biết họ đang dùng YAMTAM.
+Nếu Yana AI thành công, người dùng sẽ không biết họ đang dùng Yana AI.
 
 Họ chỉ biết:
 
 > "Tôi nói điều tôi cần. AI hiểu. Việc được làm. Không có gì bị phá."
 
-Cụ thể hơn — năm 2031, YAMTAM core chạy bên dưới:
+Cụ thể hơn — năm 2031, Yana AI core chạy bên dưới:
 
 - **Trợ lý cá nhân** — task, lịch, email, quyết định nhỏ hàng ngày
 - **Công cụ học tập** — AI dạy theo cách người học cần, không phải cách AI muốn nói
@@ -89,22 +89,22 @@ AI thực thi. Người quyết định. Không có gì không thể rollback.
 
 ### Yana là gì?
 
-Yana là **giao diện đầu tiên của YAMTAM** — một ứng dụng web cho phép người dùng chat với AI, chọn provider, và dùng skill routing mà không cần biết gì về hạ tầng bên dưới.
+Yana là **giao diện đầu tiên của Yana AI** — một ứng dụng web cho phép người dùng chat với AI, chọn provider, và dùng skill routing mà không cần biết gì về hạ tầng bên dưới.
 
-Yana **không phải** YAMTAM. Yana là một application chạy *trên* YAMTAM core.
+Yana **không phải** Yana AI. Yana là một application chạy *trên* Yana AI core.
 
 ```
-Người dùng → Yana Web → YAMTAM core → Model
+Người dùng → Yana Web → Yana AI core → Model
 ```
 
-Nếu YAMTAM là hệ điều hành, thì Yana là ứng dụng đầu tiên chạy trên đó.  
+Nếu Yana AI là hệ điều hành, thì Yana là ứng dụng đầu tiên chạy trên đó.  
 Ngày mai có thể có Yana Mobile, Yana CLI — cùng core, khác surface.
 
 ---
 
 ### Agent là gì?
 
-Trong YAMTAM, agent **không phải** một process chạy độc lập.
+Trong Yana AI, agent **không phải** một process chạy độc lập.
 
 Agent là **một persona pattern** — một tập hướng dẫn, style, và behavior được inject vào context của LLM khi cần.
 
@@ -179,7 +179,7 @@ Application layer có thể thay đổi. Core thì không.
 
 ## Thước đo thành công — 12 tháng tới
 
-Một người không phải developer tải YAMTAM về, nhập API key, và dùng được.  
+Một người không phải developer tải Yana AI về, nhập API key, và dùng được.  
 Không cần đọc docs. Không cần hỏi ai.
 
 Nếu làm được điều đó — mọi thứ còn lại sẽ tự nhiên đến.

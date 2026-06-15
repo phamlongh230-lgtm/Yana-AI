@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Dependency Vetting Law
+# Yana AI — Dependency Vetting Law
 # Source: ossf/scorecard vetting criteria (Apache 2.0) — github.com/ossf/scorecard
 # Gate: Action Gate L4 (supply chain)
 
@@ -60,7 +60,7 @@ Step 3 — REPORT: present to user in this format:
           Criteria met: X/8
           Evidence: [list]
           Recommendation: APPROVE / REJECT / NEEDS_REVIEW
-Step 4 — HUMAN GATE: user must explicitly confirm or set YAMTAM_SCOPE_OK=1
+Step 4 — HUMAN GATE: user must explicitly confirm or set YANA_SCOPE_OK=1
 Step 5 — LOG: secure-logger.sh supply_chain_gate "install <pkg>@<ver> — X/8 criteria"
 Step 6 — EXECUTE: only after steps 1–5 complete
 ```
@@ -97,7 +97,7 @@ Adding to whitelist requires:
 ## Violation Response
 
 ```
-[yamtam/dependency-vetting] BLOCKED — unvetted package install
+[yana-ai/dependency-vetting] BLOCKED — unvetted package install
   Package  : <name>@<version>
   Command  : <full command>
   Criteria : <X>/8 met

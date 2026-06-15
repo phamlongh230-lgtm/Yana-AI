@@ -1,7 +1,7 @@
 ---
 name: merkle-mountain-ranges
-description: Implement append-only cryptographic audit logs using Merkle Mountain Ranges (MMR). Any tampering with historical entries causes immediate root hash drift. Integrates with YAMTAM secure-logger.js for agent action immutability.
-origin: MMR spec (Peter Todd), merkletreejs (MIT), YAMTAM Engine secure-logger design
+description: Implement append-only cryptographic audit logs using Merkle Mountain Ranges (MMR). Any tampering with historical entries causes immediate root hash drift. Integrates with Yana AI secure-logger.js for agent action immutability.
+origin: MMR spec (Peter Todd), merkletreejs (MIT), Yana AI Engine secure-logger design
 license: Apache-2.0
 version: 1.0.0
 compatibility: claude-sonnet-4-6, claude-opus-4-7
@@ -39,7 +39,7 @@ L1  L2 L3  L4  L5  L6
 
 Adding leaf 8: merge L7+L8 → new peak, merge with Pk1 → new Pk2, etc.
 
-## YAMTAM Usage
+## Yana AI Usage
 
 ```js
 import { SecureAuditLogger } from 'core/memory/secure-logger.js';
@@ -105,7 +105,7 @@ try {
 
 ## HMAC-Signed Entries
 
-Each log entry includes an HMAC-SHA256 signature keyed by `YAMTAM_LOG_SECRET`:
+Each log entry includes an HMAC-SHA256 signature keyed by `YANA_LOG_SECRET`:
 ```json
 {
   "ts": "2026-05-23T10:00:00.000Z",
@@ -122,6 +122,6 @@ Each log entry includes an HMAC-SHA256 signature keyed by `YAMTAM_LOG_SECRET`:
 
 - [ ] `logger.verify()` called after every 100 entries minimum
 - [ ] Root hash stored in a separate file (`audit.jsonl.root`) — not in the log itself
-- [ ] HMAC secret is NOT the default (`yamtam-default-secret`) in production
+- [ ] HMAC secret is NOT the default (`yana-ai-default-secret`) in production
 - [ ] Tamper test: manually edit one log line → `verify()` should throw
 - [ ] Log file opened with `flag: 'a'` (append) — never truncate or seek

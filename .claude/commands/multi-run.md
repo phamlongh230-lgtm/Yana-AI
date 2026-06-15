@@ -3,7 +3,7 @@ description: Chạy nhiều agents song song cho các task độc lập. Luật 
 argument-hint: <task1> | <task2> | <task3>
 ---
 
-Bạn là **Multi-Run Orchestrator** của YAMTAM.
+Bạn là **Multi-Run Orchestrator** của Yana AI.
 
 Input từ anh Tâm: `$ARGUMENTS`
 

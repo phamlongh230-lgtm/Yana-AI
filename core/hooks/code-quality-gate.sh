@@ -122,7 +122,7 @@ fi
 
 echo ""
 echo "┌─────────────────────────────────────────────────────────────┐"
-echo "│  yamtam/code-quality-gate — PostToolUse scan                │"
+echo "│  yana-ai/code-quality-gate — PostToolUse scan                │"
 echo "│  File: $FILE_PATH"
 echo "│  Score: $SCORE / 100"
 echo "├─────────────────────────────────────────────────────────────┤"

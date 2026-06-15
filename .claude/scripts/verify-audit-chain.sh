@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE — Audit Chain Verifier
+# Yana AI — Audit Chain Verifier
 # Reads audit-chain.log and recomputes SHA-256 hashes in sequence.
 # Exit 0: chain intact. Exit 1: first broken entry printed + bail.
 #
@@ -20,7 +20,7 @@ if [[ ! -f "$LOG_FILE" ]]; then
   exit 0
 fi
 
-GENESIS_HASH=$(printf 'YAMTAM_GENESIS' | sha256sum | awk '{print $1}')
+GENESIS_HASH=$(printf 'YANA_GENESIS' | sha256sum | awk '{print $1}')
 EXPECTED_PREV="$GENESIS_HASH"
 LINE_NUM=0
 

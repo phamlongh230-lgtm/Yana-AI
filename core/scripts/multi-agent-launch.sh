@@ -13,7 +13,7 @@
 #   - Kill switch: dừng tất cả ngay lập tức
 #   - Mỗi agent có log riêng + exit code tracking
 #
-# Safety gates inherited from YAMTAM:
+# Safety gates inherited from Yana AI:
 #   - Mỗi agent vẫn đi qua L1-L9 safety gates
 #   - security-team agent có veto power
 #   - Budget sentinel: cảnh báo nếu tổng cost vượt ngưỡng
@@ -23,8 +23,8 @@ set -uo pipefail
 # ─── Config ──────────────────────────────────────────────────────────────────
 MAX_CONCURRENCY=16
 DEFAULT_CONCURRENCY=4
-STATE_DIR="${YAMTAM_AGENT_STATE:-/tmp/yamtam-agents}"
-LOG_DIR="${YAMTAM_AGENT_LOGS:-/tmp/yamtam-agent-logs}"
+STATE_DIR="${YANA_AGENT_STATE:-/tmp/yana-ai-agents}"
+LOG_DIR="${YANA_AGENT_LOGS:-/tmp/yana-ai-agent-logs}"
 PID_DIR="${STATE_DIR}/pids"
 REGISTRY="${STATE_DIR}/registry.json"
 
@@ -142,7 +142,7 @@ cmd_start() {
   fi
 
   local total=${#agent_list[@]}
-  echo -e "${BOLD}═══ YAMTAM Multi-Agent Launcher ═══${NC}"
+  echo -e "${BOLD}═══ Yana AI Multi-Agent Launcher ═══${NC}"
   echo -e "  Agents     : ${BOLD}${total}${NC}"
   echo -e "  Concurrency: ${BOLD}${concurrency}${NC} (tối đa chạy song song)"
   echo -e "  Kill switch: ${DIM}bash multi-agent-launch.sh kill all${NC}"
@@ -255,7 +255,7 @@ cmd_log() {
 
 # ─── CMD: help ────────────────────────────────────────────────────────────────
 cmd_help() {
-  echo -e "${BOLD}multi-agent-launch.sh${NC} — YAMTAM parallel agent launcher"
+  echo -e "${BOLD}multi-agent-launch.sh${NC} — Yana AI parallel agent launcher"
   echo ""
   echo "  start  --agents 'a,b,c' [--concurrency N]   Bật agents song song"
   echo "  start  --tasks-file tasks.txt               Đọc danh sách từ file"

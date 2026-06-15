@@ -13,7 +13,7 @@ version: 1.0.0
 compatibility: "Any frontend stack. Language-agnostic checks with stack-specific notes."
 ---
 
-<!-- Adapted from taste-skill (MIT © 2026 Leonxlnx). Changes: added YAMTAM origin/Anti-Fake-Pass/compatibility fields, converted to gate-style checklist format, removed GPT-specific behavior. -->
+<!-- Adapted from taste-skill (MIT © 2026 Leonxlnx). Changes: added Yana AI origin/Anti-Fake-Pass/compatibility fields, converted to gate-style checklist format, removed GPT-specific behavior. -->
 
 ## When to Use
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# swarm-orchestrator.sh — Coordinate work across multiple YAMTAM agents
+# swarm-orchestrator.sh — Coordinate work across multiple Yana AI agents
 #
 # Consensus model:
 #   - Simple majority quorum (> 50%) for general decisions
@@ -19,9 +19,9 @@ set -uo pipefail
 
 BUS="bash core/bus/agent-message-bus.sh"
 AGENTS_DIR="core/agents"
-VOTES_DIR="${YAMTAM_VOTES_DIR:-core/bus/votes}"
-LOG_FILE="${YAMTAM_SWARM_LOG:-releases/logs/swarm.log}"
-CONSENSUS_TIMEOUT="${YAMTAM_CONSENSUS_TIMEOUT:-60}"  # seconds to wait for votes
+VOTES_DIR="${YANA_VOTES_DIR:-core/bus/votes}"
+LOG_FILE="${YANA_SWARM_LOG:-releases/logs/swarm.log}"
+CONSENSUS_TIMEOUT="${YANA_CONSENSUS_TIMEOUT:-60}"  # seconds to wait for votes
 
 GREEN='\033[0;32m'; RED='\033[0;31m'; YELLOW='\033[1;33m'; CYAN='\033[0;36m'; NC='\033[0m'
 
@@ -50,7 +50,7 @@ log_swarm() {
 
 # ─── ROSTER ──────────────────────────────────────────────────────────────────
 cmd_roster() {
-  echo -e "${CYAN}═══ YAMTAM Agent Swarm Roster ═══${NC}"
+  echo -e "${CYAN}═══ Yana AI Agent Swarm Roster ═══${NC}"
   for agent_dir in "${AGENTS_DIR}"/*/; do
     local agent; agent="$(basename "$agent_dir")"
     local tier="${AGENT_TIERS[$agent]:-?}"

@@ -51,7 +51,7 @@ FILES I WILL DELETE:
   - (or: none)
 
 EXPLICITLY OUT OF SCOPE (will not touch):
-  - core/ — YAMTAM operating files
+  - core/ — Yana AI operating files
   - .env* — secrets
   - [other boundaries]
 

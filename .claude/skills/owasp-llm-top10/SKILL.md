@@ -1,10 +1,10 @@
 ---
 name: owasp-llm-top10
 description: OWASP Top 10 for LLM applications — full checklist for AI agent systems. Prompt injection, insecure output, training data poisoning, DoS, supply chain, sensitive info disclosure, insecure plugins, excessive agency, overreliance, and model theft. Sources: OWASP/www-project-top-10-for-large-language-model-applications, guardrails-ai/guardrails, MITRE ATLAS, NIST AI RMF, leondz/garak.
-origin: yamtam-engine — synthesized from OWASP/www-project-top-10-for-large-language-model-applications, guardrails-ai/guardrails, MITRE/ATLAS, NIST/AI-RMF, leondz/garak, simonw/llm (Simon Willison indirect injection research), Riley Goodside prompt injection research, langchain-ai/langchain (guardrails), BerriAI/litellm (proxy guardrails)
+origin: yana-ai — synthesized from OWASP/www-project-top-10-for-large-language-model-applications, guardrails-ai/guardrails, MITRE/ATLAS, NIST/AI-RMF, leondz/garak, simonw/llm (Simon Willison indirect injection research), Riley Goodside prompt injection research, langchain-ai/langchain (guardrails), BerriAI/litellm (proxy guardrails)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.40
+compatibility: yana-ai >= 1.3.40
 ---
 
 # /owasp-llm-top10
@@ -78,7 +78,7 @@ Defense:
   - max_tokens hard limit on every API call (never uncapped)
   - Token budget guard (token-budget-guard.sh): abort after 5 retries
   - Request timeout: 30s for single-turn, 120s for multi-step
-  - Rate limit per session: YAMTAM token-roi skill monitors per-session spend
+  - Rate limit per session: Yana AI token-roi skill monitors per-session spend
 ```
 
 ---
@@ -131,8 +131,8 @@ Defense:
 Risk: agent takes autonomous actions beyond intended scope
 Defense:
   - agent-excessive-agency-law.md: Tier R/W/X/P permission model
-  - Irreversible actions require YAMTAM_IRREVERSIBLE_OK=1 per action
-  - Sub-agent depth capped at 3 (YAMTAM_AGENT_DEPTH check)
+  - Irreversible actions require YANA_IRREVERSIBLE_OK=1 per action
+  - Sub-agent depth capped at 3 (YANA_AGENT_DEPTH check)
   - Minimum scope declaration required at task start
   - Human confirmation gate for > 5 files or external endpoints
 ```

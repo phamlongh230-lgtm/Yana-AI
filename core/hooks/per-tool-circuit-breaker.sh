@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Hook
+# Yana AI Hook
 # Version: 1.8.0
 # Status: active
 # Description: L5 Per-Tool Circuit Breaker — per-tool state tracking, adaptive backoff, fast-tier fallback
@@ -30,12 +30,12 @@
 #   exit 1          — warn (tool is recovering, but allow)
 #   exit 2          — block (tool circuit is OPEN)
 #
-# Bypass: YAMTAM_CIRCUIT_BYPASS=1
+# Bypass: YANA_CIRCUIT_BYPASS=1
 # Test seam: CIRCUIT_TEST_INPUT="<json>"
 
 set -uo pipefail
 
-[[ "${YAMTAM_CIRCUIT_BYPASS:-}" == "1" ]] && exit 0
+[[ "${YANA_CIRCUIT_BYPASS:-}" == "1" ]] && exit 0
 
 # ── Helper functions ───────────────────────────────────────────────────────────
 
@@ -88,13 +88,13 @@ update_state() {
 
 # ── Configuration ─────────────────────────────────────────────────────────────
 
-CIRCUIT_STATE_FILE="${YAMTAM_CIRCUIT_STATE_FILE:-.claude/state/per-tool-circuit.jsonl}"
-CIRCUIT_METRICS_FILE="${YAMTAM_CIRCUIT_METRICS_FILE:-.claude/state/circuit-metrics.jsonl}"
-MAX_FAILURES="${YAMTAM_CIRCUIT_MAX_FAILURES:-5}"
-INITIAL_COOLDOWN_SECS="${YAMTAM_CIRCUIT_COOLDOWN_INITIAL:-60}"
-MAX_COOLDOWN_SECS="${YAMTAM_CIRCUIT_COOLDOWN_MAX:-1800}"
-BACKOFF_MULTIPLIER="${YAMTAM_CIRCUIT_BACKOFF_MULTIPLIER:-5}"
-FAST_TIER_MODEL="${YAMTAM_FAST_TIER_MODEL:-claude-haiku-4-5}"
+CIRCUIT_STATE_FILE="${YANA_CIRCUIT_STATE_FILE:-.claude/state/per-tool-circuit.jsonl}"
+CIRCUIT_METRICS_FILE="${YANA_CIRCUIT_METRICS_FILE:-.claude/state/circuit-metrics.jsonl}"
+MAX_FAILURES="${YANA_CIRCUIT_MAX_FAILURES:-5}"
+INITIAL_COOLDOWN_SECS="${YANA_CIRCUIT_COOLDOWN_INITIAL:-60}"
+MAX_COOLDOWN_SECS="${YANA_CIRCUIT_COOLDOWN_MAX:-1800}"
+BACKOFF_MULTIPLIER="${YANA_CIRCUIT_BACKOFF_MULTIPLIER:-5}"
+FAST_TIER_MODEL="${YANA_FAST_TIER_MODEL:-claude-haiku-4-5}"
 
 NOW_EPOCH=$(date +%s)
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
@@ -163,20 +163,20 @@ case "$STATE" in
     if [[ "$NOW_EPOCH" -ge "$COOLDOWN_UNTIL" ]]; then
       # Cooldown expired — transition to HALF_OPEN
       NEW_STATE="HALF_OPEN"
-      warn_and_log "⚠️  Circuit Breaker [$TOOL_NAME]: Transitioning from OPEN → HALF_OPEN. Cooldown expired. Next call allowed (health check mode). Bypass: YAMTAM_CIRCUIT_BYPASS=1"
+      warn_and_log "⚠️  Circuit Breaker [$TOOL_NAME]: Transitioning from OPEN → HALF_OPEN. Cooldown expired. Next call allowed (health check mode). Bypass: YANA_CIRCUIT_BYPASS=1"
       update_state "$TOOL_NAME" "$NEW_STATE" 0 0 "$BACKOFF_EXP" false
       exit 1  # Warn, but allow probe
     else
       # Cooldown still active — hard block
       REMAINING=$((COOLDOWN_UNTIL - NOW_EPOCH))
-      deny_and_log "Blocked [L5 Per-Tool Circuit Breaker]: Tool '$TOOL_NAME' circuit is OPEN. Too many failures (≥${MAX_FAILURES}). Cooldown active for ${REMAINING}s more. Suggest: use '${FAST_TIER_MODEL}' for fast recovery. Bypass: YAMTAM_CIRCUIT_BYPASS=1"
+      deny_and_log "Blocked [L5 Per-Tool Circuit Breaker]: Tool '$TOOL_NAME' circuit is OPEN. Too many failures (≥${MAX_FAILURES}). Cooldown active for ${REMAINING}s more. Suggest: use '${FAST_TIER_MODEL}' for fast recovery. Bypass: YANA_CIRCUIT_BYPASS=1"
       exit 2
     fi
     ;;
 
   HALF_OPEN)
     # Health check mode — allow 1 probe
-    warn_and_log "⚠️  Circuit Breaker [$TOOL_NAME]: In HALF_OPEN recovery mode. This call is a health check probe. If it succeeds, circuit resets to CLOSED. If it fails, OPEN for longer. Bypass: YAMTAM_CIRCUIT_BYPASS=1"
+    warn_and_log "⚠️  Circuit Breaker [$TOOL_NAME]: In HALF_OPEN recovery mode. This call is a health check probe. If it succeeds, circuit resets to CLOSED. If it fails, OPEN for longer. Bypass: YANA_CIRCUIT_BYPASS=1"
     exit 1  # Warn, allow probe
     ;;
 

@@ -1,10 +1,10 @@
 ---
 name: reflexion-verbal-rl
 description: Reflexion verbal reinforcement learning — Actor/Evaluator/Self-Reflector loop with episodic memory. No gradient updates. ALFWorld +X% over ReAct, HumanEval SOTA at publish time. Foundation for CLAUDE.md learnings, Letta sleep-time compute, learn-rule. Sources: rohitg00/ai-engineering-from-scratch (Apache-2.0).
-origin: yamtam-engine — synthesized from rohitg00/ai-engineering-from-scratch (Apache-2.0)
+origin: yana-ai — synthesized from rohitg00/ai-engineering-from-scratch (Apache-2.0)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.54
+compatibility: yana-ai >= 1.3.54
 ---
 
 # /reflexion-verbal-rl
@@ -152,7 +152,7 @@ Start with "I failed because..."."""
 ```
 CLAUDE.md / "save memory"   → failure captured as rule, prepended to next session
 Letta sleep-time compute    → async agent reflects on past conversations → writes to memory blocks
-YAMTAM /learn-rule          → corrections captured as explicit rules
+Yana AI /learn-rule          → corrections captured as explicit rules
 LangGraph reflection node   → routes to refine sub-graph when evaluator fails
 pro-workflow                → per-task reflections accumulate into agent CLAUDE.md
 ```

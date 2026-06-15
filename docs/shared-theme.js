@@ -1,4 +1,4 @@
-// YAMTAM shared theme — dark/light mode across all pages
+// Yana AI shared theme — dark/light mode across all pages
 (function () {
   const KEY = 'theme';
   const html = document.documentElement;

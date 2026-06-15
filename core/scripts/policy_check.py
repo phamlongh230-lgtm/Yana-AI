@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yamtam policy check [target] — verify applied configs match policy templates."""
+"""yana-ai policy check [target] — verify applied configs match policy templates."""
 
 import argparse
 import json
@@ -15,7 +15,7 @@ BOLD  = "\033[1m"; GREEN = "\033[32m"; YELLOW = "\033[33m"
 RED   = "\033[31m"; CYAN  = "\033[36m"; DIM   = "\033[2m"; RESET = "\033[0m"
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -66,7 +66,7 @@ CHECKS = [
     {
         "name": "ci-safe",
         "template": "ci-safe.yml",
-        "targets": [".github/workflows/yamtam-audit.yml",
+        "targets": [".github/workflows/yana-ai-audit.yml",
                     ".github/workflows/ci.yml"],
         "checks": [
             ("permissions block present",
@@ -124,7 +124,7 @@ def check_policy(target: str, policy: dict) -> list[dict]:
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="yamtam policy check",
+        prog="yana-ai policy check",
         description="Verify applied configs match policy templates",
     )
     parser.add_argument("target",  nargs="?", default=".")
@@ -153,7 +153,7 @@ def main():
         return
 
     print()
-    print(c(BOLD, "  yamtam policy check") + c(DIM, f" — {args.target}"))
+    print(c(BOLD, "  yana-ai policy check") + c(DIM, f" — {args.target}"))
     print()
 
     cur_policy = None

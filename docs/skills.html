@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>YAMTAM Library — Skills & Agents</title>
-<meta property="og:title" content="Skills Library — YAMTAM ENGINE">
+<title>Yana AI Library — Skills & Agents</title>
+<meta property="og:title" content="Skills Library — Yana AI">
 <meta property="og:description" content="Browse 3,457 workflow skills and 95 agents for Claude Code, Cursor, and Codex.">
-<meta property="og:image" content="https://phamlongh230-lgtm.github.io/yamtam-engine/yamtam-engine-overview.png">
-<meta property="og:url" content="https://yamtam-engine.pages.dev/skills.html">
+<meta property="og:image" content="https://phamlongh230-lgtm.github.io/yana-ai/yana-ai-overview.png">
+<meta property="og:url" content="https://yana-ai.pages.dev/skills.html">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Skills Library — YAMTAM ENGINE">
+<meta name="twitter:title" content="Skills Library — Yana AI">
 <meta name="twitter:description" content="Browse 3,457 workflow skills and 95 agents for Claude Code, Cursor, and Codex.">
 <meta name="description" content="Browse 3,457 workflow skills and 95 agents for Claude Code, Cursor, and Codex.">
 <meta name="description" content="Browse 3,440 AI agent skills for Claude Code, Codex, Cursor and more.">
@@ -72,7 +72,7 @@ a:hover{text-decoration:underline}
 [data-ns="terminal"] { border-color: #6366f1; }
 [data-ns="venice"] { border-color: #f59e0b; }
 [data-ns="sports"] { border-color: #22c55e; }
-[data-ns="yamtam"] { border-color: #3b82f6; }
+[data-ns="yana-ai"] { border-color: #3b82f6; }
 .card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
 .card-name{font-weight:600;font-size:.95rem;font-family:'JetBrains Mono',monospace;word-break:break-word;line-height:1.4}
 .card-badges{display:flex;gap:.3rem;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end}
@@ -112,7 +112,7 @@ footer a:hover{color:var(--text)}
 <body>
 
 <nav class="nav" id="main-nav">
-  <a class="nav-logo" href="./" style="text-decoration:none;font-family:var(--script);font-size:1.15rem;font-weight:700;background:linear-gradient(90deg,#ff0080,#ff8c00,#ffd700,#00e676,#00b0ff,#a259ff,#ff0080);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:rainbow 3s linear infinite">YAMTAM ENGINE</a>
+  <a class="nav-logo" href="./" style="text-decoration:none;font-family:var(--script);font-size:1.15rem;font-weight:700;background:linear-gradient(90deg,#ff0080,#ff8c00,#ffd700,#00e676,#00b0ff,#a259ff,#ff0080);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:rainbow 3s linear infinite">Yana AI</a>
   <style>@keyframes rainbow{0%{background-position:0%}100%{background-position:200%}}</style>
   <div class="nav-links">
     <a href="./">Home</a>
@@ -121,7 +121,7 @@ footer a:hover{color:var(--text)}
     <a href="changelog.html">Changelog</a>
     <a href="guide.html">Guide</a>
     <a href="search.html">🔍</a>
-    <a href="https://github.com/phamlongh230-lgtm/yamtam-engine" target="_blank">GitHub</a>
+    <a href="https://github.com/phamlongh230-lgtm/yana-ai" target="_blank">GitHub</a>
     <button id="theme-toggle" onclick="toggleTheme()" title="Toggle dark/light" style="border:none;background:transparent;cursor:pointer;font-size:1.05rem;padding:.2rem .4rem;border-radius:6px;line-height:1">🌙</button>
   </div>
   <button class="hbg" id="hbg" onclick="toggleHbg()" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -133,7 +133,7 @@ footer a:hover{color:var(--text)}
   <a href="changelog.html" onclick="toggleHbg()">Changelog</a>
   <a href="guide.html" onclick="toggleHbg()">Guide</a>
   <a href="search.html" onclick="toggleHbg()">Search 🔍</a>
-  <a href="https://github.com/phamlongh230-lgtm/yamtam-engine" target="_blank" onclick="toggleHbg()">GitHub</a>
+  <a href="https://github.com/phamlongh230-lgtm/yana-ai" target="_blank" onclick="toggleHbg()">GitHub</a>
 </div>
 <script>(function(){if(localStorage.getItem('theme')==='dark')document.documentElement.classList.add('dark');})();function toggleTheme(){
   const html = document.documentElement;
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function(){
 </script>
 
 <div class="hero">
-  <h1 style="font-family:var(--hand);font-size:clamp(2rem,4vw,3rem);font-weight:700;letter-spacing:.01em" data-i18n="hero.title">YAMTAM Library</h1>
+  <h1 style="font-family:var(--hand);font-size:clamp(2rem,4vw,3rem);font-weight:700;letter-spacing:.01em" data-i18n="hero.title">Yana AI Library</h1>
   <p>3,440 skills · 93 agents · tìm kiếm và lọc theo danh mục</p>
 
   <!-- Mode switcher -->
@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function(){
   </div>
 
   <div id="skills-chips" class="stat-chips">
-    <div class="chip"><span>🛡️</span>740 YAMTAM Core</div>
+    <div class="chip"><span>🛡️</span>740 Yana AI Core</div>
     <div class="chip"><span>🔌</span>423 OpenAI Plugins</div>
     <div class="chip"><span>⚡</span>1009 TerminalSkills</div>
     <div class="chip"><span>🎨</span>19 Venice AI</div>
@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function(){
   <button class="tab" data-ns="terminal" style="--ns-color:#6366f1">⚡ Terminal <span class="tab-count">1009</span></button>
   <button class="tab" data-ns="venice" style="--ns-color:#f59e0b">🎨 Venice <span class="tab-count">19</span></button>
   <button class="tab" data-ns="sports" style="--ns-color:#22c55e">🏆 Sports <span class="tab-count">20</span></button>
-  <button class="tab" data-ns="yamtam" style="--ns-color:#3b82f6">🛡️ YAMTAM <span class="tab-count">740</span></button>
+  <button class="tab" data-ns="yana-ai" style="--ns-color:#3b82f6">🛡️ Yana AI <span class="tab-count">740</span></button>
 </div>
 <div class="tabs" id="agent-tabs" style="display:none">
   <button class="tab active" data-domain="all">All <span class="tab-count">93</span></button>
@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
 <footer>
   <p>
-    <a href="https://github.com/phamlongh230-lgtm/yamtam-engine">YAMTAM ENGINE</a>
+    <a href="https://github.com/phamlongh230-lgtm/yana-ai">Yana AI</a>
     · v0.17.0 · Apache 2.0 · 3,440 skills · 93 agents
   </p>
   <p style="margin-top:.5rem;opacity:.6;font-size:.78rem">Skills sourced from public repositories — antigravity-awesome-skills, ComposioHQ/awesome-claude-skills, VoltAgent/awesome-openclaw-skills</p>
@@ -234,9 +234,9 @@ document.addEventListener('DOMContentLoaded', function(){
 let SKILLS = [], AGENTS = [];
 let mode = 'skills'; // 'skills' | 'agents'
 
-const NS_COLORS = { openai:"#10a37f", terminal:"#6366f1", venice:"#f59e0b", sports:"#22c55e", yamtam:"#3b82f6" };
-const NS_ICONS  = { openai:"🔌", terminal:"⚡", venice:"🎨", sports:"🏆", yamtam:"🛡️" };
-const NS_LABELS = { openai:"OpenAI Plugins", terminal:"TerminalSkills", venice:"Venice AI", sports:"Sports", yamtam:"YAMTAM Core" };
+const NS_COLORS = { openai:"#10a37f", terminal:"#6366f1", venice:"#f59e0b", sports:"#22c55e", yana-ai:"#3b82f6" };
+const NS_ICONS  = { openai:"🔌", terminal:"⚡", venice:"🎨", sports:"🏆", yana-ai:"🛡️" };
+const NS_LABELS = { openai:"OpenAI Plugins", terminal:"TerminalSkills", venice:"Venice AI", sports:"Sports", yana-ai:"Yana AI Core" };
 const DOM_COLORS = { core:"#3b82f6", quality:"#10a37f", infra:"#6366f1", business:"#f59e0b", 'data-ai':"#bc8cff", orchestration:"#f43f5e", forge:"#22c55e" };
 const DOM_ICONS  = { core:"⚙️", quality:"✅", infra:"🏗️", business:"💼", 'data-ai':"🧠", orchestration:"🔀", forge:"🔨" };
 const MODEL_COLORS = { opus:"#f43f5e", sonnet:"#3b82f6", haiku:"#10a37f" };

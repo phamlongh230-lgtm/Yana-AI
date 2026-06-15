@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Hook
+# Yana AI Hook
 # Version: 1.3.26
 # Status: active
 # Description: Block destructive API calls (DELETE/DROP/TRUNCATE patterns)
@@ -17,7 +17,7 @@
 #   - GraphQL mutations containing delete/destroy/drop/wipe verbs
 #   - Direct calls to known destructive endpoints (railway.app, vercel.com, etc)
 #
-# Bypass: YAMTAM_PROD_APPROVED=1 (same flag as db-protect.sh)
+# Bypass: YANA_PROD_APPROVED=1 (same flag as db-protect.sh)
 #
 # Fails closed when jq missing (data destruction is irreversible).
 
@@ -38,7 +38,7 @@ CMD=$(echo "$INPUT" | jq -r '.tool_input.command // ""')
 [[ -z "$CMD" ]] && exit 0
 
 # Same bypass flag as db-protect.sh
-[[ "${YAMTAM_PROD_APPROVED:-}" == "1" ]] && exit 0
+[[ "${YANA_PROD_APPROVED:-}" == "1" ]] && exit 0
 
 deny() {
   jq -n --arg reason "$1" '{hookSpecificOutput:{hookEventName:"PreToolUse",permissionDecision:"deny",permissionDecisionReason:$reason}}'
@@ -47,14 +47,14 @@ deny() {
 
 # ── Layer 1: HTTP DELETE methods ────────────────────────────────────────────
 if echo "$CMD" | grep -qE '\b(curl|wget|http|httpie)\b.*(-X[[:space:]]+|--request[[:space:]]+|--method[[:space:]]+)DELETE\b'; then
-  deny "Blocked: HTTP DELETE call detected. The PocketOS incident (April 2026) was a single GraphQL mutation that wiped a production database in 9 seconds. Set YAMTAM_PROD_APPROVED=1 only after verifying the target endpoint and scope."
+  deny "Blocked: HTTP DELETE call detected. The PocketOS incident (April 2026) was a single GraphQL mutation that wiped a production database in 9 seconds. Set YANA_PROD_APPROVED=1 only after verifying the target endpoint and scope."
 fi
 
 # ── Layer 2: GraphQL destructive mutations ──────────────────────────────────
 # Match any GraphQL mutation that contains a destructive verb on a resource.
 # Catches: volumeDelete, deleteUser, destroyDatabase, dropTable, wipeAccount, removeProject, truncateTable, etc.
 if echo "$CMD" | grep -qiE 'mutation[[:space:]]*\{[^}]*(delete|destroy|drop|wipe|truncate|remove|teardown)[A-Z]?'; then
-  deny "Blocked: destructive GraphQL mutation detected. Patterns like 'volumeDelete', 'destroyDatabase', 'dropTable' are how the PocketOS incident happened. Verify scope, environment, and permissions before retrying with YAMTAM_PROD_APPROVED=1."
+  deny "Blocked: destructive GraphQL mutation detected. Patterns like 'volumeDelete', 'destroyDatabase', 'dropTable' are how the PocketOS incident happened. Verify scope, environment, and permissions before retrying with YANA_PROD_APPROVED=1."
 fi
 
 # Heuristic: any GraphQL with delete keyword on prod-looking host

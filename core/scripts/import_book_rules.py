@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""import_book_rules.py — Import ciembor/agent-rules-books as YAMTAM skills.
+"""import_book_rules.py — Import ciembor/agent-rules-books as Yana AI skills.
 
 Each book → 3 skills: full, mini, nano
 Usage: python3 core/scripts/import_book_rules.py /tmp/book-rules
@@ -41,7 +41,7 @@ def main():
     if len(sys.argv) < 2:
         print("Usage: python3 import_book_rules.py <path-to-book-rules>"); sys.exit(1)
     source = Path(sys.argv[1])
-    print(f"\n  {c(BOLD,'import book rules')} → yamtam core/skills/book--*\n")
+    print(f"\n  {c(BOLD,'import book rules')} → yana-ai core/skills/book--*\n")
 
     imported = 0
     for slug, (title, author) in BOOKS.items():
@@ -65,7 +65,7 @@ description: >-
 origin: "github.com/ciembor/agent-rules-books (MIT)"
 license: MIT
 version: "1.0.0"
-compatibility: "yamtam-engine >= 0.14.0"
+compatibility: "yana-ai >= 0.14.0"
 ---
 
 """

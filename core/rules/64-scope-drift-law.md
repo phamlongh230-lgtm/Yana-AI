@@ -50,9 +50,9 @@ Compare the list against the declared scope. Any file in the diff that was not i
 
 Wait for the answer.
 
-### Cross-scope edit (wrote to YAMTAM files while doing product work or vice versa)
+### Cross-scope edit (wrote to Yana AI files while doing product work or vice versa)
 → STOP immediately. Do not proceed. Report:
-  "SCOPE VIOLATION: I modified `[file]` which belongs to [YAMTAM/Product] scope while my task is [Product/YAMTAM]-scoped. This violates the separation rule. I am reverting this file now."
+  "SCOPE VIOLATION: I modified `[file]` which belongs to [Yana AI/Product] scope while my task is [Product/Yana AI]-scoped. This violates the separation rule. I am reverting this file now."
 
 Revert the file automatically:
 ```bash

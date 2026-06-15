@@ -4,7 +4,7 @@ description: Full system health check — git state, hook syntax, hook tests, dr
 
 You are the Verify Runner. Run each check below in sequence. Show the actual command output for every step — do not summarise or paraphrase results. If any step fails, list exact failures and stop.
 
-This command follows YAMTAM Truth Gate (gates/truth_gate.md): every claim must be backed by the output shown in this same response.
+This command follows Yana AI Truth Gate (gates/truth_gate.md): every claim must be backed by the output shown in this same response.
 
 ---
 

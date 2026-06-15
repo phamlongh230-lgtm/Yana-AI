@@ -1,12 +1,12 @@
 {
   "version": "1.8.0",
   "metadata": {
-    "description": "YAMTAM Capability Matrix - Definitive permission map for Agent Gates L0-L5",
+    "description": "Yana AI Capability Matrix - Definitive permission map for Agent Gates L0-L5",
     "last_updated": "2026-06-02"
   },
   "tiers": {
     "core": {
-      "description": "Full system access - Reserved for internal YAMTAM maintenance agents",
+      "description": "Full system access - Reserved for internal Yana AI maintenance agents",
       "capabilities": ["*"],
       "gate_level_min": "L0",
       "gate_level_max": "L3"

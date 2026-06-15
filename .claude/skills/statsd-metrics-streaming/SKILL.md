@@ -1,10 +1,10 @@
 ---
 name: statsd-metrics-streaming
 description: Real-time metrics streaming via StatsD UDP protocol. Counter, gauge, timer, and set metrics; sampling rates; DogStatsD tags; flush intervals; and integration with Datadog/Graphite dashboards. Sources: besquare/node-statsd, statsd spec.
-origin: yamtam-engine — synthesized from besquare/node-statsd (MIT), Etsy StatsD protocol spec
+origin: yana-ai — synthesized from besquare/node-statsd (MIT), Etsy StatsD protocol spec
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.48
+compatibility: yana-ai >= 1.3.48
 ---
 
 # /statsd-metrics-streaming
@@ -31,7 +31,7 @@ import StatsD from 'node-statsd'
 const stats = new StatsD({
   host:      process.env.STATSD_HOST ?? '127.0.0.1',
   port:      parseInt(process.env.STATSD_PORT ?? '8125'),
-  prefix:    'yamtam.',
+  prefix:    'yana-ai.',
   errorHandler: (err) => console.error('[statsd] error:', err.message),
 })
 
@@ -69,8 +69,8 @@ stats.increment('tool.calls.debug', 1, 0.1)
 const ddStats = new StatsD({
   host:       '127.0.0.1',
   port:       8125,
-  prefix:     'yamtam.',
-  global_tags: [`env:${process.env.NODE_ENV}`, `version:${process.env.YAMTAM_VERSION}`],
+  prefix:     'yana-ai.',
+  global_tags: [`env:${process.env.NODE_ENV}`, `version:${process.env.YANA_VERSION}`],
 })
 
 // Histogram (DogStatsD extension)

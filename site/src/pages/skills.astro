@@ -3,9 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 ---
 <BaseLayout
-  title="YAMTAM Library — Skills & Agents"
+  title="Yana AI Library — Skills & Agents"
   description="Browse 3,440 workflow skills and 93 agents for Claude Code, Cursor, and Codex."
-  ogUrl="https://phamlongh230-lgtm.github.io/yamtam-engine/skills"
+  ogUrl="https://phamlongh230-lgtm.github.io/yana-ai/skills"
   active="skills"
 >
   <Nav slot="nav" active="skills" />
@@ -45,7 +45,7 @@ import Nav from '../components/Nav.astro';
   </style>
 
   <div class="hero">
-    <h1 style="font-family:var(--hand);font-size:clamp(2rem,4vw,3rem);font-weight:700" data-i18n="hero.title">YAMTAM Library</h1>
+    <h1 style="font-family:var(--hand);font-size:clamp(2rem,4vw,3rem);font-weight:700" data-i18n="hero.title">Yana AI Library</h1>
     <p style="color:var(--muted);font-size:1.1rem;max-width:600px;margin:.75rem auto 2rem">3,440 skills · 93 agents · tìm kiếm và lọc theo danh mục</p>
 
     <div style="display:inline-flex;gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:1.5rem;background:var(--bg2)">
@@ -54,7 +54,7 @@ import Nav from '../components/Nav.astro';
     </div>
 
     <div id="skills-chips" class="stat-chips">
-      <div class="chip"><span>🛡️</span>740 YAMTAM Core</div>
+      <div class="chip"><span>🛡️</span>740 Yana AI Core</div>
       <div class="chip"><span>🔌</span>423 OpenAI Plugins</div>
       <div class="chip"><span>⚡</span>1009 TerminalSkills</div>
       <div class="chip"><span>🎨</span>19 Venice AI</div>
@@ -83,7 +83,7 @@ import Nav from '../components/Nav.astro';
     <button class="tab" data-ns="terminal" style="--ns-color:#6366f1">⚡ Terminal <span class="tab-count">1009</span></button>
     <button class="tab" data-ns="venice" style="--ns-color:#f59e0b">🎨 Venice <span class="tab-count">19</span></button>
     <button class="tab" data-ns="sports" style="--ns-color:#22c55e">🏆 Sports <span class="tab-count">20</span></button>
-    <button class="tab" data-ns="yamtam" style="--ns-color:#3b82f6">🛡️ YAMTAM <span class="tab-count">740</span></button>
+    <button class="tab" data-ns="yana-ai" style="--ns-color:#3b82f6">🛡️ Yana AI <span class="tab-count">740</span></button>
   </div>
   <div class="tabs" id="agent-tabs" style="display:none">
     <button class="tab active" data-domain="all">All <span class="tab-count">93</span></button>
@@ -103,7 +103,7 @@ import Nav from '../components/Nav.astro';
   </div>
 
   <footer>
-    <p><a href="https://github.com/phamlongh230-lgtm/yamtam-engine">YAMTAM ENGINE</a> · v0.17.0 · Apache 2.0 · 3,440 skills · 93 agents</p>
+    <p><a href="https://github.com/phamlongh230-lgtm/yana-ai">Yana AI</a> · v0.17.0 · Apache 2.0 · 3,440 skills · 93 agents</p>
   </footer>
 
   <div id="yt-player" style="position:fixed;width:0;height:0;opacity:0;pointer-events:none"></div>
@@ -114,9 +114,9 @@ import Nav from '../components/Nav.astro';
   <script is:inline slot="scripts">
   let SKILLS = [], AGENTS = [];
   let mode = 'skills';
-  const NS_COLORS = { openai:"#10a37f", terminal:"#6366f1", venice:"#f59e0b", sports:"#22c55e", yamtam:"#3b82f6" };
-  const NS_ICONS  = { openai:"🔌", terminal:"⚡", venice:"🎨", sports:"🏆", yamtam:"🛡️" };
-  const NS_LABELS = { openai:"OpenAI Plugins", terminal:"TerminalSkills", venice:"Venice AI", sports:"Sports", yamtam:"YAMTAM Core" };
+  const NS_COLORS = { openai:"#10a37f", terminal:"#6366f1", venice:"#f59e0b", sports:"#22c55e", yana-ai:"#3b82f6" };
+  const NS_ICONS  = { openai:"🔌", terminal:"⚡", venice:"🎨", sports:"🏆", yana-ai:"🛡️" };
+  const NS_LABELS = { openai:"OpenAI Plugins", terminal:"TerminalSkills", venice:"Venice AI", sports:"Sports", yana-ai:"Yana AI Core" };
   const DOM_COLORS = { core:"#3b82f6", quality:"#10a37f", infra:"#6366f1", business:"#f59e0b", 'data-ai':"#bc8cff" };
   const DOM_ICONS  = { core:"⚙️", quality:"✅", infra:"🏗️", business:"💼", 'data-ai':"🧠" };
   const MODEL_COLORS = { opus:"#f43f5e", sonnet:"#3b82f6", haiku:"#10a37f" };

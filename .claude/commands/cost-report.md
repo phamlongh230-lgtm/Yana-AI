@@ -3,7 +3,7 @@ description: Real-time token cost dashboard from token-budget.json + session JSO
 argument-hint: --all
 ---
 
-You are generating a YAMTAM cost report from local session data.
+You are generating a Yana AI cost report from local session data.
 
 No API calls. No external data. All numbers come from local files.
 
@@ -46,7 +46,7 @@ if os.path.exists(budget_file):
     est_cost_usd = (est_input / 1_000_000 * 3.0) + (est_output / 1_000_000 * 15.0)
 
     print("=" * 52)
-    print("  YAMTAM COST REPORT — Current Session")
+    print("  Yana AI COST REPORT — Current Session")
     print("=" * 52)
     print(f"  Session start    : {session_start}")
     print(f"  Total tokens     : {total_tokens:,}")
@@ -78,7 +78,7 @@ if os.path.exists(circuit_file):
     print(f"  Circuit Breaker  : {state}")
     if state == 'OPEN':
         print(f"  ⛔  Blocked tool : {tool} (open_count={open_count})")
-        print(f"  ⛔  Unblock with : YAMTAM_BUDGET_BYPASS=1 (sovereign only)")
+        print(f"  ⛔  Unblock with : YANA_BUDGET_BYPASS=1 (sovereign only)")
     elif state == 'HALF-OPEN':
         print(f"  ⚠  Half-open    : {tool} — one probe allowed")
 else:
@@ -105,7 +105,7 @@ After the report, apply these rules:
 |---|---|
 | total_tokens > 40,000 | "Approaching loop limit (50K). Consider /checkpoint." |
 | est_cost_usd > $0.10 | "Session cost notable. Run /output-budget for bloat check." |
-| circuit_state == OPEN | "Circuit OPEN — resolve the blocked tool or set YAMTAM_BUDGET_BYPASS=1." |
+| circuit_state == OPEN | "Circuit OPEN — resolve the blocked tool or set YANA_BUDGET_BYPASS=1." |
 | fast_tier == YES | "Fast-tier active. Claude will route future calls to Haiku." |
 | loop_attempts any ≥ 4 | "Tool attempted ≥4 times. Review why it keeps being called." |
 

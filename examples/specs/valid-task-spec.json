@@ -21,7 +21,7 @@
     {
       "type": "command",
       "description": "Run validate-spec against valid input.",
-      "command": "bash bin/yamtam validate-spec examples/specs/valid-task-spec.json",
+      "command": "bash bin/yana-ai validate-spec examples/specs/valid-task-spec.json",
       "expected_evidence": "Result: VALID",
       "required": true
     }

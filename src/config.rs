@@ -30,13 +30,13 @@ impl Default for YamtamConfig {
 }
 
 fn config_path(dir: &str) -> PathBuf {
-    PathBuf::from(dir).join(".yamtam").join("settings.json")
+    PathBuf::from(dir).join(".yana-ai").join("settings.json")
 }
 
 pub fn cmd_config_show(dir: String) {
     let path = config_path(&dir);
     if !path.exists() {
-        println!("No config at {}\nRun: yamtam-rt config init --dir {dir}", path.display());
+        println!("No config at {}\nRun: yana-rt config init --dir {dir}", path.display());
         return;
     }
     let cfg: YamtamConfig = serde_json::from_str(&fs::read_to_string(&path).unwrap_or_default())

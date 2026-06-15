@@ -1,0 +1,415 @@
+#!/usr/bin/env bash
+# Yana AI CLI — entry point
+# Usage: yana-ai audit [target] [flags]
+set -euo pipefail
+
+YANA_VERSION="0.17.0"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+# ── yana-rt binary (prefer release, fall back to debug) ────────────────────
+_find_rt() {
+  if [[ -x "$REPO_ROOT/target/release/yana-rt" ]]; then
+    echo "$REPO_ROOT/target/release/yana-rt"
+  elif [[ -x "$REPO_ROOT/target/debug/yana-rt" ]]; then
+    echo "$REPO_ROOT/target/debug/yana-rt"
+  elif command -v yana-rt &>/dev/null; then
+    echo "yana-rt"
+  else
+    echo ""
+  fi
+}
+rt() { local bin; bin=$(_find_rt); [[ -n "$bin" ]] || { err "yana-rt not found. Run: cargo build --release"; exit 3; }; exec "$bin" "$@"; }
+
+# ── Python scripts (not yet ported) ──────────────────────────────────────────
+SCANNER_PY="$REPO_ROOT/core/scripts/audit_scanner.py"
+ROUTER_PY="$REPO_ROOT/core/scripts/router_suggest.py"
+CHECK_CONTEXT_PY="$REPO_ROOT/core/scripts/check_context_pack.py"
+POLICY_PY="$REPO_ROOT/core/scripts/policy_manager.py"
+GUARD_PY="$REPO_ROOT/core/scripts/guard_installer.py"
+INIT_POLICY_PY="$REPO_ROOT/core/scripts/init_policy.py"
+EXPLAIN_PY="$REPO_ROOT/core/scripts/explain_rule.py"
+SCORE_PY="$REPO_ROOT/core/scripts/score_explain.py"
+DIFF_REPORT_PY="$REPO_ROOT/core/scripts/diff_report.py"
+REPORT_HTML_PY="$REPO_ROOT/core/scripts/report_html.py"
+SCAN_URL_PY="$REPO_ROOT/core/scripts/scan_url.py"
+RULE_IMPORT_PY="$REPO_ROOT/core/scripts/rule_import.py"
+UPGRADE_PY="$REPO_ROOT/core/scripts/upgrade.py"
+INIT_WIZ_PY="$REPO_ROOT/core/scripts/init_wizard.py"
+VERIFY_PY="$REPO_ROOT/core/scripts/verify_hooks.py"
+MONITOR_PY="$REPO_ROOT/core/scripts/monitor.py"
+STATS_PY="$REPO_ROOT/core/scripts/stats.py"
+LINT_PY="$REPO_ROOT/core/scripts/lint_rules.py"
+SNAPSHOT_PY="$REPO_ROOT/core/scripts/snapshot.py"
+POLICY_CHECK_PY="$REPO_ROOT/core/scripts/policy_check.py"
+EXPORT_PY="$REPO_ROOT/core/scripts/export_findings.py"
+HARNESS_PY="$REPO_ROOT/core/scripts/harness_export.py"
+CHECK_FILE_PY="$REPO_ROOT/core/scripts/check_file.py"
+TEMPLATE_PY="$REPO_ROOT/core/scripts/template_list.py"
+RULE_PY="$REPO_ROOT/core/scripts/rule_add.py"
+INSTALL_PY="$REPO_ROOT/core/scripts/install_project.py"
+BADGE_PY="$REPO_ROOT/core/scripts/badge_gen.py"
+WATCH_PY="$REPO_ROOT/core/scripts/watch.py"
+REPORT_PDF_PY="$REPO_ROOT/core/scripts/report_pdf.py"
+CONFIG_PY="$REPO_ROOT/core/scripts/config_manager.py"
+RULE_TEST_PY="$REPO_ROOT/core/scripts/rule_test.py"
+
+# ── helpers ──────────────────────────────────────────────────────────────────
+
+RED='\033[31m'; CYAN='\033[36m'; BOLD='\033[1m'; RESET='\033[0m'
+
+err()  { echo -e "${RED}Error:${RESET} $*" >&2; }
+info() { echo -e "  ${CYAN}→${RESET} $*"; }
+
+usage() {
+  cat <<EOF
+
+Usage: yana-ai <command> [target] [flags]
+
+Commands:
+  doctor [target]         Check environment health before starting an agent session
+  audit  [target]         Scan AI agent setup for risk patterns (default target: .)
+  policy <subcommand>     Policy Kit — safe config templates for audit findings
+  guard  <subcommand>     Control Layer — install runtime enforcement hooks
+  task   <subcommand>     Runtime — task lifecycle (create/list/done/status/drop)
+  eval   <subcommand>     Runtime — evaluate task evidence (run/schema)
+  explain <rule-id>       Explain a finding — what it means, why it's risky, how to fix
+  map    [target]         Agent Blast Radius Map — what your agent can reach
+  init-policy <tool>      Generate safe config template (claude/mcp/github-actions/gitignore/env)
+  score  [target]         Show score and optional deduction breakdown (--explain)
+  badge  [target]         Generate shields.io badge URL for README
+  watch  [target]         Watch config files and re-audit on change
+  fix    <rule-id>        Auto-apply safe fix for a finding (opt-in, --dry-run)
+  ci-check [target]      CI/CD pipeline health check (missing gates, weak perms)
+  diff-report <b> <a>   Compare two audit JSON runs — show what changed
+  rule   <subcommand>    Custom rule management (add/list/remove)
+  install [target]       One-command yana-ai setup for a project
+  report html [target]   Export audit report as standalone HTML
+  report pdf  [target]   Export audit report as PDF
+  scan    <url>          Scan a GitHub repo URL (no permanent clone)
+  rule import <src>      Import rule pack from URL or file
+  upgrade                Self-update yana-ai to latest release
+  init   [target]        Interactive setup wizard (engine, profile, guards)
+  verify [target]        Verify all safety hooks are wired and active
+  monitor [target]       Real-time audit log tail with color output
+  stats  [target]        Audit score trend over time (--record to add scan)
+  lint   [path]          Lint rule YAML files for schema correctness
+  snapshot <sub>         Save/list/diff/delete audit snapshots
+  export [target]        Export findings to CSV/Markdown/JUnit/JSON
+  harness                Generate harness adapter files from core/rules/ (cursor/opencode/zed/all)
+  policy check [target]  Verify applied configs match policy templates
+  check  <file>          Scan a single file against all matching rules
+  template list/show     List and preview policy templates
+  graph  <subcommand>     Knowledge graph (build/show/search/onboard/diff)
+  hunt   [target]         Active security scanner (secrets/code/deps/supply-chain)
+  design <subcommand>     Design context (extract/show/init)
+  config <subcommand>     Manage .yana-ai/config.yml (list/get/set/reset/show)
+  router suggest          Look up recommended model tier for a task type
+  validate-spec <file>    Validate task spec file against spec schema
+  check-context <dir>     Validate context-pack directory structure
+  version                 Print version
+  help                    Show this help
+
+Doctor flags:
+  --fix                    Show fix suggestions for WARN and FAIL items
+  --json                   Output as JSON
+  --no-color               Disable ANSI color output
+  --quiet                  Only print health summary
+
+Audit flags:
+  --json                   Output as JSON
+  --markdown <file>        Write Markdown report to file
+  --sarif <file>           Write SARIF 2.1.0 report to file (GitHub Code Scanning)
+  --diff <base>            Only scan files changed since base (e.g. origin/main)
+  --fail-on <level>        Exit non-zero on findings at level+ (low/medium/high/critical)
+  --only <category>        Run one scanner only
+  --ignore <id>            Suppress a finding ID (repeatable)
+  --no-color               Disable ANSI color output
+  --quiet                  Only print score + risk level
+  --watch                  Re-audit on file change (Ctrl-C to stop)
+  (reads .yana-aiignore if present — suppress known/accepted findings)
+
+Router flags:
+  --task <task>            Task type to look up (e.g. pr_review, security_audit)
+  --list                   List all tasks and their assigned tiers
+  --json                   Output as JSON
+  --no-color               Disable ANSI color output
+
+Examples:
+  yana-ai doctor .
+  yana-ai doctor . --fix
+  yana-ai audit .
+  yana-ai audit . --markdown report.md
+  yana-ai audit . --sarif yana-ai.sarif
+  yana-ai audit . --diff origin/main --fail-on high
+  yana-ai audit . --fail-on high
+  yana-ai policy list
+  yana-ai policy show claude-settings
+  yana-ai policy apply claude-settings
+  yana-ai policy fixes AC001
+  yana-ai guard list
+  yana-ai guard install all
+  yana-ai guard status
+  yana-ai task create "Fix auth bug" --scope "src/auth/"
+  yana-ai task list
+  yana-ai task done <id> --evidence "12 tests passed, build ok"
+  yana-ai eval run <id>
+  yana-ai eval schema
+  yana-ai explain CI001
+  yana-ai explain AC002
+  yana-ai map .
+  yana-ai map . --json
+  yana-ai init-policy claude
+  yana-ai init-policy mcp --dry-run
+  yana-ai init-policy list
+  yana-ai score .
+  yana-ai score . --explain
+  yana-ai badge .
+  yana-ai badge . --url-only
+  yana-ai watch .
+  yana-ai fix AC002 --dry-run
+  yana-ai fix CI007
+  yana-ai router suggest --task pr_review
+  yana-ai router suggest --list
+
+EOF
+}
+
+# ── version ───────────────────────────────────────────────────────────────────
+
+cmd_version() {
+  echo "yana-ai $YANA_VERSION"
+}
+
+# ── doctor ────────────────────────────────────────────────────────────────────
+
+cmd_doctor() {
+  rt doctor run "$@"
+}
+
+# ── router ────────────────────────────────────────────────────────────────────
+
+cmd_router() {
+  local subcmd="${1:-}"
+  shift 2>/dev/null || true
+
+  if [[ "$subcmd" != "suggest" ]]; then
+    err "Usage: yana-ai router suggest --task <task> | --list"
+    exit 1
+  fi
+
+  if ! command -v python3 &>/dev/null; then
+    err "python3 is required to run yana-ai router."
+    exit 3
+  fi
+
+  if [[ ! -f "$ROUTER_PY" ]]; then
+    err "Router not found at $ROUTER_PY"
+    exit 3
+  fi
+
+  python3 "$ROUTER_PY" "$@"
+}
+
+# ── audit ─────────────────────────────────────────────────────────────────────
+
+cmd_audit() {
+  rt scan "$@"
+}
+
+
+# ── policy ────────────────────────────────────────────────────────────────────
+
+cmd_policy() {
+  if ! command -v python3 &>/dev/null; then
+    err "python3 is required to run yana-ai policy."
+    exit 3
+  fi
+
+  if [[ ! -f "$POLICY_PY" ]]; then
+    err "Policy manager not found at $POLICY_PY"
+    exit 3
+  fi
+
+  python3 "$POLICY_PY" "$@"
+}
+
+# ── guard ─────────────────────────────────────────────────────────────────────
+
+cmd_guard() {
+  if ! command -v python3 &>/dev/null; then
+    err "python3 is required to run yana-ai guard."
+    exit 3
+  fi
+
+  if [[ ! -f "$GUARD_PY" ]]; then
+    err "Guard installer not found at $GUARD_PY"
+    exit 3
+  fi
+
+  python3 "$GUARD_PY" "$@"
+}
+
+# ── validate-spec ─────────────────────────────────────────────────────────────
+
+cmd_validate_spec() {
+  rt spec validate "$@"
+}
+
+
+# ── check-context ─────────────────────────────────────────────────────────────
+
+cmd_check_context() {
+  if ! command -v python3 &>/dev/null; then
+    err "python3 is required to run yana-ai check-context."
+    exit 3
+  fi
+
+  if [[ ! -f "$CHECK_CONTEXT_PY" ]]; then
+    err "check-context script not found at $CHECK_CONTEXT_PY"
+    exit 3
+  fi
+
+  python3 "$CHECK_CONTEXT_PY" "$@"
+}
+
+# ── dispatch ──────────────────────────────────────────────────────────────────
+
+COMMAND="${1:-help}"
+shift 2>/dev/null || true
+
+case "$COMMAND" in
+  doctor)
+    cmd_doctor "$@"
+    ;;
+  audit)
+    cmd_audit "$@"
+    ;;
+  policy)
+    SUBCMD="${1:-}"; shift 2>/dev/null || true
+    case "$SUBCMD" in
+      check) python3 "$POLICY_CHECK_PY" "$@" ;;
+      *)     cmd_policy "$SUBCMD" "$@" ;;
+    esac
+    ;;
+  guard)
+    cmd_guard "$@"
+    ;;
+  task|eval|bus|memory|plugin|cost|vault|spec)
+    rt "$COMMAND" "$@"
+    ;;
+  explain)
+    python3 "$EXPLAIN_PY" "$@"
+    ;;
+  map)
+    rt map show "$@"
+    ;;
+  init-policy)
+    python3 "$INIT_POLICY_PY" "$@"
+    ;;
+  score)
+    rt score show "$@"
+    ;;
+  badge)
+    python3 "$BADGE_PY" "$@"
+    ;;
+  watch)
+    python3 "$WATCH_PY" "$@"
+    ;;
+  fix)
+    rt fix apply "$@"
+    ;;
+  ci-check)
+    rt ci check "$@"
+    ;;
+  diff-report)
+    python3 "$DIFF_REPORT_PY" "$@"
+    ;;
+  rule)
+    SUBCMD="${1:-}"; shift 2>/dev/null || true
+    case "$SUBCMD" in
+      import) python3 "$RULE_IMPORT_PY" "$@" ;;
+      test)   python3 "$RULE_TEST_PY"   "$@" ;;
+      *)      python3 "$RULE_PY" "$SUBCMD" "$@" ;;
+    esac
+    ;;
+  install)
+    python3 "$INSTALL_PY" "$@"
+    ;;
+  report)
+    SUBCMD="${1:-}"; shift 2>/dev/null || true
+    case "$SUBCMD" in
+      html) python3 "$REPORT_HTML_PY" "$@" ;;
+      pdf)  python3 "$REPORT_PDF_PY"  "$@" ;;
+      *)    err "Unknown report subcommand: $SUBCMD (available: html, pdf)"; exit 1 ;;
+    esac
+    ;;
+  scan)
+    python3 "$SCAN_URL_PY" "$@"
+    ;;
+  upgrade)
+    python3 "$UPGRADE_PY" "$@"
+    ;;
+  init)
+    python3 "$INIT_WIZ_PY" "$@"
+    ;;
+  verify)
+    python3 "$VERIFY_PY" "$@"
+    ;;
+  monitor)
+    python3 "$MONITOR_PY" "$@"
+    ;;
+  stats)
+    python3 "$STATS_PY" "$@"
+    ;;
+  lint)
+    python3 "$LINT_PY" "$@"
+    ;;
+  snapshot)
+    python3 "$SNAPSHOT_PY" "$@"
+    ;;
+  export)
+    python3 "$EXPORT_PY" "$@"
+    ;;
+  harness)
+    python3 "$HARNESS_PY" "$@"
+    ;;
+  check)
+    python3 "$CHECK_FILE_PY" "$@"
+    ;;
+  template)
+    python3 "$TEMPLATE_PY" "$@"
+    ;;
+  router)
+    cmd_router "$@"
+    ;;
+  validate-spec)
+    cmd_validate_spec "$@"
+    ;;
+  check-context)
+    cmd_check_context "$@"
+    ;;
+  graph)
+    rt graph "$@"
+    ;;
+  hunt)
+    rt hunt run "$@"
+    ;;
+  design)
+    rt design "$@"
+    ;;
+  config)
+    python3 "$CONFIG_PY" "$@"
+    ;;
+  version|--version|-v)
+    cmd_version
+    ;;
+  help|--help|-h|"")
+    usage
+    ;;
+  *)
+    err "Unknown command: $COMMAND"
+    usage
+    exit 1
+    ;;
+esac

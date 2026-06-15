@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Color Rules
+# Yana AI — Color Rules
 # Source: radix-ui/colors (12-scale system) + tailwindlabs/tailwindcss (theme.css)
 
 **Status:** Active  

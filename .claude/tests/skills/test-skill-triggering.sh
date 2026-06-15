@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE v1.3.31 — Skill Trigger Phrase Test
+# Yana AI v1.3.31 — Skill Trigger Phrase Test
 #
 # Verifies that skill SKILL.md description fields contain the right trigger phrases.
 # This does NOT test AI routing — it tests that the descriptions are correctly written
@@ -33,7 +33,7 @@ check_skill() {
     fi
 }
 
-echo "=== YAMTAM Skill Trigger Phrase Test ==="
+echo "=== Yana AI Skill Trigger Phrase Test ==="
 echo "Skills dir: $SKILLS_DIR"
 echo ""
 

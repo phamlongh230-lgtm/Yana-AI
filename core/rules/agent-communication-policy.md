@@ -1,7 +1,7 @@
 **Rule:** agent-communication-policy
 **Status:** REVIEWED
 **Gate:** L0 — all inter-agent messages are logged
-**Source:** yamtam-engine (agent-message-bus.sh), RFC 7519 (JWT claims model), NIST SP 800-207 (zero-trust)
+**Source:** yana-ai (agent-message-bus.sh), RFC 7519 (JWT claims model), NIST SP 800-207 (zero-trust)
 
 ---
 
@@ -9,7 +9,7 @@
 
 ## Principle
 
-All communication between YAMTAM agents MUST use the structured JSON message format defined below. No agent may communicate with another via shared global variables, unstructured stdout, or direct filesystem writes outside `core/bus/`. Every message is logged and integrity-checked.
+All communication between Yana AI agents MUST use the structured JSON message format defined below. No agent may communicate with another via shared global variables, unstructured stdout, or direct filesystem writes outside `core/bus/`. Every message is logged and integrity-checked.
 
 ## Canonical Message Format
 

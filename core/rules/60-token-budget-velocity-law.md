@@ -7,11 +7,11 @@ Token consumption MUST be estimated before each LLM request, capped per sliding 
 ## Budget Hierarchy
 
 ```
-Global daily budget (YAMTAM_DAILY_TOKEN_BUDGET)
+Global daily budget (YANA_DAILY_TOKEN_BUDGET)
     └─ Orchestrator pool (40%)
         └─ Per-orchestrator cap
     └─ Executor pool (50%)
-        └─ Per-agent cap (YAMTAM_AGENT_TOKEN_CAP, default: 5000/session)
+        └─ Per-agent cap (YANA_AGENT_TOKEN_CAP, default: 5000/session)
     └─ Reserve (10%) — emergency rollback + auditor agent
 ```
 

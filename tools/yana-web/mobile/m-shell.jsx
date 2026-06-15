@@ -91,7 +91,7 @@ function TopBar({ page, lang, onLang, onMore }) {
           : <span style={{ color: "var(--primary)", display: "inline-flex" }}>{Icons[ALL_PAGES.find((x) => x.id === page)?.icon || "dashboard"](20)}</span>}
         <div style={{ minWidth: 0 }}>
           <div className="mtopbar-title">{onLake ? "Yana" : PAGE_TITLE(page)}</div>
-          {onLake && <div style={{ fontSize: 10.5, color: "var(--ink-3)", letterSpacing: ".06em" }}>YAMTAM ENGINE</div>}
+          {onLake && <div style={{ fontSize: 10.5, color: "var(--ink-3)", letterSpacing: ".06em" }}>Yana AI</div>}
         </div>
       </div>
       <div className="mtopbar-r">
@@ -187,7 +187,7 @@ function MoreSheet({ open, page, onNav, onClose }) {
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <span style={{ color: "var(--primary)" }}>{Icons.safety(16)}</span>
-          <span style={{ fontSize: 13, fontWeight: 500, color: "var(--primary)" }}>YAMTAM Core</span>
+          <span style={{ fontSize: 13, fontWeight: 500, color: "var(--primary)" }}>Yana AI Core</span>
         </div>
         <div style={{ fontSize: 12.5, color: "var(--ink-2)" }}>{D.stats.agents} {L("agents supervised", "tác nhân được giám sát")}</div>
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>

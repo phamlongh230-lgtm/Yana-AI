@@ -7,7 +7,7 @@
 
 ## 1) Current status
 
-- `.yamtam/schemas/validator-output.schema.json` exists.
+- `.yana-ai/schemas/validator-output.schema.json` exists.
 - `tests/test_validator_json_schema.py` exists.
 - CI runs `tests/test_validator_json_schema.py`.
 - `check-context --json` is covered by contract checks.
@@ -21,7 +21,7 @@
 - `python3 tests/test_validator_json_schema.py`
 - `python3 tests/test_validate_spec.py`
 - `python3 tests/test_context_pack_check.py`
-- `python3 tests/test_yamtamignore.py`
+- `python3 tests/test_yana-aiignore.py`
 - `python3 tests/test_harness_schema_examples.py`
 
 ---
@@ -56,6 +56,6 @@
 
 ## 6) Positioning
 
-- **Public:** YAMTAM Agent Auditor.
+- **Public:** Yana AI Agent Auditor.
 - **Internal:** Harness Scaling / Control Layer.
 - Do not market as “12 layers”.

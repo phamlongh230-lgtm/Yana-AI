@@ -1,10 +1,10 @@
 ---
 name: twirp-rpc-patterns
 description: Twirp lightweight RPC over HTTP/1.1 with Protobuf or JSON transport. Service routing, error codes, middleware hooks, and no-proxy deployment for simple agent-to-agent calls. Sources: twitchtv/twirp (Apache-2.0).
-origin: yamtam-engine — synthesized from twitchtv/twirp (Apache-2.0)
+origin: yana-ai — synthesized from twitchtv/twirp (Apache-2.0)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.50
+compatibility: yana-ai >= 1.3.50
 ---
 
 # /twirp-rpc-patterns
@@ -100,10 +100,10 @@ async function twirpCall<Req, Res>(
 
 const ack = await twirpCall(
   'http://localhost:8080',
-  'yamtam.AgentBus',
+  'yana-ai.AgentBus',
   'DispatchTask',
   { tool: 'bash', paramsJson: '{"cmd":"ls"}' },
-  'did:yamtam:0xabc123'
+  'did:yana-ai:0xabc123'
 )
 ```
 

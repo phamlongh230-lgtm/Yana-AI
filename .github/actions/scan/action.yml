@@ -1,4 +1,4 @@
-name: YAMTAM Security Scan
+name: Yana AI Security Scan
 description: Scan AI agent configurations for security risks — secrets, permissions, hook injection, MCP vulnerabilities, prompt injection.
 author: Vũ Văn Tâm
 
@@ -31,8 +31,8 @@ inputs:
     description: Post findings summary as PR comment (true/false)
     required: false
     default: 'true'
-  yamtam-ref:
-    description: YAMTAM ENGINE ref to use (tag, branch, or SHA)
+  yana-ai-ref:
+    description: Yana AI ref to use (tag, branch, or SHA)
     required: false
     default: 'main'
 
@@ -58,17 +58,17 @@ runs:
       with:
         python-version: '3.11'
 
-    - name: Install YAMTAM ENGINE
+    - name: Install Yana AI
       shell: bash
       env:
-        YAMTAM_REF: ${{ inputs.yamtam-ref }}
+        YANA_REF: ${{ inputs.yana-ai-ref }}
       run: |
-        git clone --depth 1 --branch "$YAMTAM_REF" \
-          https://github.com/phamlongh230-lgtm/yamtam-engine.git /tmp/yamtam-engine
+        git clone --depth 1 --branch "$YANA_REF" \
+          https://github.com/phamlongh230-lgtm/yana-ai.git /tmp/yana-ai
         pip install pyyaml --quiet
-        chmod +x /tmp/yamtam-engine/bin/yamtam
+        chmod +x /tmp/yana-ai/bin/yana-ai
 
-    - name: Run YAMTAM scan
+    - name: Run Yana AI scan
       id: scan
       shell: bash
       env:
@@ -92,29 +92,29 @@ runs:
 
         SARIF_FLAG=""
         if [[ "$SARIF_ENABLED" == "true" ]]; then
-          SARIF_FLAG="--sarif yamtam-scan.sarif"
+          SARIF_FLAG="--sarif yana-ai-scan.sarif"
         fi
 
         set +e
-        /tmp/yamtam-engine/bin/yamtam audit "$TARGET" \
+        /tmp/yana-ai/bin/yana-ai audit "$TARGET" \
           --fail-on "$FAIL_ON" \
-          --markdown yamtam-scan-report.md \
+          --markdown yana-ai-scan-report.md \
           $DIFF_FLAG \
           $SARIF_FLAG \
           $IGNORE_FLAGS \
-          --no-color 2>&1 | tee yamtam-scan-output.txt
+          --no-color 2>&1 | tee yana-ai-scan-output.txt
         EXIT_CODE=$?
         set -e
 
         # Extract metrics from output
-        RISK_LEVEL=$(grep -oE 'Risk level: [A-Z]+' yamtam-scan-output.txt | awk '{print $NF}' || echo "UNKNOWN")
-        SCORE=$(grep -oE 'Score: [0-9]+' yamtam-scan-output.txt | awk '{print $NF}' || echo "0")
-        FINDINGS=$(grep -oE '[0-9]+ finding' yamtam-scan-output.txt | awk '{print $1}' || echo "0")
+        RISK_LEVEL=$(grep -oE 'Risk level: [A-Z]+' yana-ai-scan-output.txt | awk '{print $NF}' || echo "UNKNOWN")
+        SCORE=$(grep -oE 'Score: [0-9]+' yana-ai-scan-output.txt | awk '{print $NF}' || echo "0")
+        FINDINGS=$(grep -oE '[0-9]+ finding' yana-ai-scan-output.txt | awk '{print $1}' || echo "0")
 
         echo "risk_level=$RISK_LEVEL" >> "$GITHUB_OUTPUT"
         echo "score=$SCORE" >> "$GITHUB_OUTPUT"
         echo "findings_count=$FINDINGS" >> "$GITHUB_OUTPUT"
-        echo "sarif_path=yamtam-scan.sarif" >> "$GITHUB_OUTPUT"
+        echo "sarif_path=yana-ai-scan.sarif" >> "$GITHUB_OUTPUT"
         echo "exit_code=$EXIT_CODE" >> "$GITHUB_OUTPUT"
 
         exit $EXIT_CODE
@@ -123,8 +123,8 @@ runs:
       if: ${{ inputs.sarif == 'true' && always() }}
       uses: github/codeql-action/upload-sarif@v4
       with:
-        sarif_file: yamtam-scan.sarif
-        category: yamtam-security-scan
+        sarif_file: yana-ai-scan.sarif
+        category: yana-ai-security-scan
       continue-on-error: true
 
     - name: Comment on PR
@@ -146,13 +146,13 @@ runs:
 
           let reportBody = '';
           try {
-            reportBody = fs.readFileSync('yamtam-scan-report.md', 'utf8');
+            reportBody = fs.readFileSync('yana-ai-scan-report.md', 'utf8');
           } catch (e) {
             reportBody = '_No detailed report available._';
           }
 
           const body = [
-            `## ${emoji} YAMTAM Security Scan — ${riskLevel}`,
+            `## ${emoji} Yana AI Security Scan — ${riskLevel}`,
             '',
             `| Metric | Value |`,
             `|--------|-------|`,
@@ -166,10 +166,10 @@ runs:
             '',
             '</details>',
             '',
-            '_Powered by [YAMTAM ENGINE](https://github.com/phamlongh230-lgtm/yamtam-engine)_',
+            '_Powered by [Yana AI](https://github.com/phamlongh230-lgtm/yana-ai)_',
           ].join('\n');
 
-          // Find existing YAMTAM comment to update instead of creating new one
+          // Find existing Yana AI comment to update instead of creating new one
           const { data: comments } = await github.rest.issues.listComments({
             owner: context.repo.owner,
             repo: context.repo.repo,
@@ -178,7 +178,7 @@ runs:
 
           const existing = comments.find(c =>
             c.user.login === 'github-actions[bot]' &&
-            c.body.includes('YAMTAM Security Scan')
+            c.body.includes('Yana AI Security Scan')
           );
 
           if (existing) {
@@ -201,9 +201,9 @@ runs:
       if: always()
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       with:
-        name: yamtam-scan-results
+        name: yana-ai-scan-results
         path: |
-          yamtam-scan-report.md
-          yamtam-scan.sarif
-          yamtam-scan-output.txt
+          yana-ai-scan-report.md
+          yana-ai-scan.sarif
+          yana-ai-scan-output.txt
         retention-days: 30

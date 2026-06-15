@@ -8,12 +8,12 @@ description: >
   a sub-agent, or when a multi-agent flow starts showing loop or drift symptoms.
   Do NOT use for session-level human handoffs — use the `handoff` skill for that.
   Do NOT use for dispatch planning — use `subagent-dependency` for DAG orchestration.
-origin: yamtam
+origin: yana-ai
 version: 1.0.0
 compatibility: "Any multi-agent Claude Code flow using Agent tool, subagents, or parallel dispatch."
 ---
 
-<!-- Original YAMTAM skill. Vocabulary synthesized from:
+<!-- Original Yana AI skill. Vocabulary synthesized from:
      arxiv 2502.14143 (Hammond et al., Cooperative AI Foundation 2025),
      cogentinfo.com multi-agent failure playbook 2026,
      usewire.io / UC Berkeley MAST study synthesis.

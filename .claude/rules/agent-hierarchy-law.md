@@ -1,7 +1,7 @@
 **Rule:** agent-hierarchy-law
 **Status:** REVIEWED
 **Gate:** L1 — authority enforcement layer
-**Source:** yamtam-engine (swarm-orchestrator.sh), RBAC principles, hashicorp/raft consensus model
+**Source:** yana-ai (swarm-orchestrator.sh), RBAC principles, hashicorp/raft consensus model
 
 ---
 
@@ -52,7 +52,7 @@ VETO cannot be:
 
 VETO can be:
   - Lifted only by the same security-team agent that issued it
-  - Or by human operator with YAMTAM_IRREVERSIBLE_OK=1
+  - Or by human operator with YANA_IRREVERSIBLE_OK=1
 ```
 
 ## Consensus Thresholds
@@ -69,7 +69,7 @@ Irreversible actions (push, deploy, publish, DROP TABLE):
   Veto: security-team NO = immediate block
 
 Emergency override (human-in-loop only):
-  YAMTAM_IRREVERSIBLE_OK=1 set by human
+  YANA_IRREVERSIBLE_OK=1 set by human
   Logged to audit trail with operator identity
   Cannot be set by an agent (env-integrity-policy.md blocks it)
 ```
@@ -94,5 +94,5 @@ releases/          — Tier 2 write with Tier 3 approval (test gate)
 ❌ Consensus proceeds without checking VETO_AGENTS list
 ❌ security-team mailbox monitored by lower-tier agent (information leak)
 ❌ Tier 4 advisory vote counted as blocking vote
-❌ Human override (YAMTAM_IRREVERSIBLE_OK) set inside an agent script
+❌ Human override (YANA_IRREVERSIBLE_OK) set inside an agent script
 ```

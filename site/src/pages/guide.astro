@@ -3,9 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 ---
 <BaseLayout
-  title="Guide — YAMTAM ENGINE"
-  description="Installation, CLI usage, gate system and skills documentation for YAMTAM ENGINE."
-  ogUrl="https://phamlongh230-lgtm.github.io/yamtam-engine/guide"
+  title="Guide — Yana AI"
+  description="Installation, CLI usage, gate system and skills documentation for Yana AI."
+  ogUrl="https://phamlongh230-lgtm.github.io/yana-ai/guide"
   active="guide"
 >
   <Nav slot="nav" active="guide" />
@@ -59,38 +59,38 @@ import Nav from '../components/Nav.astro';
     </aside>
 
     <article>
-      <h1>YAMTAM ENGINE Guide</h1>
-      <p>Everything you need to install, configure, and run YAMTAM ENGINE.</p>
+      <h1>Yana AI Guide</h1>
+      <p>Everything you need to install, configure, and run Yana AI.</p>
 
       <h2 id="install">Installation</h2>
       <p>Three components, install what you need:</p>
       <pre><code># Claude Code plugin (hooks, skills, agents wired automatically)
-npm install yamtam-engine
-npx yamtam-install        # wire hooks into .claude/
+npm install yana-ai
+npx yana-ai-install        # wire hooks into .claude/
 
 # Rust runtime (scan, hunt, watch, ci, map…)
-cargo install yamtam-rt
+cargo install yana-rt
 
 # Python CLI (legacy commands)
-pip install yamtam-engine</code></pre>
-      <div class="tip"><strong>Tip:</strong> Run <code>npx yamtam-install</code> once after npm install — it wires the PreToolUse / PostToolUse hooks into your <code>.claude/settings.json</code>.</div>
+pip install yana-ai</code></pre>
+      <div class="tip"><strong>Tip:</strong> Run <code>npx yana-ai-install</code> once after npm install — it wires the PreToolUse / PostToolUse hooks into your <code>.claude/settings.json</code>.</div>
 
       <h2 id="first-scan">First Scan</h2>
       <p>Scan your project for agent security risks in 30 seconds:</p>
       <pre><code>cd your-project
-yamtam-rt scan .
+yana-rt scan .
 
 # JSON output
-yamtam-rt scan . --json
+yana-rt scan . --json
 
 # Only show critical/high findings
-yamtam-rt scan . --fail-on high
+yana-rt scan . --fail-on high
 
 # Scan only changed files since main
-yamtam-rt scan . --diff origin/main</code></pre>
+yana-rt scan . --diff origin/main</code></pre>
 
       <h2 id="gates">Gate System</h2>
-      <p>YAMTAM intercepts every Claude tool call through a layered gate pipeline:</p>
+      <p>Yana AI intercepts every Claude tool call through a layered gate pipeline:</p>
       <table>
         <tr><th>Gate</th><th>Layer</th><th>Blocks</th></tr>
         <tr><td>L0</td><td>Audit chain</td><td>Log tampering, replay attacks</td></tr>
@@ -101,42 +101,42 @@ yamtam-rt scan . --diff origin/main</code></pre>
         <tr><td>L4</td><td>Supply chain</td><td>Unvetted package installs</td></tr>
         <tr><td>L5</td><td>UI quality</td><td>Arbitrary hex colors, missing dark mode</td></tr>
       </table>
-      <div class="warn"><strong>Note:</strong> Gates run automatically when hooks are wired. No config needed beyond <code>npx yamtam-install</code>.</div>
+      <div class="warn"><strong>Note:</strong> Gates run automatically when hooks are wired. No config needed beyond <code>npx yana-ai-install</code>.</div>
 
-      <h2 id="scan">yamtam-rt scan</h2>
+      <h2 id="scan">yana-rt scan</h2>
       <p>Full security audit of your <code>.claude/</code> setup and source files.</p>
-      <pre><code>yamtam-rt scan .                    # full scan
-yamtam-rt scan . --only secrets     # secrets only
-yamtam-rt scan . --markdown out.md  # write report
-yamtam-rt scan . --sarif out.sarif  # SARIF for GitHub</code></pre>
+      <pre><code>yana-rt scan .                    # full scan
+yana-rt scan . --only secrets     # secrets only
+yana-rt scan . --markdown out.md  # write report
+yana-rt scan . --sarif out.sarif  # SARIF for GitHub</code></pre>
 
-      <h2 id="hunt">yamtam-rt hunt</h2>
+      <h2 id="hunt">yana-rt hunt</h2>
       <p>Active scanner — goes deeper into code vulnerabilities and supply chain.</p>
-      <pre><code>yamtam-rt hunt run .         # full hunt
-yamtam-rt hunt secrets .     # secrets only
-yamtam-rt hunt deps .        # dependency audit</code></pre>
+      <pre><code>yana-rt hunt run .         # full hunt
+yana-rt hunt secrets .     # secrets only
+yana-rt hunt deps .        # dependency audit</code></pre>
 
-      <h2 id="ci">yamtam-rt ci</h2>
+      <h2 id="ci">yana-rt ci</h2>
       <p>CI/CD workflow security check — unpinned actions, missing permissions, secret exposure.</p>
-      <pre><code>yamtam-rt ci check .github/workflows/
-yamtam-rt ci check .github/workflows/deploy.yml</code></pre>
+      <pre><code>yana-rt ci check .github/workflows/
+yana-rt ci check .github/workflows/deploy.yml</code></pre>
 
-      <h2 id="watch">yamtam-rt watch</h2>
+      <h2 id="watch">yana-rt watch</h2>
       <p>Live file watcher — prints changes to skills, agents, rules as they happen.</p>
-      <pre><code>yamtam-rt watch start
-yamtam-rt watch start --dirs core/skills,src
-yamtam-rt watch start --interval 5</code></pre>
+      <pre><code>yana-rt watch start
+yana-rt watch start --dirs core/skills,src
+yana-rt watch start --interval 5</code></pre>
 
-      <h2 id="init">yamtam-rt init</h2>
-      <p>Auto-setup YAMTAM in any project.</p>
-      <pre><code>yamtam-rt init run .          # setup current directory
-yamtam-rt init run ~/my-app   # setup another project
-yamtam-rt init dry .          # preview without writing files</code></pre>
+      <h2 id="init">yana-rt init</h2>
+      <p>Auto-setup Yana AI in any project.</p>
+      <pre><code>yana-rt init run .          # setup current directory
+yana-rt init run ~/my-app   # setup another project
+yana-rt init dry .          # preview without writing files</code></pre>
 
       <h2 id="commands">All Commands</h2>
       <table>
         <tr><th>Command</th><th>Description</th></tr>
-        <tr><td>init</td><td>Auto-setup YAMTAM in any project</td></tr>
+        <tr><td>init</td><td>Auto-setup Yana AI in any project</td></tr>
         <tr><td>scan</td><td>Security audit of agent setup + source</td></tr>
         <tr><td>hunt</td><td>Active code vulnerability scanner</td></tr>
         <tr><td>ci</td><td>CI/CD workflow health check</td></tr>
@@ -154,7 +154,7 @@ yamtam-rt init dry .          # preview without writing files</code></pre>
       </table>
 
       <h2 id="skills">Using Skills</h2>
-      <p>Skills are slash commands for Claude Code. With yamtam-engine installed, 3,457 skills are available.</p>
+      <p>Skills are slash commands for Claude Code. With yana-ai installed, 3,457 skills are available.</p>
       <pre><code># In Claude Code chat:
 /security-review       # OWASP review of current diff
 /tdd-cycle             # Red → Green → Refactor loop
@@ -177,7 +177,7 @@ yamtam-rt init dry .          # preview without writing files</code></pre>
     </article>
   </div>
 
-  <footer>YAMTAM ENGINE · <a href="https://github.com/phamlongh230-lgtm/yamtam-engine" style="color:var(--muted)">GitHub</a> · Built by Vũ Văn Tâm · Vietnam</footer>
+  <footer>Yana AI · <a href="https://github.com/phamlongh230-lgtm/yana-ai" style="color:var(--muted)">GitHub</a> · Built by Vũ Văn Tâm · Vietnam</footer>
 
   <div id="yt-player" style="position:fixed;width:0;height:0;opacity:0;pointer-events:none"></div>
   <script src="/water-bg.js" defer></script>

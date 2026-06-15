@@ -7,7 +7,7 @@ Accepted — 2026-06-12, by sovereign decision (Vũ Văn Tâm).
 - Behavioral enforcement: **Active** via `core/rules/69-cognitive-reliability-law.md`
 - Automated gate tooling (hooks/scripts): **Not yet implemented** — tracked as follow-up
 - This ADR is the formal architecture change required by
-  `docs/architecture/YAMTAM_LAYER_MODEL.md` § 2 ("Do not introduce L6/L7/L8
+  `docs/architecture/YANA_LAYER_MODEL.md` § 2 ("Do not introduce L6/L7/L8
   unless architecture is formally changed")
 
 > Note on numbering: this is the repo's first ADR file. ADR-001–005 are
@@ -80,7 +80,7 @@ Confidence: 0–100%
 
 ### Relationship to the layer model
 
-`YAMTAM_LAYER_MODEL.md` defines L1–L5.5 as *execution* guard checkpoints.
+`YANA_LAYER_MODEL.md` defines L1–L5.5 as *execution* guard checkpoints.
 L6 is deliberately **outside** that interleaved stack: it does not gate a
 command pipeline stage; it gates the agent's reports and decisions across
 all stages. The layer model gains one note pointing here; its L1–L5.5
@@ -92,7 +92,7 @@ Easier:
 - Reports map to reality; "done" regains meaning
 - Reviewers and the sovereign can trust status without re-verifying everything
 - Differentiator: most agent frameworks ask "can the agent break the machine?"
-  — YAMTAM also asks "can the agent believe a false thing convincingly?"
+  — Yana AI also asks "can the agent believe a false thing convincingly?"
 
 Harder / costs:
 - Reports become longer and slower to write (output contract overhead)
@@ -119,5 +119,5 @@ Follow-ups (not in this ADR):
 - `core/rules/verification.md` — evidence-before-claims (L6.1 foundation)
 - `core/rules/64-scope-drift-law.md` — scope enforcement (L6.3 mechanism)
 - `core/rules/63-autonomous-session-law.md` — session wrap-up duties
-- `docs/architecture/YAMTAM_LAYER_MODEL.md` — execution layer model (L1–L5.5)
+- `docs/architecture/YANA_LAYER_MODEL.md` — execution layer model (L1–L5.5)
 - Origin: external audit feedback + sovereign postmortem, 2026-06-12

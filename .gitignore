@@ -48,22 +48,22 @@ reports/audit-local.*
 
 /target
 
-# YAMTAM — only ignore runtime/generated dirs, NOT source dirs
-# .yamtam/schemas, context-packs, policies, templates are source — do not ignore
-.yamtam/graph/
-.yamtam/cache/
-.yamtam/tmp/
-.yamtam/snapshots/
-.yamtam/history.json
-.yamtam/tasks.json
-yamtam-*.html
-yamtam-*.sarif
+# Yana AI — only ignore runtime/generated dirs, NOT source dirs
+# .yana-ai/schemas, context-packs, policies, templates are source — do not ignore
+.yana-ai/graph/
+.yana-ai/cache/
+.yana-ai/tmp/
+.yana-ai/snapshots/
+.yana-ai/history.json
+.yana-ai/tasks.json
+yana-ai-*.html
+yana-ai-*.sarif
 releases/*.zip
 releases/*.bundle
 releases/*.bundle.sha256
-yamtam-transfer*.zip
-yamtam-patch-files*.zip
-# assistant brain — lives in the private yamtam-private repo, never here
+yana-ai-transfer*.zip
+yana-ai-patch-files*.zip
+# assistant brain — lives in the private yana-ai-private repo, never here
 .claude/assistant/
 come_my_way.mp3
 .aider*

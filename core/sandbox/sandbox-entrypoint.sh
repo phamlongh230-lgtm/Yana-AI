@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# sandbox-entrypoint.sh — Container entrypoint for yamtam-sandbox
+# sandbox-entrypoint.sh — Container entrypoint for yana-ai-sandbox
 # Runs as nobody inside read-only Alpine container.
 # Security enforced by Docker flags: --cap-drop ALL, --network=none, --read-only
 set -uo pipefail

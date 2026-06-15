@@ -1,14 +1,14 @@
 ---
 id: fact-scope-boundary
 type: constraint
-statement: YAMTAM-scoped tasks must not edit app/ components/ lib/ db/ migrations/ public/ or any .env* file without explicit cross-scope approval from the user in the current session.
+statement: Yana AI-scoped tasks must not edit app/ components/ lib/ db/ migrations/ public/ or any .env* file without explicit cross-scope approval from the user in the current session.
 source: file:gates/action_gate.md
 confidence: high
 scope: both
 tags: [scope, gate, cross-scope]
 forbidden_assumptions:
   - Do not assume approval from a previous session carries over
-  - Do not assume YAMTAM scope equals product scope
+  - Do not assume Yana AI scope equals product scope
   - Do not assume silence = approval
 evidence: gates/action_gate.md § Scope Rules
 ---

@@ -74,7 +74,7 @@ subprocess.run([
     "python3", "tools/moss-tts-nano/finetuning/verify.py",
     "--checkpoint", "tools/finetune-vi/output/moss-tts-vi/checkpoint-last",
     "--mode", "voice_clone",
-    "--text", "Xin chào, tôi là trợ lý YAMTAM.",
+    "--text", "Xin chào, tôi là trợ lý Yana AI.",
     "--prompt-audio-path", "your_voice.wav",
     "--output-audio-path", "output_vi.wav",
 ])

@@ -1,10 +1,10 @@
 ---
 name: protobuf-serialization
 description: Protocol Buffers binary serialization for inter-agent messaging. .proto schema definition, encode/decode, backward-compatible field evolution, and performance benchmarks vs JSON. Sources: protocolbuffers/protobuf (BSD-3-Clause).
-origin: yamtam-engine — synthesized from protocolbuffers/protobuf (BSD-3-Clause)
+origin: yana-ai — synthesized from protocolbuffers/protobuf (BSD-3-Clause)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.50
+compatibility: yana-ai >= 1.3.50
 ---
 
 # /protobuf-serialization
@@ -28,7 +28,7 @@ compatibility: yamtam-engine >= 1.3.50
 ```protobuf
 // agent_message.proto
 syntax = "proto3";
-package yamtam;
+package yana-ai;
 
 message AgentMessage {
   string  agent_id  = 1;
@@ -61,11 +61,11 @@ message TaskPayload {
 import protobuf from 'protobufjs'
 
 const root = await protobuf.load('agent_message.proto')
-const AgentMessage = root.lookupType('yamtam.AgentMessage')
+const AgentMessage = root.lookupType('yana-ai.AgentMessage')
 
 // Encode
 const msg = {
-  agentId: 'did:yamtam:0xabc123',
+  agentId: 'did:yana-ai:0xabc123',
   seq:     42,
   tsMs:    BigInt(Date.now()),
   opcode:  1,  // TASK

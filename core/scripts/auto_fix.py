@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yamtam fix <rule-id> [target] — auto-apply safe fix for a finding (opt-in)."""
+"""yana-ai fix <rule-id> [target] — auto-apply safe fix for a finding (opt-in)."""
 
 import argparse
 import glob
@@ -23,7 +23,7 @@ DIM    = "\033[2m"
 RESET  = "\033[0m"
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -175,7 +175,7 @@ def fix_with_template(target: str, template: str, out: str, dry_run: bool) -> bo
     if not os.path.exists(src):
         print(c(RED, f"  ✗ Template not found: {src}")); return False
     if os.path.exists(dest):
-        print(c(YELLOW, f"  ! {dest} already exists — use yamtam init-policy for a fresh template"))
+        print(c(YELLOW, f"  ! {dest} already exists — use yana-ai init-policy for a fresh template"))
         return True
     print(f"  Would write: {dest}")
     if dry_run:
@@ -208,7 +208,7 @@ MANUAL_ONLY = {
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="yamtam fix",
+        prog="yana-ai fix",
         description="Auto-apply a safe fix for a specific finding (opt-in)",
     )
     parser.add_argument("rule_id", help="Rule ID to fix (e.g. AC002, CI007)")
@@ -224,7 +224,7 @@ def main():
     rule = load_rule(rule_id)
     if not rule:
         print(c(RED, f"\n  Error: rule '{rule_id}' not found."), file=sys.stderr)
-        print("  Run: yamtam explain --list\n", file=sys.stderr)
+        print("  Run: yana-ai explain --list\n", file=sys.stderr)
         sys.exit(1)
 
     if rule_id in MANUAL_ONLY:
@@ -238,12 +238,12 @@ def main():
     if rule_id not in FIX_DISPATCH:
         print()
         print(c(YELLOW, f"  No automated fix available for {rule_id}."))
-        print(f"  Manual fix: {rule.get('fix', 'see yamtam explain ' + rule_id)}")
+        print(f"  Manual fix: {rule.get('fix', 'see yana-ai explain ' + rule_id)}")
         print()
         sys.exit(0)
 
     print()
-    print(c(BOLD, f"  yamtam fix {rule_id}"))
+    print(c(BOLD, f"  yana-ai fix {rule_id}"))
     print(f"  {rule.get('description','')}")
     print(f"  {c(DIM, rule.get('fix',''))}")
     print()

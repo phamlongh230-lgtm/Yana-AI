@@ -1,4 +1,4 @@
-# YAMTAM — Strategic Direction
+# Yana AI — Strategic Direction
 
 **Last updated:** 2026-05-29  
 **Author:** Vũ Văn Tâm  
@@ -6,9 +6,9 @@
 
 ---
 
-## Bản chất YAMTAM
+## Bản chất Yana AI
 
-YAMTAM là **control layer cho AI coding agents** — không phải một agent, không phải một plugin, không phải một framework.
+Yana AI là **control layer cho AI coding agents** — không phải một agent, không phải một plugin, không phải một framework.
 
 Nó bảo vệ repo khỏi những gì AI agent có thể làm sai:
 - Lệnh phá hoại (`rm -rf`, `DROP TABLE`, `curl | bash`)
@@ -23,11 +23,11 @@ Core đã xây: 6-layer gate system (L0–L5), 45+ safety hooks, 164 slash comma
 
 ## Vấn đề với định vị hiện tại
 
-YAMTAM hiện tại nói với người dùng:
+Yana AI hiện tại nói với người dùng:
 
 > "Hãy adopt toàn bộ control layer của tôi."
 
-Rào cản cao. Outsider cần học YAMTAM trước khi thấy giá trị.
+Rào cản cao. Outsider cần học Yana AI trước khi thấy giá trị.
 
 ---
 
@@ -37,7 +37,7 @@ Không thay đổi bản chất. Thay đổi **cửa vào**.
 
 **Câu định vị mới:**
 
-> YAMTAM audits your AI coding agent setup before it can damage your repo.
+> Yana AI audits your AI coding agent setup before it can damage your repo.
 
 **Tagline:**
 
@@ -48,7 +48,7 @@ Không thay đổi bản chất. Thay đổi **cửa vào**.
 ## Product Funnel
 
 ```
-1. yamtam audit .          ← outsider vào đây (30 giây, không cần học gì)
+1. yana-ai audit .          ← outsider vào đây (30 giây, không cần học gì)
        ↓
 2. Policy Kit              ← adopt từng phần khi thấy value
        ↓
@@ -57,7 +57,7 @@ Không thay đổi bản chất. Thay đổi **cửa vào**.
 
 ---
 
-## MVP: yamtam audit .
+## MVP: yana-ai audit .
 
 Scan các file phổ biến trong mọi repo dùng AI agent:
 
@@ -73,7 +73,7 @@ Scan các file phổ biến trong mọi repo dùng AI agent:
 Output:
 
 ```
-YAMTAM Agent Audit Report
+Yana AI Agent Audit Report
 ─────────────────────────
 Score: 41/100  |  Risk: HIGH
 
@@ -82,7 +82,7 @@ Score: 41/100  |  Risk: HIGH
 [MED]  package.json — postinstall contains remote shell execution
 [LOW]  scripts/deploy.sh — no dry-run mode
 
-Run: yamtam audit . --markdown report.md
+Run: yana-ai audit . --markdown report.md
 ```
 
 Score model (deterministic, không AI):
@@ -91,10 +91,10 @@ Score model (deterministic, không AI):
 
 CLI:
 ```bash
-yamtam audit .
-yamtam audit . --json
-yamtam audit . --markdown report.md
-yamtam audit . --fail-on high    # dùng trong CI
+yana-ai audit .
+yana-ai audit . --json
+yana-ai audit . --markdown report.md
+yana-ai audit . --fail-on high    # dùng trong CI
 ```
 
 Exit codes: `0` clean | `1` medium/high | `2` critical | `3` scanner error
@@ -118,9 +118,9 @@ Exit codes: `0` clean | `1` medium/high | `2` critical | `3` scanner error
 | v0.11 | Lint, Snapshot, Policy check, Export | ✅ done |
 | v0.12 | Check file, Template list, Audit --since, Doctor+ | ✅ done |
 | v0.13 | Audit --watch, Report PDF, Rule test, Config manager | ✅ done |
-| v0.14 | yamtam graph, +1,471 skills (openai/plugins + open-source repos) | ✅ done |
-| v0.15 | yamtam hunt, yamtam design, design/book skills (1,967 total) | ✅ done |
-| v0.16 | yamtam-rt runtime: Agent Bus + L3 Memory + Config/Plugin/Cost (Phase 1–3) | ✅ done |
+| v0.14 | yana-ai graph, +1,471 skills (openai/plugins + open-source repos) | ✅ done |
+| v0.15 | yana-ai hunt, yana-ai design, design/book skills (1,967 total) | ✅ done |
+| v0.16 | yana-rt runtime: Agent Bus + L3 Memory + Config/Plugin/Cost (Phase 1–3) | ✅ done |
 
 ---
 
@@ -135,7 +135,7 @@ Exit codes: `0` clean | `1` medium/high | `2` critical | `3` scanner error
 
 ## Cái không làm
 
-- Không claim "YAMTAM secures all AI agents" — chỉ nói "audits common risk patterns"
+- Không claim "Yana AI secures all AI agents" — chỉ nói "audits common risk patterns"
 - Không làm auto-fix ở bản đầu
 - Không nhét toàn bộ gate system vào README đầu
 - Không làm 50 rules ngay — làm 5 rules sắc trước
@@ -161,7 +161,7 @@ reports/markdown-template.md
 
 Đã phân tích 20 nguồn gồm: OpenAI Codex, OpenAI Plugins, OpenAI Evals, tiktoken, Anthropic Skills, Claude Code, AWS Autonomous Cloud Coding Agents, AWS Kiro Metrics, agentshield, ECC, và các ecosystem khác.
 
-Kết luận: YAMTAM không cần to hơn. Cần ít phần hơn nhưng mỗi phần có răng.
+Kết luận: Yana AI không cần to hơn. Cần ít phần hơn nhưng mỗi phần có răng.
 
 ---
 
@@ -180,58 +180,58 @@ Kết luận: YAMTAM không cần to hơn. Cần ít phần hơn nhưng mỗi ph
 | 2 | Rule test fixtures | `tests/fixtures/` + `test_scanner_conditions.py` | ✅ done |
 | 3 | **SARIF output** (`--sarif`) | GitHub Code Scanning đọc được, finding hiện trong Security tab | ✅ done |
 | 4 | **`--diff` mode** (`--diff origin/main`) | Chỉ scan file thay đổi trong PR — giảm noise, nhanh hơn, hợp CI hơn | ✅ done |
-| 5 | **`.yamtamignore` + baseline** | Repo cũ có 50 findings không nản, chỉ fail trên risk mới | ✅ done |
+| 5 | **`.yana-aiignore` + baseline** | Repo cũ có 50 findings không nản, chỉ fail trên risk mới | ✅ done |
 | 6 | **`examples/unsafe-agent-repo`** | Demo chạy được ngay — không cần tin lời | ✅ done |
-| 7 | **GitHub Action official** | `uses: phamlongh230-lgtm/yamtam-engine/actions/audit@v1` — adopt cực thấp | ✅ done |
-| 8 | **`yamtam explain <rule>`** | Mỗi finding thành giáo trình bảo mật, không phải cảnh báo khô | ✅ done |
-| 9 | **Agent Blast Radius Map** (`yamtam map .`) | Trả lời "agent của tôi chạm được tới đâu?" | ✅ done |
-| 10 | **`yamtam init-policy <tool>`** | Generate safe config template, không auto-fix | ✅ done |
+| 7 | **GitHub Action official** | `uses: phamlongh230-lgtm/yana-ai/actions/audit@v1` — adopt cực thấp | ✅ done |
+| 8 | **`yana-ai explain <rule>`** | Mỗi finding thành giáo trình bảo mật, không phải cảnh báo khô | ✅ done |
+| 9 | **Agent Blast Radius Map** (`yana-ai map .`) | Trả lời "agent của tôi chạm được tới đâu?" | ✅ done |
+| 10 | **`yana-ai init-policy <tool>`** | Generate safe config template, không auto-fix | ✅ done |
 
 ### Chi tiết từng feature
 
 **SARIF output:**
 ```bash
-yamtam audit . --sarif yamtam.sarif
+yana-ai audit . --sarif yana-ai.sarif
 # → upload to GitHub Code Scanning
 ```
 Files: `reports/sarif-template.json` + `render_sarif(report)` trong `audit_scanner.py`
 
 **`--diff` mode:**
 ```bash
-yamtam audit . --diff origin/main --fail-on high
+yana-ai audit . --diff origin/main --fail-on high
 ```
 Dùng `git diff --name-only origin/main` để lấy danh sách file thay đổi, scan chỉ các file đó.
 
-**`.yamtamignore`:**
+**`.yana-aiignore`:**
 ```
-# .yamtamignore
+# .yana-aiignore
 CI003:.github/workflows/deploy.yml   # accepted risk until 2026-06-30
 SH008:scripts/legacy.sh              # false positive
 ```
-Tagline: *"YAMTAM blocks new agent risk, not your entire legacy mess."*
+Tagline: *"Yana AI blocks new agent risk, not your entire legacy mess."*
 
-**`yamtam explain <rule>`:**
+**`yana-ai explain <rule>`:**
 ```bash
-yamtam explain CI001
+yana-ai explain CI001
 ```
 Files: `rules/docs/CI001.md`, `MCP001.md`, `SH002.md`, …
 
 **Agent Blast Radius Map:**
 ```bash
-yamtam map .
+yana-ai map .
 # → Claude Code: Shell HIGH · File write MEDIUM · Git push BLOCKED · MCP db raw SQL
 ```
 
-**`yamtam init-policy`:**
+**`yana-ai init-policy`:**
 ```bash
-yamtam init-policy claude --out .claude/settings.recommended.json
-yamtam init-policy github-actions
+yana-ai init-policy claude --out .claude/settings.recommended.json
+yana-ai init-policy github-actions
 ```
 Files: `templates/claude/settings.safe.json`, `templates/github-actions/ai-pr-safe.yml`
 
-**`yamtam score --explain`:**
+**`yana-ai score --explain`:**
 ```bash
-yamtam score --explain report.json
+yana-ai score --explain report.json
 # Start: 100 | -30 CRITICAL AC002 | -20 HIGH MCP003 | Final: 50/100 HIGH
 ```
 
@@ -241,7 +241,7 @@ yamtam score --explain report.json
 - Cloud runtime / SaaS
 - Auto-fix trực tiếp vào repo
 - AI scan (AI chỉ được giải thích findings, không tự tạo findings)
-- Thêm agent/hook/skill vào YAMTAM system
+- Thêm agent/hook/skill vào Yana AI system
 - Marketplace plugin
 
 ---

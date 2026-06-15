@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE — Session Trust Score
+# Yana AI — Session Trust Score
 # Tracks trust level within the current session.
 # Decrements on Truth Gate warnings; floor is 0.
 # Score < 50 triggers "LOW TRUST" double-evidence requirement.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yamtam explain <rule-id> — explain a finding in plain language."""
+"""yana-ai explain <rule-id> — explain a finding in plain language."""
 
 import argparse
 import glob
@@ -28,7 +28,7 @@ SEVERITY_COLOR = {
 }
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -95,7 +95,7 @@ def print_rule(rule: dict):
             print(f"    pattern : {pattern}")
 
     print()
-    print(c(DIM, f"  Policy: yamtam audit . --only {rid[:2].lower()} | yamtam audit . --ignore {rid}"))
+    print(c(DIM, f"  Policy: yana-ai audit . --only {rid[:2].lower()} | yana-ai audit . --ignore {rid}"))
     print()
 
 
@@ -120,7 +120,7 @@ def list_all():
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="yamtam explain",
+        prog="yana-ai explain",
         description="Explain a finding rule — what it means, why it's risky, how to fix",
     )
     parser.add_argument("rule_id", nargs="?", help="Rule ID (e.g. CI001, AC002, MCP003)")
@@ -134,7 +134,7 @@ def main():
     rule = load_rule(args.rule_id)
     if not rule:
         print(c(RED, f"\n  Error: rule '{args.rule_id}' not found."), file=sys.stderr)
-        print(f"  Run: yamtam explain --list\n", file=sys.stderr)
+        print(f"  Run: yana-ai explain --list\n", file=sys.stderr)
         sys.exit(1)
 
     print_rule(rule)

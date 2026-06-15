@@ -50,7 +50,7 @@ pub struct TaskStore { pub tasks: HashMap<String, Task> }
 
 fn store_path() -> PathBuf {
     std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."))
-        .join(".yamtam").join("tasks.json")
+        .join(".yana-ai").join("tasks.json")
 }
 
 pub fn load_store() -> TaskStore {
@@ -109,7 +109,7 @@ pub fn parse_evidence(raw: &str) -> EvidenceSignals {
 
 pub fn evidence_schema() -> serde_json::Value {
     serde_json::json!({
-        "title": "YAMTAM Evidence Schema v1",
+        "title": "Yana AI Evidence Schema v1",
         "required_one_of": ["tests_passed","build_ok","coverage_pct","manual_note"],
         "rules": { "tests_failed": "must be 0 or absent", "coverage_pct": "warn if below 80" },
         "confidence_levels": {
@@ -159,7 +159,7 @@ pub fn cmd_task_create(name: String, scope: Option<String>) {
 
 pub fn cmd_task_list() {
     let store = load_store();
-    if store.tasks.is_empty() { println!("No tasks. yamtam-rt task create \"description\""); return; }
+    if store.tasks.is_empty() { println!("No tasks. yana-rt task create \"description\""); return; }
     let mut tasks: Vec<&Task> = store.tasks.values().collect();
     tasks.sort_by(|a, b| a.created_at.cmp(&b.created_at));
     println!("{:<10} {:<12} {}", "ID", "STATUS", "NAME");
@@ -185,7 +185,7 @@ pub fn cmd_task_done(id: String, evidence: String) {
     task.evidence = Some(Evidence { raw: evidence.clone(), signals });
     task.updated_at = now();
     save_store(&store);
-    println!("✓ done  {}\n  evidence: {evidence}\n  run: yamtam-rt eval run {}", &key[..8], &key[..8]);
+    println!("✓ done  {}\n  evidence: {evidence}\n  run: yana-rt eval run {}", &key[..8], &key[..8]);
 }
 
 pub fn cmd_task_status(id: String) {
@@ -219,7 +219,7 @@ pub fn cmd_eval_run(id: String) {
     };
     let ev = match &task.evidence {
         Some(e) => e,
-        None => { eprintln!("error: no evidence. run: yamtam-rt task done {} --evidence \"...\"", &task.id[..8]); std::process::exit(1); }
+        None => { eprintln!("error: no evidence. run: yana-rt task done {} --evidence \"...\"", &task.id[..8]); std::process::exit(1); }
     };
     let (pass, detail, confidence) = eval_evidence(ev);
     let icon = if pass { "✓" } else { "✗" };

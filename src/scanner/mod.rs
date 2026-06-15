@@ -61,7 +61,7 @@ pub fn run_audit(
 ) -> ScanReport {
     let start = Instant::now();
     let rule_sets = rules::load_scanner_rules(scanner_dir);
-    let ignore_patterns = files::load_yamtamignore(target);
+    let ignore_patterns = files::load_yana-aiignore(target);
 
     if rule_sets.is_empty() {
         eprintln!("[error] No scanner rules found in {scanner_dir}");
@@ -181,7 +181,7 @@ pub fn run_audit(
         schema_version: "0.1.0".into(),
         generated_at: Utc::now().format("%Y-%m-%dT%H:%M:%SZ").to_string(),
         target: target.to_string(),
-        yamtam_version: "0.16.0".into(),
+        yana-ai_version: "0.16.0".into(),
         score,
         risk_level: compute_risk_level(score).to_string(),
         status: status.to_string(),

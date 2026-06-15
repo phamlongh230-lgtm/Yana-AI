@@ -1,11 +1,11 @@
 use serde::{Deserialize, Serialize};
 
 pub const SCHEMA_VERSION: &str = "1.0";
-pub const GRAPH_DIR: &str = ".yamtam/graph";
+pub const GRAPH_DIR: &str = ".yana-ai/graph";
 pub const GRAPH_FILE: &str = "knowledge-graph.json";
 
 pub const IGNORE_DIRS: &[&str] = &[
-    "node_modules", ".git", ".yamtam", "dist", "build", "__pycache__",
+    "node_modules", ".git", ".yana-ai", "dist", "build", "__pycache__",
     ".cache", "coverage", ".next", "target", "venv", ".venv",
     "vendor", "tmp", ".tmp", "releases", ".claude-plugin",
 ];

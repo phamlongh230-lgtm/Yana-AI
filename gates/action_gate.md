@@ -1,9 +1,9 @@
-# YAMTAM ENGINE — L4 Action Gate
+# Yana AI — L4 Action Gate
 
 **Version:** 1.0
 **Status:** Active spec — prompt-enforced in this scaffold;
 runtime-enforced via hooks once pack imported
-**Layer:** L4 of YAMTAM Memory Pipeline
+**Layer:** L4 of Yana AI Memory Pipeline
 **Purpose:** Prevent unsafe writes by requiring scope confirmation and approval
 before destructive actions. Complements L3 Truth Gate (claims).
 
@@ -20,7 +20,7 @@ Agents perform write operations without:
 
 Symptoms in the wild:
 
-- Surprise edits to product code from YAMTAM-scoped tasks.
+- Surprise edits to product code from Yana AI-scoped tasks.
 - Force pushes overwriting other work.
 - Database state changed without backup.
 - Production deploys without health verification.
@@ -53,7 +53,7 @@ Before any L2+ action, agent MUST output the following in the same response:
 Example output (good):
 
 ```
-Scope:     yamtam-engine/docs/RUNBOOK.md (1 file)
+Scope:     yana-ai/docs/RUNBOOK.md (1 file)
 Risk:      L2 (commit)
 Approval:  requesting approval before commit
 Rollback:  git reset HEAD~1 (after commit) or discard working tree (before)
@@ -65,7 +65,7 @@ If any field cannot be filled, do NOT proceed.
 
 ## Hard Blocks — Refuse Even With Approval
 
-These are blocked unconditionally unless `YAMTAM_PROD_APPROVED=1` env var
+These are blocked unconditionally unless `YANA_PROD_APPROVED=1` env var
 is set AND a backup is verified:
 
 ```
@@ -92,12 +92,12 @@ For non-emergency cases, use the safer alternative:
 
 ## Scope Rules
 
-### YAMTAM-scoped tasks MAY edit
+### Yana AI-scoped tasks MAY edit
 
-- `yamtam-engine/**` (this repo's content)
+- `yana-ai/**` (this repo's content)
 - Target project's `.claude/**` (when applying a release pack)
 
-### YAMTAM-scoped tasks MAY NOT edit (without explicit cross-scope approval)
+### Yana AI-scoped tasks MAY NOT edit (without explicit cross-scope approval)
 
 - `app/**`, `components/**`, `lib/**`, `db/**`, `migrations/**`, `public/**`
 - Any `.env*` file (anywhere)
@@ -128,13 +128,13 @@ overclaim "done" without evidence.
 ### ✅ Good
 
 ```
-Scope:     db/schema.prisma — but this is product code, not YAMTAM scope.
+Scope:     db/schema.prisma — but this is product code, not Yana AI scope.
 Risk:      L4 (migration) crossing scope boundary.
 Approval:  STOP. This is cross-scope. Requesting explicit approval.
 Rollback:  None safe without backup; advising backup first.
 
 I am stopping here. Please confirm:
-1. Should YAMTAM scope be expanded to include schema changes?
+1. Should Yana AI scope be expanded to include schema changes?
 2. Has a database backup been taken?
 ```
 

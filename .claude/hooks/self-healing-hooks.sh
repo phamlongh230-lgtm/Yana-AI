@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Hook
+# Yana AI Hook
 # Version: 1.6.0 | Status: active
 # Description: Self-Healing Hooks — detect unauthorized bypass usage and restore hook integrity
 # Hook type: PostToolUse (audit + remediation)
@@ -40,9 +40,9 @@ except Exception:
 issues = []
 
 # 1. Detect bypass env vars being set (potential unauthorized bypass)
-bypass_set = re.findall(r'YAMTAM_\w+_BYPASS\s*=\s*["\']?1["\']?', cmd + content)
+bypass_set = re.findall(r'YANA_\w+_BYPASS\s*=\s*["\']?1["\']?', cmd + content)
 if bypass_set:
-    sovereign = os.environ.get('YAMTAM_SOVEREIGN_NAME', '')
+    sovereign = os.environ.get('YANA_SOVEREIGN_NAME', '')
     if not sovereign:
         issues.append({
             'type': 'unauthorized-bypass',
@@ -74,12 +74,12 @@ if hooks_path.exists():
                 'severity': 'HIGH'
             })
 
-# 3. Check if YAMTAM_BYPASS is set globally without sovereign
-global_bypass = os.environ.get('YAMTAM_BYPASS', '')
-if global_bypass == '1' and not os.environ.get('YAMTAM_SOVEREIGN_NAME', ''):
+# 3. Check if YANA_BYPASS is set globally without sovereign
+global_bypass = os.environ.get('YANA_BYPASS', '')
+if global_bypass == '1' and not os.environ.get('YANA_SOVEREIGN_NAME', ''):
     issues.append({
         'type': 'global-bypass-no-sovereign',
-        'detail': 'YAMTAM_BYPASS=1 set without sovereign identity',
+        'detail': 'YANA_BYPASS=1 set without sovereign identity',
         'severity': 'CRITICAL'
     })
 

@@ -11,9 +11,9 @@ interface Env {
 
 const app = new Hono<{ Bindings: Env }>();
 
-app.get('/', (c) => c.text('YAMTAM GitHub App — webhook receiver'));
+app.get('/', (c) => c.text('Yana AI GitHub App — webhook receiver'));
 
-app.get('/health', (c) => c.json({ status: 'ok', app: 'yamtam-github-app' }));
+app.get('/health', (c) => c.json({ status: 'ok', app: 'yana-ai-github-app' }));
 
 app.post('/webhook', async (c) => {
   const event = c.req.header('x-github-event');
@@ -37,9 +37,9 @@ app.post('/webhook', async (c) => {
         const [owner, repoName] = repo.full_name.split('/');
         const prUrl = await installYamtam({ octokit, owner, repo: repoName });
         results.push(`${repo.full_name} → ${prUrl}`);
-        console.log(`[yamtam] Installed on ${repo.full_name}: ${prUrl}`);
+        console.log(`[yana-ai] Installed on ${repo.full_name}: ${prUrl}`);
       } catch (err) {
-        console.error(`[yamtam] Failed on ${repo.full_name}:`, err);
+        console.error(`[yana-ai] Failed on ${repo.full_name}:`, err);
         results.push(`${repo.full_name} → ERROR: ${err}`);
       }
     }
@@ -53,7 +53,7 @@ app.post('/webhook', async (c) => {
     const installationId: number = payload.installation.id;
     const results: string[] = [];
 
-    console.log(`[yamtam] repos_added count=${repos.length} installationId=${installationId}`);
+    console.log(`[yana-ai] repos_added count=${repos.length} installationId=${installationId}`);
 
     for (const repo of repos) {
       try {
@@ -61,10 +61,10 @@ app.post('/webhook', async (c) => {
         const [owner, repoName] = repo.full_name.split('/');
         const prUrl = await installYamtam({ octokit, owner, repo: repoName });
         results.push(`${repo.full_name} → ${prUrl}`);
-        console.log(`[yamtam] Installed on ${repo.full_name}: ${prUrl}`);
+        console.log(`[yana-ai] Installed on ${repo.full_name}: ${prUrl}`);
       } catch (err) {
         const msg = err instanceof Error ? `${err.message}\n${err.stack}` : String(err);
-        console.error(`[yamtam] Failed on ${repo.full_name}:`, msg);
+        console.error(`[yana-ai] Failed on ${repo.full_name}:`, msg);
         results.push(`${repo.full_name} → ERROR: ${msg}`);
       }
     }

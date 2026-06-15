@@ -89,7 +89,7 @@ fn cmd_score(target: &str, explain: bool, as_json: bool, scanner_dir: &str) -> R
     }
 
     let rc = risk_color(risk);
-    println!("\n  YAMTAM Score Report");
+    println!("\n  Yana AI Score Report");
     println!("  Target: {}  ·  {} files scanned\n", target, report.scan_stats.files_scanned);
 
     if explain {

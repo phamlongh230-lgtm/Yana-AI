@@ -1,6 +1,6 @@
-# YAMTAM ENGINE — Cross-Engine Adapters
+# Yana AI — Cross-Engine Adapters
 
-YAMTAM runs on Claude Code natively. These adapters let you apply YAMTAM governance to other AI coding assistants.
+Yana AI runs on Claude Code natively. These adapters let you apply Yana AI governance to other AI coding assistants.
 
 | Engine | Adapter file | How to apply |
 |---|---|---|
@@ -33,7 +33,7 @@ bash core/scripts/switch-engine.sh claude     # default — no adapter needed
 
 ## What's Mapped Across All Adapters
 
-| YAMTAM Rule | Claude Code | Cursor | Copilot | Aider | Gemini Code |
+| Yana AI Rule | Claude Code | Cursor | Copilot | Aider | Gemini Code |
 |---|---|---|---|---|---|
 | Security prohibitions | hooks (L0-L5) | `.cursorrules` | `copilot-instructions.md` | system prompt | `GEMINI.md` |
 | Code constraints (50 lines, 5 params) | `agent-code-constraints.md` | `.mdc` rule | instructions | system prompt | `GEMINI.md` |

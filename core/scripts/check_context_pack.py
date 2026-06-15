@@ -87,7 +87,7 @@ def validate_context_pack(cp: Path) -> tuple[int, list[str]]:
 def _json_payload(*, target: str, status: str, exit_code: int, findings: list[dict[str, str]]) -> dict[str, object]:
     return {
         "schema_version": "1.0",
-        "tool": "yamtam",
+        "tool": "yana-ai",
         "command": "check-context",
         "status": status,
         "exit_code": exit_code,
@@ -113,11 +113,11 @@ def main() -> int:
                 target="",
                 status="error",
                 exit_code=2,
-                findings=[_mk_finding("Usage: yamtam check-context <context-pack-dir> [--json]", finding_id="CTXUSAGE", severity="high")],
+                findings=[_mk_finding("Usage: yana-ai check-context <context-pack-dir> [--json]", finding_id="CTXUSAGE", severity="high")],
             )
             print(json.dumps(payload, ensure_ascii=False))
         else:
-            print("Error: Usage: yamtam check-context <context-pack-dir>", file=sys.stderr)
+            print("Error: Usage: yana-ai check-context <context-pack-dir>", file=sys.stderr)
         return 2
 
     cp = Path(args[0]).resolve()

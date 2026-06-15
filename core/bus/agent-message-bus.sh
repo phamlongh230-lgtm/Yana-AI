@@ -30,9 +30,9 @@
 # Gate: L0 (all messages logged to audit trail)
 set -uo pipefail
 
-BUS_DIR="${YAMTAM_BUS_DIR:-core/bus/mailboxes}"
-LOG_FILE="${YAMTAM_BUS_LOG:-releases/logs/agent-bus.log}"
-MSG_TTL="${YAMTAM_MSG_TTL:-300}"    # 5 minutes default TTL
+BUS_DIR="${YANA_BUS_DIR:-core/bus/mailboxes}"
+LOG_FILE="${YANA_BUS_LOG:-releases/logs/agent-bus.log}"
+MSG_TTL="${YANA_MSG_TTL:-300}"    # 5 minutes default TTL
 MAX_MSG_SIZE=16384                   # 16KB — matches middleware size-cap
 
 RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; CYAN='\033[0;36m'; NC='\033[0m'

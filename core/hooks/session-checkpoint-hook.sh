@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Hook
+# Yana AI Hook
 # Version: 1.6.0 | Status: active
 # Description: Auto-checkpoint trigger — calls session-checkpoint.sh every N tool calls
 # Hook type: PostToolUse
@@ -9,13 +9,13 @@
 # Install in settings.json hooks.PostToolUse alongside audit-log.sh.
 #
 # Config via env:
-#   YAMTAM_CHECKPOINT_EVERY=5    — checkpoint every N tool calls (default: 5)
-#   YAMTAM_MAX_CHECKPOINTS=10    — max checkpoints to keep (default: 10)
-#   YAMTAM_CHECKPOINT_BYPASS=1   — disable auto-checkpointing
+#   YANA_CHECKPOINT_EVERY=5    — checkpoint every N tool calls (default: 5)
+#   YANA_MAX_CHECKPOINTS=10    — max checkpoints to keep (default: 10)
+#   YANA_CHECKPOINT_BYPASS=1   — disable auto-checkpointing
 
 set -uo pipefail
 
-[[ "${YAMTAM_CHECKPOINT_BYPASS:-0}" == "1" ]] && exit 0
+[[ "${YANA_CHECKPOINT_BYPASS:-0}" == "1" ]] && exit 0
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SCRIPTS_DIR="$(dirname "$SCRIPT_DIR")/scripts"

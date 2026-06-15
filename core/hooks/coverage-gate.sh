@@ -10,7 +10,7 @@ COMMAND="${CLAUDE_TOOL_INPUT_COMMAND:-}"
 [[ "$COMMAND" =~ git\ commit ]] || exit 0
 
 BASELINE_FILE=".claude/state/coverage-baseline.json"
-MIN_COVERAGE="${YAMTAM_MIN_COVERAGE:-60}"
+MIN_COVERAGE="${YANA_MIN_COVERAGE:-60}"
 MAX_DROP=5
 
 get_python_coverage() {

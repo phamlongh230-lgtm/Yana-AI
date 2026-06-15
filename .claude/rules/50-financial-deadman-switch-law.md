@@ -6,14 +6,14 @@ If no human-authorized interaction is detected within 30 minutes of continuous a
 
 ## Enforcement
 
-- `YAMTAM_DEADMAN_TTL` env var sets the timeout (default: 1800 seconds)
+- `YANA_DEADMAN_TTL` env var sets the timeout (default: 1800 seconds)
 - Swarm Bus monitors last human-approval timestamp per session
 - On timeout: all agents transition to `SUSPENDED` state; Bus stops routing
-- Resume requires explicit human token (`YAMTAM_RESUME_TOKEN`)
+- Resume requires explicit human token (`YANA_RESUME_TOKEN`)
 
 ## Prohibited
 
-- Any autonomous loop exceeding `YAMTAM_DEADMAN_TTL` without human checkpoint
+- Any autonomous loop exceeding `YANA_DEADMAN_TTL` without human checkpoint
 - Agent self-renewal of approval token
 - Bypassing the dead-man window by spoofing heartbeat timestamps
 

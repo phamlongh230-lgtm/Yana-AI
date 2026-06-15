@@ -1,5 +1,5 @@
 {
-  "description": "YAMTAM ENGINE — full hook stack: safety gates, audit, session management, and background yamtam-audit on push",
+  "description": "Yana AI — full hook stack: safety gates, audit, session management, and background yana-ai-audit on push",
   "hooks": {
     "UserPromptSubmit": [
       {
@@ -194,19 +194,19 @@
           },
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/yamtam-audit-rewake.sh\"",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/yana-ai-audit-rewake.sh\"",
             "if": "Bash(git commit:*)",
             "asyncRewake": true,
-            "rewakeMessage": "Background YAMTAM audit of committed changes — review findings below and address or acknowledge before continuing:",
-            "rewakeSummary": "YAMTAM audit found security/risk issues in committed files"
+            "rewakeMessage": "Background Yana AI audit of committed changes — review findings below and address or acknowledge before continuing:",
+            "rewakeSummary": "Yana AI audit found security/risk issues in committed files"
           },
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/yamtam-audit-rewake.sh\"",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/yana-ai-audit-rewake.sh\"",
             "if": "Bash(git push:*)",
             "asyncRewake": true,
-            "rewakeMessage": "Background YAMTAM audit of pushed commits — review findings below and address or acknowledge before continuing:",
-            "rewakeSummary": "YAMTAM audit found security/risk issues in pushed commits"
+            "rewakeMessage": "Background Yana AI audit of pushed commits — review findings below and address or acknowledge before continuing:",
+            "rewakeSummary": "Yana AI audit found security/risk issues in pushed commits"
           }
         ]
       }

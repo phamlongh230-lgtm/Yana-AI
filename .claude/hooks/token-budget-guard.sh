@@ -10,23 +10,23 @@
 #   OPEN     — tool called ≥5 consecutive times without success → HARD BLOCK
 #   HALF-OPEN — after cooldown, 1 probe allowed
 #
-# Bypass: YAMTAM_BUDGET_BYPASS=1 (sovereign only)
+# Bypass: YANA_BUDGET_BYPASS=1 (sovereign only)
 set -euo pipefail
 
-BUDGET_FILE="${YAMTAM_TOKEN_BUDGET:-core/memory/L2_session/token-budget.json}"
-CIRCUIT_FILE="${YAMTAM_CIRCUIT_STATE:-core/memory/L2_session/circuit-state.json}"
-MAX_LOOP_TOKENS="${YAMTAM_MAX_LOOP_TOKENS:-50000}"
-MAX_ATTEMPTS="${YAMTAM_MAX_FIX_ATTEMPTS:-5}"
-COOLDOWN_SECONDS="${YAMTAM_CIRCUIT_COOLDOWN:-60}"
-LOG_FILE="${YAMTAM_LOG:-/tmp/yamtam-audit.log}"
-FAST_TIER_MODEL="${YAMTAM_FAST_TIER_MODEL:-claude-haiku-4-5-20251001}"
+BUDGET_FILE="${YANA_TOKEN_BUDGET:-core/memory/L2_session/token-budget.json}"
+CIRCUIT_FILE="${YANA_CIRCUIT_STATE:-core/memory/L2_session/circuit-state.json}"
+MAX_LOOP_TOKENS="${YANA_MAX_LOOP_TOKENS:-50000}"
+MAX_ATTEMPTS="${YANA_MAX_FIX_ATTEMPTS:-5}"
+COOLDOWN_SECONDS="${YANA_CIRCUIT_COOLDOWN:-60}"
+LOG_FILE="${YANA_LOG:-/tmp/yana-ai-audit.log}"
+FAST_TIER_MODEL="${YANA_FAST_TIER_MODEL:-claude-haiku-4-5-20251001}"
 
 TOOL_NAME="${CLAUDE_TOOL_NAME:-unknown}"
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 NOW_EPOCH=$(date +%s)
 
 # Bypass — sovereign override only
-if [[ "${YAMTAM_BUDGET_BYPASS:-0}" == "1" ]]; then
+if [[ "${YANA_BUDGET_BYPASS:-0}" == "1" ]]; then
   echo "[token-budget-guard] BYPASS active"
   exit 0
 fi

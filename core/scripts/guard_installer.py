@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""YAMTAM Guard Installer — runtime control layer hooks for Claude Code projects."""
+"""Yana AI Guard Installer — runtime control layer hooks for Claude Code projects."""
 
 import sys
 import os
@@ -106,7 +106,7 @@ def remove_hook_from_settings(settings: dict, hook_type: str, command: str) -> d
 def cmd_list(args):
     guards = load_index()
     print()
-    print(bold(cyan("  YAMTAM Guard Installer")) + dim(" — runtime control layer"))
+    print(bold(cyan("  Yana AI Guard Installer")) + dim(" — runtime control layer"))
     print()
     print(f"  {bold('NAME'):<22} {dim('HOOK TYPE'):<16} {dim('RISK'):<12} DESCRIPTION")
     print(f"  {'─'*18} {'─'*14} {'─'*10} {'─'*30}")
@@ -117,9 +117,9 @@ def cmd_list(args):
         desc = meta.get("description", "")[:50]
         print(f"  {bold(name):<22} {dim(ht):<16} {colored_risk:<20} {dim(desc)}")
     print()
-    print(dim("  yamtam guard install <name>   — install a guard"))
-    print(dim("  yamtam guard install all      — install all 5 guards"))
-    print(dim("  yamtam guard status           — check installed guards"))
+    print(dim("  yana-ai guard install <name>   — install a guard"))
+    print(dim("  yana-ai guard install all      — install all 5 guards"))
+    print(dim("  yana-ai guard status           — check installed guards"))
     print()
 
 
@@ -154,7 +154,7 @@ def cmd_status(args):
 
     print()
     if any_missing:
-        print(dim("  Run: yamtam guard install <name>  or  yamtam guard install all"))
+        print(dim("  Run: yana-ai guard install <name>  or  yana-ai guard install all"))
     print()
 
 
@@ -168,7 +168,7 @@ def cmd_install(args):
     for name in names:
         if name not in guards:
             print(red(f"Error: unknown guard '{name}'"), file=sys.stderr)
-            print(dim("Run 'yamtam guard list' to see available guards."), file=sys.stderr)
+            print(dim("Run 'yana-ai guard list' to see available guards."), file=sys.stderr)
             sys.exit(1)
 
     print()
@@ -205,7 +205,7 @@ def cmd_install(args):
 
     print()
     print(dim(f"  settings.json updated: {settings_path}"))
-    print(dim("  Run: yamtam guard status   to verify"))
+    print(dim("  Run: yana-ai guard status   to verify"))
     print()
 
 
@@ -238,7 +238,7 @@ def cmd_remove(args):
 # ── main ──────────────────────────────────────────────────────────────────────
 
 USAGE = """
-Usage: yamtam guard <subcommand> [name] [flags]
+Usage: yana-ai guard <subcommand> [name] [flags]
 
 Subcommands:
   list                 List available guards and their risk levels
@@ -251,17 +251,17 @@ Flags:
   --no-color           Disable color output
 
 Examples:
-  yamtam guard list
-  yamtam guard status
-  yamtam guard install guard-destructive
-  yamtam guard install all
-  yamtam guard install all --target /path/to/other-project
-  yamtam guard remove truth-gate
+  yana-ai guard list
+  yana-ai guard status
+  yana-ai guard install guard-destructive
+  yana-ai guard install all
+  yana-ai guard install all --target /path/to/other-project
+  yana-ai guard remove truth-gate
 """
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="yamtam guard", add_help=False)
+    parser = argparse.ArgumentParser(prog="yana-ai guard", add_help=False)
     parser.add_argument("subcommand", nargs="?", default="list")
     parser.add_argument("name", nargs="?")
     parser.add_argument("--target")

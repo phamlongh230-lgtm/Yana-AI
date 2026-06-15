@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yamtam init-policy <tool> — generate safe config template for a tool."""
+"""yana-ai init-policy <tool> — generate safe config template for a tool."""
 
 import argparse
 import json
@@ -32,13 +32,13 @@ TOOLS = {
     "gitignore": {
         "description": ".gitignore additions for AI agent projects",
         "template": "gitignore-ai.txt",
-        "output": ".gitignore.yamtam",
+        "output": ".gitignore.yana-ai",
         "note": "Append to your existing .gitignore.",
     },
     "env": {
         "description": ".env.example template — shows required vars, no real secrets",
         "template": "env-example.txt",
-        "output": ".env.example.yamtam",
+        "output": ".env.example.yana-ai",
         "note": "Merge into your .env.example.",
     },
 }
@@ -50,14 +50,14 @@ BOLD  = "\033[1m"
 RESET = "\033[0m"
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
 
 
 def cmd_list():
-    print(c(BOLD, "\nAvailable tools for yamtam init-policy:\n"))
+    print(c(BOLD, "\nAvailable tools for yana-ai init-policy:\n"))
     print(f"  {'TOOL':<18} {'DESCRIPTION'}")
     print("  " + "─" * 60)
     for name, info in TOOLS.items():
@@ -68,7 +68,7 @@ def cmd_list():
 def cmd_init(tool: str, out_override: str | None, dry_run: bool):
     if tool not in TOOLS:
         print(c(RED, f"Error: unknown tool '{tool}'"), file=sys.stderr)
-        print(f"Run: yamtam init-policy list", file=sys.stderr)
+        print(f"Run: yana-ai init-policy list", file=sys.stderr)
         sys.exit(1)
 
     info = TOOLS[tool]
@@ -81,7 +81,7 @@ def cmd_init(tool: str, out_override: str | None, dry_run: bool):
     dest = out_override or info["output"]
     dest_abs = os.path.join(os.getcwd(), dest)
 
-    print(c(BOLD, f"\nYAMTAM init-policy — {tool}\n"))
+    print(c(BOLD, f"\nYana AI init-policy — {tool}\n"))
     print(f"  template : {src}")
     print(f"  output   : {dest}")
     print(f"  note     : {info['note']}\n")
@@ -107,7 +107,7 @@ def cmd_init(tool: str, out_override: str | None, dry_run: bool):
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="yamtam init-policy",
+        prog="yana-ai init-policy",
         description="Generate safe config template for an AI agent tool",
     )
     parser.add_argument("tool", nargs="?", default=None,

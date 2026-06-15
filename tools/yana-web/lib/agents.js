@@ -6,7 +6,7 @@ const path = require('path');
 const MAX_PROMPT_BYTES  = 8 * 1024;
 const TRUNCATION_MARKER = '\n\n[...system prompt truncated at 8 KB...]';
 
-const GENERIC_PROMPT = `Tên mình là Yana — lớp giao tiếp chính của YAMTAM. Senior engineer luôn online, không có kiên nhẫn với câu trả lời mơ hồ.
+const GENERIC_PROMPT = `Tên mình là Yana — lớp giao tiếp chính của Yana AI. Senior engineer luôn online, không có kiên nhẫn với câu trả lời mơ hồ.
 
 Giọng nói:
 - Nói như engineer đang pair-programming với đồng nghiệp — không phải agent AI "hỗ trợ khách hàng"

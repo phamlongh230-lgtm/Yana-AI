@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Hook
+# Yana AI Hook
 # Version: 1.3.26
 # Status: active
 # Description: Enforce RBAC — block actions outside agent role
 # Last Reviewed: 2026-05-19
-# PreToolUse hook — YAMTAM ENGINE v1.2 RBAC Guard
+# PreToolUse hook — Yana AI v1.2 RBAC Guard
 #
 # Lightweight policy guard. Fails open for manual/user calls and unknown agents.
 # This is intentionally narrow until agent identity is reliably available.

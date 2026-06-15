@@ -1,17 +1,17 @@
 ---
 name: k8s-crd-controller
 description: Kubernetes Custom Resource Definitions and controller reconciliation loop patterns. CRD schema design, controller-runtime reconciler, desired-state diffing, and agent lifecycle as a K8s-native resource. Sources: kubernetes/kubernetes (Apache-2.0).
-origin: yamtam-engine — synthesized from kubernetes/kubernetes (Apache-2.0)
+origin: yana-ai — synthesized from kubernetes/kubernetes (Apache-2.0)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.52
+compatibility: yana-ai >= 1.3.52
 ---
 
 # /k8s-crd-controller
 
 ## When to Use
 
-- Model yamtam agent lifecycle as a Kubernetes resource (create/update/delete → reconcile)
+- Model yana-ai agent lifecycle as a Kubernetes resource (create/update/delete → reconcile)
 - Write a controller that watches CRD objects and drives actual state toward desired state
 - Self-healing: if an agent pod crashes, controller re-creates it automatically
 - Declarative config: kubectl apply -f agent.yaml → agent boots with correct config
@@ -30,13 +30,13 @@ compatibility: yamtam-engine >= 1.3.52
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: yamtamagents.yamtam.io
+  name: yana-aiagents.yana-ai.io
 spec:
-  group:   yamtam.io
+  group:   yana-ai.io
   names:
     kind:     YamtamAgent
-    plural:   yamtamagents
-    singular: yamtamagent
+    plural:   yana-aiagents
+    singular: yana-aiagent
     shortNames: [ya]
   scope:   Namespaced
   versions:
@@ -71,7 +71,7 @@ spec:
 ```go
 // reconciler.go
 func (r *YamtamAgentReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-  agent := &yamtamv1.YamtamAgent{}
+  agent := &yana-aiv1.YamtamAgent{}
   if err := r.Get(ctx, req.NamespacedName, agent); err != nil {
     return ctrl.Result{}, client.IgnoreNotFound(err)
   }
@@ -115,7 +115,7 @@ const customObjectsApi = kc.makeApiClient(k8s.CustomObjectsApi)
 // Watch YamtamAgent resources for changes
 const watch = new k8s.Watch(kc)
 await watch.watch(
-  '/apis/yamtam.io/v1alpha1/yamtamagents',
+  '/apis/yana-ai.io/v1alpha1/yana-aiagents',
   {},
   (type, apiObj) => {
     if (type === 'ADDED')    console.log('[k8s] agent created:', apiObj.metadata.name)

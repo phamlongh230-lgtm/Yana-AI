@@ -1,10 +1,10 @@
 ---
 name: llm-eval-framework
 description: LLM evaluation harness for accuracy benchmarking. MMLU/HumanEval/MATH eval runners, model-graded scoring, prompt regression testing, and per-skill accuracy tracking. Sources: openai/simple-evals (MIT).
-origin: yamtam-engine — synthesized from openai/simple-evals (MIT)
+origin: yana-ai — synthesized from openai/simple-evals (MIT)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.51
+compatibility: yana-ai >= 1.3.51
 ---
 
 # /llm-eval-framework
@@ -36,7 +36,7 @@ Model-graded (LLM-as-judge):
   MT-Bench     — 80 multi-turn questions, GPT-4 grades on 1–10 scale
   Custom eval  — reference answer + judge prompt → pass/fail/score
 
-Agent-specific (yamtam):
+Agent-specific (yana-ai):
   Tool-call accuracy  — did agent call the right tool?
   Instruction follow  — did agent obey the constraint?
   Hallucination rate  — did agent cite non-existent files/functions?
@@ -113,7 +113,7 @@ def llm_judge(client, question: str, reference: str, response: str) -> int:
 
 ---
 
-## Regression test suite for yamtam agents
+## Regression test suite for yana-ai agents
 
 ```javascript
 // eval-suite.ts — run before every agent deployment

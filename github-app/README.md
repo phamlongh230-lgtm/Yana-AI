@@ -1,6 +1,6 @@
-# YAMTAM GitHub App
+# Yana AI GitHub App
 
-1-click YAMTAM safety setup for any GitHub repo.
+1-click Yana AI safety setup for any GitHub repo.
 
 ## What it does
 
@@ -18,9 +18,9 @@ When installed on a repo, automatically opens a PR with:
 Go to: github.com/settings/apps/new
 
 ```
-Name:              YAMTAM ENGINE
-Homepage URL:      https://github.com/phamlongh230-lgtm/yamtam-engine
-Webhook URL:       https://yamtam-github-app.<your-subdomain>.workers.dev/webhook
+Name:              Yana AI
+Homepage URL:      https://github.com/phamlongh230-lgtm/yana-ai
+Webhook URL:       https://yana-ai-github-app.<your-subdomain>.workers.dev/webhook
 Webhook secret:    <generate a random secret>
 
 Permissions:

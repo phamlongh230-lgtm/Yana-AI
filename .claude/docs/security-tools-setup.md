@@ -1,8 +1,8 @@
-# YAMTAM ENGINE — Security Tools Setup
+# Yana AI — Security Tools Setup
 
 **Status:** Active
 **Used by:** `core/scripts/run-security-tools.sh`, `core/skills/red-team-check`
-**Origin:** yamtam (original)
+**Origin:** yana-ai (original)
 
 ---
 
@@ -53,7 +53,7 @@ brew install semgrep
 semgrep --version
 ```
 
-**Rulesets used by YAMTAM:**
+**Rulesets used by Yana AI:**
 - `p/owasp-top-ten` — OWASP Top 10 patterns
 - `p/secrets` — secret detection (complements gitleaks)
 - `p/injection` — SQL, command, LDAP injection
@@ -95,7 +95,7 @@ npm --version
 npm audit --audit-level=moderate
 ```
 
-**Note:** `npm audit` may modify `package-lock.json` in fix mode. YAMTAM runs it read-only (no `--fix` flag).
+**Note:** `npm audit` may modify `package-lock.json` in fix mode. Yana AI runs it read-only (no `--fix` flag).
 
 ---
 
@@ -172,7 +172,7 @@ pip install semgrep && brew install gitleaks trivy   # Linux/mixed
 
 ---
 
-## How YAMTAM Uses These Tools
+## How Yana AI Uses These Tools
 
 1. `/security-scan` triggers `core/skills/red-team-check`
 2. `red-team-check` Step 0 runs `bash core/scripts/run-security-tools.sh`
@@ -188,7 +188,7 @@ Tool findings count toward Anti-Fake-Pass evidence. A finding from `gitleaks` is
 
 ```bash
 # Required before running tools (set by security-scope-gate)
-export YAMTAM_SCOPE_CONFIRMED=1
+export YANA_SCOPE_CONFIRMED=1
 
 # Run all available tools
 bash core/scripts/run-security-tools.sh --mode deep

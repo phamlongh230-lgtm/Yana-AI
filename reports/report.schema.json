@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "YAMTAM Audit Report",
-  "description": "Output schema for yamtam audit . — deterministic agent setup risk scan",
+  "title": "Yana AI Audit Report",
+  "description": "Output schema for yana-ai audit . — deterministic agent setup risk scan",
   "version": "0.1.0",
   "type": "object",
   "required": ["schema_version", "generated_at", "target", "score", "risk_level", "summary", "findings"],
@@ -21,9 +21,9 @@
       "type": "string",
       "description": "Path scanned, relative to cwd — typically '.' or './myrepo'"
     },
-    "yamtam_version": {
+    "yana-ai_version": {
       "type": "string",
-      "description": "YAMTAM CLI version that produced this report",
+      "description": "Yana AI CLI version that produced this report",
       "example": "0.1.0"
     },
     "score": {
@@ -158,7 +158,7 @@
       "schema_version": "0.1.0",
       "generated_at": "2026-05-26T10:30:00Z",
       "target": ".",
-      "yamtam_version": "0.1.0",
+      "yana-ai_version": "0.1.0",
       "score": 41,
       "risk_level": "HIGH",
       "summary": { "total": 5, "critical": 1, "high": 2, "medium": 1, "low": 1, "info": 0 },

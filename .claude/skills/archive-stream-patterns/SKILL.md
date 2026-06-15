@@ -1,17 +1,17 @@
 ---
 name: archive-stream-patterns
 description: Streaming ZIP and TAR archive creation for agent release packaging. node-archiver streaming API, append files/directories, compression levels, progress events, and integrity verification. Sources: archiverjs/node-archiver.
-origin: yamtam-engine — synthesized from archiverjs/node-archiver (MIT)
+origin: yana-ai — synthesized from archiverjs/node-archiver (MIT)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.48
+compatibility: yana-ai >= 1.3.48
 ---
 
 # /archive-stream-patterns
 
 ## When to Use
 
-- Building yamtam release packages (zip skills + rules + scripts into versioned archive)
+- Building yana-ai release packages (zip skills + rules + scripts into versioned archive)
 - Streaming archive creation without loading entire archive into RAM
 - Progressively adding files to archive during agent session
 - Replacing synchronous zip tools with event-driven streaming approach
@@ -53,13 +53,13 @@ async function createRelease(
     archive.pipe(output)
 
     // Add directories
-    archive.directory(resolve(projectRoot, 'core/skills'),  `yamtam-${version}/skills`)
-    archive.directory(resolve(projectRoot, 'core/rules'),   `yamtam-${version}/rules`)
-    archive.directory(resolve(projectRoot, 'core/scripts'), `yamtam-${version}/scripts`)
+    archive.directory(resolve(projectRoot, 'core/skills'),  `yana-ai-${version}/skills`)
+    archive.directory(resolve(projectRoot, 'core/rules'),   `yana-ai-${version}/rules`)
+    archive.directory(resolve(projectRoot, 'core/scripts'), `yana-ai-${version}/scripts`)
 
     // Add specific files
-    archive.file(resolve(projectRoot, 'MANIFEST.json'), { name: `yamtam-${version}/MANIFEST.json` })
-    archive.file(resolve(projectRoot, 'README.md'),     { name: `yamtam-${version}/README.md` })
+    archive.file(resolve(projectRoot, 'MANIFEST.json'), { name: `yana-ai-${version}/MANIFEST.json` })
+    archive.file(resolve(projectRoot, 'README.md'),     { name: `yana-ai-${version}/README.md` })
 
     archive.finalize()
   })
@@ -72,7 +72,7 @@ async function createRelease(
 
 ```javascript
 const archive = archiver('tar', { gzip: true, gzipOptions: { level: 9 } })
-const output  = createWriteStream('/tmp/yamtam-release.tar.gz')
+const output  = createWriteStream('/tmp/yana-ai-release.tar.gz')
 archive.pipe(output)
 archive.glob('**/*', { cwd: projectRoot, ignore: ['node_modules/**', 'releases/logs/**'] })
 await new Promise((res, rej) => {
@@ -99,11 +99,11 @@ archive.on('progress', (progress) => {
 
 ```bash
 # Verify zip integrity after archiver finishes
-unzip -t /tmp/yamtam-release.zip | tail -1
-# → No errors detected in /tmp/yamtam-release.zip
+unzip -t /tmp/yana-ai-release.zip | tail -1
+# → No errors detected in /tmp/yana-ai-release.zip
 
 # Check tar integrity
-tar -tzf /tmp/yamtam-release.tar.gz > /dev/null && echo "TAR OK"
+tar -tzf /tmp/yana-ai-release.tar.gz > /dev/null && echo "TAR OK"
 ```
 
 ---

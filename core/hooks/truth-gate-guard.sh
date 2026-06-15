@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Hook
+# Yana AI Hook
 # Version: 1.3.26
 # Status: active
 # Description: L3 Truth Gate — warn on unsupported done/passed/clean claims
 # Last Reviewed: 2026-05-19
-# Stop hook — YAMTAM ENGINE L3 Truth Gate Guard
+# Stop hook — Yana AI L3 Truth Gate Guard
 #
 # Fires after each Claude turn. Reads the last assistant message from the
 # session transcript, scans for claim verbs (done/passed/fixed/deployed…),
@@ -15,7 +15,7 @@
 #
 # Hook event:   Stop
 # Requires:     jq
-# Bypass:       YAMTAM_TRUTH_GATE_BYPASS=1
+# Bypass:       YANA_TRUTH_GATE_BYPASS=1
 #
 # Test seam:    TRUTH_GATE_TEST_TEXT="<text>" — skips transcript read;
 #               used by core/tests/hooks/run-hook-tests.sh
@@ -24,7 +24,7 @@
 
 set -uo pipefail
 
-[[ "${YAMTAM_TRUTH_GATE_BYPASS:-}" == "1" ]] && exit 0
+[[ "${YANA_TRUTH_GATE_BYPASS:-}" == "1" ]] && exit 0
 
 command -v jq >/dev/null 2>&1 || exit 0
 

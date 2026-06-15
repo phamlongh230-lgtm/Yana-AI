@@ -25,7 +25,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Check L2 audit log for repeated error patterns
-AUDIT_LOG="${YAMTAM_LOG:-/tmp/yamtam-audit.log}"
+AUDIT_LOG="${YANA_LOG:-/tmp/yana-ai-audit.log}"
 RISK_LOG="$L2_DIR/risk-log.jsonl"
 
 command -v python3 >/dev/null 2>&1 || { echo "python3 required" >&2; exit 1; }
@@ -106,7 +106,7 @@ type: observation
 statement: {statement}
 source: auto-promoted:{now}
 confidence: medium
-scope: YAMTAM
+scope: Yana AI
 tags: [learned, pattern, {keyword.lower()}, {tool.lower()[:15]}]
 expires_at: {today[:7]}-01  # re-verify next month
 evidence: "{evidence_sample[:100]}"

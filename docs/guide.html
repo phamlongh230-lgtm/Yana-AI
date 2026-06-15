@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Guide — YAMTAM ENGINE</title>
-<meta property="og:title" content="Guide — YAMTAM ENGINE">
-<meta property="og:description" content="Installation, CLI usage, gate system and skills documentation for YAMTAM ENGINE.">
-<meta property="og:image" content="https://phamlongh230-lgtm.github.io/yamtam-engine/yamtam-engine-overview.png">
-<meta property="og:url" content="https://yamtam-engine.pages.dev/guide.html">
+  <title>Guide — Yana AI</title>
+<meta property="og:title" content="Guide — Yana AI">
+<meta property="og:description" content="Installation, CLI usage, gate system and skills documentation for Yana AI.">
+<meta property="og:image" content="https://phamlongh230-lgtm.github.io/yana-ai/yana-ai-overview.png">
+<meta property="og:url" content="https://yana-ai.pages.dev/guide.html">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Guide — YAMTAM ENGINE">
-<meta name="twitter:description" content="Installation, CLI usage, gate system and skills documentation for YAMTAM ENGINE.">
-<meta name="description" content="Installation, CLI usage, gate system and skills documentation for YAMTAM ENGINE.">
+<meta name="twitter:title" content="Guide — Yana AI">
+<meta name="twitter:description" content="Installation, CLI usage, gate system and skills documentation for Yana AI.">
+<meta name="description" content="Installation, CLI usage, gate system and skills documentation for Yana AI.">
   <style>
     :root{--bg:#fafaf9;--bg2:#f2f0ec;--border:#ddd9d0;--text:#1a1714;--muted:#6b6560;--accent:hsl(155,52%,32%);--green:#16a34a;--blue:#2563eb;--red:#dc2626}
     .dark{--bg:#0f0e0d;--bg2:#1a1917;--border:#2e2c28;--text:#e8e2d9;--muted:#8a8070;--accent:hsl(155,52%,42%);--green:#4ade80;--blue:#60a5fa;--red:#f87171}
@@ -63,7 +63,7 @@
 </head>
 <body>
 <nav class="nav">
-  <a class="nav-logo" href="./"><span>⚡</span> YAMTAM ENGINE</a>
+  <a class="nav-logo" href="./"><span>⚡</span> Yana AI</a>
   <div class="nav-links">
     <a href="./">Home</a>
     <a href="skills.html">Skills</a>
@@ -71,7 +71,7 @@
     <a href="changelog.html">Changelog</a>
     <a href="guide.html">Guide</a>
     <a href="search.html">Search</a>
-    <a href="https://github.com/phamlongh230-lgtm/yamtam-engine" target="_blank">GitHub</a>
+    <a href="https://github.com/phamlongh230-lgtm/yana-ai" target="_blank">GitHub</a>
     <button id="theme-toggle" onclick="toggleTheme()" style="border:none;background:transparent;cursor:pointer;font-size:1rem;padding:.25rem .4rem;border-radius:6px;line-height:1;transition:background .15s">🌙</button>
     <div style="display:flex;gap:.25rem;margin-left:.5rem">
       <button class="lang-btn" onclick="setLang('en')" style="border:none;background:transparent;cursor:pointer;font-size:.75rem;padding:.2rem .45rem;border-radius:4px;color:var(--muted);transition:all .15s">EN</button>
@@ -88,7 +88,7 @@
   <a href="changelog.html" onclick="toggleHbg()">Changelog</a>
   <a href="guide.html" onclick="toggleHbg()">Guide</a>
   <a href="search.html" onclick="toggleHbg()">Search 🔍</a>
-  <a href="https://github.com/phamlongh230-lgtm/yamtam-engine" target="_blank" onclick="toggleHbg()">GitHub</a>
+  <a href="https://github.com/phamlongh230-lgtm/yana-ai" target="_blank" onclick="toggleHbg()">GitHub</a>
 </div>
 
 <div class="layout">
@@ -112,44 +112,44 @@
   </aside>
 
   <article>
-    <h1 data-i18n="page.h1">YAMTAM ENGINE Guide</h1>
-    <p data-i18n="page.sub">Everything you need to install, configure, and run YAMTAM ENGINE.</p>
+    <h1 data-i18n="page.h1">Yana AI Guide</h1>
+    <p data-i18n="page.sub">Everything you need to install, configure, and run Yana AI.</p>
 
     <!-- INSTALL -->
     <h2 id="install" data-i18n="h2.install">Installation</h2>
     <p data-i18n="p.install">Three components, install what you need:</p>
     <pre><code class="language-bash"># Claude Code plugin
-npm install yamtam-engine
-npx yamtam-install        # wire hooks into .claude/ (required)
+npm install yana-ai
+npx yana-ai-install        # wire hooks into .claude/ (required)
 
 # Rust runtime (scan, hunt, watch, ci, map…)
-cargo install yamtam-rt
+cargo install yana-rt
 
 # Python CLI (legacy commands)
-pip install yamtam-engine</code></pre>
+pip install yana-ai</code></pre>
 
-    <div class="tip"><strong>Important:</strong> Always run <code>npx yamtam-install</code> once after npm install — it wires the PreToolUse / PostToolUse hooks into your <code>.claude/settings.json</code>. From <strong>npm v12</strong> (July 2026) install scripts no longer run automatically, so this step is required — the postinstall fallback only fires on npm ≤ 11.</div>
+    <div class="tip"><strong>Important:</strong> Always run <code>npx yana-ai-install</code> once after npm install — it wires the PreToolUse / PostToolUse hooks into your <code>.claude/settings.json</code>. From <strong>npm v12</strong> (July 2026) install scripts no longer run automatically, so this step is required — the postinstall fallback only fires on npm ≤ 11.</div>
 
     <!-- FIRST SCAN -->
     <h2 id="first-scan" data-i18n="h2.first-scan">First Scan</h2>
     <p data-i18n="p.first-scan">Scan your project for agent security risks in 30 seconds:</p>
     <pre><code class="language-bash">cd your-project
-yamtam-rt scan .
+yana-rt scan .
 
 # JSON output
-yamtam-rt scan . --json
+yana-rt scan . --json
 
 # Only show critical/high findings
-yamtam-rt scan . --fail-on high
+yana-rt scan . --fail-on high
 
 # Scan only changed files since main
-yamtam-rt scan . --diff origin/main</code></pre>
+yana-rt scan . --diff origin/main</code></pre>
 
     <p>Scanner checks: hardcoded secrets, SSRF vectors, path traversal, supply chain, prompt injection, tool poisoning, and 40+ other categories.</p>
 
     <!-- GATES -->
     <h2 id="gates" data-i18n="h2.gates">Gate System</h2>
-    <p data-i18n="p.gates">YAMTAM intercepts every Claude tool call through a layered gate pipeline:</p>
+    <p data-i18n="p.gates">Yana AI intercepts every Claude tool call through a layered gate pipeline:</p>
     <table>
       <tr><th>Gate</th><th>Layer</th><th>Blocks</th></tr>
       <tr><td>L0</td><td>Audit chain</td><td>Log tampering, replay attacks</td></tr>
@@ -161,49 +161,49 @@ yamtam-rt scan . --diff origin/main</code></pre>
       <tr><td>L5</td><td>UI quality</td><td>Arbitrary hex colors, missing dark mode</td></tr>
     </table>
 
-    <div class="warn"><strong>Note:</strong> Gates run automatically when hooks are wired. No config needed beyond <code>npx yamtam-install</code>.</div>
+    <div class="warn"><strong>Note:</strong> Gates run automatically when hooks are wired. No config needed beyond <code>npx yana-ai-install</code>.</div>
 
     <!-- SCAN -->
-    <h2 id="scan" data-i18n="h2.scan">yamtam-rt scan</h2>
+    <h2 id="scan" data-i18n="h2.scan">yana-rt scan</h2>
     <p data-i18n="p.scan">Full security audit of your <code>.claude/</code> setup and source files.</p>
-    <pre><code class="language-bash">yamtam-rt scan .                    # full scan
-yamtam-rt scan . --only secrets     # secrets only
-yamtam-rt scan . --markdown out.md  # write report
-yamtam-rt scan . --sarif out.sarif  # SARIF for GitHub</code></pre>
+    <pre><code class="language-bash">yana-rt scan .                    # full scan
+yana-rt scan . --only secrets     # secrets only
+yana-rt scan . --markdown out.md  # write report
+yana-rt scan . --sarif out.sarif  # SARIF for GitHub</code></pre>
 
     <!-- HUNT -->
-    <h2 id="hunt" data-i18n="h2.hunt">yamtam-rt hunt</h2>
+    <h2 id="hunt" data-i18n="h2.hunt">yana-rt hunt</h2>
     <p data-i18n="p.hunt">Active scanner — goes deeper into code vulnerabilities and supply chain.</p>
-    <pre><code class="language-bash">yamtam-rt hunt run .         # full hunt
-yamtam-rt hunt secrets .     # secrets only
-yamtam-rt hunt deps .        # dependency audit</code></pre>
+    <pre><code class="language-bash">yana-rt hunt run .         # full hunt
+yana-rt hunt secrets .     # secrets only
+yana-rt hunt deps .        # dependency audit</code></pre>
 
     <!-- CI -->
-    <h2 id="ci" data-i18n="h2.ci">yamtam-rt ci</h2>
+    <h2 id="ci" data-i18n="h2.ci">yana-rt ci</h2>
     <p data-i18n="p.ci">CI/CD workflow security check — unpinned actions, missing permissions, secret exposure.</p>
-    <pre><code class="language-bash">yamtam-rt ci check .github/workflows/
-yamtam-rt ci check .github/workflows/deploy.yml</code></pre>
+    <pre><code class="language-bash">yana-rt ci check .github/workflows/
+yana-rt ci check .github/workflows/deploy.yml</code></pre>
 
     <!-- WATCH -->
-    <h2 id="watch" data-i18n="h2.watch">yamtam-rt watch</h2>
+    <h2 id="watch" data-i18n="h2.watch">yana-rt watch</h2>
     <p data-i18n="p.watch">Live file watcher — prints changes to skills, agents, rules as they happen.</p>
-    <pre><code class="language-bash">yamtam-rt watch start                              # watch default dirs
-yamtam-rt watch start --dirs core/skills,src       # custom dirs
-yamtam-rt watch start --interval 5                 # poll every 5s</code></pre>
+    <pre><code class="language-bash">yana-rt watch start                              # watch default dirs
+yana-rt watch start --dirs core/skills,src       # custom dirs
+yana-rt watch start --interval 5                 # poll every 5s</code></pre>
 
     <!-- INIT -->
-    <h2 id="init" data-i18n="h2.init">yamtam-rt init</h2>
-    <p data-i18n="p.init">Auto-setup YAMTAM in any project — creates hooks, config, and settings skeleton in one command.</p>
-    <pre><code class="language-bash">yamtam-rt init run .          # setup current directory
-yamtam-rt init run ~/my-app   # setup another project
-yamtam-rt init dry .          # preview without writing files</code></pre>
-    <p>Creates: <code>.claude/settings.json</code>, <code>.claude/hooks/pre-tool-use.sh</code>, <code>.yamtam/config.toml</code>. Skips files that already exist.</p>
+    <h2 id="init" data-i18n="h2.init">yana-rt init</h2>
+    <p data-i18n="p.init">Auto-setup Yana AI in any project — creates hooks, config, and settings skeleton in one command.</p>
+    <pre><code class="language-bash">yana-rt init run .          # setup current directory
+yana-rt init run ~/my-app   # setup another project
+yana-rt init dry .          # preview without writing files</code></pre>
+    <p>Creates: <code>.claude/settings.json</code>, <code>.claude/hooks/pre-tool-use.sh</code>, <code>.yana-ai/config.toml</code>. Skips files that already exist.</p>
 
     <!-- ALL COMMANDS -->
     <h2 id="commands" data-i18n="h2.commands">All Commands</h2>
     <table>
       <tr><th>Command</th><th>Description</th></tr>
-      <tr><td>init</td><td>Auto-setup YAMTAM in any project — hooks, config, settings</td></tr>
+      <tr><td>init</td><td>Auto-setup Yana AI in any project — hooks, config, settings</td></tr>
       <tr><td>scan</td><td>Security audit of agent setup + source</td></tr>
       <tr><td>hunt</td><td>Active code vulnerability scanner</td></tr>
       <tr><td>ci</td><td>CI/CD workflow health check</td></tr>
@@ -222,7 +222,7 @@ yamtam-rt init dry .          # preview without writing files</code></pre>
 
     <!-- SKILLS -->
     <h2 id="skills" data-i18n="h2.skills">Using Skills</h2>
-    <p data-i18n="p.skills">Skills are slash commands for Claude Code. With yamtam-engine installed, 3,457 skills are available.</p>
+    <p data-i18n="p.skills">Skills are slash commands for Claude Code. With yana-ai installed, 3,457 skills are available.</p>
     <pre><code class="language-bash"># In Claude Code chat:
 /security-review       # OWASP review of current diff
 /tdd-cycle             # Red → Green → Refactor loop
@@ -246,7 +246,7 @@ yamtam-rt init dry .          # preview without writing files</code></pre>
   </article>
 </div>
 
-<footer>YAMTAM ENGINE · <a href="https://github.com/phamlongh230-lgtm/yamtam-engine" style="color:var(--muted)">GitHub</a> · <span data-i18n="footer.built">Built by Vũ Văn Tâm · Vietnam</span></footer>
+<footer>Yana AI · <a href="https://github.com/phamlongh230-lgtm/yana-ai" style="color:var(--muted)">GitHub</a> · <span data-i18n="footer.built">Built by Vũ Văn Tâm · Vietnam</span></footer>
   <script src="water-bg.js" defer></script>
   <script src="water-droplet.js" defer></script>
   <script src="lotus-petals.js" defer></script>

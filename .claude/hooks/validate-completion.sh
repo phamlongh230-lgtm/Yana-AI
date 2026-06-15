@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Hook
+# Yana AI Hook
 # Version: 1.7.0
 # Status: active
 # Description: Validate completion claims have evidence before Stop + PII detection

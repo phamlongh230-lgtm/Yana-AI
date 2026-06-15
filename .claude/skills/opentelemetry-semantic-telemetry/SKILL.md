@@ -1,7 +1,7 @@
 ---
 name: opentelemetry-semantic-telemetry
 description: Instrument multi-agent swarms with OpenTelemetry spans, semantic drift monitoring, anomaly detection, distributed trace propagation across 87 agents, and SIEM bridge export for security events.
-origin: OpenTelemetry spec (Apache-2.0), Grafana Loki, YAMTAM rule 55
+origin: OpenTelemetry spec (Apache-2.0), Grafana Loki, Yana AI rule 55
 license: Apache-2.0
 version: 1.0.0
 compatibility: claude-sonnet-4-6, claude-opus-4-7
@@ -28,7 +28,7 @@ Every agent action emits a span. Every span has a Trace ID. No action is invisib
 ```js
 import { trace, context, SpanStatusCode } from '@opentelemetry/api';
 
-const tracer = trace.getTracer('yamtam-engine', '1.4.0');
+const tracer = trace.getTracer('yana-ai', '1.4.0');
 
 async function instrumentedAgentCall(agentId, command, fn) {
   return tracer.startActiveSpan(`agent.${command}`, async (span) => {
@@ -127,7 +127,7 @@ async function detectSemanticDrift(currentPrompt, baselineEmbedding) {
 function lokiEntry(event, agentId, fortress, severity) {
   return {
     stream: {
-      env:       'yamtam',
+      env:       'yana-ai',
       agent_id:  agentId,
       fortress:  fortress,   // 'I' through 'X'
       severity:  severity,   // 'INFO' | 'WARN' | 'BLOCK'
@@ -142,10 +142,10 @@ function lokiEntry(event, agentId, fortress, severity) {
 ```js
 // Forward security events in CEF format
 function exportToSIEM(event) {
-  const cef = `CEF:0|YAMTAM|Engine|1.4.0|${event.code}|${event.name}|${event.severity}|` +
+  const cef = `CEF:0|Yana AI|Engine|1.4.0|${event.code}|${event.name}|${event.severity}|` +
     `agentId=${event.agentId} cmd=${event.command} ts=${event.ts}`;
 
-  fetch(process.env.YAMTAM_SIEM_ENDPOINT, {
+  fetch(process.env.YANA_SIEM_ENDPOINT, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain', Authorization: `Bearer ${siemToken}` },
     body: cef,

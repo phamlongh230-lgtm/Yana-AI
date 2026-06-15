@@ -1,10 +1,10 @@
 ---
 name: linkerd-service-mesh
 description: Linkerd2 lightweight service mesh for automatic mTLS, traffic metrics, and certificate rotation. Zero-config mTLS, per-route metrics, traffic splits, retries, and timeouts for inter-agent communication. Sources: linkerd/linkerd2 (Apache-2.0).
-origin: yamtam-engine — synthesized from linkerd/linkerd2 (Apache-2.0)
+origin: yana-ai — synthesized from linkerd/linkerd2 (Apache-2.0)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.52
+compatibility: yana-ai >= 1.3.52
 ---
 
 # /linkerd-service-mesh
@@ -47,8 +47,8 @@ linkerd check
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name:      yamtam-agent
-  namespace: yamtam
+  name:      yana-ai-agent
+  namespace: yana-ai
   annotations:
     linkerd.io/inject: enabled   # sidecar injected on pod creation
 spec:
@@ -60,12 +60,12 @@ spec:
 
 ```bash
 # Or inject all deployments in namespace
-kubectl get deploy -n yamtam -o yaml \
+kubectl get deploy -n yana-ai -o yaml \
   | linkerd inject - \
   | kubectl apply -f -
 
 # Verify injection
-linkerd check --proxy -n yamtam
+linkerd check --proxy -n yana-ai
 ```
 
 ---
@@ -74,7 +74,7 @@ linkerd check --proxy -n yamtam
 
 ```bash
 # Check that mTLS is active between agent-a and agent-b
-linkerd viz edges pod -n yamtam
+linkerd viz edges pod -n yana-ai
 
 # Output:
 # SRC                  DST                  SECURED
@@ -90,14 +90,14 @@ linkerd viz edges pod -n yamtam
 apiVersion: split.smi-spec.io/v1alpha2
 kind: TrafficSplit
 metadata:
-  name:      yamtam-canary
-  namespace: yamtam
+  name:      yana-ai-canary
+  namespace: yana-ai
 spec:
-  service: yamtam-agent
+  service: yana-ai-agent
   backends:
-    - service: yamtam-agent-stable
+    - service: yana-ai-agent-stable
       weight: "900m"   # 90%
-    - service: yamtam-agent-canary
+    - service: yana-ai-agent-canary
       weight: "100m"   # 10%
 ```
 
@@ -109,8 +109,8 @@ spec:
 apiVersion: linkerd.io/v1alpha2
 kind: ServiceProfile
 metadata:
-  name:      yamtam-agent.yamtam.svc.cluster.local
-  namespace: yamtam
+  name:      yana-ai-agent.yana-ai.svc.cluster.local
+  namespace: yana-ai
 spec:
   routes:
     - name: POST /api/task
@@ -133,15 +133,15 @@ spec:
 
 ```bash
 # Real-time success rate per route
-linkerd viz routes -n yamtam deploy/yamtam-agent
+linkerd viz routes -n yana-ai deploy/yana-ai-agent
 
 # OUTPUT:
 # ROUTE                    SERVICE          EFFECTIVE_RPS   EFFECTIVE_SUCCESS
-# POST /api/task           yamtam-agent     42.3            98.7%
-# GET  /health             yamtam-agent     10.1            100.0%
+# POST /api/task           yana-ai-agent     42.3            98.7%
+# GET  /health             yana-ai-agent     10.1            100.0%
 
 # Top sources of traffic to a pod
-linkerd viz top deploy/yamtam-agent -n yamtam
+linkerd viz top deploy/yana-ai-agent -n yana-ai
 ```
 
 ---

@@ -1,9 +1,9 @@
-# YAMTAM ENGINE — Skill Specification v1.0
+# Yana AI — Skill Specification v1.0
 
 **Status:** Active
 **Adapted from:** AgentSkills specification (Apache 2.0 © 2025 Anthropic, PBC)
-**Changes made:** Added YAMTAM-specific fields (origin, Anti-Fake-Pass section),
-adjusted constraints, merged YAMTAM context. Structure adapted, not copied verbatim.
+**Changes made:** Added Yana AI-specific fields (origin, Anti-Fake-Pass section),
+adjusted constraints, merged Yana AI context. Structure adapted, not copied verbatim.
 
 ---
 
@@ -21,7 +21,7 @@ core/skills/<skill-name>/
 
 The directory name must match the `name` field in `SKILL.md` frontmatter exactly.
 
-Skills in `core/skills/` are part of the YAMTAM ENGINE pack.
+Skills in `core/skills/` are part of the Yana AI pack.
 Skills installed from external sources live in `.claude/skills/`.
 
 ---
@@ -36,7 +36,7 @@ The file must contain YAML frontmatter followed by Markdown content.
 |-------|----------|-------------|
 | `name` | Yes | Max 64 chars. Lowercase letters, numbers, hyphens only. Must match directory name. |
 | `description` | Yes | Max 1024 chars. Must say WHAT the skill does AND WHEN to use it. |
-| `origin` | Yes | `yamtam` / `community` / `adapted:<source-name>` |
+| `origin` | Yes | `yana-ai` / `community` / `adapted:<source-name>` |
 | `version` | No | Semver string e.g. `1.0.0` |
 | `compatibility` | No | Max 500 chars. Prerequisites, env requirements, tool dependencies. |
 | `license` | No | If adapted from external source — license name or reference. |
@@ -76,7 +76,7 @@ description: Helps with security.
 
 | Value | Meaning |
 |-------|---------|
-| `yamtam` | Written original for YAMTAM ENGINE |
+| `yana-ai` | Written original for Yana AI |
 | `community` | Imported from external community skill |
 | `adapted:<source>` | Adapted from external source — must also have `license` field |
 
@@ -135,7 +135,7 @@ This is more efficient than loading everything upfront.
 
 ---
 
-## Anti-Fake-Pass Section (required for all YAMTAM skills)
+## Anti-Fake-Pass Section (required for all Yana AI skills)
 
 Every skill in `core/skills/` must include an **Anti-Fake-Pass Rules** section.
 The section must list measurable evidence items — not vague statements.

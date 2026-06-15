@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Hook
+# Yana AI Hook
 # Version: 1.3.26
 # Status: active
 # Description: Warn when agent accesses token/secret files
@@ -21,14 +21,14 @@
 #   - Logs to .claude/state/token-scope.log for review
 #
 # Bypass:
-#   YAMTAM_TOKEN_SCOPE_OK=1 — for legitimate secret-handling tasks (deploy, etc)
+#   YANA_TOKEN_SCOPE_OK=1 — for legitimate secret-handling tasks (deploy, etc)
 #
 # Fails open on parse errors.
 
 set -uo pipefail
 command -v jq >/dev/null 2>&1 || exit 0
 
-[[ "${YAMTAM_TOKEN_SCOPE_OK:-}" == "1" ]] && exit 0
+[[ "${YANA_TOKEN_SCOPE_OK:-}" == "1" ]] && exit 0
 
 INPUT=$(cat)
 TOOL_NAME=$(echo "$INPUT" | jq -r '.tool_name // ""')
@@ -84,7 +84,7 @@ printf '%s | tool=%s | agent=%s | suspicion=%s | target=%s\n' \
 jq -n --arg s "$SUSPICIOUS" --arg t "${TARGET:0:200}" '{
   hookSpecificOutput: {
     hookEventName: "PreToolUse",
-    additionalContext: ("⚠️  Token scope warning: " + $s + " detected (" + $t + "). The PocketOS incident (April 2026) was caused by an agent finding an unrelated API token and using it to destroy production. Make sure this read is intentional and within current task scope. Set YAMTAM_TOKEN_SCOPE_OK=1 to silence for one command. Logged to .claude/state/token-scope.log.")
+    additionalContext: ("⚠️  Token scope warning: " + $s + " detected (" + $t + "). The PocketOS incident (April 2026) was caused by an agent finding an unrelated API token and using it to destroy production. Make sure this read is intentional and within current task scope. Set YANA_TOKEN_SCOPE_OK=1 to silence for one command. Logged to .claude/state/token-scope.log.")
   }
 }'
 exit 0

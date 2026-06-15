@@ -1,4 +1,4 @@
-# JSON Output Plan for YAMTAM Validators
+# JSON Output Plan for Yana AI Validators
 
 **Status date:** 2026-05-27  
 **Scope:** Planning only (no runtime implementation)
@@ -18,9 +18,9 @@
 
 ## 2) Proposed commands
 
-- `bash bin/yamtam validate-spec <spec-file> --json`
-- `bash bin/yamtam validate-spec <spec-file> --context-pack <context-pack-dir> --json`
-- `bash bin/yamtam check-context <context-pack-dir> --json`
+- `bash bin/yana-ai validate-spec <spec-file> --json`
+- `bash bin/yana-ai validate-spec <spec-file> --context-pack <context-pack-dir> --json`
+- `bash bin/yana-ai check-context <context-pack-dir> --json`
 
 ---
 
@@ -42,7 +42,7 @@ Proposed top-level JSON fields:
 
 ```json
 {
-  "tool": "yamtam",
+  "tool": "yana-ai",
   "command": "validate-spec",
   "status": "invalid",
   "exit_code": 1,

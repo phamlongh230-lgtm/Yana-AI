@@ -14,7 +14,7 @@ Read-only — do not modify any fact files. Show actual field values, never para
 /memory --all                         → list all L1 facts
 /memory --expired                     → list expired L1 facts
 /memory [keyword] --type constraint   → filter L1 by type
-/memory [keyword] --scope YAMTAM      → filter L1 by scope
+/memory [keyword] --scope Yana AI      → filter L1 by scope
 /memory [keyword] --confidence high   → filter L1 by confidence
 /memory --tag hook                    → filter L1 by tag
 /memory --l2                          → search both L1 and L2
@@ -42,7 +42,7 @@ echo "exit: $?"
 Show the full output under heading `### L1 — Atomic Memory`.
 
 If `core/scripts/search-facts.sh` does not exist, report:
-`Error: core/scripts/search-facts.sh not found. Run from yamtam-engine root.`
+`Error: core/scripts/search-facts.sh not found. Run from yana-ai root.`
 
 ---
 

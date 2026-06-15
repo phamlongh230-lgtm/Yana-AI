@@ -18,7 +18,7 @@ NS_META = {
     "terminal":  {"label": "TerminalSkills",      "color": "#6366f1", "icon": "⚡"},
     "venice":    {"label": "Venice AI",           "color": "#f59e0b", "icon": "🎨"},
     "sports":    {"label": "Sports / Markets",    "color": "#22c55e", "icon": "🏆"},
-    "yamtam":    {"label": "YAMTAM Core",         "color": "#3b82f6", "icon": "🛡️"},
+    "yana-ai":    {"label": "Yana AI Core",         "color": "#3b82f6", "icon": "🛡️"},
 }
 
 def parse_frontmatter(content: str) -> dict:
@@ -48,11 +48,11 @@ def ns_from_name(skill_name: str) -> str:
     if skill_name.startswith("terminal--"):  return "terminal"
     if skill_name.startswith("venice--"):    return "venice"
     if skill_name.startswith("sports--"):    return "sports"
-    return "yamtam"
+    return "yana-ai"
 
 
 def short_name(skill_name: str, ns: str) -> str:
-    if ns == "yamtam":
+    if ns == "yana-ai":
         return skill_name
     prefix = ns + "--"
     stripped = skill_name[len(prefix):]
@@ -119,7 +119,7 @@ def build_html(skills: list[dict]) -> str:
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>YAMTAM Skill Library — {total} skills</title>
+<title>Yana AI Skill Library — {total} skills</title>
 <meta name="description" content="Browse {total} AI agent skills for Claude Code, Codex, Cursor and more.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -197,11 +197,11 @@ footer a:hover{{color:var(--text)}}
 <body>
 
 <nav class="nav">
-  <div class="nav-logo">🛡️ YAMTAM <span>Skill Library</span></div>
+  <div class="nav-logo">🛡️ Yana AI <span>Skill Library</span></div>
   <div class="nav-links">
-    <a href="https://github.com/phamlongh230-lgtm/yamtam-engine">GitHub</a>
+    <a href="https://github.com/phamlongh230-lgtm/yana-ai">GitHub</a>
     <a href="./">Home</a>
-    <a href="yamtam-system-map.html">System Map</a>
+    <a href="yana-ai-system-map.html">System Map</a>
   </div>
 </nav>
 
@@ -209,7 +209,7 @@ footer a:hover{{color:var(--text)}}
   <h1>Browse <span id="total-count">{total}</span> Agent Skills</h1>
   <p>Compatible with Claude Code, Codex, Cursor, Gemini CLI and more.</p>
   <div class="stat-chips">
-    <div class="chip"><span>🛡️</span>{counts.get("yamtam",0)} YAMTAM Core</div>
+    <div class="chip"><span>🛡️</span>{counts.get("yana-ai",0)} Yana AI Core</div>
     <div class="chip"><span>🔌</span>{counts.get("openai",0)} OpenAI Plugins</div>
     <div class="chip"><span>⚡</span>{counts.get("terminal",0)} TerminalSkills</div>
     <div class="chip"><span>🎨</span>{counts.get("venice",0)} Venice AI</div>
@@ -239,7 +239,7 @@ footer a:hover{{color:var(--text)}}
 
 <footer>
   <p>
-    <a href="https://github.com/phamlongh230-lgtm/yamtam-engine">YAMTAM ENGINE</a>
+    <a href="https://github.com/phamlongh230-lgtm/yana-ai">Yana AI</a>
     · v0.14.2 · Apache 2.0 · {total} skills from 5 open-source collections
   </p>
 </footer>
@@ -252,10 +252,10 @@ const NS_COLORS = {{
   terminal: "#6366f1",
   venice:   "#f59e0b",
   sports:   "#22c55e",
-  yamtam:   "#3b82f6",
+  yana-ai:   "#3b82f6",
 }};
 const NS_ICONS = {{
-  openai:"🔌", terminal:"⚡", venice:"🎨", sports:"🏆", yamtam:"🛡️"
+  openai:"🔌", terminal:"⚡", venice:"🎨", sports:"🏆", yana-ai:"🛡️"
 }};
 
 let currentNs  = "all";
@@ -288,7 +288,7 @@ function makeCard(s) {{
 
 const NS_LABELS = {{
   openai:"OpenAI Plugins", terminal:"TerminalSkills",
-  venice:"Venice AI", sports:"Sports", yamtam:"YAMTAM Core"
+  venice:"Venice AI", sports:"Sports", yana-ai:"Yana AI Core"
 }};
 
 function esc(s) {{
@@ -360,7 +360,7 @@ def main():
     size_kb = OUT_HTML.stat().st_size // 1024
     print(f" {OUT_HTML.name} ({size_kb}KB)")
 
-    print(f"\n  ✓ docs/skills.html → phamlongh230-lgtm.github.io/yamtam-engine/skills.html")
+    print(f"\n  ✓ docs/skills.html → phamlongh230-lgtm.github.io/yana-ai/skills.html")
 
 
 if __name__ == "__main__":

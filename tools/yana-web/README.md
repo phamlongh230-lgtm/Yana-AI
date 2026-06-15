@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <strong>The first interface built on YAMTAM core — chat, route, and orchestrate without touching the infrastructure.</strong>
+  <strong>The first interface built on Yana AI core — chat, route, and orchestrate without touching the infrastructure.</strong>
 </p>
 
 <p align="center">
@@ -17,7 +17,7 @@
 ---
 
 ```
-User → Yana AI → YAMTAM Core (Router · Safety · Context) → Model
+User → Yana AI → Yana AI Core (Router · Safety · Context) → Model
 ```
 
 Zero-dependency Node.js server + React (via Babel standalone) glass-morphism UI.
@@ -69,4 +69,4 @@ Anthropic · OpenAI · Gemini · Groq · DeepSeek · OpenRouter — vision suppo
 
 ---
 
-Part of [YAMTAM ENGINE](../../README.md) · Apache 2.0
+Part of [Yana AI](../../README.md) · Apache 2.0

@@ -61,7 +61,7 @@ total = sum(len(v) for v in results.values())
 
 print()
 print('  ╔══════════════════════════════════════════════╗')
-print('  ║           YAMTAM TECH DEBT REPORT            ║')
+print('  ║           Yana AI TECH DEBT REPORT            ║')
 print('  ╚══════════════════════════════════════════════╝')
 print()
 print(f'  Files scanned : {scanned}')

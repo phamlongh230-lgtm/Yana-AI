@@ -1,10 +1,10 @@
 ---
 name: graph-dependency-resolution
 description: Graph algorithms and dependency resolution for AI agent systems. DAG construction for action gate ordering, cycle detection in skill/rule graphs, BFS/DFS traversal, semver range resolution for version conflicts, topological sort for execution ordering, and PageRank-based rule importance scoring. Sources: dagrejs/graphlib, trekhleb/javascript-algorithms, npm/node-semver, sindresorhus/toposort, asv/pagerank.
-origin: yamtam-engine — synthesized from dagrejs/graphlib, trekhleb/javascript-algorithms, npm/node-semver, sindresorhus/toposort, asv/pagerank
+origin: yana-ai — synthesized from dagrejs/graphlib, trekhleb/javascript-algorithms, npm/node-semver, sindresorhus/toposort, asv/pagerank
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.46
+compatibility: yana-ai >= 1.3.46
 ---
 
 # /graph-dependency-resolution
@@ -29,7 +29,7 @@ compatibility: yamtam-engine >= 1.3.46
 ```typescript
 import { Graph, alg } from '@dagrejs/graphlib'
 
-// Build the YAMTAM gate dependency graph
+// Build the Yana AI gate dependency graph
 const gateGraph = new Graph({ directed: true, multigraph: false, compound: false })
 
 // Nodes = gates/skills/rules
@@ -259,7 +259,7 @@ function pageRank(
   return new Map([...ranks.entries()].sort((a, b) => b[1] - a[1]))
 }
 
-// Example: rank YAMTAM rules by cross-reference frequency
+// Example: rank Yana AI rules by cross-reference frequency
 const ruleRefs = new Map([
   ['00-meta-rule-enforcer', ['agent-middleware-law', 'verification']],
   ['agent-middleware-law',  ['shell-sanitize-law', 'network-egress-law']],

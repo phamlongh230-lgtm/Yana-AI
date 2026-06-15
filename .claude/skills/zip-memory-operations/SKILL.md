@@ -1,17 +1,17 @@
 ---
 name: zip-memory-operations
 description: In-memory ZIP read/write operations without temp files. adm-zip patterns for extracting, modifying, and inspecting ZIP archives entirely in RAM — ideal for release package verification. Sources: cthackers/adm-zip.
-origin: yamtam-engine — synthesized from cthackers/adm-zip (MIT)
+origin: yana-ai — synthesized from cthackers/adm-zip (MIT)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.48
+compatibility: yana-ai >= 1.3.48
 ---
 
 # /zip-memory-operations
 
 ## When to Use
 
-- Inspect yamtam release ZIP contents without extracting to disk
+- Inspect yana-ai release ZIP contents without extracting to disk
 - Patch a single file inside a ZIP (update MANIFEST.json in release archive)
 - Verify release archive integrity and file list before publishing
 - Extract specific files from ZIP into memory buffers for validation
@@ -53,7 +53,7 @@ function readFromZip(zipPath: string, entryName: string): string {
 
 // Verify MANIFEST.json in release archive
 const manifest = JSON.parse(
-  readFromZip('/tmp/yamtam-1.3.48.zip', 'yamtam-1.3.48/MANIFEST.json')
+  readFromZip('/tmp/yana-ai-1.3.48.zip', 'yana-ai-1.3.48/MANIFEST.json')
 )
 console.log('Release version:', manifest.version)
 ```
@@ -76,8 +76,8 @@ function patchZipEntry(
 
 // Update MANIFEST version in release zip
 patchZipEntry(
-  '/tmp/yamtam-1.3.48.zip',
-  'yamtam-1.3.48/MANIFEST.json',
+  '/tmp/yana-ai-1.3.48.zip',
+  'yana-ai-1.3.48/MANIFEST.json',
   JSON.stringify({ ...manifest, manifest_updated: new Date().toISOString() }, null, 2)
 )
 ```

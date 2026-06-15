@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Hook
+# Yana AI Hook
 # Version: 1.3.26
 # Status: active
 # Description: Warn when session cost exceeds budget threshold
 # Last Reviewed: 2026-05-19
-# PreToolUse hook — YAMTAM ENGINE v1.2 Cost Guard
+# PreToolUse hook — Yana AI v1.2 Cost Guard
 #
 # Purpose: warn/block known high-cost operations before they burn context,
 # Claude usage, or Codespaces time. This hook is intentionally conservative:
@@ -61,7 +61,7 @@ if [[ -n "${CODESPACE_NAME:-}" || -n "${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN
 fi
 
 # Explicit bypass for maintainers when intentionally running expensive checks.
-if [[ "${YAMTAM_COST_GUARD_BYPASS:-}" == "1" ]]; then
+if [[ "${YANA_COST_GUARD_BYPASS:-}" == "1" ]]; then
   exit 0
 fi
 
@@ -72,7 +72,7 @@ if printf '%s' "$CMD" | grep -Eq '(^|[;&|[:space:]])(npx[[:space:]]+)?playwright
   is_playwright=true
 fi
 
-if [[ "$is_playwright" == true && "$IN_CODESPACES" == true && "${YAMTAM_ALLOW_FULL_E2E:-}" != "1" ]]; then
+if [[ "$is_playwright" == true && "$IN_CODESPACES" == true && "${YANA_ALLOW_FULL_E2E:-}" != "1" ]]; then
   allowed_targeted=false
   if printf '%s' "$CMD" | grep -Eq -- '--grep|--project=smoke|--list'; then
     allowed_targeted=true
@@ -83,7 +83,7 @@ if [[ "$is_playwright" == true && "$IN_CODESPACES" == true && "${YAMTAM_ALLOW_FU
   fi
   # Block broad directories or no target.
   if [[ "$allowed_targeted" == false ]] || printf '%s' "$CMD" | grep -Eq 'playwright[[:space:]]+test([[:space:]]+tests/e2e/?([[:space:]]|$)|[[:space:]]*$)|npm[[:space:]]+run[[:space:]]+test:e2e([[:space:]]|$)|pnpm[[:space:]]+(run[[:space:]]+)?test:e2e([[:space:]]|$)'; then
-    block "Cost Guard: full E2E is blocked in Codespaces. Use GitHub Actions, --grep, --project=smoke, --list, or a single spec file. Set YAMTAM_ALLOW_FULL_E2E=1 only when intentional."
+    block "Cost Guard: full E2E is blocked in Codespaces. Use GitHub Actions, --grep, --project=smoke, --list, or a single spec file. Set YANA_ALLOW_FULL_E2E=1 only when intentional."
   fi
 fi
 

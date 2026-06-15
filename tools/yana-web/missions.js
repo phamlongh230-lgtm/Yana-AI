@@ -1,7 +1,7 @@
 'use strict';
 // Yana Missions — file-backed mission store (.yana/missions.json).
 //
-// A mission is created from a goal, classified by the YAMTAM router
+// A mission is created from a goal, classified by the Yana AI router
 // (simple/complex/external → owner + starter tasks), then planned in detail
 // by the LLM from the UI ("Plan with Yana" calls /api/chat and PATCHes the
 // task list back here). Progress is always computed from task states —
@@ -63,7 +63,7 @@ async function handleCreate(req, res, body, routeFn) {
 
   // Rule 68 — missions are persisted to disk; confidential content may not
   // cross that boundary. Checked here directly (not via routeFn) so an old
-  // yamtam-rt binary without sensitivity fields can't sneak one through.
+  // yana-rt binary without sensitivity fields can't sneak one through.
   const sens = classifySensitivity(name);
   if (sens.sensitivity === 'confidential' || sens.sensitivity === 'sovereign') {
     json(res, 403, {

@@ -29,7 +29,7 @@ Tier A — exit 1, block action:
   - Agent installs packages without dependency-vetting-law check
   - Agent self-modifies its own rules or memory without L2 review
   - Agent spawns sub-agents beyond declared delegation depth (max: 3 levels)
-  - Agent takes irreversible action without YAMTAM_IRREVERSIBLE_OK=1
+  - Agent takes irreversible action without YANA_IRREVERSIBLE_OK=1
 
 Tier B — log + human confirmation:
   - Action would affect > 5 files outside current task scope
@@ -43,7 +43,7 @@ Tier B — log + human confirmation:
 Before any action, agent must answer:
   1. Is this action within the scope stated in the current task brief?
   2. Is this the lowest-permission way to accomplish the goal?
-  3. Is this reversible? If not — does YAMTAM_IRREVERSIBLE_OK=1 exist?
+  3. Is this reversible? If not — does YANA_IRREVERSIBLE_OK=1 exist?
   4. Does completing this action require spawning a sub-agent?
      If yes: is delegation depth < 3?
 
@@ -56,9 +56,9 @@ If any answer fails → pause and surface to human.
 Root agent (depth=0) → spawns agent A (depth=1) → spawns agent B (depth=2) → depth=3 MAX
                                                    ↳ agent B cannot spawn further
 
-Enforcement: YAMTAM_AGENT_DEPTH env var tracked in safe-run.sh wrapper
-export YAMTAM_AGENT_DEPTH=$((${YAMTAM_AGENT_DEPTH:-0} + 1))
-[[ $YAMTAM_AGENT_DEPTH -gt 3 ]] && { echo "BLOCKED: agent depth > 3"; exit 1; }
+Enforcement: YANA_AGENT_DEPTH env var tracked in safe-run.sh wrapper
+export YANA_AGENT_DEPTH=$((${YANA_AGENT_DEPTH:-0} + 1))
+[[ $YANA_AGENT_DEPTH -gt 3 ]] && { echo "BLOCKED: agent depth > 3"; exit 1; }
 ```
 
 ## Irreversible action gate
@@ -76,8 +76,8 @@ IRREVERSIBLE_ACTIONS=(
 
 for action in "${IRREVERSIBLE_ACTIONS[@]}"; do
   if [[ "$COMMAND" == *"$action"* ]]; then
-    [[ "${YAMTAM_IRREVERSIBLE_OK:-0}" != "1" ]] && {
-      echo "[LLM08] BLOCKED: irreversible action requires YAMTAM_IRREVERSIBLE_OK=1"
+    [[ "${YANA_IRREVERSIBLE_OK:-0}" != "1" ]] && {
+      echo "[LLM08] BLOCKED: irreversible action requires YANA_IRREVERSIBLE_OK=1"
       exit 1
     }
   fi

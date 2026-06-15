@@ -1,4 +1,4 @@
-// YAMTAM Music Player — shared across all pages
+// Yana AI Music Player — shared across all pages
 (function () {
   const DEFAULT_VID = 'aKSJAcG4V4o';
   const DEFAULT_TRACKS = [

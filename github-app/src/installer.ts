@@ -26,21 +26,21 @@ export async function installYamtam({ octokit, owner, repo }: InstallParams): Pr
   const { data: repoData } = await octokit.repos.get({ owner, repo });
   const base = repoData.default_branch;
 
-  // Check if YAMTAM already installed
+  // Check if Yana AI already installed
   if (await alreadyInstalled(octokit, owner, repo, base)) {
     // Comment on latest commit instead of opening duplicate PR
     const { data: refData } = await octokit.git.getRef({ owner, repo, ref: `heads/${base}` });
     await octokit.repos.createCommitComment({
       owner, repo,
       commit_sha: refData.object.sha,
-      body: `## ✅ YAMTAM ENGINE already installed
+      body: `## ✅ Yana AI already installed
 
-\`CLAUDE.md\` detected in this repo — YAMTAM safety config is already active.
+\`CLAUDE.md\` detected in this repo — Yana AI safety config is already active.
 
-To update your config, visit [yamtam-engine](https://github.com/phamlongh230-lgtm/yamtam-engine) for the latest rules.
+To update your config, visit [yana-ai](https://github.com/phamlongh230-lgtm/yana-ai) for the latest rules.
 
 ---
-*[YAMTAM GitHub App](https://github.com/apps/yamtam-engine)*`,
+*[Yana AI GitHub App](https://github.com/apps/yana-ai)*`,
     });
     return `https://github.com/${owner}/${repo}/commit/${refData.object.sha}`;
   }
@@ -65,8 +65,8 @@ To update your config, visit [yamtam-engine](https://github.com/phamlongh230-lgt
     baseSha = refData.object.sha;
   }
 
-  // Create branch yamtam/setup
-  const branch = 'yamtam/setup';
+  // Create branch yana-ai/setup
+  const branch = 'yana-ai/setup';
 
   // Check if PR already open for this branch
   const existingPR = await findOpenPR(octokit, owner, repo, branch);
@@ -88,7 +88,7 @@ To update your config, visit [yamtam-engine](https://github.com/phamlongh230-lgt
   // All files to install: templates + CI workflow
   const allFiles: Record<string, string> = {
     ...TEMPLATES,
-    '.github/workflows/yamtam-audit.yml': CI_WORKFLOW,
+    '.github/workflows/yana-ai-audit.yml': CI_WORKFLOW,
   };
 
   for (const [path, content] of Object.entries(allFiles)) {
@@ -100,7 +100,7 @@ To update your config, visit [yamtam-engine](https://github.com/phamlongh230-lgt
 
     await octokit.repos.createOrUpdateFileContents({
       owner, repo, path, branch,
-      message: `chore: add YAMTAM safety config — ${path}`,
+      message: `chore: add Yana AI safety config — ${path}`,
       content: btoa(unescape(encodeURIComponent(content))),
       ...(sha ? { sha } : {}),
     });
@@ -109,12 +109,12 @@ To update your config, visit [yamtam-engine](https://github.com/phamlongh230-lgt
   // Create PR
   const { data: pr } = await octokit.pulls.create({
     owner, repo,
-    title: '🛡️ Add YAMTAM ENGINE safety config',
+    title: '🛡️ Add Yana AI safety config',
     head: branch,
     base,
-    body: `## YAMTAM ENGINE — 1-click safety setup
+    body: `## Yana AI — 1-click safety setup
 
-This PR adds YAMTAM safety guardrails to your AI coding workflow.
+This PR adds Yana AI safety guardrails to your AI coding workflow.
 
 ### What's included
 
@@ -125,7 +125,7 @@ This PR adds YAMTAM safety guardrails to your AI coding workflow.
 | \`.claude/hooks/guard-destructive.sh\` | Blocks \`rm -rf\`, force-push, \`DROP TABLE\` |
 | \`.claude/hooks/audit-log.sh\` | Logs all AI tool calls to \`.claude/state/audit.log\` |
 | \`.claude/rules/golden-principles.md\` | 6 core coding principles |
-| \`.github/workflows/yamtam-audit.yml\` | CI gate — runs \`yamtam audit\` on every PR |
+| \`.github/workflows/yana-ai-audit.yml\` | CI gate — runs \`yana-ai audit\` on every PR |
 
 ### How it works
 
@@ -140,12 +140,12 @@ Safe?      → logged + allowed
 
 ### Next steps
 
-- Merge this PR to activate YAMTAM
+- Merge this PR to activate Yana AI
 - Customize \`CLAUDE.md\` for your project's specific rules
-- Add more hooks from [yamtam-engine](https://github.com/phamlongh230-lgtm/yamtam-engine)
+- Add more hooks from [yana-ai](https://github.com/phamlongh230-lgtm/yana-ai)
 
 ---
-*Installed by [YAMTAM GitHub App](https://github.com/apps/yamtam-engine)*
+*Installed by [Yana AI GitHub App](https://github.com/apps/yana-ai)*
 `,
   });
 

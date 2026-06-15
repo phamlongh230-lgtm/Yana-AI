@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Hook
+# Yana AI Hook
 # Version: 1.6.0 | Status: active
 # Description: Confidence Scorer — score action confidence 0–100 and annotate low-confidence actions
 # Hook type: PreToolUse (advisory, non-blocking)
 # Last Reviewed: 2026-05-23
-# Bypass: YAMTAM_CONFIDENCE_BYPASS=1
+# Bypass: YANA_CONFIDENCE_BYPASS=1
 # Requires: python3
 
 set -uo pipefail
 
-[[ "${YAMTAM_CONFIDENCE_BYPASS:-0}" == "1" ]] && exit 0
+[[ "${YANA_CONFIDENCE_BYPASS:-0}" == "1" ]] && exit 0
 command -v python3 >/dev/null 2>&1 || exit 0
 
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}"

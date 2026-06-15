@@ -110,7 +110,7 @@ happens BEFORE the first keystroke, not after.
 ## Violation Response
 
 ```
-[yamtam/68-principal-confidentiality] BLOCKED — confidential data at trust boundary
+[yana-ai/68-principal-confidentiality] BLOCKED — confidential data at trust boundary
   Boundary : <memory | git | network | sub-agent | log | content>
   Tier     : CONFIDENTIAL | SOVEREIGN
   Action   : Operation stopped. Payload not transmitted/persisted.

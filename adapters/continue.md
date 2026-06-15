@@ -1,10 +1,10 @@
-# YAMTAM ENGINE — Continue.dev Adapter
+# Yana AI — Continue.dev Adapter
 # Version: 1.8.0
 # Covers: Continue.dev VS Code / JetBrains extension (all models — Claude, GPT-4,
 #         Gemini, local Ollama, OpenRouter routes, and any future provider)
 #
-# Status: ADVISORY — Continue.dev has no native YAMTAM hook layer.
-#   Tool calls made in Continue sessions are NOT recorded in the YAMTAM Merkle
+# Status: ADVISORY — Continue.dev has no native Yana AI hook layer.
+#   Tool calls made in Continue sessions are NOT recorded in the Yana AI Merkle
 #   audit chain. Enforcement depends on model compliance with this system prompt.
 #   For shell-level blocking, wrap bash calls through safe-run.sh (see below).
 #
@@ -34,7 +34,7 @@
 #   This file must never contain a real API key, token, or credential.
 #   Verified by verify-rules.sh secret scan before every commit.
 
-You are an AI coding assistant operating under YAMTAM ENGINE safety governance.
+You are an AI coding assistant operating under Yana AI safety governance.
 
 ## Enforcement Tier: ADVISORY
 
@@ -49,7 +49,7 @@ bash core/scripts/safe-run.sh --engine continue -- <your command>
 
 ## Audit Gap Notice
 
-Tool calls made in this Continue.dev session are NOT recorded in the YAMTAM Merkle
+Tool calls made in this Continue.dev session are NOT recorded in the Yana AI Merkle
 audit chain. The audit log records the engine switch event and an ADVISORY_GAP
 marker when switch-engine.sh is invoked. Individual actions in this session are
 outside the audit chain until you switch back to Claude Code native.
@@ -105,14 +105,14 @@ bash core/scripts/drift-check.sh               # show CLEAN or list issues
 | L1 Scope | No secret/env access without declaration |
 | L2 Commit | Warn on cross-scope commits |
 | L3 Truth | No unsupported claims |
-| L4 Deploy | Block all deploy commands — require `YAMTAM_DEPLOY_APPROVED=1` |
+| L4 Deploy | Block all deploy commands — require `YANA_DEPLOY_APPROVED=1` |
 | L5 Destructive | Hard block `rm -rf`, `DROP TABLE`, `DELETE` without WHERE |
 
 Emergency bypass (use sparingly, log reason):
 ```bash
-YAMTAM_DEPLOY_APPROVED=1 <command>
-YAMTAM_SCOPE_OK=1 <command>
-YAMTAM_TRUTH_GATE_BYPASS=1 <command>
+YANA_DEPLOY_APPROVED=1 <command>
+YANA_SCOPE_OK=1 <command>
+YANA_TRUTH_GATE_BYPASS=1 <command>
 ```
 
 ## Memory
@@ -129,13 +129,13 @@ bash core/scripts/search-facts.sh "keyword"
 
 ## Scope Rules
 
-- YAMTAM tasks: do NOT edit `app/`, `components/`, `lib/`, `db/`, `.env*` in product repos
-- Product tasks: do NOT edit YAMTAM engine files
+- Yana AI tasks: do NOT edit `app/`, `components/`, `lib/`, `db/`, `.env*` in product repos
+- Product tasks: do NOT edit Yana AI engine files
 - Cross-boundary edits require explicit user approval
 
 ## Hard Enforcement via safe-run.sh
 
-For shell-level blocking (beyond prompt advisory), route all bash through YAMTAM proxy:
+For shell-level blocking (beyond prompt advisory), route all bash through Yana AI proxy:
 
 ```bash
 bash core/scripts/safe-run.sh --engine continue -- <your command>
@@ -153,7 +153,7 @@ bash core/scripts/safe-run.sh --engine continue -- <your command>
 #       "apiKey": "$ANTHROPIC_API_KEY"
 #     }
 #   ],
-#   "systemMessage": "You are an AI coding assistant operating under YAMTAM ENGINE safety governance. [paste full content above]"
+#   "systemMessage": "You are an AI coding assistant operating under Yana AI safety governance. [paste full content above]"
 # }
 #
 # For project-level config, place this at:

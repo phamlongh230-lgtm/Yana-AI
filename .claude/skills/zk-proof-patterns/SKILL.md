@@ -1,10 +1,10 @@
 ---
 name: zk-proof-patterns
 description: Zero-Knowledge Proof patterns for privacy-preserving agent attestation. snarkjs circuit compilation, proof generation, verification, and agent compliance attestation without revealing sensitive source code. Sources: iden3/snarkjs.
-origin: yamtam-engine — synthesized from iden3/snarkjs (GPL-3.0), Groth16/PLONK ZK-SNARK literature
+origin: yana-ai — synthesized from iden3/snarkjs (GPL-3.0), Groth16/PLONK ZK-SNARK literature
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.49
+compatibility: yana-ai >= 1.3.49
 ---
 
 # /zk-proof-patterns
@@ -14,7 +14,7 @@ compatibility: yamtam-engine >= 1.3.49
 - Prove an agent executed a security scan correctly without revealing scan targets
 - Prove a rule was applied without exposing the rule's logic to a third party
 - Attestation: "I processed input X with algorithm Y and got hash Z" — verifiable without X
-- Future-proof: prove yamtam audit compliance to external auditor with zero data exposure
+- Future-proof: prove yana-ai audit compliance to external auditor with zero data exposure
 
 ## Do NOT use for
 
@@ -115,7 +115,7 @@ circom compliance_check.circom --r1cs --wasm --sym
 
 # 2. Powers of Tau (public ceremony — use existing ptau file)
 snarkjs powersoftau new bn128 12 pot12_0000.ptau
-snarkjs powersoftau contribute pot12_0000.ptau pot12_0001.ptau --name="yamtam"
+snarkjs powersoftau contribute pot12_0000.ptau pot12_0001.ptau --name="yana-ai"
 snarkjs powersoftau prepare phase2 pot12_0001.ptau pot12_final.ptau
 
 # 3. Circuit-specific setup

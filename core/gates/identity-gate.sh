@@ -6,9 +6,9 @@
 # TIER 2 — SOVEREIGN: Knows full name "Vũ Văn Tâm". Full access, all 100 layers.
 #
 # Usage:
-#   source core/gates/identity-gate.sh          — sets YAMTAM_TIER in current shell
+#   source core/gates/identity-gate.sh          — sets YANA_TIER in current shell
 #   bash core/gates/identity-gate.sh            — interactive, prints tier
-#   YAMTAM_TIER_CHECK=sovereign <cmd>           — assert minimum tier before cmd
+#   YANA_TIER_CHECK=sovereign <cmd>           — assert minimum tier before cmd
 #
 # Exit codes:
 #   0 — auth complete (any tier)
@@ -16,22 +16,22 @@
 #   9 — max attempts exceeded
 #
 # Env set after auth:
-#   YAMTAM_TIER          — guest | operator | sovereign
-#   YAMTAM_TIER_LEVEL    — 0 | 1 | 2
-#   YAMTAM_IDENTITY_OK   — 1
+#   YANA_TIER          — guest | operator | sovereign
+#   YANA_TIER_LEVEL    — 0 | 1 | 2
+#   YANA_IDENTITY_OK   — 1
 
 set -uo pipefail
 
 # ─── Hashed credentials (SHA-256) ────────────────────────────────────────────
 # Repo chỉ chứa hash — không ai đọc code biết plaintext là gì.
 # Anh set plaintext trong ~/.bashrc (không commit):
-#   export YAMTAM_SOVEREIGN_NAME="yana"
-#   export YAMTAM_OPERATOR_PASS="<passphrase riêng>"
+#   export YANA_SOVEREIGN_NAME="yana"
+#   export YANA_OPERATOR_PASS="<passphrase riêng>"
 #
 # SHA-256(lowercase("vũ văn tâm")) — so sánh sau khi normalize về thường
 SOVEREIGN_HASH="1835d61de8ab496236617fd2a76317e5c818177477ff8fb2312b3520e2990937"
-# SHA-256 của operator pass lưu tương tự — set YAMTAM_OPERATOR_PASS_HASH trong ~/.bashrc
-# hoặc để script tự tính từ YAMTAM_OPERATOR_PASS nếu có
+# SHA-256 của operator pass lưu tương tự — set YANA_OPERATOR_PASS_HASH trong ~/.bashrc
+# hoặc để script tự tính từ YANA_OPERATOR_PASS nếu có
 
 hash_input() {
   if command -v openssl &>/dev/null; then
@@ -48,15 +48,15 @@ normalize() {
 # Pre-compute hashes từ env vars (nếu có) — plaintext không đi vào so sánh
 SOVEREIGN_INPUT_HASH=""
 OPERATOR_INPUT_HASH=""
-if [[ -n "${YAMTAM_SOVEREIGN_NAME:-}" ]]; then
-  SOVEREIGN_INPUT_HASH="$(hash_input "$(normalize "$YAMTAM_SOVEREIGN_NAME")")"
+if [[ -n "${YANA_SOVEREIGN_NAME:-}" ]]; then
+  SOVEREIGN_INPUT_HASH="$(hash_input "$(normalize "$YANA_SOVEREIGN_NAME")")"
 fi
-if [[ -n "${YAMTAM_OPERATOR_PASS:-}" ]]; then
-  OPERATOR_INPUT_HASH="$(hash_input "$YAMTAM_OPERATOR_PASS")"
+if [[ -n "${YANA_OPERATOR_PASS:-}" ]]; then
+  OPERATOR_INPUT_HASH="$(hash_input "$YANA_OPERATOR_PASS")"
 fi
 MAX_ATTEMPTS=3
 AUDIT_FILE="releases/logs/identity-gate.log"
-SESSION_ID="${YAMTAM_SESSION_ID:-$(date +%s)}"
+SESSION_ID="${YANA_SESSION_ID:-$(date +%s)}"
 
 # ─── Permission matrix ────────────────────────────────────────────────────────
 # GUEST (0):    read files, list skills, ask questions, dry-run only
@@ -79,7 +79,7 @@ log_gate() {
 print_banner() {
   echo "" >&2
   echo "╔══════════════════════════════════════════════╗" >&2
-  echo "║      YAMTAM — IDENTITY & ACCESS GATE         ║" >&2
+  echo "║      Yana AI — IDENTITY & ACCESS GATE         ║" >&2
   echo "║  Lớp Xác Thực Phân Quyền Tầng — L0          ║" >&2
   echo "╚══════════════════════════════════════════════╝" >&2
 }
@@ -115,9 +115,9 @@ print_tier() {
 
 set_tier() {
   local tier="$1" level="$2"
-  export YAMTAM_TIER="$tier"
-  export YAMTAM_TIER_LEVEL="$level"
-  export YAMTAM_IDENTITY_OK=1
+  export YANA_TIER="$tier"
+  export YANA_TIER_LEVEL="$level"
+  export YANA_IDENTITY_OK=1
   log_gate "$tier" "GRANTED" "Tier ${level} access active"
   print_tier "$tier" "$level"
 }
@@ -127,12 +127,12 @@ print_banner
 
 # Auto-auth từ env var — không cần nhập tay
 if [[ -n "$SOVEREIGN_INPUT_HASH" && "$SOVEREIGN_INPUT_HASH" == "$SOVEREIGN_HASH" ]]; then
-  echo "  Auto-auth từ YAMTAM_SOVEREIGN_NAME..." >&2
+  echo "  Auto-auth từ YANA_SOVEREIGN_NAME..." >&2
   set_tier "sovereign" 2
   exit 0
 fi
-if [[ -n "$OPERATOR_INPUT_HASH" && "$OPERATOR_INPUT_HASH" == "$(hash_input "$(normalize "${YAMTAM_OPERATOR_PASS:-}")")" ]]; then
-  echo "  Auto-auth từ YAMTAM_OPERATOR_PASS..." >&2
+if [[ -n "$OPERATOR_INPUT_HASH" && "$OPERATOR_INPUT_HASH" == "$(hash_input "$(normalize "${YANA_OPERATOR_PASS:-}")")" ]]; then
+  echo "  Auto-auth từ YANA_OPERATOR_PASS..." >&2
   set_tier "operator" 1
   exit 0
 fi

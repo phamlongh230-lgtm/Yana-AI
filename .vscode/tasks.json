@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "YAMTAM: Copilot Safe-Run Gate",
+      "label": "Yana AI: Copilot Safe-Run Gate",
       "type": "shell",
       "command": "bash",
       "args": ["${workspaceFolder}/core/scripts/safe-run.sh", "--engine", "copilot", "${input:command}"],
@@ -16,7 +16,7 @@
       "group": "test"
     },
     {
-      "label": "YAMTAM: Verify Skills Lock",
+      "label": "Yana AI: Verify Skills Lock",
       "type": "shell",
       "command": "bash",
       "args": ["${workspaceFolder}/core/scripts/verify-skills-lock.sh"],
@@ -30,7 +30,7 @@
       "group": "test"
     },
     {
-      "label": "YAMTAM: Run Hook Tests",
+      "label": "Yana AI: Run Hook Tests",
       "type": "shell",
       "command": "bash",
       "args": ["${workspaceFolder}/core/tests/hooks/run-hook-tests.sh"],
@@ -44,7 +44,7 @@
       "group": "test"
     },
     {
-      "label": "YAMTAM: Run Skill Trigger Tests",
+      "label": "Yana AI: Run Skill Trigger Tests",
       "type": "shell",
       "command": "bash",
       "args": ["${workspaceFolder}/core/tests/skills/test-skill-triggering.sh"],
@@ -58,7 +58,7 @@
       "group": "test"
     },
     {
-      "label": "YAMTAM: Drift Check",
+      "label": "Yana AI: Drift Check",
       "type": "shell",
       "command": "bash",
       "args": ["${workspaceFolder}/core/scripts/drift-check.sh"],
@@ -72,12 +72,12 @@
       "group": "test"
     },
     {
-      "label": "YAMTAM: Full Verify",
+      "label": "Yana AI: Full Verify",
       "dependsOn": [
-        "YAMTAM: Run Hook Tests",
-        "YAMTAM: Run Skill Trigger Tests",
-        "YAMTAM: Verify Skills Lock",
-        "YAMTAM: Drift Check"
+        "Yana AI: Run Hook Tests",
+        "Yana AI: Run Skill Trigger Tests",
+        "Yana AI: Verify Skills Lock",
+        "Yana AI: Drift Check"
       ],
       "dependsOrder": "sequence",
       "presentation": {

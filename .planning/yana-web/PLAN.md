@@ -1,7 +1,7 @@
 # Plan — Yana Web (AI Task Orchestration Web UI)
 
 > Goal: Deliver a standalone vanilla-JS + Node web app under `tools/yana-web/` that classifies a natural-language task via yana-router (with a JS fallback when the binary is absent), then streams a Claude API response using the user's own key, with localStorage-only history, runnable on Google Cloud Shell port 8081.
-> Related: Builds on yamtam-engine `route classify` (src/route.rs) + `core/agents/*`. No PRD/ADR exists for this product.
+> Related: Builds on yana-ai `route classify` (src/route.rs) + `core/agents/*`. No PRD/ADR exists for this product.
 > Estimated waves: 4 · 11 tasks
 
 ---
@@ -10,7 +10,7 @@
 
 These were verified against the live repo. The executor MUST honor them; do not re-derive.
 
-1. **The Rust binary is NOT built and cargo is NOT installed.** There is no `releases/bin/yamtam-rt` (the path in the feature brief is wrong) and no `target/release/yamtam-rt`. The only entry point is `node /home/user/yamtam-engine/scripts/yamtam-rt-wrapper.js route classify ...`, which itself exits with an error when no binary is found.
+1. **The Rust binary is NOT built and cargo is NOT installed.** There is no `releases/bin/yana-rt` (the path in the feature brief is wrong) and no `target/release/yana-rt`. The only entry point is `node /home/user/yana-ai/scripts/yana-rt-wrapper.js route classify ...`, which itself exits with an error when no binary is found.
    → **Consequence:** the backend MUST treat the router as optional. It tries the wrapper; on any non-zero exit / spawn error it falls back to a built-in JS classifier (Task 2.1). The web app must work end-to-end with zero Rust toolchain.
 
 2. **Exact router CLI contract** (from `src/route.rs`):
@@ -28,9 +28,9 @@ These were verified against the live repo. The executor MUST honor them; do not 
      ```
    - `route` is lowercase. `confidence` is a float 0.0–1.0.
 
-3. **Wrapper resolution honors `$YAMTAM_RT_BIN`.** The backend should spawn the wrapper with the inherited env so an operator who later builds the binary gets real routing for free.
+3. **Wrapper resolution honors `$YANA_RT_BIN`.** The backend should spawn the wrapper with the inherited env so an operator who later builds the binary gets real routing for free.
 
-4. **Agent files** live at `/home/user/yamtam-engine/core/agents/<name>.md` — YAML frontmatter (`name`, `description`, `model`) followed by a markdown body that IS the system prompt. `suggested_agents` from the router (e.g. `security-engineer`, `deployment-engineer`, `frontend-developer`) map to these files by `<name>.md`. Not every suggested agent name has a file; missing files must degrade gracefully to a generic system prompt.
+4. **Agent files** live at `/home/user/yana-ai/core/agents/<name>.md` — YAML frontmatter (`name`, `description`, `model`) followed by a markdown body that IS the system prompt. `suggested_agents` from the router (e.g. `security-engineer`, `deployment-engineer`, `frontend-developer`) map to these files by `<name>.md`. Not every suggested agent name has a file; missing files must degrade gracefully to a generic system prompt.
 
 5. **Node v20.19.1 is available. Express is NOT installed and installing it triggers the dependency-vetting gate (Tier 1 security).** → Backend MUST use only Node built-ins (`http`, `https`, `child_process`, `fs`, `path`, `url`). Zero runtime npm dependencies. `package.json` declares no `dependencies`.
 
@@ -38,7 +38,7 @@ These were verified against the live repo. The executor MUST honor them; do not 
 
 7. **Claude API:** `POST https://api.anthropic.com/v1/messages`, headers `x-api-key: <user key>`, `anthropic-version: 2023-06-01`, `content-type: application/json`. Streaming via `"stream": true` returns Server-Sent Events; the backend pipes these straight to the browser. The user's key is sent per-request from the browser; the backend never stores it.
 
-8. This plan writes ONLY under `/home/user/yamtam-engine/tools/yana-web/`. No existing repo file is modified (satisfies scope-drift law & out-of-scope list).
+8. This plan writes ONLY under `/home/user/yana-ai/tools/yana-web/`. No existing repo file is modified (satisfies scope-drift law & out-of-scope list).
 
 ---
 
@@ -104,7 +104,7 @@ These were verified against the live repo. The executor MUST honor them; do not 
 **Depends on**: 2.1 (for fallback).
 **Steps**:
 1. Export `async function route(task)`.
-2. Spawn via `child_process.execFile('node', [WRAPPER, 'route', 'classify', task], { env: process.env, timeout: 5000 })` where `WRAPPER` is an absolute path to `/home/user/yamtam-engine/scripts/yamtam-rt-wrapper.js` (resolve from `__dirname` relative path, do not hardcode `/home/user`).
+2. Spawn via `child_process.execFile('node', [WRAPPER, 'route', 'classify', task], { env: process.env, timeout: 5000 })` where `WRAPPER` is an absolute path to `/home/user/yana-ai/scripts/yana-rt-wrapper.js` (resolve from `__dirname` relative path, do not hardcode `/home/user`).
 3. On success + valid JSON parse → return `{ ...decision, source: "yana-router" }`.
 4. On ANY error (spawn fail, non-zero exit, unparseable output, timeout) → return `{ ...classify(task), source: "fallback" }`. Never throw to the caller.
 **Proof of completion**:
@@ -209,7 +209,7 @@ These were verified against the live repo. The executor MUST honor them; do not 
 **Depends on**: all prior tasks.
 **Steps**:
 1. Document: `cd tools/yana-web && npm start` (or `PORT=8081 node server.js`), open the Cloud Shell Web Preview on port 8081.
-2. Note: routing uses the Rust yana-router if built/`$YAMTAM_RT_BIN` is set, otherwise an equivalent JS fallback — both produce the same JSON shape.
+2. Note: routing uses the Rust yana-router if built/`$YANA_RT_BIN` is set, otherwise an equivalent JS fallback — both produce the same JSON shape.
 3. Note: the API key is stored only in browser localStorage and passes through the proxy per-request; it is never stored or logged server-side.
 4. List endpoints: `GET /health`, `POST /api/route`, `POST /api/chat`.
 **Proof of completion**:
@@ -237,12 +237,12 @@ Run after all waves complete. If any fails, the plan is not done:
 ## Out of Scope
 
 This plan explicitly does NOT:
-- Build, install, or require the Rust `yamtam-rt` binary, or install cargo (JS fallback covers it).
+- Build, install, or require the Rust `yana-rt` binary, or install cargo (JS fallback covers it).
 - Install Express or any npm runtime dependency (built-ins only — avoids the dependency-vetting gate).
 - Add auth, user accounts, or rate limiting beyond body-size caps.
 - Persist history or API keys server-side or in any database (localStorage only).
 - Deploy to production / configure HTTPS / a custom domain (local Cloud Shell port 8081 only).
-- Modify any existing yamtam-engine file outside `tools/yana-web/` (including `site/`, `core/agents/`, `scripts/`).
+- Modify any existing yana-ai file outside `tools/yana-web/` (including `site/`, `core/agents/`, `scripts/`).
 - Reuse or alter the existing Astro `site/` setup.
 - Implement multi-turn conversation memory (each task is a single-shot request).
 

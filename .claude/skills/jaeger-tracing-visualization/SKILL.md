@@ -1,10 +1,10 @@
 ---
 name: jaeger-tracing-visualization
 description: Jaeger distributed trace collection and visualization. OTLP ingest, sampling strategies, trace analysis, latency bottleneck detection, and agent chain root-cause analysis. Sources: jaegertracing/jaeger (Apache-2.0).
-origin: yamtam-engine — synthesized from jaegertracing/jaeger (Apache-2.0)
+origin: yana-ai — synthesized from jaegertracing/jaeger (Apache-2.0)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.52
+compatibility: yana-ai >= 1.3.52
 ---
 
 # /jaeger-tracing-visualization
@@ -82,7 +82,7 @@ service:
 {
   "service_strategies": [
     {
-      "service": "yamtam-agent",
+      "service": "yana-ai-agent",
       "type":    "adaptive",
       "max_traces_per_second": 50,
       "operation_strategies": [

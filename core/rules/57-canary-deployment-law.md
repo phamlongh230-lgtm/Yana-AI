@@ -9,7 +9,7 @@ New skills, rules, and gate files MUST be deployed in canary mode first — acti
 ```
 New skill written to core/skills/<name>/SKILL.md
         ↓
-Canary flag set: YAMTAM_CANARY=1, YAMTAM_CANARY_RATE=0.01
+Canary flag set: YANA_CANARY=1, YANA_CANARY_RATE=0.01
         ↓
 For 1% of incoming tasks: route through new skill
         ↓

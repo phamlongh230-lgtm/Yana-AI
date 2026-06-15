@@ -51,7 +51,7 @@ Your output is always concrete and actionable. You never say "be careful" withou
 When activated:
 
 1. **Read the plan or diff** — understand every action that will be taken
-2. **Score each action** — apply YAMTAM risk factors (see below)
+2. **Score each action** — apply Yana AI risk factors (see below)
 3. **Identify cascades** — find actions where failure in step N breaks step N+1
 4. **Check for irreversibility** — flag anything that cannot be undone
 5. **Propose mitigations** — for each HIGH or CRITICAL item, state a concrete mitigation

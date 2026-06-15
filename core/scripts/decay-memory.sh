@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# YAMTAM Memory Decay — Ebbinghaus Forgetting Curve for L1 Atomic Facts
-# Source: rohitg00/agentmemory (MIT) — decay model adapted for YAMTAM L1 memory
+# Yana AI Memory Decay — Ebbinghaus Forgetting Curve for L1 Atomic Facts
+# Source: rohitg00/agentmemory (MIT) — decay model adapted for Yana AI L1 memory
 #
 # Computes retention score for each L1 fact using Ebbinghaus formula:
 #   R = e^(-t/S)
@@ -85,7 +85,7 @@ NOW=$(date +%s)
 TOTAL=0; FRESH=0; FADING=0; STALE=0; DECAYED=0
 
 echo ""
-echo -e "${CYAN}=== YAMTAM Memory Decay Report — $(date -u '+%Y-%m-%d %H:%M UTC') ===${NC}"
+echo -e "${CYAN}=== Yana AI Memory Decay Report — $(date -u '+%Y-%m-%d %H:%M UTC') ===${NC}"
 echo -e "${DIM}Formula: R = e^(-t/S)  |  S: high=90d  medium=30d  low=14d  unverified=7d${NC}"
 echo ""
 

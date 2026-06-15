@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Multi-Engine Adapter Architecture
+# Yana AI — Multi-Engine Adapter Architecture
 
 **Version:** v1.8.0  
 **Status:** Design document — architecture only, no implementation yet  
@@ -10,7 +10,7 @@
 
 ## 1. Problem Statement
 
-YAMTAM's safety and governance layer is implemented natively for Claude Code via runtime hooks (`PreToolUse`, `PostToolUse`, `Stop`). These hooks enforce the 6-layer gate stack (L0–L5) at the shell level — blocking destructive commands, detecting prompt injection, enforcing token budgets, and writing append-only audit logs.
+Yana AI's safety and governance layer is implemented natively for Claude Code via runtime hooks (`PreToolUse`, `PostToolUse`, `Stop`). These hooks enforce the 6-layer gate stack (L0–L5) at the shell level — blocking destructive commands, detecting prompt injection, enforcing token budgets, and writing append-only audit logs.
 
 The problem is fragmentation. Development teams use multiple AI coding engines depending on the task, cost, or model capability:
 
@@ -87,7 +87,7 @@ The v1.8.0 adapter architecture solves this by establishing a **single safety ke
 | Engine | Adapter file | Hook model | Enforcement tier | `switch-engine.sh` arg |
 |--------|-------------|------------|-----------------|------------------------|
 | **Claude Code** | Native (no adapter file) | Runtime hooks (`PreToolUse`, `PostToolUse`, `Stop`) | **Full — L0–L5 runtime blocking** | `claude` |
-| **Cursor** | `.cursorrules` + `.cursor/rules/yamtam-hard-enforcement.mdc` | Cursor rules file (prompt-injected per edit) | **Advisory + safe-run proxy for bash commands** | `cursor` |
+| **Cursor** | `.cursorrules` + `.cursor/rules/yana-ai-hard-enforcement.mdc` | Cursor rules file (prompt-injected per edit) | **Advisory + safe-run proxy for bash commands** | `cursor` |
 | **Aider (Claude backend)** | `adapters/aider.md` | `--system-prompt` flag | **Advisory via system prompt** | `aider` |
 | **Aider + OpenRouter (Qwen3)** | `adapters/qwen.md` | `--system-prompt` flag + OpenRouter routing | **Advisory via system prompt** | `qwen` |
 | **Aider + OpenRouter (DeepSeek)** | `adapters/deepseek.md` | `--system-prompt` flag + OpenRouter routing | **Advisory via system prompt** | `deepseek` |
@@ -97,16 +97,16 @@ The v1.8.0 adapter architecture solves this by establishing a **single safety ke
 ### Enforcement Tier Definitions
 
 ```
-FULL      — YAMTAM hooks intercept every tool call at the OS level.
+FULL      — Yana AI hooks intercept every tool call at the OS level.
             Dangerous commands are BLOCKED before execution.
-            Bypass requires explicit env var (YAMTAM_SCOPE_OK=1, etc.)
+            Bypass requires explicit env var (YANA_SCOPE_OK=1, etc.)
 
-ADVISORY  — YAMTAM rules are delivered to the model in its system prompt
+ADVISORY  — Yana AI rules are delivered to the model in its system prompt
             or config file. The model is asked to follow them.
             No shell-level interception. Enforcement depends on model compliance.
 
 PROXY     — Shell commands are wrapped with safe-run.sh.
-            YAMTAM gates run as a pre-execution wrapper around the model's
+            Yana AI gates run as a pre-execution wrapper around the model's
             bash calls. Stronger than advisory; weaker than native hooks
             because only bash tool calls are wrapped.
 ```
@@ -137,7 +137,7 @@ bash core/scripts/switch-engine.sh <engine>
            ▼
   ┌─────────────────────┐
   │  3. Generate        │  Write engine-specific config:
-  │     target config   │  Cursor   → .cursor/rules/yamtam-hard-enforcement.mdc
+  │     target config   │  Cursor   → .cursor/rules/yana-ai-hard-enforcement.mdc
   │                     │  Gemini   → GEMINI.md
   │                     │  Aider    → print CLI command
   │                     │  Qwen3    → print CLI command (OpenRouter URL)
@@ -234,7 +234,7 @@ The `49-immutable-infrastructure-law.md` treats `adapters/` as protected: direct
 
 When routing through OpenRouter (Qwen3, DeepSeek), the adapter carries:
 
-- `--no-auto-commits` flag to prevent Aider from committing without YAMTAM gates
+- `--no-auto-commits` flag to prevent Aider from committing without Yana AI gates
 - Instruction to use `bash core/scripts/safe-run.sh` for all shell commands
 - Explicit prohibition on `--yes` auto-approve mode
 
@@ -242,7 +242,7 @@ OpenRouter API key is never stored in the adapter file; it is read from `$OPENRO
 
 ### 6.5 Cursor `.mdc` Rule Injection
 
-Cursor rules in `.cursor/rules/yamtam-hard-enforcement.mdc` use `alwaysApply: true`. This means the rule is injected into every Cursor context, not just on explicit invocation. The rule instructs Cursor to wrap bash commands through `safe-run.sh`.
+Cursor rules in `.cursor/rules/yana-ai-hard-enforcement.mdc` use `alwaysApply: true`. This means the rule is injected into every Cursor context, not just on explicit invocation. The rule instructs Cursor to wrap bash commands through `safe-run.sh`.
 
 This is the strongest non-native enforcement available for Cursor. It does not intercept at the OS level, but it puts the proxy instruction directly in the model's context on every prompt.
 
@@ -300,13 +300,13 @@ switch-engine.sh claude
 
 ### 7.3 Audit Trail Integrity for Non-Native Engines
 
-For ADVISORY-tier engines (Aider, Gemini, Qwen3), the model's actions are not directly observable by YAMTAM hooks. The audit trail records the engine switch event but cannot record individual tool calls made by the external engine.
+For ADVISORY-tier engines (Aider, Gemini, Qwen3), the model's actions are not directly observable by Yana AI hooks. The audit trail records the engine switch event but cannot record individual tool calls made by the external engine.
 
 This gap is declared explicitly in the audit log:
 
 ```
 ENGINE_SWITCH | to=qwen | ADVISORY_GAP_START
-  Note: tool calls made in this engine are not in YAMTAM audit trail.
+  Note: tool calls made in this engine are not in Yana AI audit trail.
   Session ends when switch-engine.sh returns to a native engine.
 ENGINE_SWITCH | to=claude | ADVISORY_GAP_END | gap_duration=<seconds>
 ```
@@ -385,10 +385,10 @@ The following are **out of scope** for the adapter layer and will not be changed
 |---|---|
 | Should Cursor get a shell-level proxy (not just `.mdc` advisory)? | Requires Cursor extension API review |
 | Can Gemini Code CLI be wrapped with `safe-run.sh` at the process level? | Depends on Gemini CLI's subprocess model |
-| Should `switch-engine.sh` require `YAMTAM_SCOPE_OK=1` before writing adapter files? | Balances usability vs. protection of adapter files |
+| Should `switch-engine.sh` require `YANA_SCOPE_OK=1` before writing adapter files? | Balances usability vs. protection of adapter files |
 | Is Continue.dev in scope for v1.8.0 or pushed to v1.9.0? | Scope decision needed |
 | Should ADVISORY-tier adapters include a timestamp/session ID in the system prompt to correlate with audit log? | Privacy and token cost tradeoff |
 
 ---
 
-*YAMTAM ENGINE v1.8.0 Design · Apache 2.0 License · Vũ Văn Tâm*
+*Yana AI v1.8.0 Design · Apache 2.0 License · Vũ Văn Tâm*

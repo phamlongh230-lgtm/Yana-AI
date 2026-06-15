@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="./docs/logo-chatgpt.png" alt="YAMTAM" width="160" />
+  <img src="./docs/logo-chatgpt.png" alt="Yana AI" width="160" />
 </p>
 
-<h1 align="center">YAMTAM ENGINE</h1>
+<h1 align="center">Yana AI</h1>
 
 <p align="center">
   <strong>The orchestration layer between humans and AI — routing, safety, and context for every domain.</strong>
@@ -17,24 +17,24 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/phamlongh230-lgtm/yamtam-engine/actions/workflows/ci.yml">
-    <img src="https://github.com/phamlongh230-lgtm/yamtam-engine/actions/workflows/ci.yml/badge.svg" alt="CI" />
+  <a href="https://github.com/phamlongh230-lgtm/yana-ai/actions/workflows/ci.yml">
+    <img src="https://github.com/phamlongh230-lgtm/yana-ai/actions/workflows/ci.yml/badge.svg" alt="CI" />
   </a>
   <img src="https://img.shields.io/badge/version-v0.41.0-orange?style=for-the-badge" />
   <img src="https://img.shields.io/badge/license-Apache_2.0-blue?style=for-the-badge" />
-  <a href="https://www.npmjs.com/package/yamtam-engine">
-    <img src="https://img.shields.io/npm/v/yamtam-engine?style=for-the-badge&logo=npm&color=cb3837" />
+  <a href="https://www.npmjs.com/package/yana-ai">
+    <img src="https://img.shields.io/npm/v/yana-ai?style=for-the-badge&logo=npm&color=cb3837" />
   </a>
-  <a href="https://crates.io/crates/yamtam-rt">
-    <img src="https://img.shields.io/crates/v/yamtam-rt?style=for-the-badge&logo=rust&color=ce422b" />
+  <a href="https://crates.io/crates/yana-rt">
+    <img src="https://img.shields.io/crates/v/yana-rt?style=for-the-badge&logo=rust&color=ce422b" />
   </a>
-  <a href="https://pypi.org/project/yamtam-engine/">
-    <img src="https://img.shields.io/pypi/v/yamtam-engine?style=for-the-badge&logo=pypi&color=3775a9" />
+  <a href="https://pypi.org/project/yana-ai/">
+    <img src="https://img.shields.io/pypi/v/yana-ai?style=for-the-badge&logo=pypi&color=3775a9" />
   </a>
-  <a href="https://github.com/phamlongh230-lgtm/yamtam-engine">
-    <img src="https://img.shields.io/badge/protected%20by-YAMTAM%20ENGINE-ff6b35?style=for-the-badge" />
+  <a href="https://github.com/phamlongh230-lgtm/yana-ai">
+    <img src="https://img.shields.io/badge/protected%20by-Yana AI%20ENGINE-ff6b35?style=for-the-badge" />
   </a>
-  <a href="https://github.com/marketplace/yamtam-engine">
+  <a href="https://github.com/marketplace/yana-ai">
     <img src="https://img.shields.io/badge/GitHub-Marketplace-2ea44f?style=for-the-badge&logo=github" />
   </a>
 </p>
@@ -51,17 +51,17 @@
 
 ---
 
-**YAMTAM ENGINE** is a personal agent operating system for AI coding tools — runtime safety hooks, memory tiers, 97 specialist agents, 3,518 skills, and a Rust runtime that intercepts dangerous AI actions before they execute.
+**Yana AI** is a personal agent operating system for AI coding tools — runtime safety hooks, memory tiers, 97 specialist agents, 3,518 skills, and a Rust runtime that intercepts dangerous AI actions before they execute.
 
 Works with **Claude Code**, **Cursor**, **Windsurf**, **Antigravity**, **Kiro**, **OpenCode**, **Zed**, **Gemini**, **GitHub Copilot**, **Aider**, and more.
 
 <p align="center">
-  <img src="./docs/demo.gif" alt="YAMTAM gate system blocking rm -rf, pipe-to-shell, prompt injection and an unapproved production delete — live recording" width="720" />
+  <img src="./docs/demo.gif" alt="Yana AI gate system blocking rm -rf, pipe-to-shell, prompt injection and an unapproved production delete — live recording" width="720" />
 </p>
 
 > **New in v0.41.0:** [Yana task router](#yana-task-router) — auto-classifies every task into simple/complex/external/**learn**/**daily** and dispatches agents. [Yana AI](#yana-ai) now runs on **100% real data** — encrypted key vault (AES-256-GCM), live provider stats, real L1 memory and audit-log dashboard. [Mission dispatcher](#mission-dispatcher) — wave-based parallel agent orchestration, built in Rust. **Core-lock** — SHA-256 integrity manifest pinning 216 core files against tampering (rule 67).
 
-**→ [Full documentation & demo](https://phamlongh230-lgtm.github.io/yamtam-engine/)** · **[GitHub Marketplace](https://github.com/marketplace/yamtam-engine)**
+**→ [Full documentation & demo](https://phamlongh230-lgtm.github.io/yana-ai/)** · **[GitHub Marketplace](https://github.com/marketplace/yana-ai)**
 
 → [VISION.md](VISION.md) · [ARCHITECTURE.md](ARCHITECTURE.md) · [ROADMAP.md](ROADMAP.md)
 
@@ -75,21 +75,21 @@ Last updated: 2026-06-10
 Don't take this README's word for any of it. Install the engine, then ask your AI assistant to do something it shouldn't — and watch the gates catch it first:
 
 ```bash
-npm install yamtam-engine && npx yamtam-install   # wire the hooks (60 seconds)
-yamtam doctor .                                   # verify everything is wired
+npm install yana-ai && npx yana-ai-install   # wire the hooks (60 seconds)
+yana-ai doctor .                                   # verify everything is wired
 ```
 
 Then try: ask your agent to `git push --force`, pipe a script from the internet into bash, or read a `.env` file — every attempt is intercepted, explained, and logged. That moment is the whole pitch.
 
-Built by one 17-year-old in Vietnam — which means real-world feedback is the most valuable thing you can give this project. If something blocks too much, too little, or confuses you: [open an issue](https://github.com/phamlongh230-lgtm/yamtam-engine/issues). Every report makes the gates sharper.
+Built by one 17-year-old in Vietnam — which means real-world feedback is the most valuable thing you can give this project. If something blocks too much, too little, or confuses you: [open an issue](https://github.com/phamlongh230-lgtm/yana-ai/issues). Every report makes the gates sharper.
 
 ---
 
-## YAMTAM at a Glance
+## Yana AI at a Glance
 
 ```
 ┌──────────────────────────────────────────────────────────────────┐
-│                     YAMTAM ENGINE v0.41.0                        │
+│                     Yana AI v0.41.0                        │
 │      "The orchestration layer between humans and AI —            │
 │        routing, safety, and context for every domain."           │
 │                                                                  │
@@ -136,7 +136,7 @@ graph TB
     end
 
     %% ── Rust runtime ─────────────────────────────────────────────────────
-    subgraph RT["⚡ Rust Runtime — yamtam-rt"]
+    subgraph RT["⚡ Rust Runtime — yana-rt"]
         direction LR
         SCAN["scan · hunt · fix\nVulnerabilities, OWASP,\nsupply chain — 1256× faster"]
         ROUTE["route · mission\nTask classifier → simple/\ncomplex/external dispatch"]
@@ -172,7 +172,7 @@ graph TB
     %% ── Product funnel ───────────────────────────────────────────────────
     subgraph FUNNEL["📣 Product Funnel — 'Scan first. Guard later.'"]
         direction LR
-        F1["① yamtam audit .\n30s · no learning needed\nScan any repo for AI agent risks"]
+        F1["① yana-ai audit .\n30s · no learning needed\nScan any repo for AI agent risks"]
         F2["② Policy Kit\nAdopt safe configs piece by piece\n(CLAUDE.md · .mcp.json · CI gates)"]
         F3["③ Full Control Layer\nAll 9 gates · 97 agents\nMerkle log · Sovereign veto"]
         F1 --> F2 --> F3
@@ -186,7 +186,7 @@ graph TB
     CORE --> HARNESS
 ```
 
-> **Reading the diagram:** every AI tool call flows `MISSION → GATES → CORE`. The Rust runtime (`yamtam-rt`) accelerates the scanner. Sub-project tools (yana-web etc.) use the same gate system. Branches show active development fronts.
+> **Reading the diagram:** every AI tool call flows `MISSION → GATES → CORE`. The Rust runtime (`yana-rt`) accelerates the scanner. Sub-project tools (yana-web etc.) use the same gate system. Branches show active development fronts.
 
 ---
 
@@ -194,7 +194,7 @@ graph TB
 
 AI coding agents make mistakes. They `rm -rf` the wrong directory. They push force to main. They hallucinate test results. They commit secrets. By the time you notice, the damage is done.
 
-YAMTAM sits between the agent and your system — every tool call passes through a 9-layer safety gate before execution.
+Yana AI sits between the agent and your system — every tool call passes through a 9-layer safety gate before execution.
 
 ---
 
@@ -236,30 +236,30 @@ Execute (or block + log)
 
 ## Quick Install
 
-**→ [Install from GitHub Marketplace](https://github.com/marketplace/yamtam-engine)** — one click, official listing.
+**→ [Install from GitHub Marketplace](https://github.com/marketplace/yana-ai)** — one click, official listing.
 
 ```bash
-# Claude Code plugin — npx yamtam-install wires the hooks
+# Claude Code plugin — npx yana-ai-install wires the hooks
 # (required: npm v12+ no longer runs postinstall scripts by default)
-npm install yamtam-engine && npx yamtam-install
+npm install yana-ai && npx yana-ai-install
 
 # Python CLI
-pip install yamtam-engine
+pip install yana-ai
 
 # Rust runtime (1256x faster scanner)
-cargo install yamtam-rt
+cargo install yana-rt
 ```
 
 ```bash
 # Verify everything is wired
-yamtam doctor .
+yana-ai doctor .
 ```
 
 ---
 
 ## Multi-harness support
 
-YAMTAM adapts to whichever tool you use:
+Yana AI adapts to whichever tool you use:
 
 ```bash
 bash core/scripts/switch-engine.sh cursor    # .cursorrules + 7 .cursor/rules/*.mdc
@@ -277,8 +277,8 @@ bash core/scripts/switch-engine.sh status    # check all 12 adapters
 Scan any repo's AI agent configuration on every PR — secrets, permissions, hook injection, MCP vulnerabilities.
 
 ```yaml
-# .github/workflows/yamtam-scan.yml
-- uses: phamlongh230-lgtm/yamtam-engine/.github/actions/scan@main
+# .github/workflows/yana-ai-scan.yml
+- uses: phamlongh230-lgtm/yana-ai/.github/actions/scan@main
   with:
     fail-on: 'high'       # fail CI on HIGH or CRITICAL findings
     diff-only: 'true'     # scan only changed files on PRs
@@ -288,7 +288,7 @@ Scan any repo's AI agent configuration on every PR — secrets, permissions, hoo
 Posts a comment on every PR:
 
 ```
-🟠 YAMTAM Security Scan — HIGH
+🟠 Yana AI Security Scan — HIGH
 
 | Metric  | Value  |
 |---------|--------|
@@ -301,24 +301,24 @@ Posts a comment on every PR:
 
 ---
 
-## Rust runtime — `yamtam-rt`
+## Rust runtime — `yana-rt`
 
 19 subcommands. Zero Python dependency.
 
 ```bash
-yamtam scan .                        # security scan — secrets, CVEs, supply chain risks
-yamtam graph .                       # knowledge graph — file deps, import resolution
-yamtam vault search Q                # search 3,518 skills by keyword
-yamtam hunt .                        # hunt for security patterns (OWASP, injection, SSRF)
-yamtam fix .                         # auto-fix rule violations
-yamtam doctor .                      # full system health check
-yamtam map .                         # blast radius map — what can the agent touch?
-yamtam ci                            # run all gate checks (used in CI)
-yamtam route classify "fix auth bug" # classify task → simple/complex/external
-yamtam mission create "add-auth"     # create parallel agent mission
+yana-ai scan .                        # security scan — secrets, CVEs, supply chain risks
+yana-ai graph .                       # knowledge graph — file deps, import resolution
+yana-ai vault search Q                # search 3,518 skills by keyword
+yana-ai hunt .                        # hunt for security patterns (OWASP, injection, SSRF)
+yana-ai fix .                         # auto-fix rule violations
+yana-ai doctor .                      # full system health check
+yana-ai map .                         # blast radius map — what can the agent touch?
+yana-ai ci                            # run all gate checks (used in CI)
+yana-ai route classify "fix auth bug" # classify task → simple/complex/external
+yana-ai mission create "add-auth"     # create parallel agent mission
 ```
 
-**Benchmark:** `yamtam scan` on a 10k-file repo: **1256x faster** than the Python equivalent.
+**Benchmark:** `yana-ai scan` on a 10k-file repo: **1256x faster** than the Python equivalent.
 
 ---
 
@@ -353,19 +353,19 @@ Key properties:
 
 ```bash
 # Agent tries: git push --force origin main
-[yamtam/02-terminal-validator] BLOCKED — force push prohibited
+[yana-ai/02-terminal-validator] BLOCKED — force push prohibited
   Command : git push --force origin main
   Gate    : L1
   Fix     : Run gate checks first, then push without --force
 
 # Agent tries: curl http://169.254.169.254/latest/meta-data/
-[yamtam/network-egress] BLOCKED — SSRF target detected
+[yana-ai/network-egress] BLOCKED — SSRF target detected
   Host    : 169.254.169.254
   Gate    : L3
   Exit    : 3
 
 # Agent tries to install unvetted package
-[yamtam/dependency-vetting] BLOCKED — unvetted package install
+[yana-ai/dependency-vetting] BLOCKED — unvetted package install
   Package : req-uests@2.28.0
   Reason  : typosquatting (similar to 'requests')
   Gate    : L4
@@ -375,19 +375,19 @@ Key properties:
 
 ## Yana AI
 
-**[Live →](https://yamtam-engine-production.up.railway.app)**
+**[Live →](https://yana-ai-production.up.railway.app)**
 
-Yana is the first interface built on YAMTAM core — a web UI that lets anyone chat with AI, switch providers, and use skill routing without knowing anything about the infrastructure underneath.
+Yana is the first interface built on Yana AI core — a web UI that lets anyone chat with AI, switch providers, and use skill routing without knowing anything about the infrastructure underneath.
 
 ```
-User → Yana AI → YAMTAM Core (Router · Safety · Context) → Model
+User → Yana AI → Yana AI Core (Router · Safety · Context) → Model
 ```
 
 - Zero signup — bring your own API key
 - 🔐 **Encrypted key vault** — keys stored AES-256-GCM, master key non-extractable (WebCrypto + IndexedDB), never plaintext
 - Multi-provider: Anthropic · Groq · Gemini · OpenAI · DeepSeek · OpenRouter · 9Router · Ollama
 
-**Provider setup** — bring your own key, keys encrypted locally (never sent to YAMTAM):
+**Provider setup** — bring your own key, keys encrypted locally (never sent to Yana AI):
 
 | Provider | Type | Setup |
 |----------|------|-------|
@@ -400,11 +400,11 @@ User → Yana AI → YAMTAM Core (Router · Safety · Context) → Model
 | **9Router** | Local | `npm install -g 9router` → `9router` (runs on `localhost:20128`) |
 | **Ollama** | Local | [ollama.com/download](https://ollama.com/download) → `ollama serve` → `ollama pull llama3.2` |
 - 📊 **100% real data** — live provider stats, L1 memory garden, audit-log health panel; zero demo numbers
-- Skill routing built in — type naturally, YAMTAM dispatches the right agent
+- Skill routing built in — type naturally, Yana AI dispatches the right agent
 - **Non-coding use cases:** learning (Socratic learning assistant), daily work (summarize / plan / draft)
 - SSE streaming, mobile-friendly · Electron desktop shell (`tools/yana-desktop`)
 
-If YAMTAM is the power grid, Yana is the first building plugged into it.
+If Yana AI is the power grid, Yana is the first building plugged into it.
 
 ---
 
@@ -413,32 +413,32 @@ If YAMTAM is the power grid, Yana is the first building plugged into it.
 One person. No team. No funding.
 
 - Hook architecture, safety gates, Python CLI
-- Rust runtime (`yamtam-rt`), 97 agents, 3,518 skills, multi-harness support
+- Rust runtime (`yana-rt`), 97 agents, 3,518 skills, multi-harness support
 - 15 harness adapters (Claude Code, Cursor, Windsurf, Antigravity, Kiro, Zed, Gemini, Copilot, Aider…)
 
 The 3,518 skills cover: frontend, backend, AI/LLM, security, Kubernetes, WebAssembly, DevOps, databases, testing, and more. Two new agent personas cover non-coding use cases: learning (`hoc-tap`) and daily productivity (`daily-assistant`).
 
 ---
 
-## Add YAMTAM to your repo
+## Add Yana AI to your repo
 
 **Static badge** — paste into your README:
 
 ```markdown
-[![Protected by YAMTAM](https://img.shields.io/badge/protected%20by-YAMTAM%20ENGINE-ff6b35?style=for-the-badge)](https://github.com/phamlongh230-lgtm/yamtam-engine)
+[![Protected by Yana AI](https://img.shields.io/badge/protected%20by-Yana AI%20ENGINE-ff6b35?style=for-the-badge)](https://github.com/phamlongh230-lgtm/yana-ai)
 ```
 
 **Dynamic audit badge** — shows live security score:
 
 ```bash
-yamtam badge .           # prints badge markdown with current score
-yamtam badge . --json    # machine-readable output
+yana-ai badge .           # prints badge markdown with current score
+yana-ai badge . --json    # machine-readable output
 ```
 
 **GitHub Action** — scan every PR automatically:
 
 ```yaml
-- uses: phamlongh230-lgtm/yamtam-engine/.github/actions/scan@main
+- uses: phamlongh230-lgtm/yana-ai/.github/actions/scan@main
   with:
     fail-on: 'high'
 ```
@@ -452,14 +452,14 @@ yamtam badge . --json    # machine-readable output
 Every task is classified before execution — no more guessing whether to handle it inline or dispatch an agent.
 
 ```bash
-yamtam route classify "implement JWT refresh token"
+yana-ai route classify "implement JWT refresh token"
 # → { "route": "complex", "gate": "harness", "confidence": 0.36,
 #     "suggested_agents": ["security-engineer", "backend-developer"] }
 
-yamtam route classify "xem git log 10 commit"
+yana-ai route classify "xem git log 10 commit"
 # → { "route": "simple", "gate": "auto", "confidence": 0.43 }
 
-yamtam route classify "deploy to production"
+yana-ai route classify "deploy to production"
 # → { "route": "external", "gate": "confirm", "confidence": 0.30 }
 ```
 
@@ -481,26 +481,26 @@ Wave-based parallel orchestration with dependency resolution — built in Rust, 
 
 ```bash
 # 1. Create mission
-MID=$(yamtam mission create "implement-auth" | awk '/id:/{print $2}')
+MID=$(yana-ai mission create "implement-auth" | awk '/id:/{print $2}')
 
 # 2. Declare tasks with dependencies
-yamtam mission task $MID "design-schema"   --agent database-expert --produces schema.sql
-yamtam mission task $MID "implement-auth"  --agent backend-developer \
+yana-ai mission task $MID "design-schema"   --agent database-expert --produces schema.sql
+yana-ai mission task $MID "implement-auth"  --agent backend-developer \
   --consumes schema.sql --produces src/auth.ts
-yamtam mission task $MID "write-tests"     --agent test-engineer \
+yana-ai mission task $MID "write-tests"     --agent test-engineer \
   --consumes src/auth.ts --produces tests/auth.test.ts
 
 # 3. Dispatch wave 1 — only tasks whose dependencies are satisfied
-yamtam mission dispatch $MID --max-parallel 3
+yana-ai mission dispatch $MID --max-parallel 3
 # → JSON briefs for each ready agent
 
 # 4. Mark complete, dispatch next wave
-yamtam mission done $MID "design-schema" --evidence schema.sql
-yamtam mission dispatch $MID  # → wave 2 unlocked
+yana-ai mission done $MID "design-schema" --evidence schema.sql
+yana-ai mission dispatch $MID  # → wave 2 unlocked
 
 # Cancel / retry stuck tasks
-yamtam mission cancel $MID "implement-auth"
-yamtam mission retry  $MID "write-tests"
+yana-ai mission cancel $MID "implement-auth"
+yana-ai mission retry  $MID "write-tests"
 ```
 
 Tasks marked **Running** on dispatch — re-running `dispatch` never double-dispatches the same task.
@@ -542,7 +542,7 @@ bash core/scripts/multi-agent-launch.sh start --tasks-file tasks.txt --concurren
 
 Sample output:
 ```
-═══ YAMTAM Multi-Agent Launcher ═══
+═══ Yana AI Multi-Agent Launcher ═══
   Agents     : 3
   Concurrency: 3 (max running in parallel)
   Kill switch: bash multi-agent-launch.sh kill all
@@ -569,9 +569,9 @@ Apache 2.0 — free forever.
 | | |
 |---|---|
 | Email | phamlongh230@gmail.com |
-| Website | [phamlongh230-lgtm.github.io/yamtam-engine](https://phamlongh230-lgtm.github.io/yamtam-engine/) |
+| Website | [phamlongh230-lgtm.github.io/yana-ai](https://phamlongh230-lgtm.github.io/yana-ai/) |
 | GitHub | [phamlongh230-lgtm](https://github.com/phamlongh230-lgtm) |
-| Yana AI | [yamtam-engine-production.up.railway.app](https://yamtam-engine-production.up.railway.app) |
+| Yana AI | [yana-ai-production.up.railway.app](https://yana-ai-production.up.railway.app) |
 
 ---
 

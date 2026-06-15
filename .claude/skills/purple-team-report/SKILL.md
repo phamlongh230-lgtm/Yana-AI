@@ -5,7 +5,7 @@ description: >
   Use when the user wants a consolidated security report after red-team-check and
   blue-team-fix have been run, or when presenting security findings to stakeholders.
   Produces: executive summary, finding table with evidence, fix status, and open items.
-origin: yamtam
+origin: yana-ai
 version: 1.0.0
 compatibility: >
   Expects red-team-check output and blue-team-fix output as input.
@@ -13,7 +13,7 @@ compatibility: >
 ---
 
 <!-- Concept inspired by Strix (Apache 2.0) — security report synthesis pattern.
-     All content written original for YAMTAM. No code ported. -->
+     All content written original for Yana AI. No code ported. -->
 
 ## When to Use
 

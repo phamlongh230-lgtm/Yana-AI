@@ -42,7 +42,7 @@ ok       = [k for k in example if k in env and env[k]]
 
 print()
 print('  ╔══════════════════════════════════════════════╗')
-print('  ║            YAMTAM ENV CHECK                  ║')
+print('  ║            Yana AI ENV CHECK                  ║')
 print('  ╚══════════════════════════════════════════════╝')
 print()
 

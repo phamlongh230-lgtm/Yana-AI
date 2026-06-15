@@ -2,7 +2,7 @@
 
 ## 1. Why Rust
 
-Rust is a strong long-term fit for YAMTAM CLI tools because:
+Rust is a strong long-term fit for Yana AI CLI tools because:
 - fast startup for short-lived commands,
 - single native binary distribution,
 - strict typing for output contracts and exit codes,
@@ -34,7 +34,7 @@ Why:
 ## 4. CLI contract to preserve
 
 Rust path must preserve current command behavior:
-- `bash bin/yamtam check-context <context-pack-dir>`
+- `bash bin/yana-ai check-context <context-pack-dir>`
 - Exit codes stay:
   - `0` valid
   - `1` invalid

@@ -50,11 +50,11 @@ function merkleRoot(leaves) {
 export class SecureAuditLogger {
   /**
    * @param {string} logPath  — path to append-only JSONL audit file
-   * @param {string} [secret] — HMAC secret; defaults to YAMTAM_LOG_SECRET env var
+   * @param {string} [secret] — HMAC secret; defaults to YANA_LOG_SECRET env var
    */
   constructor(logPath = 'releases/logs/audit.jsonl', secret) {
     this.logPath = logPath;
-    this.secret = secret ?? process.env.YAMTAM_LOG_SECRET ?? 'yamtam-default-secret';
+    this.secret = secret ?? process.env.YANA_LOG_SECRET ?? 'yana-ai-default-secret';
     this.leaves = [];           // in-memory Merkle leaf list (hex SHA256)
     this._rootHashPath = logPath + '.root';
 

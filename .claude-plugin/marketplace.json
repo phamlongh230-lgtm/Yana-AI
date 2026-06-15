@@ -1,5 +1,5 @@
 {
-  "name": "yamtam-engine",
+  "name": "yana-ai",
   "owner": {
     "name": "Vũ Văn Tâm",
     "url": "https://github.com/phamlongh230-lgtm"
@@ -24,7 +24,7 @@
   },
   "plugins": [
     {
-      "name": "yamtam-engine",
+      "name": "yana-ai",
       "description": "Personal agent operating system for Claude Code. Safety hooks, memory tiers, agents, commands, and cross-engine hard enforcement.",
       "version": "0.40.0",
       "author": {
@@ -33,7 +33,7 @@
       },
       "source": "./",
       "category": "safety",
-      "homepage": "https://phamlongh230-lgtm.github.io/yamtam-engine/"
+      "homepage": "https://phamlongh230-lgtm.github.io/yana-ai/"
     }
   ]
 }

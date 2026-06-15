@@ -1,10 +1,10 @@
 ---
 name: crossplane-control-plane
 description: Crossplane universal control plane for cloud resource management via Kubernetes. Composite Resources (XR), Compositions, provider configuration, and managing AWS/GCP/Azure resources with kubectl. Sources: crossplane/crossplane (Apache-2.0).
-origin: yamtam-engine — synthesized from crossplane/crossplane (Apache-2.0)
+origin: yana-ai — synthesized from crossplane/crossplane (Apache-2.0)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.52
+compatibility: yana-ai >= 1.3.52
 ---
 
 # /crossplane-control-plane
@@ -67,15 +67,15 @@ EOF
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  name: xamtamdatabases.yamtam.io
+  name: xamtamdatabases.yana-ai.io
 spec:
-  group: yamtam.io
+  group: yana-ai.io
   names:
     kind:   XYamtamDatabase
     plural: xamtamdatabases
   claimNames:
     kind:   YamtamDatabase    # namespace-scoped claim
-    plural: yamtamdatabases
+    plural: yana-aidatabases
   versions:
     - name: v1alpha1
       served: true
@@ -101,10 +101,10 @@ spec:
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: yamtam-rds-postgres
+  name: yana-ai-rds-postgres
 spec:
   compositeTypeRef:
-    apiVersion: yamtam.io/v1alpha1
+    apiVersion: yana-ai.io/v1alpha1
     kind:       XYamtamDatabase
   resources:
     - name: rds-instance
@@ -133,11 +133,11 @@ spec:
 
 ```yaml
 # agent requests a database — no AWS console needed
-apiVersion: yamtam.io/v1alpha1
+apiVersion: yana-ai.io/v1alpha1
 kind: YamtamDatabase
 metadata:
   name:      agent-db
-  namespace: yamtam
+  namespace: yana-ai
 spec:
   tier:      prod
   region:    us-east-1
@@ -146,7 +146,7 @@ spec:
 
 ```bash
 kubectl apply -f agent-db.yaml
-kubectl get yamtamdatabases agent-db -o wide
+kubectl get yana-aidatabases agent-db -o wide
 # NAME        SYNCED   READY   CONNECTION-SECRET   AGE
 # agent-db    True     True    agent-db-creds      3m
 ```

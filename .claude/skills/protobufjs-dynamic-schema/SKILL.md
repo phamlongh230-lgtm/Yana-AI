@@ -1,10 +1,10 @@
 ---
 name: protobufjs-dynamic-schema
 description: protobuf.js dynamic .proto parsing and code generation for Node.js. Runtime schema loading, static code generation, reflection API, and JSON interop for agent message contracts. Sources: protobufjs/protobuf.js (BSD-3-Clause).
-origin: yamtam-engine — synthesized from protobufjs/protobuf.js (BSD-3-Clause)
+origin: yana-ai — synthesized from protobufjs/protobuf.js (BSD-3-Clause)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.50
+compatibility: yana-ai >= 1.3.50
 ---
 
 # /protobufjs-dynamic-schema
@@ -31,8 +31,8 @@ import protobuf from 'protobufjs'
 // Load at startup, cache root — never reload per message
 const root = await protobuf.load(['agent_message.proto', 'task.proto'])
 
-const AgentMessage = root.lookupType('yamtam.AgentMessage')
-const TaskPayload  = root.lookupType('yamtam.TaskPayload')
+const AgentMessage = root.lookupType('yana-ai.AgentMessage')
+const TaskPayload  = root.lookupType('yana-ai.TaskPayload')
 
 export function encodeAgentMessage(data: object): Buffer {
   const err = AgentMessage.verify(data)
@@ -61,10 +61,10 @@ npx pbjs  -t static-module -w es6 -o src/generated/protos.js  *.proto
 npx pbts  -o src/generated/protos.d.ts  src/generated/protos.js
 
 # Generated usage (2× faster than dynamic, fully typed)
-import { yamtam } from './generated/protos'
+import { yana-ai } from './generated/protos'
 
-const msg = yamtam.AgentMessage.create({ agentId: 'x', seq: 1 })
-const buf = yamtam.AgentMessage.encode(msg).finish()
+const msg = yana-ai.AgentMessage.create({ agentId: 'x', seq: 1 })
+const buf = yana-ai.AgentMessage.encode(msg).finish()
 ```
 
 ---
@@ -72,7 +72,7 @@ const buf = yamtam.AgentMessage.encode(msg).finish()
 ## Reflection API (enumerate message fields)
 
 ```javascript
-const AgentMessage = root.lookupType('yamtam.AgentMessage')
+const AgentMessage = root.lookupType('yana-ai.AgentMessage')
 
 // List all fields
 for (const field of AgentMessage.fieldsArray) {
@@ -117,6 +117,6 @@ function protoToJson(buf: Buffer): string {
 ❌ AgentMessage.create() skipped → encode() accepts plain objects but skips field defaults
 ❌ longs: Number in toObject → int64 precision loss above Number.MAX_SAFE_INTEGER
 ❌ Dynamic schema in production hot path → use static codegen (pbjs) for 2× throughput
-❌ lookupType() throws if package prefix wrong — use full name: 'yamtam.AgentMessage' not 'AgentMessage'
+❌ lookupType() throws if package prefix wrong — use full name: 'yana-ai.AgentMessage' not 'AgentMessage'
 ❌ Missing .proto file at load path → protobuf.load() throws, no fallback
 ```

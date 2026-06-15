@@ -15,7 +15,7 @@ compatibility: "Any frontend framework. Patterns apply to chat, copilot, and emb
 
 <!-- Adapted from phazurlabs/ux-ui-mastery (MIT) — LLM UI Patterns skill #17.
      Streaming response, hallucination states, RAG attribution, trust calibration.
-     YAMTAM structure, Anti-Fake-Pass gate, and Vietnamese localization notes are original. -->
+     Yana AI structure, Anti-Fake-Pass gate, and Vietnamese localization notes are original. -->
 
 ## When to Use
 

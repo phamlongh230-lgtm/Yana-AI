@@ -1,4 +1,4 @@
-# YAMTAM — Auditor-First Strategy
+# Yana AI — Auditor-First Strategy
 
 **Status:** Active  
 **Last updated:** 2026-05-26  
@@ -9,7 +9,7 @@
 
 ## The Problem with the Old Positioning
 
-YAMTAM was built as a full control layer for AI coding agents. The architecture is solid — 6-layer gate system, 45+ hooks, 164 commands. But the entry point was wrong.
+Yana AI was built as a full control layer for AI coding agents. The architecture is solid — 6-layer gate system, 45+ hooks, 164 commands. But the entry point was wrong.
 
 **Old ask:** "Adopt my entire control layer."  
 **Outsider response:** "Why would I learn a new system before knowing if I need it?"
@@ -26,7 +26,7 @@ Every developer using AI coding agents (Claude Code, Cursor, Copilot) has the sa
 - They haven't audited their `.claude/settings.json`, `.mcp.json`, or CI workflows
 - They assume "it's fine" until something breaks
 
-YAMTAM already knows what to look for. The gap is: they don't run YAMTAM before they feel pain.
+Yana AI already knows what to look for. The gap is: they don't run Yana AI before they feel pain.
 
 **The insight:** lead with the audit, not the solution.
 
@@ -35,7 +35,7 @@ YAMTAM already knows what to look for. The gap is: they don't run YAMTAM before 
 ## The New Positioning
 
 ```
-YAMTAM audits your AI coding agent setup before it can damage your repo.
+Yana AI audits your AI coding agent setup before it can damage your repo.
 ```
 
 **Tagline:** Scan first. Guard later.
@@ -52,21 +52,21 @@ After:    "Run this one command — I'll show you what's exposed."
 ## Product Funnel
 
 ```
-1. yamtam audit .
+1. yana-ai audit .
    ↓  (outsider sees their own risk score in 30 seconds)
    
 2. Policy Kit
-   ↓  (adopt the fixes YAMTAM recommends, one at a time)
+   ↓  (adopt the fixes Yana AI recommends, one at a time)
    
 3. Full Control Layer
       (deep users who want runtime enforcement, not just auditing)
 ```
 
-The top of the funnel requires zero commitment. One command. No install ceremony. No learning YAMTAM first.
+The top of the funnel requires zero commitment. One command. No install ceremony. No learning Yana AI first.
 
 ---
 
-## MVP: `yamtam audit .`
+## MVP: `yana-ai audit .`
 
 ### What it scans
 
@@ -81,7 +81,7 @@ The top of the funnel requires zero commitment. One command. No install ceremony
 ### Output format
 
 ```
-YAMTAM Agent Audit Report
+Yana AI Agent Audit Report
 ─────────────────────────
 Target:  .
 Scanned: 14 files
@@ -93,8 +93,8 @@ Score:   41/100  |  Risk: HIGH
 [MED]      package.json — postinstall runs remote shell script
 [LOW]      scripts/deploy.sh — no dry-run mode
 
-Run `yamtam audit . --markdown report.md` to export this report.
-Run `yamtam audit . --fail-on high` to use in CI.
+Run `yana-ai audit . --markdown report.md` to export this report.
+Run `yana-ai audit . --fail-on high` to use in CI.
 ```
 
 ### Score model (deterministic, no AI)
@@ -115,11 +115,11 @@ Run `yamtam audit . --fail-on high` to use in CI.
 ### CLI interface
 
 ```bash
-yamtam audit .                        # console output
-yamtam audit . --json                 # machine-readable
-yamtam audit . --markdown report.md  # file export
-yamtam audit . --fail-on high        # CI gate (exit 1 if HIGH+)
-yamtam audit . --fail-on critical    # CI gate (exit 2 if CRITICAL only)
+yana-ai audit .                        # console output
+yana-ai audit . --json                 # machine-readable
+yana-ai audit . --markdown report.md  # file export
+yana-ai audit . --fail-on high        # CI gate (exit 1 if HIGH+)
+yana-ai audit . --fail-on critical    # CI gate (exit 2 if CRITICAL only)
 ```
 
 ### Exit codes
@@ -139,7 +139,7 @@ These constraints are not temporary — they are deliberate.
 
 **Rule-based only.** No LLM in the scanner. Every finding is deterministic regex or JSON path. Users can read the rule source and understand exactly why a finding fired.
 
-**No auto-fix in v0.1.** YAMTAM shows what is wrong. The human fixes it. This builds trust before we add automation.
+**No auto-fix in v0.1.** Yana AI shows what is wrong. The human fixes it. This builds trust before we add automation.
 
 **README leads with audit.** The L0–L5 gate architecture is real and valuable — but it moves to a second section. Outsiders see the audit output first.
 
@@ -151,17 +151,17 @@ These constraints are not temporary — they are deliberate.
 
 | Version | Milestone |
 |---------|-----------|
-| v0.1 | `yamtam audit .` — scan, score, report. No auto-fix. |
+| v0.1 | `yana-ai audit .` — scan, score, report. No auto-fix. |
 | v0.2 | CI Gate — `--fail-on`, GitHub Action example |
 | v0.3 | Policy Kit — recommended configs, fix templates |
-| v0.4 | Control Layer — scope guard, truth gate, token guard (existing YAMTAM) |
+| v0.4 | Control Layer — scope guard, truth gate, token guard (existing Yana AI) |
 | v0.5 | Runtime Evals — task lifecycle, evidence schema |
 
 ---
 
 ## What We Are Not Doing
 
-- No "YAMTAM secures all AI agents" claim — we say "audits common risk patterns"
+- No "Yana AI secures all AI agents" claim — we say "audits common risk patterns"
 - No auto-fix at launch — earn trust first
 - No 50 rules immediately — 5 sharp rules beat 50 vague ones
 - No L0–L5 in the hero — that is the depth, not the door

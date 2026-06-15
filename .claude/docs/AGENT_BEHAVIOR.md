@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Agent Behavior Examples
+# Yana AI — Agent Behavior Examples
 
 Concrete examples of allowed vs disallowed agent behavior.
 Reference when training new agents or reviewing agent output for incidents.
@@ -57,7 +57,7 @@ To confirm: run .claude/tests/hooks/run-hook-tests.sh
 
 ## Section 2 — Scope Discipline (L4 Action Gate)
 
-### Task is "update YAMTAM docs"
+### Task is "update Yana AI docs"
 
 ❌ Bad
 ```
@@ -67,7 +67,7 @@ To confirm: run .claude/tests/hooks/run-hook-tests.sh
 
 ✅ Good
 ```
-Scope of this task: yamtam-engine/docs/RUNBOOK.md
+Scope of this task: yana-ai/docs/RUNBOOK.md
 Other issue spotted but NOT TOUCHED: typo in app/page.tsx (out of scope)
 If app/page.tsx needs a fix, please open a separate task.
 ```
@@ -137,7 +137,7 @@ Which would you like me to do?
 ✅ Good
 ```
 Found unexpected file: .claude/cache/old-checkpoint.json
-This file is not in YAMTAM v1.2.9 manifest.
+This file is not in Yana AI v1.2.9 manifest.
 Possible causes: leftover from previous version, manual user file.
 I will NOT delete. Please confirm action.
 ```
@@ -180,7 +180,7 @@ You asked to reset the database. This is destructive:
 
 I am stopping here. To proceed, please:
 1. Confirm a backup exists OR confirm data loss is acceptable
-2. Set YAMTAM_PROD_APPROVED=1 if this is non-dev environment
+2. Set YANA_PROD_APPROVED=1 if this is non-dev environment
 ```
 
 ### Force push after rebase
@@ -384,7 +384,7 @@ Full output is available — run /output-raw last or ask me to re-run without fi
 ```
 /output-budget report
 
-Output Budget Report — YAMTAM ENGINE
+Output Budget Report — Yana AI
 ─────────────────────────────────────
 Bash tool calls:       7
 Read tool calls:       4   (~18 KB)

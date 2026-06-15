@@ -6,7 +6,7 @@
 #
 # Hook type: PreToolUse
 # Blocking:  soft conflict → exit 0 + advisory; hard conflict (same file, different agents) → exit 2
-# Bypass:    YAMTAM_ARBITRATION_BYPASS=1 (sovereign only)
+# Bypass:    YANA_ARBITRATION_BYPASS=1 (sovereign only)
 # State:     core/memory/L2_session/agent-registry.json (gitignored)
 #
 # Registry schema:
@@ -14,15 +14,15 @@
 
 set -uo pipefail
 
-[[ "${YAMTAM_ARBITRATION_BYPASS:-0}" == "1" ]] && exit 0
+[[ "${YANA_ARBITRATION_BYPASS:-0}" == "1" ]] && exit 0
 command -v python3 >/dev/null 2>&1 || exit 0
 
 PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$(pwd)}"
-REGISTRY="${YAMTAM_AGENT_REGISTRY:-$PROJECT_ROOT/core/memory/L2_session/agent-registry.json}"
-LOG_FILE="${YAMTAM_LOG:-/tmp/yamtam-audit.log}"
+REGISTRY="${YANA_AGENT_REGISTRY:-$PROJECT_ROOT/core/memory/L2_session/agent-registry.json}"
+LOG_FILE="${YANA_LOG:-/tmp/yana-ai-audit.log}"
 
 TOOL_NAME="${CLAUDE_TOOL_NAME:-unknown}"
-AGENT_ID="${YAMTAM_AGENT_ID:-default}"
+AGENT_ID="${YANA_AGENT_ID:-default}"
 NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 # Only intercept file-write tools
@@ -149,10 +149,10 @@ if [[ "$CONFLICT" == CONFLICT:* ]]; then
   # Hard block only if exact same file, advisory for overlapping dirs
   EXACT=$(echo "$DETAILS" | grep -c "EXACT:" || true)
   if [[ "$EXACT" -gt 0 ]]; then
-    printf '{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny","permissionDecisionReason":"[YAMTAM/arbitration] CONFLICT: %s — another agent holds exclusive access. Use YAMTAM_ARBITRATION_BYPASS=1 if certain."}}\n' "$DETAILS"
+    printf '{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny","permissionDecisionReason":"[Yana AI/arbitration] CONFLICT: %s — another agent holds exclusive access. Use YANA_ARBITRATION_BYPASS=1 if certain."}}\n' "$DETAILS"
     exit 2
   else
-    echo "[YAMTAM/arbitration] SOFT CONFLICT: $DETAILS — coordinate with other agents before writing"
+    echo "[Yana AI/arbitration] SOFT CONFLICT: $DETAILS — coordinate with other agents before writing"
     exit 0
   fi
 fi

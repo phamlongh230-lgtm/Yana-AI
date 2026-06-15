@@ -1,7 +1,7 @@
-# Codexmate — VI Patch (yamtam-engine bản riêng)
+# Codexmate — VI Patch (yana-ai bản riêng)
 
 Patch codexmate local: **VI lên đầu danh sách ngôn ngữ, bỏ tiếng Trung**.  
-Chỉ áp cho bản local dùng với yamtam-engine — không đụng repo codexmate gốc.
+Chỉ áp cho bản local dùng với yana-ai — không đụng repo codexmate gốc.
 
 ## Cách dùng
 

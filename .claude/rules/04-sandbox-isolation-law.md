@@ -9,7 +9,7 @@
 
 ## Principle
 
-Every command that exits the YAMTAM process boundary MUST execute inside an isolated sandbox. The sandbox enforces hard resource limits and prevents a compromised tool call from reaching the host filesystem, network, or other processes.
+Every command that exits the Yana AI process boundary MUST execute inside an isolated sandbox. The sandbox enforces hard resource limits and prevents a compromised tool call from reaching the host filesystem, network, or other processes.
 
 ```
 Agent intent
@@ -59,9 +59,9 @@ Output:   16 KB cap  (piped through tool-proxy size-cap middleware)
 ## Bypass Rules (Tier A — never allowed)
 
 ```
-- YAMTAM_SKIP_SANDBOX=1 is BLOCKED (exit 1, logged to audit trail)
+- YANA_SKIP_SANDBOX=1 is BLOCKED (exit 1, logged to audit trail)
 - Sandbox mode cannot be lowered by a sub-agent
-- ulimit-only mode permitted ONLY in CI environments (YAMTAM_ENV=ci)
+- ulimit-only mode permitted ONLY in CI environments (YANA_ENV=ci)
 - Any tool call that exits to shell without going through sandbox-exec.sh
   is flagged as a Gate L3 violation
 ```
@@ -69,15 +69,15 @@ Output:   16 KB cap  (piped through tool-proxy size-cap middleware)
 ## Sandbox Mode Selection
 
 ```
-Production (YAMTAM_ENV=prod):
+Production (YANA_ENV=prod):
   Required: docker or firecracker
   Forbidden: ulimit-only mode
 
-CI/CD (YAMTAM_ENV=ci):
+CI/CD (YANA_ENV=ci):
   Allowed: docker, nsjail, ulimit
   Recommended: docker for reproducibility
 
-Development (YAMTAM_ENV=dev):
+Development (YANA_ENV=dev):
   Allowed: all modes
   Warning logged when using ulimit fallback
 ```

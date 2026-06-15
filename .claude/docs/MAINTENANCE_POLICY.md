@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Maintenance Policy
+# Yana AI — Maintenance Policy
 
 > Version: 1.3.26 | Updated: 2026-05-19
 
@@ -19,7 +19,7 @@ Ghi kết quả vào `docs/reviews/YYYY-MM-DD-hook-review.md`.
 Mọi file hook trong `core/hooks/*.sh` phải bắt đầu bằng header sau:
 ```bash
 #!/bin/bash
-# YAMTAM ENGINE Hook
+# Yana AI Hook
 # Version: x.y.z
 # Status: [active|review|deprecated]
 # Description: [Mô tả ngắn gọn chức năng]
@@ -88,18 +88,18 @@ Không xóa review cũ. Chúng là bằng chứng audit trail.
 Release zips trong `releases/` làm repo phình to với mỗi version. Quy tắc:
 
 ### Giữ trong repo (main branch)
-- `yamtam-engine-latest.zip` — symlink, luôn giữ
+- `yana-ai-latest.zip` — symlink, luôn giữ
 - Bản **hiện tại** (vừa build)
 - Bản **trước đó** (1 bản trước)
 
 ### Không giữ trong repo
 - Các bản cũ hơn 2 releases → đưa lên **GitHub Releases** để archive
-- Không commit `releases/yamtam-engine-v1.3.X-fixed.zip` cũ vào main
+- Không commit `releases/yana-ai-v1.3.X-fixed.zip` cũ vào main
 
 ### Cách archive lên GitHub Releases
 ```bash
-gh release create vX.Y.Z releases/yamtam-engine-vX.Y.Z-fixed.zip \
-  --title "YAMTAM ENGINE vX.Y.Z" --notes "See CHANGELOG.md"
+gh release create vX.Y.Z releases/yana-ai-vX.Y.Z-fixed.zip \
+  --title "Yana AI vX.Y.Z" --notes "See CHANGELOG.md"
 ```
 
 ### Rationale

@@ -56,7 +56,7 @@ Example for a hook output format bug:
 ### Impact
 
 Who is affected and under what conditions:
-- Agents running in a target project with YAMTAM pack installed
+- Agents running in a target project with Yana AI pack installed
 - Versions before the fix
 - Requires [conditions, e.g., "Codespaces environment" or "jq not installed"]
 
@@ -75,14 +75,14 @@ Changes made:
 ### Workarounds
 
 If upgrade is not possible:
-- Set `YAMTAM_<HOOK>_BYPASS=0` (or disable the hook entirely)
+- Set `YANA_<HOOK>_BYPASS=0` (or disable the hook entirely)
 - Manually add the missing guard to your local copy
 
 ---
 
 ### References
 
-- Commit: https://github.com/phamlongh230-lgtm/yamtam-engine/commit/<sha>
+- Commit: https://github.com/phamlongh230-lgtm/yana-ai/commit/<sha>
 - Related incident: [Replit July 2025 / PocketOS April 2026 / other]
 - CWE: https://cwe.mitre.org/data/definitions/XXX.html
 

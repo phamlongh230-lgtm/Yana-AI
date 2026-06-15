@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yamtam init [target] — interactive setup wizard."""
+"""yana-ai init [target] — interactive setup wizard."""
 
 import argparse
 import json
@@ -17,7 +17,7 @@ BOLD   = "\033[1m"; GREEN  = "\033[32m"; YELLOW = "\033[33m"
 RED    = "\033[31m"; CYAN   = "\033[36m"; DIM    = "\033[2m"; RESET  = "\033[0m"
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -95,8 +95,8 @@ def generate_settings(profile: str) -> dict:
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="yamtam init",
-        description="Interactive yamtam setup wizard",
+        prog="yana-ai init",
+        description="Interactive yana-ai setup wizard",
     )
     parser.add_argument("target", nargs="?", default=".",
                         help="Project directory (default: .)")
@@ -108,7 +108,7 @@ def main():
     yes    = args.yes
 
     print()
-    print(c(BOLD, "  yamtam init") + c(DIM, " — setup wizard"))
+    print(c(BOLD, "  yana-ai init") + c(DIM, " — setup wizard"))
     print(c(DIM,  f"  Target: {target}"))
     print()
     print(c(DIM, "  Press Enter to accept default. Ctrl+C to cancel."))
@@ -138,7 +138,7 @@ def main():
 
     # ── Step 4: CI integration ────────────────────────────────────────────────
     section("4. CI Integration")
-    print(f"  Add yamtam-audit.yml GitHub Actions workflow?")
+    print(f"  Add yana-ai-audit.yml GitHub Actions workflow?")
     add_ci = "y" if yes else ask("Add CI workflow", "y", ["y", "n"])
 
     # ── Summary ───────────────────────────────────────────────────────────────
@@ -165,14 +165,14 @@ def main():
     def skipped(label):
         print(c(DIM, f"  · {label} (already exists)"))
 
-    # .yamtamignore
-    ig_path = os.path.join(target, ".yamtamignore")
+    # .yana-aiignore
+    ig_path = os.path.join(target, ".yana-aiignore")
     if not os.path.exists(ig_path):
         with open(ig_path, "w") as f:
-            f.write("# .yamtamignore — suppress known-safe findings\n")
-        wrote(".yamtamignore")
+            f.write("# .yana-aiignore — suppress known-safe findings\n")
+        wrote(".yana-aiignore")
     else:
-        skipped(".yamtamignore")
+        skipped(".yana-aiignore")
 
     # .claude/settings.json (as recommended)
     settings_dir  = os.path.join(target, ".claude")
@@ -188,25 +188,25 @@ def main():
 
     # .gitignore
     gi_path = os.path.join(target, ".gitignore")
-    gi_entry = "\n# YAMTAM\n.yamtam/\nyamtam-*.html\nyamtam-*.sarif\n"
+    gi_entry = "\n# Yana AI\n.yana-ai/\nyana-ai-*.html\nyana-ai-*.sarif\n"
     existing = open(gi_path).read() if os.path.exists(gi_path) else ""
-    if "# YAMTAM" not in existing:
+    if "# Yana AI" not in existing:
         with open(gi_path, "a") as f:
             f.write(gi_entry)
-        wrote(".gitignore — added YAMTAM entries")
+        wrote(".gitignore — added Yana AI entries")
     else:
-        skipped(".gitignore (already has YAMTAM entries)")
+        skipped(".gitignore (already has Yana AI entries)")
 
     # CI workflow
     if add_ci.lower() == "y":
-        wf_src  = os.path.join(REPO_ROOT, ".github", "workflows", "yamtam-audit.yml")
-        wf_dest = os.path.join(target, ".github", "workflows", "yamtam-audit.yml")
+        wf_src  = os.path.join(REPO_ROOT, ".github", "workflows", "yana-ai-audit.yml")
+        wf_dest = os.path.join(target, ".github", "workflows", "yana-ai-audit.yml")
         if not os.path.exists(wf_dest) and os.path.exists(wf_src):
             os.makedirs(os.path.dirname(wf_dest), exist_ok=True)
             shutil.copy2(wf_src, wf_dest)
-            wrote(".github/workflows/yamtam-audit.yml")
+            wrote(".github/workflows/yana-ai-audit.yml")
         else:
-            skipped("yamtam-audit.yml")
+            skipped("yana-ai-audit.yml")
 
     # Guards
     if install_guards.lower() == "y":
@@ -242,8 +242,8 @@ def main():
     print()
     print("  Next steps:")
     print(f"  1. Review .claude/settings.recommended.json → rename to settings.json")
-    print(f"  2. Run: yamtam audit {target if target != os.getcwd() else '.'}")
-    print(f"  3. Run: yamtam verify  — check hook wiring")
+    print(f"  2. Run: yana-ai audit {target if target != os.getcwd() else '.'}")
+    print(f"  3. Run: yana-ai verify  — check hook wiring")
     print()
 
 

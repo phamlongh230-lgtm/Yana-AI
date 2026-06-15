@@ -35,13 +35,13 @@ Every agent action that crosses a system boundary (tool call, Bus message, file 
 ## Log Aggregation
 
 All spans MUST be labeled with Loki-compatible labels before shipping:
-- `env=yamtam`, `agent_id=<id>`, `fortress=<I–X>`, `severity=<INFO|WARN|BLOCK>`
+- `env=yana-ai`, `agent_id=<id>`, `fortress=<I–X>`, `severity=<INFO|WARN|BLOCK>`
 
 Audit trail compression: logs older than 7 days are compressed to `.gz` and SHA256-checksummed before archival.
 
 ## SIEM Export
 
-Security-relevant spans (BLOCK, QUARANTINE, HONEY_TRIP, DEADMAN_TRIGGER) are forwarded to `YAMTAM_SIEM_ENDPOINT` if set. Format: CEF (Common Event Format) over HTTPS.
+Security-relevant spans (BLOCK, QUARANTINE, HONEY_TRIP, DEADMAN_TRIGGER) are forwarded to `YANA_SIEM_ENDPOINT` if set. Format: CEF (Common Event Format) over HTTPS.
 
 ## Prohibited
 

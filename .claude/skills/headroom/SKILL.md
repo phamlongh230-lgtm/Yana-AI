@@ -1,6 +1,6 @@
 ---
 name: headroom
-description: Context compression for YAMTAM — nén JSON/structured tool output trước khi vào LLM. Hiệu quả với JSON (50-72% tiết kiệm); text thuần cần bản [all].
+description: Context compression for Yana AI — nén JSON/structured tool output trước khi vào LLM. Hiệu quả với JSON (50-72% tiết kiệm); text thuần cần bản [all].
 triggers:
   - headroom
   - compress context
@@ -87,7 +87,7 @@ headroom mcp install
 # Tools: headroom_compress, headroom_retrieve, headroom_stats
 ```
 
-## Tích hợp YAMTAM hooks
+## Tích hợp Yana AI hooks
 
 ```json
 {

@@ -24,8 +24,8 @@ List every file in the diff. For each file, classify:
 
 | File | Classification |
 |------|---------------|
-| `core/**` | ✅ YAMTAM scope — expected |
-| `docs/**` | ✅ YAMTAM scope — expected |
+| `core/**` | ✅ Yana AI scope — expected |
+| `docs/**` | ✅ Yana AI scope — expected |
 | `app/**` | ⚠️  Product scope — was this intentional? |
 | `src/**` | ⚠️  Product scope — was this intentional? |
 | `.env*` | 🛑 Secret risk — should NOT be committed |
@@ -60,7 +60,7 @@ Do NOT flag:
 === /diff-review ===
 Files changed: N
 
-Scope: [all YAMTAM | product files touched: list them]
+Scope: [all Yana AI | product files touched: list them]
 
 Issues found:
 - [CRITICAL] file:line — [exact problem]

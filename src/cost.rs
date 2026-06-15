@@ -30,7 +30,7 @@ fn tier_rates(tier: &str) -> (f64, f64) {
 
 fn ledger_path() -> PathBuf {
     let base = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
-    base.join(".yamtam").join("ledger.jsonl")
+    base.join(".yana-ai").join("ledger.jsonl")
 }
 
 fn read_ledger() -> Vec<CostEntry> {
@@ -104,7 +104,7 @@ pub fn cmd_cost_log(
 pub fn cmd_cost_show() {
     let entries = read_ledger();
     if entries.is_empty() {
-        println!("No cost data.\nLog with: yamtam-rt cost log <task> <tier> <model> <in> <out>");
+        println!("No cost data.\nLog with: yana-rt cost log <task> <tier> <model> <in> <out>");
         return;
     }
     let total_cost: f64 = entries.iter().map(|e| e.cost_usd).sum();

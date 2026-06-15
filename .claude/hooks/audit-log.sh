@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Hook
+# Yana AI Hook
 # Version: 1.3.26
 # Status: active
 # Description: Hash-chain audit log — tamper-evident JSONL of every tool call
 # Last Reviewed: 2026-05-19
-# PostToolUse hook — YAMTAM ENGINE Hash-Chain Audit Log
+# PostToolUse hook — Yana AI Hash-Chain Audit Log
 # Each JSONL entry includes a SHA-256 hash of its content + previous entry hash.
 # If any entry is tampered, all subsequent hashes break — independently verifiable
 # by core/scripts/verify-audit-chain.sh.
@@ -13,7 +13,7 @@ set -uo pipefail
 command -v jq >/dev/null 2>&1 || exit 0
 command -v sha256sum >/dev/null 2>&1 || exit 0
 
-GENESIS_HASH=$(printf 'YAMTAM_GENESIS' | sha256sum | awk '{print $1}')
+GENESIS_HASH=$(printf 'YANA_GENESIS' | sha256sum | awk '{print $1}')
 
 INPUT=$(cat)
 TOOL_NAME=$(printf '%s' "$INPUT" | jq -r '.tool_name // ""' 2>/dev/null || true)

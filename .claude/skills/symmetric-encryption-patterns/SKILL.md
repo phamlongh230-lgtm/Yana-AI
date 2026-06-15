@@ -1,10 +1,10 @@
 ---
 name: symmetric-encryption-patterns
 description: AES-256 symmetric encryption for agent memory cache protection. CryptoJS AES encrypt/decrypt, HMAC integrity, secure key derivation, and encrypting agent session state at rest. Sources: brix/crypto-js.
-origin: yamtam-engine — synthesized from brix/crypto-js (MIT)
+origin: yana-ai — synthesized from brix/crypto-js (MIT)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.49
+compatibility: yana-ai >= 1.3.49
 ---
 
 # /symmetric-encryption-patterns
@@ -62,7 +62,7 @@ function hmacVerify(data: string, keyHex: string, expectedHmac: string): boolean
 
 // Usage: sign before appending to audit log
 const logEntry  = JSON.stringify({ ts: Date.now(), action: 'exec', cmd: 'ls' })
-const tag       = hmacSign(logEntry, process.env.YAMTAM_HMAC_KEY!)
+const tag       = hmacSign(logEntry, process.env.YANA_HMAC_KEY!)
 const logLine   = JSON.stringify({ entry: logEntry, hmac: tag })
 ```
 
@@ -96,7 +96,7 @@ encrypt_file() {
 const CryptoJS = require('crypto-js')
 const fs       = require('fs')
 const plain    = fs.readFileSync('$file', 'utf8')
-const enc      = CryptoJS.AES.encrypt(plain, process.env.YAMTAM_MEM_KEY).toString()
+const enc      = CryptoJS.AES.encrypt(plain, process.env.YANA_MEM_KEY).toString()
 fs.writeFileSync('$file.enc', enc)
 console.log('[encrypt] $file → $file.enc')
 "

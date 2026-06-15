@@ -299,6 +299,6 @@ fn detect_frameworks(root: &str, out: &mut HashSet<String>) {
 pub fn load_graph(target: &str) -> Result<GraphData> {
     let path = Path::new(target).join(GRAPH_DIR).join(GRAPH_FILE);
     let s = std::fs::read_to_string(&path)
-        .map_err(|_| anyhow::anyhow!("No graph found. Run: yamtam-rt graph build {}", target))?;
+        .map_err(|_| anyhow::anyhow!("No graph found. Run: yana-rt graph build {}", target))?;
     Ok(serde_json::from_str(&s)?)
 }

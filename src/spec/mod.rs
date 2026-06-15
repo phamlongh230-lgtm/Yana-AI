@@ -5,7 +5,7 @@ use std::path::Path;
 
 #[derive(Subcommand, Debug)]
 pub enum SpecAction {
-    /// Validate a task spec file against the yamtam spec schema
+    /// Validate a task spec file against the yana-ai spec schema
     Validate {
         file: String,
         #[arg(long)] json: bool,

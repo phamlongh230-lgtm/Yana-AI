@@ -15,12 +15,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
-SPEC_SCHEMA = ROOT / ".yamtam/schemas/spec.schema.json"
-RUNLOG_SCHEMA = ROOT / ".yamtam/schemas/run-log.schema.json"
-SPEC_MIN = ROOT / ".yamtam/schemas/examples/spec.min.json"
-SPEC_FULL = ROOT / ".yamtam/schemas/examples/spec.full.json"
-RUNLOG_MIN = ROOT / ".yamtam/schemas/examples/run-log.min.json"
-RUNLOG_FULL = ROOT / ".yamtam/schemas/examples/run-log.full.json"
+SPEC_SCHEMA = ROOT / ".yana-ai/schemas/spec.schema.json"
+RUNLOG_SCHEMA = ROOT / ".yana-ai/schemas/run-log.schema.json"
+SPEC_MIN = ROOT / ".yana-ai/schemas/examples/spec.min.json"
+SPEC_FULL = ROOT / ".yana-ai/schemas/examples/spec.full.json"
+RUNLOG_MIN = ROOT / ".yana-ai/schemas/examples/run-log.min.json"
+RUNLOG_FULL = ROOT / ".yana-ai/schemas/examples/run-log.full.json"
 
 
 def _load(path: Path):

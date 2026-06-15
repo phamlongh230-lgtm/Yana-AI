@@ -1,10 +1,10 @@
 ---
 name: istio-traffic-management
 description: Istio service mesh traffic management for agent clusters. VirtualService routing, DestinationRule load balancing, circuit breaking, canary deployments, mTLS policies, and fault injection. Sources: istio/istio (Apache-2.0).
-origin: yamtam-engine — synthesized from istio/istio (Apache-2.0)
+origin: yana-ai — synthesized from istio/istio (Apache-2.0)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.52
+compatibility: yana-ai >= 1.3.52
 ---
 
 # /istio-traffic-management
@@ -30,20 +30,20 @@ compatibility: yamtam-engine >= 1.3.52
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: yamtam-agent
+  name: yana-ai-agent
 spec:
   hosts:
-    - yamtam-agent
+    - yana-ai-agent
   http:
     - match:
         - headers:
             x-canary: { exact: "true" }   # force canary for testers
       route:
-        - destination: { host: yamtam-agent, subset: v2 }
+        - destination: { host: yana-ai-agent, subset: v2 }
     - route:
-        - destination: { host: yamtam-agent, subset: v1 }
+        - destination: { host: yana-ai-agent, subset: v1 }
           weight: 90
-        - destination: { host: yamtam-agent, subset: v2 }
+        - destination: { host: yana-ai-agent, subset: v2 }
           weight: 10
 ```
 
@@ -55,9 +55,9 @@ spec:
 apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
-  name: yamtam-agent
+  name: yana-ai-agent
 spec:
-  host: yamtam-agent
+  host: yana-ai-agent
   trafficPolicy:
     connectionPool:
       http:
@@ -82,12 +82,12 @@ spec:
 ## Mutual TLS policy (auto-encrypt all agent traffic)
 
 ```yaml
-# PeerAuthentication: require mTLS in yamtam namespace
+# PeerAuthentication: require mTLS in yana-ai namespace
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
-  name:      yamtam-mtls
-  namespace: yamtam
+  name:      yana-ai-mtls
+  namespace: yana-ai
 spec:
   mtls:
     mode: STRICT   # reject plaintext connections
@@ -98,14 +98,14 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: agent-b-authz
-  namespace: yamtam
+  namespace: yana-ai
 spec:
   selector:
     matchLabels: { app: agent-b }
   action: ALLOW
   rules:
     - from:
-        - source: { principals: ["cluster.local/ns/yamtam/sa/agent-a"] }
+        - source: { principals: ["cluster.local/ns/yana-ai/sa/agent-a"] }
       to:
         - operation: { methods: ["POST"], paths: ["/task/*"] }
 ```

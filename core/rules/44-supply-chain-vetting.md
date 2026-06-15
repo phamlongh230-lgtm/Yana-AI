@@ -9,7 +9,7 @@
 ## Rule
 
 No external package, script, or binary may be installed or executed without passing
-YAMTAM's supply chain vetting gate. Agents MUST NOT run `npm install`, `pip install`,
+Yana AI's supply chain vetting gate. Agents MUST NOT run `npm install`, `pip install`,
 `cargo add`, `brew install`, or equivalent without completing this checklist first.
 
 ---
@@ -132,7 +132,7 @@ Running `npm ci` or `pip install -r requirements.txt --require-hashes` is always
 ## Violation Response
 
 ```
-[yamtam/44-supply-chain-vetting] BLOCKED — supply chain gate not passed
+[yana-ai/44-supply-chain-vetting] BLOCKED — supply chain gate not passed
   Package  : <name>@<version>
   Reason   : <typosquatting | unpinned | script injection | audit fail | too new>
   Action   : Install blocked. Human must approve after reviewing vetting report.

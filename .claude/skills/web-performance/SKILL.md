@@ -16,7 +16,7 @@ compatibility: "Any web frontend. Framework-agnostic patterns + Webpack/Vite/Rol
 
 <!-- Adapted from secondsky/claude-skills (MIT) — web-performance-optimization and
      web-performance-audit skills. Core Web Vitals targets, audit process, optimization
-     timeline. YAMTAM structure, per-metric diagnosis tables, and Anti-Fake-Pass are original. -->
+     timeline. Yana AI structure, per-metric diagnosis tables, and Anti-Fake-Pass are original. -->
 
 ## When to Use
 

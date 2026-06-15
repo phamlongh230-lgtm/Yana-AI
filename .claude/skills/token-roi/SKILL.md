@@ -1,7 +1,7 @@
 ---
 name: token-roi
 description: Token budget analytics and ROI scoring for AI agent actions. Track token cost per fix, detect wasteful loops, auto-route to fast tier when burn rate is too high. Integrates with token-budget-guard.sh hook. Triggered by /cost-report, "how much did that cost", "token usage", "am I wasting tokens".
-origin: yamtam-original — Financial Guardrails layer
+origin: yana-ai-original — Financial Guardrails layer
 license: MIT
 version: 1.0.0
 compatibility: Claude Code, Anthropic API
@@ -65,7 +65,7 @@ fast_triggered = d.get('fast_tier_triggered', False)
 cost_usd = (total / 1_000_000) * 9  # avg input+output blended
 
 print("=" * 50)
-print(" YAMTAM Token ROI Report")
+print(" Yana AI Token ROI Report")
 print("=" * 50)
 print(f" Session start : {d.get('session_start', 'unknown')}")
 print(f" Total tokens  : {total:,}")
@@ -141,9 +141,9 @@ def roi_score(tokens_used: int, bugs_fixed: int, tests_passed: int) -> float:
 
 ```bash
 # Override via environment variables
-export YAMTAM_MAX_LOOP_TOKENS=50000   # ~$0.15 at Sonnet — warn threshold
-export YAMTAM_MAX_FIX_ATTEMPTS=5      # tool call loop limit before fast-tier
-export YAMTAM_TOKEN_BUDGET=core/memory/L2_session/token-budget.json
+export YANA_MAX_LOOP_TOKENS=50000   # ~$0.15 at Sonnet — warn threshold
+export YANA_MAX_FIX_ATTEMPTS=5      # tool call loop limit before fast-tier
+export YANA_TOKEN_BUDGET=core/memory/L2_session/token-budget.json
 ```
 
 ---

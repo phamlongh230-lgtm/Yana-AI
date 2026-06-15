@@ -1,5 +1,5 @@
 
-# ── Added by: yamtam policy apply gitignore-ai ────────────────────────────────
+# ── Added by: yana-ai policy apply gitignore-ai ────────────────────────────────
 # Blocks secrets, credentials, and AI agent state files from being tracked.
 
 # Environment / secrets

@@ -15,7 +15,7 @@
     "electron-builder": "24.13.3"
   },
   "build": {
-    "appId": "com.yamtam.yana",
+    "appId": "com.yana-ai.yana",
     "productName": "Yana AI",
     "copyright": "Copyright © 2026 Vũ Văn Tâm",
     "icon": "build/icon.png",

@@ -2,7 +2,7 @@
 /**
  * codegraph-init.js — Knowledge Tree Builder (SQLite)
  *
- * Scans the YAMTAM codebase and maps all files, rules, skills, gates, and
+ * Scans the Yana AI codebase and maps all files, rules, skills, gates, and
  * their relationships into a SQLite knowledge graph. Agents query this graph
  * instead of re-reading the filesystem, cutting redundant token consumption
  * by ~70% on repeated lookups.
@@ -10,7 +10,7 @@
  * Usage:
  *   node core/knowledge/codegraph-init.js            — full rebuild
  *   node core/knowledge/codegraph-init.js --dry-run  — print stats only
- *   YAMTAM_CODEGRAPH_PATH=path node ...              — custom db path
+ *   YANA_CODEGRAPH_PATH=path node ...              — custom db path
  *
  * Schema:
  *   nodes (id, type, name, path, description, layer, metadata_json)
@@ -23,9 +23,9 @@ import { readdirSync, statSync, readFileSync, existsSync } from 'fs';
 import { join, extname, basename, dirname } from 'path';
 import { mkdirSync } from 'fs';
 
-const DB_PATH  = process.env.YAMTAM_CODEGRAPH_PATH ?? 'core/knowledge/codegraph.db';
+const DB_PATH  = process.env.YANA_CODEGRAPH_PATH ?? 'core/knowledge/codegraph.db';
 const DRY_RUN  = process.argv.includes('--dry-run');
-const ROOT     = process.env.YAMTAM_ROOT ?? '.';
+const ROOT     = process.env.YANA_ROOT ?? '.';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 

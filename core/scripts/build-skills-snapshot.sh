@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE — Skills Snapshot Builder
+# Yana AI — Skills Snapshot Builder
 #
 # Generates a compact index of all skills (name + description + key triggers)
 # for use as a cached context block in API calls. Reduces token usage by ~90%
@@ -18,7 +18,7 @@ mkdir -p "$(dirname "$OUTPUT_FILE")"
 SKILL_COUNT=0
 SNAPSHOT=""
 
-SNAPSHOT+="# YAMTAM Skills Snapshot\n"
+SNAPSHOT+="# Yana AI Skills Snapshot\n"
 SNAPSHOT+="# Generated: $(date -Iseconds)\n"
 SNAPSHOT+="# Use as cached system context block (prompt-caching-strategy)\n\n"
 

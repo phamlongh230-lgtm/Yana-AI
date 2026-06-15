@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="./docs/logo-chatgpt.png" alt="YAMTAM" width="160" />
+  <img src="./docs/logo-chatgpt.png" alt="Yana AI" width="160" />
 </p>
 
-<h1 align="center">YAMTAM ENGINE</h1>
+<h1 align="center">Yana AI</h1>
 
 <p align="center">
   <strong>Lớp điều phối giữa con người và AI — định tuyến, bảo mật và ngữ cảnh cho mọi lĩnh vực.</strong>
@@ -17,21 +17,21 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/phamlongh230-lgtm/yamtam-engine/actions/workflows/ci.yml">
-    <img src="https://github.com/phamlongh230-lgtm/yamtam-engine/actions/workflows/ci.yml/badge.svg" alt="CI" />
+  <a href="https://github.com/phamlongh230-lgtm/yana-ai/actions/workflows/ci.yml">
+    <img src="https://github.com/phamlongh230-lgtm/yana-ai/actions/workflows/ci.yml/badge.svg" alt="CI" />
   </a>
   <img src="https://img.shields.io/badge/version-v0.41.0-orange?style=for-the-badge" />
   <img src="https://img.shields.io/badge/license-Apache_2.0-blue?style=for-the-badge" />
-  <a href="https://www.npmjs.com/package/yamtam-engine">
-    <img src="https://img.shields.io/npm/v/yamtam-engine?style=for-the-badge&logo=npm&color=cb3837" />
+  <a href="https://www.npmjs.com/package/yana-ai">
+    <img src="https://img.shields.io/npm/v/yana-ai?style=for-the-badge&logo=npm&color=cb3837" />
   </a>
-  <a href="https://crates.io/crates/yamtam-rt">
-    <img src="https://img.shields.io/crates/v/yamtam-rt?style=for-the-badge&logo=rust&color=ce422b" />
+  <a href="https://crates.io/crates/yana-rt">
+    <img src="https://img.shields.io/crates/v/yana-rt?style=for-the-badge&logo=rust&color=ce422b" />
   </a>
-  <a href="https://pypi.org/project/yamtam-engine/">
-    <img src="https://img.shields.io/pypi/v/yamtam-engine?style=for-the-badge&logo=pypi&color=3775a9" />
+  <a href="https://pypi.org/project/yana-ai/">
+    <img src="https://img.shields.io/pypi/v/yana-ai?style=for-the-badge&logo=pypi&color=3775a9" />
   </a>
-  <a href="https://github.com/marketplace/yamtam-engine">
+  <a href="https://github.com/marketplace/yana-ai">
     <img src="https://img.shields.io/badge/GitHub-Marketplace-2ea44f?style=for-the-badge&logo=github" />
   </a>
 </p>
@@ -48,17 +48,17 @@
 
 ---
 
-**YAMTAM ENGINE** là một hệ điều hành agent cá nhân dành cho các công cụ lập trình AI — bao gồm các hook bảo mật runtime, các tầng bộ nhớ, 97 agent chuyên trách, 3,518 kỹ năng và một runtime viết bằng Rust giúp chặn các hành động nguy hiểm của AI trước khi chúng được thực thi.
+**Yana AI** là một hệ điều hành agent cá nhân dành cho các công cụ lập trình AI — bao gồm các hook bảo mật runtime, các tầng bộ nhớ, 97 agent chuyên trách, 3,518 kỹ năng và một runtime viết bằng Rust giúp chặn các hành động nguy hiểm của AI trước khi chúng được thực thi.
 
 Hoạt động với **Claude Code**, **Cursor**, **Windsurf**, **Antigravity**, **Kiro**, **OpenCode**, **Zed**, **Gemini**, **GitHub Copilot**, **Aider**, và nhiều công cụ khác.
 
 <p align="center">
-  <img src="./docs/demo.gif" alt="Hệ thống gate YAMTAM chặn rm -rf, pipe-to-shell, prompt injection và lệnh xóa production chưa duyệt — bản ghi thật" width="720" />
+  <img src="./docs/demo.gif" alt="Hệ thống gate Yana AI chặn rm -rf, pipe-to-shell, prompt injection và lệnh xóa production chưa duyệt — bản ghi thật" width="720" />
 </p>
 
 > **Mới trong v0.41.0:** [Yana task router](#bộ-định-tuyến-tác-vụ-yana) — tự động phân loại mọi tác vụ thành đơn giản/phức tạp/bên ngoài/**học tập**/**hàng ngày** và điều phối agent. [Yana AI](#yana-ai) chạy trên **100% dữ liệu thực** — kho khóa mã hóa (AES-256-GCM), thống kê provider trực tiếp, bộ nhớ L1 thật và bảng điều khiển audit-log. [Mission dispatcher](#hệ-thống-điều-phối-nhiệm-vụ-mission-dispatcher) — điều phối agent song song theo làn sóng (wave-based), viết bằng Rust. **Core-lock** — manifest SHA-256 ghim 216 tệp cốt lõi chống can thiệp trái phép (quy tắc 67).
 
-**→ [Tài liệu đầy đủ & demo](https://phamlongh230-lgtm.github.io/yamtam-engine/)** · **[GitHub Marketplace](https://github.com/marketplace/yamtam-engine)**
+**→ [Tài liệu đầy đủ & demo](https://phamlongh230-lgtm.github.io/yana-ai/)** · **[GitHub Marketplace](https://github.com/marketplace/yana-ai)**
 
 → [VISION.md](VISION.md) · [ARCHITECTURE.md](ARCHITECTURE.md) · [ROADMAP.md](ROADMAP.md)
 
@@ -71,21 +71,21 @@ Hoạt động với **Claude Code**, **Cursor**, **Windsurf**, **Antigravity**,
 Đừng tin lời README này — hãy cài engine, rồi yêu cầu trợ lý AI của bạn làm một việc đáng lẽ không nên làm, và xem các gate chặn lại trước:
 
 ```bash
-npm install yamtam-engine && npx yamtam-install   # nối hooks (60 giây)
-yamtam doctor .                                   # kiểm tra mọi thứ đã sẵn sàng
+npm install yana-ai && npx yana-ai-install   # nối hooks (60 giây)
+yana-ai doctor .                                   # kiểm tra mọi thứ đã sẵn sàng
 ```
 
 Thử ngay: bảo agent `git push --force`, pipe một script từ internet vào bash, hay đọc file `.env` — mọi nỗ lực đều bị chặn, được giải thích rõ lý do, và ghi vào audit log. Khoảnh khắc đó chính là toàn bộ giá trị của dự án.
 
-Dự án được xây dựng bởi một bạn 17 tuổi ở Việt Nam — nghĩa là phản hồi từ thực tế của bạn là món quà giá trị nhất. Nếu có gì chặn quá tay, lọt lưới, hay gây khó hiểu: [mở issue](https://github.com/phamlongh230-lgtm/yamtam-engine/issues). Mỗi báo cáo đều giúp các gate sắc bén hơn.
+Dự án được xây dựng bởi một bạn 17 tuổi ở Việt Nam — nghĩa là phản hồi từ thực tế của bạn là món quà giá trị nhất. Nếu có gì chặn quá tay, lọt lưới, hay gây khó hiểu: [mở issue](https://github.com/phamlongh230-lgtm/yana-ai/issues). Mỗi báo cáo đều giúp các gate sắc bén hơn.
 
 ---
 
-## Tổng quan về YAMTAM
+## Tổng quan về Yana AI
 
 ```
 ┌──────────────────────────────────────────────────────────────────┐
-│                     YAMTAM ENGINE v0.41.0                        │
+│                     Yana AI v0.41.0                        │
 │        "Lớp điều phối giữa con người và AI — định tuyến,         │
 │          bảo mật và ngữ cảnh cho mọi lĩnh vực."                  │
 │                                                                  │
@@ -132,7 +132,7 @@ graph TB
     end
 
     %% ── Rust runtime ─────────────────────────────────────────────────────
-    subgraph RT["⚡ Rust Runtime — yamtam-rt"]
+    subgraph RT["⚡ Rust Runtime — yana-rt"]
         direction LR
         SCAN["scan · hunt · fix\nLỗ hổng, OWASP,\nchuỗi cung ứng — nhanh hơn 1256×"]
         ROUTE["route · mission\nPhân loại tác vụ → điều phối\nđơn giản/phức tạp/bên ngoài"]
@@ -164,7 +164,7 @@ graph TB
     CORE --> HARNESS
 ```
 
-> **Cách đọc sơ đồ:** mọi lượt gọi công cụ của AI đều chảy theo hướng `MISSION → GATES → CORE`. Runtime Rust (`yamtam-rt`) tăng tốc bộ quét. Các công cụ dự án con (yana-ai, v.v.) dùng chung hệ thống cổng bảo mật.
+> **Cách đọc sơ đồ:** mọi lượt gọi công cụ của AI đều chảy theo hướng `MISSION → GATES → CORE`. Runtime Rust (`yana-rt`) tăng tốc bộ quét. Các công cụ dự án con (yana-ai, v.v.) dùng chung hệ thống cổng bảo mật.
 
 ---
 
@@ -172,7 +172,7 @@ graph TB
 
 Các agent lập trình AI thường mắc sai lầm. Chúng `rm -rf` nhầm thư mục. Chúng force push lên main. Chúng bịa kết quả kiểm thử. Chúng vô tình commit secrets. Đến khi bạn nhận ra thì thiệt hại đã xảy ra rồi.
 
-YAMTAM nằm giữa agent và hệ thống của bạn — mọi lượt gọi công cụ đều phải đi qua cổng an toàn 9 lớp trước khi thực thi.
+Yana AI nằm giữa agent và hệ thống của bạn — mọi lượt gọi công cụ đều phải đi qua cổng an toàn 9 lớp trước khi thực thi.
 
 ---
 
@@ -214,30 +214,30 @@ Thực thi (hoặc chặn + ghi log)
 
 ## Cài đặt nhanh
 
-**→ [Cài từ GitHub Marketplace](https://github.com/marketplace/yamtam-engine)** — một cú click, listing chính thức.
+**→ [Cài từ GitHub Marketplace](https://github.com/marketplace/yana-ai)** — một cú click, listing chính thức.
 
 ```bash
-# Plugin Claude Code — npx yamtam-install kết nối hook
+# Plugin Claude Code — npx yana-ai-install kết nối hook
 # (bắt buộc: npm v12+ mặc định không chạy postinstall script nữa)
-npm install yamtam-engine && npx yamtam-install
+npm install yana-ai && npx yana-ai-install
 
 # Python CLI
-pip install yamtam-engine
+pip install yana-ai
 
 # Runtime Rust (bộ quét nhanh hơn 1256 lần)
-cargo install yamtam-rt
+cargo install yana-rt
 ```
 
 ```bash
 # Xác minh mọi thứ đã kết nối đúng
-yamtam doctor .
+yana-ai doctor .
 ```
 
 ---
 
 ## Hỗ trợ đa harness
 
-YAMTAM tự thích ứng với công cụ bạn đang dùng:
+Yana AI tự thích ứng với công cụ bạn đang dùng:
 
 ```bash
 bash core/scripts/switch-engine.sh cursor    # .cursorrules + 7 .cursor/rules/*.mdc
@@ -255,8 +255,8 @@ bash core/scripts/switch-engine.sh status    # kiểm tra cả 15 adapter
 Quét cấu hình agent AI của bất kỳ repo nào trên mỗi PR — secrets, quyền hạn, hook injection, lỗ hổng MCP.
 
 ```yaml
-# .github/workflows/yamtam-scan.yml
-- uses: phamlongh230-lgtm/yamtam-engine/.github/actions/scan@main
+# .github/workflows/yana-ai-scan.yml
+- uses: phamlongh230-lgtm/yana-ai/.github/actions/scan@main
   with:
     fail-on: 'high'       # fail CI khi phát hiện mức HIGH hoặc CRITICAL
     diff-only: 'true'     # chỉ quét các tệp thay đổi trên PR
@@ -266,7 +266,7 @@ Quét cấu hình agent AI của bất kỳ repo nào trên mỗi PR — secrets
 Tự động đăng comment trên mỗi PR:
 
 ```
-🟠 YAMTAM Security Scan — HIGH
+🟠 Yana AI Security Scan — HIGH
 
 | Tiêu chí  | Giá trị |
 |-----------|---------|
@@ -279,24 +279,24 @@ Tự động đăng comment trên mỗi PR:
 
 ---
 
-## Runtime Rust — `yamtam-rt`
+## Runtime Rust — `yana-rt`
 
 19 lệnh con. Hoàn toàn không phụ thuộc Python.
 
 ```bash
-yamtam scan .                        # quét bảo mật — secrets, CVE, rủi ro chuỗi cung ứng
-yamtam graph .                       # đồ thị tri thức — phụ thuộc tệp, phân giải import
-yamtam vault search Q                # tìm trong 3,518 kỹ năng theo từ khóa
-yamtam hunt .                        # săn các mẫu bảo mật (OWASP, injection, SSRF)
-yamtam fix .                         # tự động sửa vi phạm quy tắc
-yamtam doctor .                      # kiểm tra sức khỏe toàn hệ thống
-yamtam map .                         # bản đồ bán kính ảnh hưởng — agent chạm được vào đâu?
-yamtam ci                            # chạy tất cả kiểm tra cổng (dùng trong CI)
-yamtam route classify "fix auth bug" # phân loại tác vụ → đơn giản/phức tạp/bên ngoài
-yamtam mission create "add-auth"     # tạo mission agent song song
+yana-ai scan .                        # quét bảo mật — secrets, CVE, rủi ro chuỗi cung ứng
+yana-ai graph .                       # đồ thị tri thức — phụ thuộc tệp, phân giải import
+yana-ai vault search Q                # tìm trong 3,518 kỹ năng theo từ khóa
+yana-ai hunt .                        # săn các mẫu bảo mật (OWASP, injection, SSRF)
+yana-ai fix .                         # tự động sửa vi phạm quy tắc
+yana-ai doctor .                      # kiểm tra sức khỏe toàn hệ thống
+yana-ai map .                         # bản đồ bán kính ảnh hưởng — agent chạm được vào đâu?
+yana-ai ci                            # chạy tất cả kiểm tra cổng (dùng trong CI)
+yana-ai route classify "fix auth bug" # phân loại tác vụ → đơn giản/phức tạp/bên ngoài
+yana-ai mission create "add-auth"     # tạo mission agent song song
 ```
 
-**Benchmark:** `yamtam scan` trên repo 10k tệp: **nhanh hơn 1256 lần** so với bản Python tương đương.
+**Benchmark:** `yana-ai scan` trên repo 10k tệp: **nhanh hơn 1256 lần** so với bản Python tương đương.
 
 ---
 
@@ -331,19 +331,19 @@ Các thuộc tính chính:
 
 ```bash
 # Agent thử: git push --force origin main
-[yamtam/02-terminal-validator] BLOCKED — nghiêm cấm force push
+[yana-ai/02-terminal-validator] BLOCKED — nghiêm cấm force push
   Lệnh      : git push --force origin main
   Cổng chặn : L1
   Cách sửa  : Chạy kiểm tra cổng trước, sau đó push không có --force
 
 # Agent thử: curl http://169.254.169.254/latest/meta-data/
-[yamtam/network-egress] BLOCKED — phát hiện mục tiêu SSRF
+[yana-ai/network-egress] BLOCKED — phát hiện mục tiêu SSRF
   Host      : 169.254.169.254
   Cổng chặn : L3
   Mã thoát  : 3
 
 # Agent thử cài gói chưa kiểm duyệt
-[yamtam/dependency-vetting] BLOCKED — cài đặt gói chưa qua kiểm duyệt
+[yana-ai/dependency-vetting] BLOCKED — cài đặt gói chưa qua kiểm duyệt
   Gói       : req-uests@2.28.0
   Lý do     : typosquatting (gần giống gói 'requests')
   Cổng chặn : L4
@@ -353,23 +353,23 @@ Các thuộc tính chính:
 
 ## Yana AI
 
-**[Dùng thử trực tuyến →](https://yamtam-engine-production.up.railway.app)**
+**[Dùng thử trực tuyến →](https://yana-ai-production.up.railway.app)**
 
-Yana là giao diện đầu tiên xây trên lõi YAMTAM — một web UI cho phép bất kỳ ai trò chuyện với AI, chuyển đổi provider và dùng định tuyến kỹ năng mà không cần biết gì về hạ tầng bên dưới.
+Yana là giao diện đầu tiên xây trên lõi Yana AI — một web UI cho phép bất kỳ ai trò chuyện với AI, chuyển đổi provider và dùng định tuyến kỹ năng mà không cần biết gì về hạ tầng bên dưới.
 
 ```
-Người dùng → Yana AI → YAMTAM Core (Định tuyến · Bảo mật · Ngữ cảnh) → Mô hình AI
+Người dùng → Yana AI → Yana AI Core (Định tuyến · Bảo mật · Ngữ cảnh) → Mô hình AI
 ```
 
 - Không cần đăng ký — dùng API key của chính bạn
 - 🔐 **Kho khóa mã hóa** — khóa lưu bằng AES-256-GCM, master key không thể trích xuất (WebCrypto + IndexedDB), không bao giờ ở dạng plaintext
 - Đa provider: Anthropic · Groq (Llama4 · Qwen3 · Gemma2) · Gemini 2.5 · OpenAI · DeepSeek · OpenRouter
 - 📊 **100% dữ liệu thực** — thống kê provider trực tiếp, vườn bộ nhớ L1, bảng sức khỏe audit-log; không có số liệu demo
-- Định tuyến kỹ năng tích hợp sẵn — gõ tự nhiên, YAMTAM tự điều phối đúng agent
+- Định tuyến kỹ năng tích hợp sẵn — gõ tự nhiên, Yana AI tự điều phối đúng agent
 - **Ngoài lập trình:** học tập (trợ lý học theo phương pháp Socratic), công việc hàng ngày (tóm tắt / lên kế hoạch / soạn thảo)
 - SSE streaming, thân thiện mobile · Phiên bản desktop Electron (`tools/yana-desktop`)
 
-Nếu YAMTAM là lưới điện, Yana là tòa nhà đầu tiên cắm vào dòng điện đó.
+Nếu Yana AI là lưới điện, Yana là tòa nhà đầu tiên cắm vào dòng điện đó.
 
 ---
 
@@ -378,32 +378,32 @@ Nếu YAMTAM là lưới điện, Yana là tòa nhà đầu tiên cắm vào dò
 Một người. Không đội ngũ. Không gọi vốn.
 
 - Kiến trúc hook, các cổng an toàn, Python CLI
-- Runtime Rust (`yamtam-rt`), 97 agent, 3,518 kỹ năng, hỗ trợ đa harness
+- Runtime Rust (`yana-rt`), 97 agent, 3,518 kỹ năng, hỗ trợ đa harness
 - 15 adapter harness (Claude Code, Cursor, Windsurf, Antigravity, Kiro, Zed, Gemini, Copilot, Aider…)
 
 3,518 kỹ năng bao phủ: frontend, backend, AI/LLM, bảo mật, Kubernetes, WebAssembly, DevOps, cơ sở dữ liệu, kiểm thử, và nhiều hơn nữa. Hai agent persona mới phục vụ nhu cầu ngoài lập trình: học tập (`hoc-tap`) và năng suất hàng ngày (`daily-assistant`).
 
 ---
 
-## Thêm YAMTAM vào repo của bạn
+## Thêm Yana AI vào repo của bạn
 
 **Huy hiệu tĩnh** — dán vào README của bạn:
 
 ```markdown
-[![Protected by YAMTAM](https://img.shields.io/badge/protected%20by-YAMTAM%20ENGINE-ff6b35?style=for-the-badge)](https://github.com/phamlongh230-lgtm/yamtam-engine)
+[![Protected by Yana AI](https://img.shields.io/badge/protected%20by-Yana AI%20ENGINE-ff6b35?style=for-the-badge)](https://github.com/phamlongh230-lgtm/yana-ai)
 ```
 
 **Huy hiệu audit động** — hiển thị điểm bảo mật trực tiếp:
 
 ```bash
-yamtam badge .           # in markdown huy hiệu kèm điểm số hiện tại
-yamtam badge . --json    # xuất định dạng máy đọc được
+yana-ai badge .           # in markdown huy hiệu kèm điểm số hiện tại
+yana-ai badge . --json    # xuất định dạng máy đọc được
 ```
 
 **GitHub Action** — tự động quét mỗi PR:
 
 ```yaml
-- uses: phamlongh230-lgtm/yamtam-engine/.github/actions/scan@main
+- uses: phamlongh230-lgtm/yana-ai/.github/actions/scan@main
   with:
     fail-on: 'high'
 ```
@@ -417,14 +417,14 @@ yamtam badge . --json    # xuất định dạng máy đọc được
 Mỗi tác vụ đều được phân loại trước khi thực thi — không còn phải đoán nên xử lý tại chỗ hay điều động agent.
 
 ```bash
-yamtam route classify "implement JWT refresh token"
+yana-ai route classify "implement JWT refresh token"
 # → { "route": "complex", "gate": "harness", "confidence": 0.36,
 #     "suggested_agents": ["security-engineer", "backend-developer"] }
 
-yamtam route classify "xem git log 10 commit"
+yana-ai route classify "xem git log 10 commit"
 # → { "route": "simple", "gate": "auto", "confidence": 0.43 }
 
-yamtam route classify "deploy to production"
+yana-ai route classify "deploy to production"
 # → { "route": "external", "gate": "confirm", "confidence": 0.30 }
 ```
 
@@ -446,26 +446,26 @@ Chọn agent theo chuyên môn: tác vụ auth → `security-engineer`, cơ sở
 
 ```bash
 # 1. Tạo mission
-MID=$(yamtam mission create "implement-auth" | awk '/id:/{print $2}')
+MID=$(yana-ai mission create "implement-auth" | awk '/id:/{print $2}')
 
 # 2. Khai báo task kèm phụ thuộc
-yamtam mission task $MID "design-schema"   --agent database-expert --produces schema.sql
-yamtam mission task $MID "implement-auth"  --agent backend-developer \
+yana-ai mission task $MID "design-schema"   --agent database-expert --produces schema.sql
+yana-ai mission task $MID "implement-auth"  --agent backend-developer \
   --consumes schema.sql --produces src/auth.ts
-yamtam mission task $MID "write-tests"     --agent test-engineer \
+yana-ai mission task $MID "write-tests"     --agent test-engineer \
   --consumes src/auth.ts --produces tests/auth.test.ts
 
 # 3. Dispatch làn sóng 1 — chỉ chạy task đã đủ điều kiện phụ thuộc
-yamtam mission dispatch $MID --max-parallel 3
+yana-ai mission dispatch $MID --max-parallel 3
 # → brief JSON cho từng agent sẵn sàng
 
 # 4. Đánh dấu hoàn thành, dispatch làn sóng tiếp theo
-yamtam mission done $MID "design-schema" --evidence schema.sql
-yamtam mission dispatch $MID  # → làn sóng 2 được mở khóa
+yana-ai mission done $MID "design-schema" --evidence schema.sql
+yana-ai mission dispatch $MID  # → làn sóng 2 được mở khóa
 
 # Hủy / thử lại task bị kẹt
-yamtam mission cancel $MID "implement-auth"
-yamtam mission retry  $MID "write-tests"
+yana-ai mission cancel $MID "implement-auth"
+yana-ai mission retry  $MID "write-tests"
 ```
 
 Task được đánh dấu **Running** ngay khi dispatch — chạy lại `dispatch` không bao giờ điều phối trùng cùng một task.
@@ -509,7 +509,7 @@ bash core/scripts/multi-agent-launch.sh start --tasks-file tasks.txt --concurren
 Output mẫu:
 
 ```
-═══ YAMTAM Multi-Agent Launcher ═══
+═══ Yana AI Multi-Agent Launcher ═══
   Agents     : 3
   Concurrency: 3 (tối đa chạy song song)
   Kill switch: bash multi-agent-launch.sh kill all
@@ -536,6 +536,6 @@ Apache 2.0 — miễn phí mãi mãi.
 | | |
 |---|---|
 | Email | phamlongh230@gmail.com |
-| Website | [phamlongh230-lgtm.github.io/yamtam-engine](https://phamlongh230-lgtm.github.io/yamtam-engine/) |
+| Website | [phamlongh230-lgtm.github.io/yana-ai](https://phamlongh230-lgtm.github.io/yana-ai/) |
 | GitHub | [phamlongh230-lgtm](https://github.com/phamlongh230-lgtm) |
-| Yana AI | [yamtam-engine-production.up.railway.app](https://yamtam-engine-production.up.railway.app) |
+| Yana AI | [yana-ai-production.up.railway.app](https://yana-ai-production.up.railway.app) |

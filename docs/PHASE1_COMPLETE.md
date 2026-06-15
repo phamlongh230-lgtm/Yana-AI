@@ -28,11 +28,11 @@ Successfully implemented all 5 high-impact, low-effort security enhancements fro
 - Detects prompt extraction attempts
 - Logs CRITICAL incidents to audit trail
 - Advisory mode (warns but doesn't block)
-- Bypass: `YAMTAM_CANARY_BYPASS=1`
+- Bypass: `YANA_CANARY_BYPASS=1`
 
 **Canary Tokens:**
 ```
-<!-- YAMTAM_CANARY_${session_uuid} -->
+<!-- YANA_CANARY_${session_uuid} -->
 INTERNAL_MARKER_DO_NOT_ECHO_${session_uuid}
 SYSTEM_BOUNDARY_TOKEN_${session_uuid}
 PROMPT_INTEGRITY_CHECK_${session_uuid}
@@ -51,7 +51,7 @@ PROMPT_INTEGRITY_CHECK_${session_uuid}
 - Stores in `.claude/state/sbom/`
 - Tracks transitive dependencies
 - Fallback to simple package lists
-- Bypass: `YAMTAM_SBOM_BYPASS=1`
+- Bypass: `YANA_SBOM_BYPASS=1`
 
 **Supported Ecosystems:**
 - npm (via @cyclonedx/cyclonedx-npm)
@@ -93,7 +93,7 @@ phone:       \b\+?1?\d{10,11}\b|\b\(\d{3}\)\s?\d{3}-\d{4}\b
 - Cooldown periods between calls
 - Circuit breaker configuration
 - Global and per-operation limits
-- Bypass: `YAMTAM_RATE_LIMIT_BYPASS=1`
+- Bypass: `YANA_RATE_LIMIT_BYPASS=1`
 
 **Key Limits:**
 ```json

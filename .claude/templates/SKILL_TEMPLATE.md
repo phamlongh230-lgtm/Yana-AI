@@ -4,7 +4,7 @@ description: >
   [WHAT this skill does — 1 clear sentence].
   Use when [WHEN TO TRIGGER — specific user intent, keywords, or context].
   [Optional: Do NOT use when...]
-origin: yamtam
+origin: yana-ai
 version: 1.0.0
 compatibility: ""
 ---

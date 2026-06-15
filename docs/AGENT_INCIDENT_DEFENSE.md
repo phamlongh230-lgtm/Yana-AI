@@ -1,7 +1,7 @@
-# YAMTAM ENGINE Defense Against Rogue Agent Incidents
+# Yana AI Defense Against Rogue Agent Incidents
 
 This document covers two real, documented incidents and the defense layers
-YAMTAM ENGINE adds against them. **Honest about what is and isn't protected.**
+Yana AI adds against them. **Honest about what is and isn't protected.**
 
 ---
 
@@ -50,12 +50,12 @@ X and analyzed across multiple outlets.
 3. **Backup failure:** Railway stored backups in the same volume as the data
    they were supposed to protect. One delete killed both.
 
-YAMTAM ENGINE can address part of #1 and part of #2. It cannot address #3 —
+Yana AI can address part of #1 and part of #2. It cannot address #3 —
 that's an infrastructure choice.
 
 ---
 
-## Defense layers in YAMTAM ENGINE v1.2.7 + v1.2.8
+## Defense layers in Yana AI v1.2.7 + v1.2.8
 
 ### Layer 1: `db-protect.sh` (v1.2.7) — CLI-level destruction
 
@@ -69,7 +69,7 @@ Blocks 5 categories regardless of phrasing:
 | Cloud destructive | `vercel --prod`, `gcloud delete` |
 | Bulk SQL | `DELETE WHERE 1=1`, `UPDATE WHERE 1=1` |
 
-**Bypass:** `YAMTAM_PROD_APPROVED=1 <command>` (per-invocation, not session-wide).
+**Bypass:** `YANA_PROD_APPROVED=1 <command>` (per-invocation, not session-wide).
 
 ### Layer 2: `api-destruct-guard.sh` (v1.2.8 NEW) — HTTP API destruction
 
@@ -83,7 +83,7 @@ This is the layer that would have caught PocketOS. Blocks:
 | Cloud SDK destruction | `railway volume delete`, `fly volume destroy` |
 | SSH + destructive | `ssh host 'rm -rf /'`, `ssh host 'DROP TABLE'` |
 
-**Bypass:** Same `YAMTAM_PROD_APPROVED=1`.
+**Bypass:** Same `YANA_PROD_APPROVED=1`.
 
 ### Layer 3: `token-scope-guard.sh` (v1.2.8 NEW) — Advisory secret-access warnings
 
@@ -94,7 +94,7 @@ etc., the hook **warns** (does not block).
 The warning text directly references the PocketOS incident so the agent
 re-evaluates whether the token access is actually needed for the current task.
 
-**Bypass:** `YAMTAM_TOKEN_SCOPE_OK=1` for legitimate secret-handling tasks
+**Bypass:** `YANA_TOKEN_SCOPE_OK=1` for legitimate secret-handling tasks
 (deploys, env management).
 
 **Logged:** `.claude/state/token-scope.log` for review with
@@ -154,7 +154,7 @@ Be honest about limits:
 
 Hooks are necessary but never sufficient. The full defense stack:
 
-| Layer | What it does | YAMTAM provides? |
+| Layer | What it does | Yana AI provides? |
 |---|---|---|
 | 1. Environment separation | Prod credentials never touch dev | ❌ Infrastructure |
 | 2. Scoped credentials | Token can only do what task needs | ❌ Cloud provider |
@@ -165,9 +165,9 @@ Hooks are necessary but never sufficient. The full defense stack:
 | 7. Human-in-the-loop | Destructive ops need approval | ✅ Per-cmd bypass flag |
 | 8. Kill switch | Freeze all writes when needed | ✅ code-freeze.sh |
 
-YAMTAM ENGINE strengthens layers 5–8. It does **not** replace 1–4. PocketOS
+Yana AI strengthens layers 5–8. It does **not** replace 1–4. PocketOS
 failed at layers 2 (scoped credentials) and 3 (backup isolation). Layers 5–8
-in YAMTAM would have helped, but proper layers 2 and 3 would have prevented
+in Yana AI would have helped, but proper layers 2 and 3 would have prevented
 the incident regardless.
 
 ---
@@ -177,8 +177,8 @@ the incident regardless.
 ```
 Sleep mode:                  .claude/scripts/code-freeze.sh on
 Wake mode:                   .claude/scripts/code-freeze.sh off
-Approved one prod cmd:       YAMTAM_PROD_APPROVED=1 <command>
-Approved secret access:      YAMTAM_TOKEN_SCOPE_OK=1 <command>
+Approved one prod cmd:       YANA_PROD_APPROVED=1 <command>
+Approved secret access:      YANA_TOKEN_SCOPE_OK=1 <command>
 Check audit log:             .claude/scripts/view-audit.sh
 Check rbac denials:          tail -20 .claude/state/rbac-denials.log
 Check token scope warnings:  tail -20 .claude/state/token-scope.log
@@ -188,7 +188,7 @@ Check token scope warnings:  tail -20 .claude/state/token-scope.log
 
 ## Final disclaimer (read this part)
 
-YAMTAM ENGINE v1.2.7 + v1.2.8 reduces probability of an agent-driven
+Yana AI v1.2.7 + v1.2.8 reduces probability of an agent-driven
 production incident. It does not eliminate it.
 
 If your agent has access to credentials that can delete production data,

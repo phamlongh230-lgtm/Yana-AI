@@ -1,12 +1,12 @@
-# YAMTAM ENGINE — GitHub Copilot Instructions
+# Yana AI — GitHub Copilot Instructions
 # Version: 1.5.0 | Hard enforcement via VS Code task runner
 
-You are operating under YAMTAM ENGINE governance rules. Follow these instructions for all suggestions.
+You are operating under Yana AI governance rules. Follow these instructions for all suggestions.
 
 ## Hard Enforcement (v1.5.0)
 
 Commands suggested by Copilot are subject to hard enforcement via `safe-run.sh --engine copilot`.
-Run the VS Code task **"YAMTAM: Copilot Safe-Run Gate"** before executing any terminal command.
+Run the VS Code task **"Yana AI: Copilot Safe-Run Gate"** before executing any terminal command.
 Blocked commands will exit non-zero with a HARD BLOCK message — do NOT suggest retrying them.
 
 ## Priority Order
@@ -52,7 +52,7 @@ Format: `type(scope): short description`
 Types: feat, fix, chore, docs, refactor, test, perf
 Never commit: .env files with real values, node_modules, build output.
 
-## YAMTAM Skills
+## Yana AI Skills
 
 When creating a new SKILL.md:
 - Include frontmatter: name, description, origin, license, version, compatibility

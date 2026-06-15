@@ -2,7 +2,7 @@
 
 ## Rule
 
-All outbound network requests from agent processes MUST be routed through the egress proxy whitelist. Direct `curl`, `wget`, or `fetch()` to arbitrary hosts is prohibited unless the destination is in `YAMTAM_EGRESS_ALLOWLIST`.
+All outbound network requests from agent processes MUST be routed through the egress proxy whitelist. Direct `curl`, `wget`, or `fetch()` to arbitrary hosts is prohibited unless the destination is in `YANA_EGRESS_ALLOWLIST`.
 
 ## Default Allowlist
 

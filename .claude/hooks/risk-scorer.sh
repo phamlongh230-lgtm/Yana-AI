@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Hook
+# Yana AI Hook
 # Version: 1.6.0 | Status: active
 # Description: Risk Scorer — score every AI action 0–100 before execution
 # Hook type: PreToolUse
 # Last Reviewed: 2026-05-23
-# Bypass: YAMTAM_RISK_BYPASS=1 (logged)
+# Bypass: YANA_RISK_BYPASS=1 (logged)
 # Requires: python3
 
 set -uo pipefail
 
-if [[ "${YAMTAM_RISK_BYPASS:-0}" == "1" ]]; then
+if [[ "${YANA_RISK_BYPASS:-0}" == "1" ]]; then
   echo "[risk-scorer] BYPASS active — sovereign override"
   exit 0
 fi
@@ -20,7 +20,7 @@ TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}"
 STATE_DIR="$PROJECT_DIR/.claude/state"
 RISK_LOG="$STATE_DIR/risk-scores.jsonl"
-BUDGET_FILE="${YAMTAM_TOKEN_BUDGET:-$STATE_DIR/token-budget.json}"
+BUDGET_FILE="${YANA_TOKEN_BUDGET:-$STATE_DIR/token-budget.json}"
 
 mkdir -p "$STATE_DIR"
 
@@ -167,7 +167,7 @@ d={
   'decision':'block',
   'reason':'[risk-scorer] CRITICAL risk: ${SCORE}/100 for tool: $TOOL_NAME',
   'score':$SCORE,'band':'CRITICAL','factors':'$REASONS',
-  'required_action':'State (1) what you will do (2) files affected (3) rollback plan. Sovereign sets YAMTAM_RISK_BYPASS=1 to override.'
+  'required_action':'State (1) what you will do (2) files affected (3) rollback plan. Sovereign sets YANA_RISK_BYPASS=1 to override.'
 }
 print(json.dumps(d))
 sys.exit(2)

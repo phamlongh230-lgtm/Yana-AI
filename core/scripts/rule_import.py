@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yamtam rule import <url-or-file> — import a rule pack into local scanner."""
+"""yana-ai rule import <url-or-file> — import a rule pack into local scanner."""
 
 import argparse
 import ipaddress
@@ -59,7 +59,7 @@ BOLD  = "\033[1m"; GREEN = "\033[32m"; YELLOW = "\033[33m"
 RED   = "\033[31m"; CYAN  = "\033[36m"; DIM   = "\033[2m"; RESET = "\033[0m"
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -92,7 +92,7 @@ def fetch_content(source: str) -> str:
                 return None
 
         opener = urllib.request.build_opener(_NoRedirect())
-        req = urllib.request.Request(source, headers={"User-Agent": "yamtam-cli"})
+        req = urllib.request.Request(source, headers={"User-Agent": "yana-ai-cli"})
         try:
             with opener.open(req, timeout=15) as r:
                 return r.read().decode()
@@ -125,7 +125,7 @@ def validate_pack(data: dict) -> list[str]:
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="yamtam rule import",
+        prog="yana-ai rule import",
         description="Import a rule pack from URL or local file",
     )
     parser.add_argument("source", help="URL or file path to rule YAML")
@@ -138,7 +138,7 @@ def main():
     args = parser.parse_args()
 
     print()
-    print(c(BOLD, "  yamtam rule import"))
+    print(c(BOLD, "  yana-ai rule import"))
     print()
 
     # Fetch content
@@ -214,7 +214,7 @@ def main():
         yaml.dump(data, f, default_flow_style=False, allow_unicode=True, sort_keys=False)
 
     print(c(GREEN, f"  ✓ Imported {len(data['checks'])} rules → {out_name}"))
-    print(f"  Run: yamtam audit . --only {scope}")
+    print(f"  Run: yana-ai audit . --only {scope}")
     print()
 
 

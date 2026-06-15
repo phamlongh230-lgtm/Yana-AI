@@ -1,13 +1,13 @@
-# Privacy Policy — YAMTAM ENGINE GitHub App
+# Privacy Policy — Yana AI GitHub App
 
 **Effective date:** 2026-06-02
 
 ## What we collect
 
-When you install the YAMTAM ENGINE GitHub App, we access:
+When you install the Yana AI GitHub App, we access:
 
 - **Repository metadata** (name, default branch) — to create the setup PR
-- **File contents** — only to check if YAMTAM config files already exist before writing
+- **File contents** — only to check if Yana AI config files already exist before writing
 
 We do **not** collect, store, or transmit:
 - Your source code
@@ -17,7 +17,7 @@ We do **not** collect, store, or transmit:
 
 ## How we use it
 
-The App reads the minimum required data to open one pull request with YAMTAM safety config files. All processing happens in a stateless Cloudflare Worker — no data is persisted after the request completes.
+The App reads the minimum required data to open one pull request with Yana AI safety config files. All processing happens in a stateless Cloudflare Worker — no data is persisted after the request completes.
 
 ## Data storage
 
@@ -29,4 +29,4 @@ The App runs on [Cloudflare Workers](https://workers.cloudflare.com). Cloudflare
 
 ## Contact
 
-Questions: open an issue at [github.com/phamlongh230-lgtm/yamtam-engine/issues](https://github.com/phamlongh230-lgtm/yamtam-engine/issues)
+Questions: open an issue at [github.com/phamlongh230-lgtm/yana-ai/issues](https://github.com/phamlongh230-lgtm/yana-ai/issues)

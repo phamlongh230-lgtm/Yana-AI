@@ -28,7 +28,7 @@ Defense-in-depth for shell command execution. Works alongside YAMTAM's hook laye
 ## Allowlist Config
 
 ```yaml
-# .yamtam/tool-guardrails.yaml
+# .yana/tool-guardrails.yaml
 approval:
   auto_approve:
     - "git status"

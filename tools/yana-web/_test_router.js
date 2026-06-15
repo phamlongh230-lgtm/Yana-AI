@@ -5,7 +5,7 @@ const { createRouter }     = require('./lib/router');
 const { createClassifier } = require('./lib/classifier');
 
 const { classify } = createClassifier({});
-// No wrapperPath → the native yamtam-rt spawn always fails → fallback path
+// No wrapperPath → the native yana-rt spawn always fails → fallback path
 const { route } = createRouter({ classify });
 
 route('deploy to prod').then(r => {

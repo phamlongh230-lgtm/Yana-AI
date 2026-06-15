@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Roadmap
+# Yana AI — Roadmap
 
 **Philosophy:** Stable before powerful. Ổn định trước, mạnh sau.
 
@@ -12,14 +12,14 @@ This is a personal agent operating system. Features are added when a real proble
 
 ### Phase 1 — Define *(✅ done · 2026-06)*
 
-**Mục tiêu:** Trả lời rõ YAMTAM là gì, Yana là gì, và lõi nào không được đụng tới.
+**Mục tiêu:** Trả lời rõ Yana AI là gì, Yana là gì, và lõi nào không được đụng tới.
 
 - [x] VISION.md — la bàn, không phải roadmap
 - [x] ROADMAP.md — hướng đi chiến lược
 - [x] ARCHITECTURE.md — sơ đồ hệ thống
-- [x] README cập nhật — mô tả đúng YAMTAM cho người mới
+- [x] README cập nhật — mô tả đúng Yana AI cho người mới
 
-**Done khi:** Một người lạ đọc 3 file trên và hiểu YAMTAM mà không cần hỏi thêm.
+**Done khi:** Một người lạ đọc 3 file trên và hiểu Yana AI mà không cần hỏi thêm.
 
 ---
 
@@ -62,7 +62,7 @@ tools/yana-web/lib/
   classifier.js  — task routing + Rule 68 sensitivity
   agents.js      — system prompt loader
   skills.js      — skill index + prompt loader
-  router.js      — yamtam-rt bridge + JS fallback
+  router.js      — yana-rt bridge + JS fallback
 ```
 
 Configurable dirs — bất kỳ repo nào cũng plug-in được qua `createCore({ rootDir })`.
@@ -87,26 +87,26 @@ Configurable dirs — bất kỳ repo nào cũng plug-in được qua `createCor
 
 ### v0.5.0 — 2026-05-28 (Auditor CLI series)
 
-- [x] **Runtime v0.5 — Task Lifecycle & Evals (Rust)** — `yamtam-rt` binary (clap 4, serde, uuid, chrono)
-  - `yamtam task create/list/done/status/drop` — task lifecycle với UUID, timestamps, scope
-  - `yamtam eval run <id>` — validate evidence → PASS/FAIL + confidence HIGH/MEDIUM/LOW
-  - `yamtam eval schema` — Evidence Schema v1 (JSON)
+- [x] **Runtime v0.5 — Task Lifecycle & Evals (Rust)** — `yana-rt` binary (clap 4, serde, uuid, chrono)
+  - `yana-ai task create/list/done/status/drop` — task lifecycle với UUID, timestamps, scope
+  - `yana-ai eval run <id>` — validate evidence → PASS/FAIL + confidence HIGH/MEDIUM/LOW
+  - `yana-ai eval schema` — Evidence Schema v1 (JSON)
   - Evidence parsing: `tests_passed`, `tests_failed`, `build_ok`, `coverage_pct`, `manual_note`
-  - State: `.yamtam/tasks.json` per project
-  - `bin/yamtam` delegate `task` + `eval` subcommands sang Rust binary
+  - State: `.yana-ai/tasks.json` per project
+  - `bin/yana-ai` delegate `task` + `eval` subcommands sang Rust binary
 
-- [x] **Guard Installer v0.4 — Control Layer** — `yamtam guard` command
-  - `yamtam guard list/install/status/remove`
+- [x] **Guard Installer v0.4 — Control Layer** — `yana-ai guard` command
+  - `yana-ai guard list/install/status/remove`
   - 5 guards: guard-destructive, token-budget-guard, truth-gate, scope-guard, prompt-injection-guard
   - `--target <path>` install vào project khác
 
-- [x] **Policy Kit v0.3** — `yamtam policy` command
-  - `yamtam policy list/show/apply/fixes`
+- [x] **Policy Kit v0.3** — `yana-ai policy` command
+  - `yana-ai policy list/show/apply/fixes`
   - 5 templates: claude-settings, mcp-minimal, ci-safe, env-example, gitignore-ai
 
-- [x] **CI Gate v0.2** — `--fail-on`, `--sarif`, `--diff`, `.yamtamignore`, baseline suppression
+- [x] **CI Gate v0.2** — `--fail-on`, `--sarif`, `--diff`, `.yana-aiignore`, baseline suppression
 
-- [x] **Auditor v0.1** — `yamtam audit .` — scan, score, report, no auto-fix
+- [x] **Auditor v0.1** — `yana-ai audit .` — scan, score, report, no auto-fix
 
 ### v1.6.0 — 2026-05-23
 
@@ -118,7 +118,7 @@ Configurable dirs — bất kỳ repo nào cũng plug-in được qua `createCor
 - [x] **New hooks** — `confidence-scorer.sh` (per-action 0–100 score), `intent-inference.sh` (scope creep + exfil pattern detection), `self-healing-hooks.sh` (bypass audit + executable integrity), `hook-timeout-guard.sh` (30s kill + deny)
 - [x] **Audit log rotation** — `rotate-audit-log.sh` (10MB threshold, keep 5, prune old)
 - [x] **Agent arbitration** — `agent-arbitration.sh` (scope conflict detection, hard conflict exit 2), `agent-claim.sh` (file ownership registry)
-- [x] **MCP server skeleton** — `yamtam-mcp-server.js` (5 tools: facts_search, facts_add, gate_check, session_status, checkpoint)
+- [x] **MCP server skeleton** — `yana-ai-mcp-server.js` (5 tools: facts_search, facts_add, gate_check, session_status, checkpoint)
 - [x] **Semantic search** — `search-facts-semantic.sh` (TF-IDF cosine, stdlib-only, top-N with threshold)
 - [x] **Skill tiering** — `skill-tiers.json` (350 skills: DEFAULT_SAFE/MANUAL_ONLY/GATED/DEPRECATED), `skill-tier-check.sh`
 - [x] **Test suite** — `test-v1.6.0-safety.sh` (24/24 PASS), 65/65 hook tests PASS, 350/350 skill triggers PASS
@@ -133,7 +133,7 @@ Configurable dirs — bất kỳ repo nào cũng plug-in được qua `createCor
 ### v1.4.20 — 2026-05-23
 
 - [x] **Cross-engine hard enforcement** — `safe-run.sh --engine` flag, Cursor/Aider hard-blocked (no TTY confirm)
-- [x] **switch-engine.sh cursor/aider** — auto-generate `.cursor/rules/yamtam-hard-enforcement.mdc` + `.aider.conf.yml`
+- [x] **switch-engine.sh cursor/aider** — auto-generate `.cursor/rules/yana-ai-hard-enforcement.mdc` + `.aider.conf.yml`
 - [x] **Circuit Breaker** — `token-budget-guard.sh` HARD BLOCK at 5 calls, escalating cooldown, fast-tier Haiku
 - [x] **Rule 43** — advanced jailbreak: memory exfiltration, psychological manipulation, identity spoofing, multi-turn chains
 - [x] **Rule 44** — supply chain vetting: typosquatting, lock file integrity, OSV gate, pipe-to-shell block
@@ -143,7 +143,7 @@ Configurable dirs — bất kỳ repo nào cũng plug-in được qua `createCor
 ### v1.4.20 — 2026-05-23
 
 - [x] **Cross-engine hard enforcement** — `safe-run.sh --engine` flag, Cursor/Aider hard-blocked (no TTY confirm)
-- [x] **`switch-engine.sh cursor/aider`** — auto-generate `.cursor/rules/yamtam-hard-enforcement.mdc` + `.aider.conf.yml`
+- [x] **`switch-engine.sh cursor/aider`** — auto-generate `.cursor/rules/yana-ai-hard-enforcement.mdc` + `.aider.conf.yml`
 - [x] **Circuit Breaker** — `token-budget-guard.sh` HARD BLOCK at 5 calls, escalating cooldown, fast-tier Haiku
 - [x] **Rule 43** — advanced jailbreak: memory exfiltration, psychological manipulation, identity spoofing, multi-turn chains
 - [x] **Rule 44** — supply chain vetting: typosquatting, lock file integrity, OSV gate, pipe-to-shell block
@@ -152,7 +152,7 @@ Configurable dirs — bất kỳ repo nào cũng plug-in được qua `createCor
 - [x] **Hook unit tests** — identity-gate ×3, circuit-breaker ×3, token-budget-guard meta ×1 (55→65 tests)
 - [x] **System architecture diagram** — ASCII L0–L5 gate stack diagram in README
 - [x] **Red-team validated** — 60 attack scenarios across 10 categories, all blocked
-- [x] **GitHub Release** — `yamtam-engine-v1.4.20-fixed.zip` (2MB), 477 checks, tag pushed
+- [x] **GitHub Release** — `yana-ai-v1.4.20-fixed.zip` (2MB), 477 checks, tag pushed
 - [x] **Metadata PASS** — skills-lock 350/350, validate-manifest 7/7 CLEAN, plugin/marketplace synced, drift CLEAN
 
 ### v1.4.00 — 2026-05-23
@@ -170,7 +170,7 @@ Configurable dirs — bất kỳ repo nào cũng plug-in được qua `createCor
 
 ### v1.3.10 — 2026-05-17
 
-- [x] **`.out-of-scope/` folder** — 5 boundary documents explaining what YAMTAM does NOT build and why (real-time cost dashboard, multi-agent coordination, enterprise RBAC, L3/L4 memory tiers, cloud console protection)
+- [x] **`.out-of-scope/` folder** — 5 boundary documents explaining what Yana AI does NOT build and why (real-time cost dashboard, multi-agent coordination, enterprise RBAC, L3/L4 memory tiers, cloud console protection)
 
 ### v1.3.9 — 2026-05-17
 
@@ -186,7 +186,7 @@ Configurable dirs — bất kỳ repo nào cũng plug-in được qua `createCor
 
 ### v1.3.6 — 2026-05-17
 
-- [x] **`.claude-plugin/` distribution** — `plugin.json` (schema_version 1, install via zip) + `marketplace.json` (tagline, highlights, stats); `build-release.sh` now creates `yamtam-engine-latest.zip` symlink for stable install URL
+- [x] **`.claude-plugin/` distribution** — `plugin.json` (schema_version 1, install via zip) + `marketplace.json` (tagline, highlights, stats); `build-release.sh` now creates `yana-ai-latest.zip` symlink for stable install URL
 
 ### v1.3.5 — 2026-05-17
 
@@ -200,7 +200,7 @@ Configurable dirs — bất kỳ repo nào cũng plug-in được qua `createCor
 
 - [x] **Tags on all 4 seed facts** — fact-confidence-rule, fact-hook-exit-codes, fact-scope-boundary, fact-truth-gate; `/memory --tag` now returns real results
 - [x] **commit-gate.sh test seam + 8 tests** — `COMMIT_GATE_TEST_STAGED` env var; 42 total tests (was 34)
-- [x] **Release pack** — `releases/yamtam-engine-v1.3.3-fixed.zip` — 133 files, 208K
+- [x] **Release pack** — `releases/yana-ai-v1.3.3-fixed.zip` — 133 files, 208K
 
 ### v1.3.2 — 2026-05-17
 
@@ -231,7 +231,7 @@ Configurable dirs — bất kỳ repo nào cũng plug-in được qua `createCor
 - [x] **L1 fact tools** — `add-fact.sh` (interactive writer), `search-facts.sh` (grep retrieval)
 - [x] **4 seed facts** — scope-boundary, truth-gate, hook-exit-codes, confidence-rule
 - [x] **Hook wiring guide** — `docs/HOOK_WIRING.md` — complete `settings.json` for all 22 hooks
-- [x] **Release pack** — `releases/yamtam-engine-v1.3.0-fixed.zip` — 131 files, 204K
+- [x] **Release pack** — `releases/yana-ai-v1.3.0-fixed.zip` — 131 files, 204K
 - [x] **`build-release.sh`** — automated pack builder with pre-flight checks (syntax + tests + drift)
 
 ### v1.2.9-fixed and earlier — 2026-02 to 2026-05
@@ -241,7 +241,7 @@ Configurable dirs — bất kỳ repo nào cũng plug-in được qua `createCor
 - [x] Incident defense (Replit, PocketOS) — `AGENT_INCIDENT_DEFENSE.md`
 - [x] Audit log, budget mode, code freeze, handoff mode
 - [x] 19 agents, 8 skills, 6 config files, 11 templates, 3 rules
-- [x] YAMTAM standalone repo separation complete
+- [x] Yana AI standalone repo separation complete
 
 ---
 
@@ -276,7 +276,7 @@ Configurable dirs — bất kỳ repo nào cũng plug-in được qua `createCor
 ### v1.5.0 — 2026-05-23
 
 - [x] **100% skill trigger test coverage** — 334/350 → 350/350 (678 total checks, 0 failures)
-- [x] **Governance Copilot hard enforcement** — `safe-run.sh --engine copilot` HARD_MODE; VS Code tasks.json with 6 YAMTAM gates; copilot-instructions.md updated
+- [x] **Governance Copilot hard enforcement** — `safe-run.sh --engine copilot` HARD_MODE; VS Code tasks.json with 6 Yana AI gates; copilot-instructions.md updated
 - [x] **L1 memory expiry sweep** — `core/scripts/sweep-expired-facts.sh` — auto-archives facts past `expires_at`; `--dry-run` and `--force` flags
 - [x] **cost-report dashboard** — `/cost-report` command: per-tool call counts, circuit breaker state, loop attempts, fast-tier status, est. USD cost
 
@@ -286,7 +286,7 @@ Configurable dirs — bất kỳ repo nào cũng plug-in được qua `createCor
 
 ### v1.8.0 — Multi-Engine Adapter Expansion
 
-Extend YAMTAM hard enforcement to every major AI coding engine via `safe-run.sh` proxy — same gate stack (L0–L5), same bypass vars, regardless of which model is under the hood.
+Extend Yana AI hard enforcement to every major AI coding engine via `safe-run.sh` proxy — same gate stack (L0–L5), same bypass vars, regardless of which model is under the hood.
 
 **Gemini Code (Google)**
 - [x] `adapters/gemini-code.md` — enforcement rules for Gemini Code CLI ✅ shipped v1.7.0
@@ -318,67 +318,67 @@ Extend YAMTAM hard enforcement to every major AI coding engine via `safe-run.sh`
 | Continue.dev | VS Code extension | Hard enforcement |
 | GitHub Copilot | Already shipped | Advisory |
 
-> **Why:** YAMTAM safety should be model-agnostic. If a team switches from Claude to DeepSeek or Gemini, the gate stack must follow.
+> **Why:** Yana AI safety should be model-agnostic. If a team switches from Claude to DeepSeek or Gemini, the gate stack must follow.
 
 ---
 
 ### v0.6.0 — 2026-05-28
 
-- [x] **`yamtam explain <rule-id>`** — plain-language rule explanation (70 rules, 7 categories)
-- [x] **`yamtam map .`** — Agent Blast Radius Map (claude/mcp/workflows, `--json`)
+- [x] **`yana-ai explain <rule-id>`** — plain-language rule explanation (70 rules, 7 categories)
+- [x] **`yana-ai map .`** — Agent Blast Radius Map (claude/mcp/workflows, `--json`)
 - [x] **GitHub Action** — `.github/actions/audit/action.yml` (inputs: fail-on, sarif, diff)
-- [x] **`yamtam init-policy <tool>`** — safe config generator (5 tools, `--dry-run`)
+- [x] **`yana-ai init-policy <tool>`** — safe config generator (5 tools, `--dry-run`)
 
 ### v0.7.0 — 2026-05-28
 
-- [x] **`yamtam score . --explain`** — deduction trail (Start 100 → -10 CI007 → Final 64/100)
-- [x] **`yamtam badge .`** — shields.io badge + Markdown snippet, color by risk
-- [x] **`yamtam watch .`** — polling watcher, score diff on change, no external deps
-- [x] **`yamtam fix <rule-id>`** — opt-in auto-fix (AC002/AC003/CI007/MCP001 + templates, `--dry-run`)
+- [x] **`yana-ai score . --explain`** — deduction trail (Start 100 → -10 CI007 → Final 64/100)
+- [x] **`yana-ai badge .`** — shields.io badge + Markdown snippet, color by risk
+- [x] **`yana-ai watch .`** — polling watcher, score diff on change, no external deps
+- [x] **`yana-ai fix <rule-id>`** — opt-in auto-fix (AC002/AC003/CI007/MCP001 + templates, `--dry-run`)
 
 ### v0.8.0 — 2026-05-28
 
-- [x] **`yamtam ci-check .`** — CI/CD health (permissions, pinned SHAs, gates, timeouts)
-- [x] **`yamtam diff-report b.json a.json`** — compare two audit runs, score delta + finding diff
-- [x] **`yamtam rule add/list/remove`** — custom rules → `scanner/custom-checks.yml`
-- [x] **`yamtam install [target]`** — one-command project setup (--dry-run, --guards)
+- [x] **`yana-ai ci-check .`** — CI/CD health (permissions, pinned SHAs, gates, timeouts)
+- [x] **`yana-ai diff-report b.json a.json`** — compare two audit runs, score delta + finding diff
+- [x] **`yana-ai rule add/list/remove`** — custom rules → `scanner/custom-checks.yml`
+- [x] **`yana-ai install [target]`** — one-command project setup (--dry-run, --guards)
 - [x] **Fix: MANIFEST/plugin/marketplace scripts count** 47 → 66 (drift resolved)
 - [x] **Fix: CI score** 64/100 HIGH → 77/100 MEDIUM
 
 ### v0.9.0 — 2026-05-28
 
-- [x] **`yamtam report html`** — standalone HTML report (score bar, color-coded findings)
-- [x] **`yamtam scan <url>`** — scan GitHub repo URL, temp clone, auto-cleanup
-- [x] **`yamtam rule import <src>`** — import rule YAML from URL/file, conflict detection
-- [x] **`yamtam upgrade [--check]`** — self-update from GitHub latest release
+- [x] **`yana-ai report html`** — standalone HTML report (score bar, color-coded findings)
+- [x] **`yana-ai scan <url>`** — scan GitHub repo URL, temp clone, auto-cleanup
+- [x] **`yana-ai rule import <src>`** — import rule YAML from URL/file, conflict detection
+- [x] **`yana-ai upgrade [--check]`** — self-update from GitHub latest release
 
 ### v0.10.0 — 2026-05-28
 
-- [x] **`yamtam init`** — interactive wizard (engine/profile/guards/CI, `--yes` for CI)
-- [x] **`yamtam verify`** — 8-hook wiring check, `--fix` auto-installs missing
-- [x] **`yamtam monitor`** — realtime log tail, color by event type, `--filter`
-- [x] **`yamtam stats --record`** — score trend, bar chart, best/worst, history JSON
+- [x] **`yana-ai init`** — interactive wizard (engine/profile/guards/CI, `--yes` for CI)
+- [x] **`yana-ai verify`** — 8-hook wiring check, `--fix` auto-installs missing
+- [x] **`yana-ai monitor`** — realtime log tail, color by event type, `--filter`
+- [x] **`yana-ai stats --record`** — score trend, bar chart, best/worst, history JSON
 
 ### v0.11.0 — 2026-05-28
 
-- [x] **`yamtam lint`** — rule YAML linter (schema, duplicates, missing fields)
-- [x] **`yamtam snapshot save/list/diff/delete`** — audit snapshots in `.yamtam/snapshots/`
-- [x] **`yamtam policy check`** — verify claude/mcp/CI configs match templates
-- [x] **`yamtam export --format csv/markdown/junit/json`** — multi-format findings export
+- [x] **`yana-ai lint`** — rule YAML linter (schema, duplicates, missing fields)
+- [x] **`yana-ai snapshot save/list/diff/delete`** — audit snapshots in `.yana-ai/snapshots/`
+- [x] **`yana-ai policy check`** — verify claude/mcp/CI configs match templates
+- [x] **`yana-ai export --format csv/markdown/junit/json`** — multi-format findings export
 
 ### v0.12.0 — 2026-05-28
 
-- [x] **`yamtam check <file>`** — scan single file, 69 rules, line-level findings
-- [x] **`yamtam template list/show`** — browse 5 policy templates with fix IDs
-- [x] **`yamtam audit --since <date>`** — date-filtered scan via git log
-- [x] **`yamtam doctor`** — +2 checks: yamtam CLI version + hooks wired count
+- [x] **`yana-ai check <file>`** — scan single file, 69 rules, line-level findings
+- [x] **`yana-ai template list/show`** — browse 5 policy templates with fix IDs
+- [x] **`yana-ai audit --since <date>`** — date-filtered scan via git log
+- [x] **`yana-ai doctor`** — +2 checks: yana-ai CLI version + hooks wired count
 
 ### v0.13 — Candidates (chưa commit)
 
-- [ ] **`yamtam audit --watch`** — combine audit + watch in one command
-- [ ] **`yamtam report pdf`** — PDF export via HTML+print
-- [ ] **`yamtam rule test`** — test a rule against a sample file
-- [ ] **`yamtam config`** — manage .yamtam/ project config file
+- [ ] **`yana-ai audit --watch`** — combine audit + watch in one command
+- [ ] **`yana-ai report pdf`** — PDF export via HTML+print
+- [ ] **`yana-ai rule test`** — test a rule against a sample file
+- [ ] **`yana-ai config`** — manage .yana-ai/ project config file
 
 ---
 

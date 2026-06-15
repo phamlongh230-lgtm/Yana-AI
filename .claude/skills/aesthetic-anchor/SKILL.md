@@ -15,7 +15,7 @@ version: 1.0.0
 compatibility: "Any frontend stack. CSS custom properties output by default."
 ---
 
-<!-- Adapted from Ilm-Alan/frontend-design (MIT). Changes: added YAMTAM origin/Anti-Fake-Pass/
+<!-- Adapted from Ilm-Alan/frontend-design (MIT). Changes: added Yana AI origin/Anti-Fake-Pass/
      compatibility fields, structured as pre-build gate not post-build audit, added "Do NOT use when". -->
 
 ## When to Use

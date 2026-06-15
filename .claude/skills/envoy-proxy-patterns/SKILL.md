@@ -1,10 +1,10 @@
 ---
 name: envoy-proxy-patterns
 description: Envoy L7 proxy filter chains, xDS dynamic configuration, rate limiting, request mirroring, and Lua/WASM filter patterns for sidecar-level traffic control in agent networks. Sources: envoyproxy/envoy (Apache-2.0).
-origin: yamtam-engine — synthesized from envoyproxy/envoy (Apache-2.0)
+origin: yana-ai — synthesized from envoyproxy/envoy (Apache-2.0)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.52
+compatibility: yana-ai >= 1.3.52
 ---
 
 # /envoy-proxy-patterns
@@ -116,9 +116,9 @@ http_filters:
       inline_code: |
         function envoy_on_request(request_handle)
           local ts = tostring(os.time())
-          request_handle:headers():add("x-yamtam-ts", ts)
+          request_handle:headers():add("x-yana-ai-ts", ts)
           -- Add HMAC signature (simplified — use real crypto in production)
-          request_handle:headers():add("x-yamtam-sig", "sha256:" .. ts)
+          request_handle:headers():add("x-yana-ai-sig", "sha256:" .. ts)
         end
 ```
 

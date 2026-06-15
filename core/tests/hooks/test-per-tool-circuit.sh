@@ -54,7 +54,7 @@ test_case() {
 
   # Cleanup
   unset CIRCUIT_TEST_INPUT
-  unset YAMTAM_CIRCUIT_BYPASS 2>/dev/null || true
+  unset YANA_CIRCUIT_BYPASS 2>/dev/null || true
 }
 
 echo "=== per-tool-circuit-breaker.sh (v1.8.0) ==="
@@ -81,7 +81,7 @@ test_case \
   "per-tool-circuit-breaker.sh" \
   "Bypass flag suppresses blocking" \
   "0" \
-  "export YAMTAM_CIRCUIT_BYPASS=1; echo '{\"tool_name\":\"Bash\",\"state\":\"OPEN\"}' >> $STATE_DIR/per-tool-circuit.jsonl" \
+  "export YANA_CIRCUIT_BYPASS=1; echo '{\"tool_name\":\"Bash\",\"state\":\"OPEN\"}' >> $STATE_DIR/per-tool-circuit.jsonl" \
   '{"tool_name":"Bash"}'
 
 # Test 4: Missing input exits gracefully

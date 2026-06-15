@@ -1,7 +1,7 @@
 // Yana AI — Chat (orchestration-centric, not a chatbot clone)
 
 // ── Rule 68 — Confidential Mode ───────────────────────────────────────────────
-// Mirror of the canonical marker tables in src/route.rs / yamtam-core.
+// Mirror of the canonical marker tables in src/route.rs / yana-ai-core.
 // confidential → never persisted, no about-context attached
 // sovereign    → additionally: local model (Ollama) only — text never
 //                leaves the machine

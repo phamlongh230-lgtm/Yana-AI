@@ -1,7 +1,7 @@
 export const TEMPLATES: Record<string, string> = {
-  'CLAUDE.md': `# YAMTAM ENGINE — Agent Safety Rules
+  'CLAUDE.md': `# Yana AI — Agent Safety Rules
 
-> Installed via YAMTAM GitHub App. Edit to customize.
+> Installed via Yana AI GitHub App. Edit to customize.
 
 ## Core Rules
 
@@ -62,19 +62,19 @@ No force-push. Ever.
   }, null, 2),
 
   '.claude/hooks/guard-destructive.sh': `#!/usr/bin/env bash
-# YAMTAM guard — blocks destructive commands
+# Yana AI guard — blocks destructive commands
 BLOCKED_PATTERNS=("rm -rf" "git push --force" "git push -f" "DROP TABLE" "TRUNCATE" "dd if=")
 CMD="\${CLAUDE_TOOL_INPUT:-}"
 for pattern in "\${BLOCKED_PATTERNS[@]}"; do
   if echo "\$CMD" | grep -qi "\$pattern"; then
-    echo "[yamtam/guard] BLOCKED: \$pattern detected"
+    echo "[yana-ai/guard] BLOCKED: \$pattern detected"
     exit 2
   fi
 done
 `,
 
   '.claude/hooks/audit-log.sh': `#!/usr/bin/env bash
-# YAMTAM audit — logs all tool calls
+# Yana AI audit — logs all tool calls
 LOG=".claude/state/audit.log"
 mkdir -p .claude/state
 echo "\$(date -u +%Y-%m-%dT%H:%M:%SZ) | tool=\${CLAUDE_TOOL_NAME:-unknown} | \${CLAUDE_TOOL_INPUT:0:120}" >> "\$LOG"
@@ -91,7 +91,7 @@ echo "\$(date -u +%Y-%m-%dT%H:%M:%SZ) | tool=\${CLAUDE_TOOL_NAME:-unknown} | \${
 `,
 };
 
-export const CI_WORKFLOW = `name: YAMTAM Audit
+export const CI_WORKFLOW = `name: Yana AI Audit
 
 on:
   pull_request:
@@ -101,21 +101,21 @@ on:
 
 jobs:
   audit:
-    name: YAMTAM safety audit
+    name: Yana AI safety audit
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install YAMTAM
-        run: pip install yamtam-engine --quiet
+      - name: Install Yana AI
+        run: pip install yana-ai --quiet
 
       - name: Run audit
-        run: yamtam audit . --fail-on high --json > yamtam-report.json || true
+        run: yana-ai audit . --fail-on high --json > yana-ai-report.json || true
 
       - name: Upload report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: yamtam-audit-report
-          path: yamtam-report.json
+          name: yana-ai-audit-report
+          path: yana-ai-report.json
 `;

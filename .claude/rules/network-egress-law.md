@@ -109,7 +109,7 @@ safe_fetch() {
 
 ```
 Allowed:   https://   (TLS required in prod)
-Dev-only:  http://    (only if YAMTAM_DEV_MODE=1)
+Dev-only:  http://    (only if YANA_DEV_MODE=1)
 Blocked:   file://    → local filesystem read
 Blocked:   gopher://  → legacy SSRF vector
 Blocked:   ftp://     → credential exposure

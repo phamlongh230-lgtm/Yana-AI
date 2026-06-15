@@ -38,8 +38,8 @@ pub fn read_file_safe(path: &Path) -> Option<String> {
     }
 }
 
-pub fn load_yamtamignore(target: &str) -> Vec<String> {
-    let ignore_path = Path::new(target).join(".yamtamignore");
+pub fn load_yana-aiignore(target: &str) -> Vec<String> {
+    let ignore_path = Path::new(target).join(".yana-aiignore");
     if !ignore_path.is_file() { return vec![]; }
     fs::read_to_string(&ignore_path).unwrap_or_default()
         .lines()

@@ -1,7 +1,7 @@
 # unsafe-agent-repo
 
 **This repo is intentionally misconfigured.** Every file here contains real anti-patterns
-that `yamtam audit` is designed to catch. Use it to demo the scanner or to explore what
+that `yana-ai audit` is designed to catch. Use it to demo the scanner or to explore what
 bad AI agent configuration looks like in practice.
 
 > All credentials are fake/test values. No real keys were committed.
@@ -25,7 +25,7 @@ bad AI agent configuration looks like in practice.
 From the **repo root** (not this directory):
 
 ```bash
-yamtam audit examples/unsafe-agent-repo
+yana-ai audit examples/unsafe-agent-repo
 ```
 
 Or with the Python scanner directly:
@@ -37,7 +37,7 @@ python3 core/scripts/audit_scanner.py examples/unsafe-agent-repo
 With SARIF output (for GitHub Code Scanning):
 
 ```bash
-yamtam audit examples/unsafe-agent-repo --sarif /tmp/unsafe.sarif
+yana-ai audit examples/unsafe-agent-repo --sarif /tmp/unsafe.sarif
 ```
 
 ---
@@ -90,7 +90,7 @@ Summary:  14 critical · 9 high · 6 medium · 4 low
 See the scanner rules in `scanner/` for the recommended fix for each rule ID, or run:
 
 ```bash
-yamtam audit examples/unsafe-agent-repo --markdown report.md
+yana-ai audit examples/unsafe-agent-repo --markdown report.md
 ```
 
 The generated `report.md` includes a fix suggestion for every finding.

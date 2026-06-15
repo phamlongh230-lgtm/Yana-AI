@@ -1,9 +1,9 @@
-# YAMTAM ENGINE — Skill Evaluation Rules
+# Yana AI — Skill Evaluation Rules
 
 **Status:** Active
 **Adapted from:** AgentSkills evaluating-skills.mdx (Apache 2.0 © 2025 Anthropic, PBC)
-**Changes:** Rewritten for YAMTAM format, added Anti-Fake-Pass integration,
-YAMTAM-specific field requirements, skills-lock registration step.
+**Changes:** Rewritten for Yana AI format, added Anti-Fake-Pass integration,
+Yana AI-specific field requirements, skills-lock registration step.
 
 ---
 
@@ -32,7 +32,7 @@ Run through every item before adding a skill to `skills-lock.json`.
 □ description is ≥ 50 characters
 □ description contains WHAT the skill does (not just "helps with X")
 □ description contains WHEN to use it (trigger conditions or keywords)
-□ origin field set (yamtam / community / adapted:<source>)
+□ origin field set (yana-ai / community / adapted:<source>)
 □ if origin is adapted:*, license field is also present
 □ no placeholder text in any field (TODO, TBD, [insert here], lorem ipsum)
 ```

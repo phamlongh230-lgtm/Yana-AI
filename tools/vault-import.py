@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-vault-import — Convert file/URL → Markdown và lưu vào YAMTAM vault.
+vault-import — Convert file/URL → Markdown và lưu vào Yana AI vault.
 
 Usage:
   python3 tools/vault-import.py document.pdf
@@ -44,7 +44,7 @@ def convert_file(path_or_url: str, out_dir: str = "core/memory/vault") -> str:
     return str(out_path)
 
 def main():
-    parser = argparse.ArgumentParser(description="Import file/URL vào YAMTAM vault")
+    parser = argparse.ArgumentParser(description="Import file/URL vào Yana AI vault")
     parser.add_argument("input", nargs="?", help="File path hoặc URL")
     parser.add_argument("--dir", help="Directory để scan")
     parser.add_argument("--ext", default="pdf,docx,pptx,xlsx", help="Extensions (comma-separated)")

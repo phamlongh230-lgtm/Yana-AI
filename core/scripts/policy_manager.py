@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""YAMTAM Policy Kit — safe config templates for common audit findings."""
+"""Yana AI Policy Kit — safe config templates for common audit findings."""
 
 import sys
 import os
@@ -54,7 +54,7 @@ def get_content(meta):
 def cmd_list(args):
     templates = load_index()
     print()
-    print(bold(cyan("  YAMTAM Policy Kit")) + dim(" — available templates"))
+    print(bold(cyan("  Yana AI Policy Kit")) + dim(" — available templates"))
     print()
     print(f"  {bold('NAME'):<28} {dim('TARGET'):<38} {cyan('FIXES')}")
     print(f"  {'─'*24} {'─'*34} {'─'*18}")
@@ -64,9 +64,9 @@ def cmd_list(args):
         mode = " (append)" if meta.get("mode") == "append" else ""
         print(f"  {bold(name):<28} {dim(target + mode):<38} {cyan(fixes)}")
     print()
-    print(dim("  yamtam policy show <name>    — print template"))
-    print(dim("  yamtam policy apply <name>   — write to project"))
-    print(dim("  yamtam policy fixes <id>     — find template for a check ID"))
+    print(dim("  yana-ai policy show <name>    — print template"))
+    print(dim("  yana-ai policy apply <name>   — write to project"))
+    print(dim("  yana-ai policy fixes <id>     — find template for a check ID"))
     print()
 
 
@@ -75,7 +75,7 @@ def cmd_show(args):
     name = args.name
     if name not in templates:
         print(red(f"Error: unknown template '{name}'"), file=sys.stderr)
-        print(dim("Run 'yamtam policy list' to see available templates."), file=sys.stderr)
+        print(dim("Run 'yana-ai policy list' to see available templates."), file=sys.stderr)
         sys.exit(1)
 
     meta = templates[name]
@@ -105,7 +105,7 @@ def cmd_apply(args):
     name = args.name
     if name not in templates:
         print(red(f"Error: unknown template '{name}'"), file=sys.stderr)
-        print(dim("Run 'yamtam policy list' to see available templates."), file=sys.stderr)
+        print(dim("Run 'yana-ai policy list' to see available templates."), file=sys.stderr)
         sys.exit(1)
 
     meta = templates[name]
@@ -122,7 +122,7 @@ def cmd_apply(args):
     if mode == "append":
         if target.exists():
             existing = target.read_text()
-            marker = f"yamtam policy apply {name}"
+            marker = f"yana-ai policy apply {name}"
             if marker in existing:
                 print(f"  {yellow('⚠')} Already applied — {target} unchanged.")
                 print()
@@ -164,13 +164,13 @@ def cmd_fixes(args):
     print()
     for name, meta in matches:
         print(f"  {bold(name)}  {dim('—')}  {meta.get('description', '')}")
-        print(dim(f"  Run: yamtam policy apply {name}"))
+        print(dim(f"  Run: yana-ai policy apply {name}"))
     print()
 
 # ── main ──────────────────────────────────────────────────────────────────────
 
 USAGE = """
-Usage: yamtam policy <subcommand> [name] [flags]
+Usage: yana-ai policy <subcommand> [name] [flags]
 
 Subcommands:
   list                 List all available templates
@@ -184,17 +184,17 @@ Flags:
   --no-color           Disable color output
 
 Examples:
-  yamtam policy list
-  yamtam policy show claude-settings
-  yamtam policy apply claude-settings
-  yamtam policy apply mcp-minimal --target /path/to/project/.mcp.json
-  yamtam policy fixes AC001
-  yamtam policy fixes CI006
+  yana-ai policy list
+  yana-ai policy show claude-settings
+  yana-ai policy apply claude-settings
+  yana-ai policy apply mcp-minimal --target /path/to/project/.mcp.json
+  yana-ai policy fixes AC001
+  yana-ai policy fixes CI006
 """
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="yamtam policy", add_help=False)
+    parser = argparse.ArgumentParser(prog="yana-ai policy", add_help=False)
     parser.add_argument("subcommand", nargs="?", default="list")
     parser.add_argument("name", nargs="?")
     parser.add_argument("--target")
@@ -213,7 +213,7 @@ def main():
 
     if args.subcommand in ("show", "apply", "fixes") and not args.name:
         print(red(f"Error: '{args.subcommand}' requires a name argument."), file=sys.stderr)
-        print(dim("Run 'yamtam policy list' to see available templates."), file=sys.stderr)
+        print(dim("Run 'yana-ai policy list' to see available templates."), file=sys.stderr)
         sys.exit(1)
 
     dispatch = {

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yamtam diff-report <before.json> <after.json> — compare two audit runs."""
+"""yana-ai diff-report <before.json> <after.json> — compare two audit runs."""
 
 import argparse
 import json
@@ -11,7 +11,7 @@ GREEN  = "\033[32m"; CYAN   = "\033[36m"; DIM    = "\033[2m"; RESET  = "\033[0m"
 RISK_COLOR = {"CRITICAL": RED, "HIGH": RED, "MEDIUM": YELLOW, "LOW": GREEN}
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -32,7 +32,7 @@ def load(path: str) -> dict:
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="yamtam diff-report",
+        prog="yana-ai diff-report",
         description="Compare two audit JSON runs — show what changed",
     )
     parser.add_argument("before", help="Before audit JSON file")
@@ -72,7 +72,7 @@ def main():
         return
 
     print()
-    print(c(BOLD, "  YAMTAM Diff Report"))
+    print(c(BOLD, "  Yana AI Diff Report"))
     print(c(DIM, f"  {os.path.basename(args.before)}  →  {os.path.basename(args.after)}"))
     print()
 

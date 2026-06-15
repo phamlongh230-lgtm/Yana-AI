@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yamtam watch [target] — re-audit on file change, show score diff."""
+"""yana-ai watch [target] — re-audit on file change, show score diff."""
 
 import argparse
 import glob
@@ -36,7 +36,7 @@ RESET  = "\033[0m"
 RISK_COLOR = {"CRITICAL": RED, "HIGH": RED, "MEDIUM": YELLOW, "LOW": GREEN}
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -109,7 +109,7 @@ def print_diff(prev: dict | None, curr: dict):
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="yamtam watch",
+        prog="yana-ai watch",
         description="Watch AI agent config files and re-audit on change",
     )
     parser.add_argument("target", nargs="?", default=".", help="Directory to watch (default: .)")
@@ -130,7 +130,7 @@ def main():
     watch_files = collect_watch_files(args.target)
 
     print()
-    print(c(BOLD, "  yamtam watch") + c(DIM, f" — {os.path.abspath(args.target)}"))
+    print(c(BOLD, "  yana-ai watch") + c(DIM, f" — {os.path.abspath(args.target)}"))
     print(c(DIM, f"  Watching {len(watch_files)} files · interval {args.interval}s · Ctrl+C to stop"))
     print()
 

@@ -82,7 +82,7 @@ Refuse     if ROI < 1.0 (expected output not worth the cost)
 ## Enforcement points
 
 - `model-router.sh`: assigns `--tier` flag before each tool call
-- `tool-proxy.sh` PHASE 3 (mutate): checks YAMTAM_SESSION_TOKENS env var
+- `tool-proxy.sh` PHASE 3 (mutate): checks YANA_SESSION_TOKENS env var
 - `sandbox-exec.sh`: enforces timeout (60s default) as circuit breaker proxy
 - `secure-logger.sh`: records token usage per session for post-session audit
 

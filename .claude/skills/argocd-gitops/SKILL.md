@@ -1,10 +1,10 @@
 ---
 name: argocd-gitops
 description: Argo CD GitOps reconciliation loop for agent infrastructure. App-of-Apps pattern, sync policies, drift detection, progressive rollouts, and automated self-healing from Git as single source of truth. Sources: argoproj/argo-cd (Apache-2.0).
-origin: yamtam-engine — synthesized from argoproj/argo-cd (Apache-2.0)
+origin: yana-ai — synthesized from argoproj/argo-cd (Apache-2.0)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.52
+compatibility: yana-ai >= 1.3.52
 ---
 
 # /argocd-gitops
@@ -26,19 +26,19 @@ compatibility: yamtam-engine >= 1.3.52
 ## Application manifest
 
 ```yaml
-# application.yaml — deploy yamtam-agent from Helm chart in Git
+# application.yaml — deploy yana-ai-agent from Helm chart in Git
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name:      yamtam-prod
+  name:      yana-ai-prod
   namespace: argocd
 spec:
   project: default
 
   source:
-    repoURL:        https://github.com/org/yamtam-config
+    repoURL:        https://github.com/org/yana-ai-config
     targetRevision: main
-    path:           charts/yamtam-agent
+    path:           charts/yana-ai-agent
     helm:
       valueFiles:
         - values-prod.yaml
@@ -48,7 +48,7 @@ spec:
 
   destination:
     server:    https://kubernetes.default.svc
-    namespace: yamtam
+    namespace: yana-ai
 
   syncPolicy:
     automated:
@@ -76,7 +76,7 @@ metadata:
   namespace: argocd
 spec:
   source:
-    repoURL:        https://github.com/org/yamtam-config
+    repoURL:        https://github.com/org/yana-ai-config
     targetRevision: main
     path:           apps/          # directory with Application yamls
   destination:
@@ -92,19 +92,19 @@ spec:
 
 ```bash
 # Manual sync (force re-apply)
-argocd app sync yamtam-prod
+argocd app sync yana-ai-prod
 
 # Wait for sync to complete
-argocd app wait yamtam-prod --timeout 120
+argocd app wait yana-ai-prod --timeout 120
 
 # Check sync status
-argocd app get yamtam-prod
+argocd app get yana-ai-prod
 
 # Rollback to previous revision
-argocd app rollback yamtam-prod
+argocd app rollback yana-ai-prod
 
 # Diff: what would change if synced now?
-argocd app diff yamtam-prod
+argocd app diff yana-ai-prod
 ```
 
 ---

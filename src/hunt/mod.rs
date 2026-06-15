@@ -245,6 +245,6 @@ fn render_findings(findings: &[Finding]) {
 fn skip_path(path: &std::path::Path) -> bool {
     path.components().any(|c| {
         matches!(c.as_os_str().to_str().unwrap_or(""),
-            "node_modules" | ".git" | "target" | "__pycache__" | ".yamtam" | "dist" | "build")
+            "node_modules" | ".git" | "target" | "__pycache__" | ".yana-ai" | "dist" | "build")
     })
 }

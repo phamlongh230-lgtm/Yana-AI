@@ -2,9 +2,9 @@
 name: ecc
 description: Everything Claude Code (ECC) — agent harness configuration layer for Claude Code and other AI coding IDEs. Augments agents with skills, hooks, persistent memory, model routing, and quality gates without modifying the underlying model.
 license: MIT
-compatibility: yamtam-engine >= 1.3.54
+compatibility: yana-ai >= 1.3.54
 metadata:
-  origin: yamtam-engine — synthesized from affaan-m/ECC (MIT)
+  origin: yana-ai — synthesized from affaan-m/ECC (MIT)
   version: 1.0.0
 triggers:
   - "ECC"
@@ -111,10 +111,10 @@ do_not_use_for:
 ...content...
 ```
 
-## YAMTAM Overlap
+## Yana AI Overlap
 
-YAMTAM already implements the ECC pattern natively.
+Yana AI already implements the ECC pattern natively.
 Use this skill when:
 - Referencing ECC-specific commands (`/harness-audit`, `/quality-gate`)
-- Adapting ECC patterns from the affaan-m repo into YAMTAM
-- Comparing YAMTAM's hook system against ECC's `ECC_HOOK_PROFILE` model
+- Adapting ECC patterns from the affaan-m repo into Yana AI
+- Comparing Yana AI's hook system against ECC's `ECC_HOOK_PROFILE` model

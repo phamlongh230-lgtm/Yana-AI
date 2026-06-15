@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE — Audit Chain Test Suite
+# Yana AI — Audit Chain Test Suite
 # Tests audit-log.sh (hash-chain writing) and verify-audit-chain.sh (verification).
 
 set -uo pipefail
@@ -51,7 +51,7 @@ check "entry has hash field"      "$HAS_HASH" "true"
 check "entry has prev_hash field" "$HAS_PREV" "true"
 
 # ── Test 3: first entry uses genesis hash as prev_hash ────────────────────────
-GENESIS=$(printf 'YAMTAM_GENESIS' | sha256sum | awk '{print $1}')
+GENESIS=$(printf 'YANA_GENESIS' | sha256sum | awk '{print $1}')
 STORED_PREV=$(printf '%s' "$ENTRY" | jq -r '.prev_hash' 2>/dev/null)
 check "first entry prev_hash = genesis" "$STORED_PREV" "$GENESIS"
 

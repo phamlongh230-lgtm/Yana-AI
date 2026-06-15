@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Tests — v1.6.0 Autonomous Session Safety
+# Yana AI Tests — v1.6.0 Autonomous Session Safety
 # Tests: session-checkpoint.sh, session-rollback.sh, risk-scorer.sh
 # Run: bash core/tests/hooks/test-v1.6.0-safety.sh
 # Expected: ALL PASS
@@ -18,12 +18,12 @@ HOOKS="$PROJECT_ROOT/core/hooks"
 # Temp project dir for isolation
 TMP_DIR=$(mktemp -d)
 export CLAUDE_PROJECT_DIR="$TMP_DIR"
-export YAMTAM_SOVEREIGN_NAME="test-sovereign"
+export YANA_SOVEREIGN_NAME="test-sovereign"
 
 # Init temp as git repo
 git -C "$TMP_DIR" init -q 2>/dev/null
-git -C "$TMP_DIR" config user.email "test@yamtam"
-git -C "$TMP_DIR" config user.name "YAMTAM Test"
+git -C "$TMP_DIR" config user.email "test@yana-ai"
+git -C "$TMP_DIR" config user.name "Yana AI Test"
 echo "initial" > "$TMP_DIR/initial.txt"
 git -C "$TMP_DIR" add . && git -C "$TMP_DIR" commit -m "init" -q 2>/dev/null
 
@@ -62,7 +62,7 @@ assert_exit() {
 # ═══════════════════════════════════════════════════════════════════════════════
 echo ""
 echo "  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "  YAMTAM v1.6.0 — Autonomous Session Safety Tests"
+echo "  Yana AI v1.6.0 — Autonomous Session Safety Tests"
 echo "  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
@@ -94,7 +94,7 @@ assert_pass "T05 dirty tree checkpoint" "$OUT" "Checkpoint saved"
 rm -f "$TMP_DIR/dirty.txt"
 
 # T06: auto-trigger skips when counter not reached
-export YAMTAM_CHECKPOINT_EVERY=5
+export YANA_CHECKPOINT_EVERY=5
 echo '{"count":2}' > "$TMP_DIR/.claude/state/checkpoint-counter.json"
 OUT=$(bash "$TMP_DIR/core/scripts/session-checkpoint.sh" 2>&1)
 # Should produce no output (skipped)
@@ -107,7 +107,7 @@ else
 fi
 
 # T07: bypass exits cleanly
-OUT=$(YAMTAM_CHECKPOINT_BYPASS=1 bash "$TMP_DIR/core/scripts/session-checkpoint.sh" 2>&1)
+OUT=$(YANA_CHECKPOINT_BYPASS=1 bash "$TMP_DIR/core/scripts/session-checkpoint.sh" 2>&1)
 EXIT_CODE=$?
 assert_exit "T07 bypass exits 0" "$EXIT_CODE" "0"
 
@@ -121,7 +121,7 @@ OUT=$(bash "$TMP_DIR/core/scripts/session-rollback.sh" --list 2>&1)
 assert_pass "T08 --list shows checkpoints" "$OUT" "Available checkpoints"
 
 # T09: no sovereign → block
-OUT=$(YAMTAM_SOVEREIGN_NAME="" bash "$TMP_DIR/core/scripts/session-rollback.sh" 2>&1)
+OUT=$(YANA_SOVEREIGN_NAME="" bash "$TMP_DIR/core/scripts/session-rollback.sh" 2>&1)
 EXIT_CODE=$?
 assert_pass "T09 no sovereign blocks"     "$OUT"       "BLOCK"
 assert_exit "T09 no sovereign exit 2"     "$EXIT_CODE" "2"
@@ -225,11 +225,11 @@ OUT=$(printf '{"tool_name":"bash","tool_input":{"command":"fly deploy --remote-o
 assert_pass "T18 fly deploy production → deploy risk warning" "$OUT" "risk"
 
 # T19: bypass exits 0 silently
-export YAMTAM_RISK_BYPASS=1
+export YANA_RISK_BYPASS=1
 OUT=$(printf '{"tool_name":"bash","tool_input":{"command":"rm -rf /","file_path":""}}' \
   | bash "$TMP_DIR/core/hooks/risk-scorer.sh" 2>&1)
 EXIT_CODE=$?
-unset YAMTAM_RISK_BYPASS
+unset YANA_RISK_BYPASS
 assert_exit "T19 bypass exits 0"               "$EXIT_CODE" "0"
 assert_pass "T19 bypass logs override message" "$OUT"       "BYPASS"
 

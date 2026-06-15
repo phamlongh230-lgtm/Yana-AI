@@ -1,4 +1,4 @@
-# YAMTAM — Architecture
+# Yana AI — Architecture
 
 **Author:** Vũ Văn Tâm  
 **Rule:** Đây là sơ đồ hệ thống, không phải tài liệu kỹ thuật đầy đủ.
@@ -22,7 +22,7 @@
                           │ request
                           ▼
 ┌─────────────────────────────────────────────────────────┐
-│                   YAMTAM Core  ← KHÔNG ĐƯỢC ĐỤNG        │
+│                   Yana AI Core  ← KHÔNG ĐƯỢC ĐỤNG        │
 │                                                         │
 │   Router          Safety Gate        Context / Memory   │
 │   ─────────       ──────────────     ─────────────────  │
@@ -47,7 +47,7 @@
 
 ---
 
-## YAMTAM Core — chi tiết 3 trụ
+## Yana AI Core — chi tiết 3 trụ
 
 ### 1. Router
 
@@ -142,7 +142,7 @@ Luồng đơn giản nhất — Phase 2:
 1. User mở Yana Web
 2. Nhập Anthropic API key (lưu localStorage)
 3. Gõ tin nhắn
-4. Yana gửi request đến YAMTAM Router
+4. Yana gửi request đến Yana AI Router
 5. Router: không có trigger match → pass thẳng đến Claude
 6. Claude trả lời → Yana hiển thị
 ```
@@ -159,10 +159,10 @@ Frontend: Vanilla JS / lightweight framework (không React cho MVP)
          → anime.js cho animation nhỏ (nếu cần)
 
 Backend:  Node.js / Express
-         → YAMTAM core imported as module
+         → Yana AI core imported as module
 
 Deploy:   Railway (hiện tại đã có)
-         → https://yamtam-engine-production.up.railway.app
+         → https://yana-ai-production.up.railway.app
 ```
 
 ---
@@ -174,7 +174,7 @@ Deploy:   Railway (hiện tại đã có)
 | Repo | Mục đích | Tích hợp vào đâu |
 |------|----------|-----------------|
 | [n8n](https://github.com/n8n-io/n8n) | Workflow automation cho non-dev | Yana surface mới |
-| [OpenWork](https://github.com/different-ai/openwork) | AI Agent Framework | YAMTAM Core orchestration |
+| [OpenWork](https://github.com/different-ai/openwork) | AI Agent Framework | Yana AI Core orchestration |
 | [Graphify](https://github.com/safishamsi/graphify) | Graph data visualization | Context/Memory layer |
 | [VNPay](https://github.com/lehuygiang28/vnpay) | Payment cho Vietnam market | Application layer |
 
@@ -183,7 +183,7 @@ Deploy:   Railway (hiện tại đã có)
 | Repo | Mục đích | Tích hợp vào đâu |
 |------|----------|-----------------|
 | [anime.js](https://github.com/juliangarnier/anime) | Hiệu ứng chuyển động | Yana Web frontend |
-| [Google Labs design.md](https://github.com/google-labs-code/design.md) | Mẫu tài liệu thiết kế | YAMTAM documentation |
+| [Google Labs design.md](https://github.com/google-labs-code/design.md) | Mẫu tài liệu thiết kế | Yana AI documentation |
 
 Những thứ này **không làm ngay** — chỉ để biết phase 4 trông như thế nào.
 

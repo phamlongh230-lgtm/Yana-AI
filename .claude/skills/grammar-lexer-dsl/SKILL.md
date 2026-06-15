@@ -1,17 +1,17 @@
 ---
 name: grammar-lexer-dsl
 description: Grammar definition, lexing, and DSL compilation patterns for AI agent config parsing. Chevrotain high-performance LL(k) parser for custom rule DSLs, Handlebars safe template compilation without eval, marked Markdown-to-HTML with custom renderer, Prism tokenization for syntax highlighting, PEG.js parser generator from grammar expressions. Sources: chevrotain/chevrotain, handlebars-lang/handlebars.js, markedjs/marked, prismjs/prism, pegjs/pegjs.
-origin: yamtam-engine — synthesized from chevrotain/chevrotain, handlebars-lang/handlebars.js, markedjs/marked, prismjs/prism, pegjs/pegjs
+origin: yana-ai — synthesized from chevrotain/chevrotain, handlebars-lang/handlebars.js, markedjs/marked, prismjs/prism, pegjs/pegjs
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.46
+compatibility: yana-ai >= 1.3.46
 ---
 
 # /grammar-lexer-dsl
 
 ## When to Use
 
-- YAMTAM rule files need a faster parser than JSON/YAML (custom DSL)
+- Yana AI rule files need a faster parser than JSON/YAML (custom DSL)
 - Rendering Markdown rule docs to HTML for a dashboard
 - Tokenizing source code for highlighting in agent output
 - Template-filling audit reports / skill docs without exec risk
@@ -27,7 +27,7 @@ compatibility: yamtam-engine >= 1.3.46
 ## Decision: Which Tool
 
 ```
-Need to define a new custom grammar (DSL) for YAMTAM config?
+Need to define a new custom grammar (DSL) for Yana AI config?
   → PEG.js (grammar file → parser, great for structured text)
   OR Chevrotain (code-first, better error messages, no codegen step)
 
@@ -129,7 +129,7 @@ Handlebars.registerPartial('ruleHeader', `
 
 // Compile template — result is a pure function, no exec at call time
 const reportTemplate = Handlebars.compile(`
-# YAMTAM Audit Report — {{date}}
+# Yana AI Audit Report — {{date}}
 
 {{#each gates}}
   {{> ruleHeader ruleName=this.name gate=this.level status=this.status version=../version}}
@@ -227,8 +227,8 @@ const highlighted = Prism.highlight(tsCode, Prism.languages.typescript, 'typescr
 const tokens = Prism.tokenize(tsCode, Prism.languages.typescript)
 // tokens = ['const ', Token{type:'identifier', content:'x'}, Token{type:'punctuation',...}, ...]
 
-// Custom mini-language for YAMTAM gate notation: "L2: shell-sanitize → tool-exec"
-Prism.languages.yamtam = {
+// Custom mini-language for Yana AI gate notation: "L2: shell-sanitize → tool-exec"
+Prism.languages.yana-ai = {
   gate:     /\bL[0-5]\b/,
   arrow:    /→|->/,
   ruleName: /\b[a-z][a-z0-9-]+(?:-law|guard|policy)?\b/,
@@ -236,7 +236,7 @@ Prism.languages.yamtam = {
   comment:  { pattern: /#.*/, greedy: true },
 }
 
-const gateTokens = Prism.tokenize('L2: shell-sanitize-law → network-egress-law', Prism.languages.yamtam)
+const gateTokens = Prism.tokenize('L2: shell-sanitize-law → network-egress-law', Prism.languages.yana-ai)
 
 // Count token types for static analysis
 function countTokenTypes(tokens: (string | Prism.Token)[]): Record<string, number> {

@@ -14,16 +14,16 @@ def run(args: list[str]) -> subprocess.CompletedProcess[str]:
     return subprocess.run(args, cwd=ROOT, capture_output=True, text=True)
 
 
-def _yamtam_rt_available() -> bool:
-    if shutil.which("yamtam-rt"):
+def _yana-ai_rt_available() -> bool:
+    if shutil.which("yana-rt"):
         return True
-    return (ROOT / "target" / "release" / "yamtam-rt").exists() or (ROOT / "target" / "debug" / "yamtam-rt").exists()
+    return (ROOT / "target" / "release" / "yana-rt").exists() or (ROOT / "target" / "debug" / "yana-rt").exists()
 
 
 def test_audit_json_mvp_output_contract() -> None:
-    if not _yamtam_rt_available():
-        pytest.skip("yamtam-rt not installed")
-    proc = run(["bash", "bin/yamtam", "audit", ".", "--json"])
+    if not _yana-ai_rt_available():
+        pytest.skip("yana-rt not installed")
+    proc = run(["bash", "bin/yana-ai", "audit", ".", "--json"])
 
     assert proc.returncode in (0, 1, 2), (
         f"unexpected exit code: {proc.returncode}\nstdout={proc.stdout}\nstderr={proc.stderr}"
@@ -38,7 +38,7 @@ def test_audit_json_mvp_output_contract() -> None:
     for k in required:
         assert k in data, f"missing key {k!r}"
 
-    assert data["tool"] == "yamtam"
+    assert data["tool"] == "yana-ai"
     assert data["command"] == "audit"
     assert data["status"] in ("ok", "findings", "error")
     assert data["exit_code"] == proc.returncode

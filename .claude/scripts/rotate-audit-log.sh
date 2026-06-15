@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Script
+# Yana AI Script
 # Version: 1.6.0 | Status: active
 # Description: Audit Log Rotation — rotate audit-chain.log when > MAX_SIZE (default 10MB)
 # Last Reviewed: 2026-05-23
@@ -14,8 +14,8 @@ AUDIT_LOG="$STATE_DIR/audit-chain.log"
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 EPOCH=$(date +%s)
 
-MAX_SIZE_MB="${YAMTAM_AUDIT_MAX_MB:-10}"
-KEEP="${YAMTAM_AUDIT_KEEP:-5}"
+MAX_SIZE_MB="${YANA_AUDIT_MAX_MB:-10}"
+KEEP="${YANA_AUDIT_KEEP:-5}"
 DRY_RUN=false
 
 while [[ $# -gt 0 ]]; do

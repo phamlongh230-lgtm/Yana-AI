@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yamtam badge [target] — generate shields.io badge for README."""
+"""yana-ai badge [target] — generate shields.io badge for README."""
 
 import argparse
 import json
@@ -24,7 +24,7 @@ CYAN  = "\033[36m"
 RESET = "\033[0m"
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -42,14 +42,14 @@ def run_audit_json(target: str, extra: list[str]) -> dict:
 
 def make_badge_url(score: int, risk: str, style: str = "for-the-badge") -> str:
     color  = RISK_COLOR.get(risk, "gray")
-    label  = quote("yamtam audit")
+    label  = quote("yana-ai audit")
     msg    = quote(f"{score}/100 {risk}")
     return f"https://img.shields.io/badge/{label}-{msg}-{color}?style={style}"
 
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="yamtam badge",
+        prog="yana-ai badge",
         description="Generate shields.io audit badge for README",
     )
     parser.add_argument("target", nargs="?", default=".", help="Directory to score (default: .)")
@@ -71,7 +71,7 @@ def main():
     score = data.get("score", 0)
     risk  = data.get("risk_level", "UNKNOWN")
     url   = make_badge_url(score, risk, args.style)
-    md    = f"[![YAMTAM Audit]({url})](https://github.com/phamlongh230-lgtm/yamtam-engine)"
+    md    = f"[![Yana AI Audit]({url})](https://github.com/phamlongh230-lgtm/yana-ai)"
 
     if args.as_json:
         print(json.dumps({"score": score, "risk": risk, "badge_url": url, "markdown": md}))
@@ -82,7 +82,7 @@ def main():
         return
 
     print()
-    print(c(BOLD, "  YAMTAM Badge"))
+    print(c(BOLD, "  Yana AI Badge"))
     print()
     print(f"  Score:  {score}/100  {risk}")
     print()

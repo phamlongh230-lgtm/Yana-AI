@@ -9,7 +9,7 @@ A full role-based access control system: user management, role hierarchies, perm
 ## Why we don't do it
 **Agent identity is unreliable.** Claude Code does not provide cryptographically verified agent identity. `agent_name` in hook payloads is a string — any agent can claim any name. Building a security-critical access control system on top of an unverified identifier is a false sense of security.
 
-**Single developer target.** YAMTAM is personal tooling. The "team" is one person. Enterprise RBAC is designed for 50+ users with compliance requirements and org-level policy enforcement. It adds ceremony with no safety benefit at this scale.
+**Single developer target.** Yana AI is personal tooling. The "team" is one person. Enterprise RBAC is designed for 50+ users with compliance requirements and org-level policy enforcement. It adds ceremony with no safety benefit at this scale.
 
 **The current `rbac.json` is enough.** A lightweight policy file that fails open for unknown agents and fails closed for known restricted ones covers the real use case: "don't let the `qa-engineer` agent push to production."
 

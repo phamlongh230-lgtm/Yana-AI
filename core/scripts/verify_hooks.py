@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yamtam verify [target] — verify all hooks are wired and active."""
+"""yana-ai verify [target] — verify all hooks are wired and active."""
 
 import argparse
 import json
@@ -25,7 +25,7 @@ EXPECTED_HOOKS = [
 ]
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -66,14 +66,14 @@ def check_hook_file(target: str, hook_name: str) -> tuple[bool, bool]:
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="yamtam verify",
+        prog="yana-ai verify",
         description="Verify all safety hooks are wired and active",
     )
     parser.add_argument("target", nargs="?", default=".",
                         help="Project directory (default: .)")
     parser.add_argument("--json", action="store_true")
     parser.add_argument("--fix",  action="store_true",
-                        help="Install missing hooks (yamtam guard install all)")
+                        help="Install missing hooks (yana-ai guard install all)")
     args = parser.parse_args()
 
     target = args.target
@@ -100,7 +100,7 @@ def main():
         return
 
     print()
-    print(c(BOLD, "  yamtam verify — hook wiring check"))
+    print(c(BOLD, "  yana-ai verify — hook wiring check"))
     print(c(DIM,  f"  Target: {os.path.abspath(target)}"))
     print()
 
@@ -114,7 +114,7 @@ def main():
 
     if settings_data is None:
         print(c(YELLOW, "  ! .claude/settings.json not found — hooks may not be active"))
-        print(c(DIM,    "    Run: yamtam install . or yamtam guard install all"))
+        print(c(DIM,    "    Run: yana-ai install . or yana-ai guard install all"))
         print()
 
     print(f"  {'HOOK':<35} {'EXISTS':<8} {'WIRED':<8} {'DESCRIPTION'}")
@@ -133,13 +133,13 @@ def main():
 
     if status != "PASS":
         if args.fix:
-            print(c(CYAN, "  Running: yamtam guard install all…"))
+            print(c(CYAN, "  Running: yana-ai guard install all…"))
             guard_py = os.path.join(REPO_ROOT, "core/scripts/guard_installer.py")
             subprocess.run([sys.executable, guard_py, "install", "all",
                             "--target", target], check=False)
             print()
         else:
-            print(c(DIM, "  Fix: yamtam guard install all  or  yamtam verify --fix"))
+            print(c(DIM, "  Fix: yana-ai guard install all  or  yana-ai verify --fix"))
             print()
 
     if status == "FAIL":

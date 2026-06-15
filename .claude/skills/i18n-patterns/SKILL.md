@@ -16,7 +16,7 @@ compatibility: "Any web frontend. CSS logical properties + Intl API. React/Vue/S
 
 <!-- Adapted from phazurlabs/ux-ui-mastery (MIT) — i18n Patterns skill #11.
      RTL CSS logical properties, text expansion, Intl API, Hofstede cultural dimensions.
-     YAMTAM structure, Vietnamese-specific section, and Anti-Fake-Pass gate are original. -->
+     Yana AI structure, Vietnamese-specific section, and Anti-Fake-Pass gate are original. -->
 
 ## When to Use
 

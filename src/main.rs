@@ -25,7 +25,7 @@ use clap::{Parser, Subcommand};
 // ── CLI ───────────────────────────────────────────────────────────────────────
 
 #[derive(Parser)]
-#[command(name = "yamtam-rt", version = "1.3.0", about = "YAMTAM Runtime — full Python CLI parity in Rust")]
+#[command(name = "yana-rt", version = "1.3.0", about = "Yana AI Runtime — full Python CLI parity in Rust")]
 struct Cli {
     #[command(subcommand)]
     command: Commands,
@@ -41,7 +41,7 @@ enum Commands {
     Bus    { #[command(subcommand)] action: BusAction },
     /// L3 shared memory — workspace-level facts across sessions
     Memory { #[command(subcommand)] action: MemoryAction },
-    /// Configuration — init/read yamtam settings for any repo
+    /// Configuration — init/read yana-ai settings for any repo
     Config { #[command(subcommand)] action: ConfigAction },
     /// Plugin hooks — register custom guards without forking
     Plugin { #[command(subcommand)] action: PluginAction },
@@ -63,7 +63,7 @@ enum Commands {
     Mission { #[command(subcommand)] action: mission::MissionAction },
     /// Route a task description → simple / complex / external (yana-router)
     Route  { #[command(subcommand)] action: route::RouteAction },
-    /// Validate task spec files against the yamtam schema
+    /// Validate task spec files against the yana-ai schema
     Spec   { #[command(subcommand)] action: spec::SpecAction },
     /// Design token extractor — URL/file → colors, fonts, spacing, CSS vars
     Design { #[command(subcommand)] action: design::DesignAction },
@@ -73,7 +73,7 @@ enum Commands {
     Vault  { #[command(subcommand)] action: vault::VaultAction },
     /// Live file watcher — monitor skills/agents/rules for changes
     Watch  { #[command(subcommand)] action: watch::WatchAction },
-    /// Initialize YAMTAM in a new project
+    /// Initialize Yana AI in a new project
     Init   { #[command(subcommand)] action: init::InitAction },
     /// Audit AI agent setup for security risks (replaces audit_scanner.py)
     Scan {
@@ -209,7 +209,7 @@ enum CostAction {
 // ── main ─────────────────────────────────────────────────────────────────────
 
 fn main() {
-    // Exit quietly on broken pipe (e.g. `yamtam-rt mission dispatch | head`)
+    // Exit quietly on broken pipe (e.g. `yana-rt mission dispatch | head`)
     // instead of panicking with "failed printing to stdout: Broken pipe"
     std::panic::set_hook(Box::new(|info| {
         let msg = info.payload()
@@ -280,13 +280,13 @@ fn main() {
             if let Some(ref sarif_path) = sarif {
                 let sarif_str = scanner::render::render_sarif(&report);
                 std::fs::write(sarif_path, &sarif_str).expect("write SARIF failed");
-                eprintln!("[yamtam] SARIF written to {sarif_path}");
+                eprintln!("[yana-ai] SARIF written to {sarif_path}");
             }
             // Markdown output
             if let Some(ref md_path) = markdown {
                 let md = scanner::render::render_markdown(&report);
                 std::fs::write(md_path, &md).expect("write markdown failed");
-                eprintln!("[yamtam] Markdown written to {md_path}");
+                eprintln!("[yana-ai] Markdown written to {md_path}");
             }
             // Primary output
             if json {

@@ -26,12 +26,12 @@ import { appendFileSync, mkdirSync } from 'fs';
 
 // ─── Config ──────────────────────────────────────────────────────────────────
 
-const QUARANTINE_THRESHOLD = parseInt(process.env.YAMTAM_QUARANTINE_THRESHOLD ?? '30');
-const MIN_QUORUM           = parseInt(process.env.YAMTAM_MIN_QUORUM ?? '3');
-const HEARTBEAT_TTL_MS     = parseInt(process.env.YAMTAM_HEARTBEAT_TTL ?? '30000');   // 30s
-const BUS_SECRET           = process.env.YAMTAM_BUS_SECRET ?? 'yamtam-bus-secret';
-const ROUTE_LOG            = process.env.YAMTAM_ROUTE_LOG  ?? 'releases/logs/swarm-router.jsonl';
-const MAX_CALL_DEPTH       = parseInt(process.env.YAMTAM_MAX_CALL_DEPTH ?? '5');
+const QUARANTINE_THRESHOLD = parseInt(process.env.YANA_QUARANTINE_THRESHOLD ?? '30');
+const MIN_QUORUM           = parseInt(process.env.YANA_MIN_QUORUM ?? '3');
+const HEARTBEAT_TTL_MS     = parseInt(process.env.YANA_HEARTBEAT_TTL ?? '30000');   // 30s
+const BUS_SECRET           = process.env.YANA_BUS_SECRET ?? 'yana-ai-bus-secret';
+const ROUTE_LOG            = process.env.YANA_ROUTE_LOG  ?? 'releases/logs/swarm-router.jsonl';
+const MAX_CALL_DEPTH       = parseInt(process.env.YANA_MAX_CALL_DEPTH ?? '5');
 
 // ─── Agent Registry ──────────────────────────────────────────────────────────
 
@@ -167,7 +167,7 @@ export class SwarmRouter {
    * Restore a quarantined agent (requires manual authorization).
    */
   release(agentId, authToken) {
-    if (!authToken || authToken !== process.env.YAMTAM_RELEASE_TOKEN) {
+    if (!authToken || authToken !== process.env.YANA_RELEASE_TOKEN) {
       throw new SwarmRoutingError('Unauthorized agent release — invalid token', agentId);
     }
     const agent = this._getAgent(agentId);

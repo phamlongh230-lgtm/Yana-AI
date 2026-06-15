@@ -1,4 +1,4 @@
-# CLI MVP Design — `yamtam audit`
+# CLI MVP Design — `yana-ai audit`
 
 **Status:** Design (pre-implementation)  
 **Phase:** v0.1  
@@ -9,22 +9,22 @@
 ## Command Structure
 
 ```
-yamtam <command> [target] [flags]
+yana-ai <command> [target] [flags]
 ```
 
 ### v0.1 commands
 
 ```
-yamtam audit [target]     Run the agent setup audit
-yamtam version            Print version
-yamtam help               Print help
+yana-ai audit [target]     Run the agent setup audit
+yana-ai version            Print version
+yana-ai help               Print help
 ```
 
 `target` defaults to `.` (current directory).
 
 ---
 
-## `yamtam audit` Flags
+## `yana-ai audit` Flags
 
 | Flag | Type | Default | Description |
 |------|------|---------|-------------|
@@ -44,8 +44,8 @@ yamtam help               Print help
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│  YAMTAM Agent Audit Report                          │
-│  v0.1.0 · github.com/phamlongh230-lgtm/yamtam-engine │
+│  Yana AI Agent Audit Report                          │
+│  v0.1.0 · github.com/phamlongh230-lgtm/yana-ai │
 └─────────────────────────────────────────────────────┘
 
 Target:   .
@@ -157,8 +157,8 @@ When `--fail-on medium`: exit 1 if MEDIUM, HIGH, or CRITICAL findings exist.
 ## GitHub Actions Integration Example
 
 ```yaml
-# .github/workflows/yamtam-audit.yml
-name: YAMTAM Agent Audit
+# .github/workflows/yana-ai-audit.yml
+name: Yana AI Agent Audit
 
 on:
   push:
@@ -171,18 +171,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Install YAMTAM
+      - name: Install Yana AI
         run: |
-          curl -sSL https://raw.githubusercontent.com/phamlongh230-lgtm/yamtam-engine/main/install.sh | bash
+          curl -sSL https://raw.githubusercontent.com/phamlongh230-lgtm/yana-ai/main/install.sh | bash
       
       - name: Run audit
-        run: yamtam audit . --fail-on high --markdown audit-report.md
+        run: yana-ai audit . --fail-on high --markdown audit-report.md
       
       - name: Upload report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: yamtam-audit-report
+          name: yana-ai-audit-report
           path: audit-report.md
 ```
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yamtam map . — Agent Blast Radius Map.
+"""yana-ai map . — Agent Blast Radius Map.
 
 Answers: "What can my AI agent actually reach in this repo?"
 Scans .claude/settings.json, .mcp.json, .github/workflows/ and outputs
@@ -22,7 +22,7 @@ DIM    = "\033[2m"
 RESET  = "\033[0m"
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -221,7 +221,7 @@ def print_map(target: str, claude: dict, mcps: list, wfs: list):
     oc = risk_color(overall)
 
     print()
-    print(c(BOLD, "  YAMTAM Agent Blast Radius Map"))
+    print(c(BOLD, "  Yana AI Agent Blast Radius Map"))
     print(c(DIM,  f"  Target: {os.path.abspath(target)}"))
     print()
     print(f"  Overall Risk: {c(BOLD + oc, overall)}")
@@ -275,13 +275,13 @@ def print_map(target: str, claude: dict, mcps: list, wfs: list):
                 print(c(DIM, "       no risky patterns detected"))
     print()
 
-    print(c(DIM, "  Run yamtam audit . for full findings and score."))
+    print(c(DIM, "  Run yana-ai audit . for full findings and score."))
     print()
 
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="yamtam map",
+        prog="yana-ai map",
         description="Agent Blast Radius Map — what your agent can reach",
     )
     parser.add_argument("target", nargs="?", default=".", help="Directory to scan (default: .)")

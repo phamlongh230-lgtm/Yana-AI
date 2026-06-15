@@ -1,10 +1,10 @@
 ---
 name: opentelemetry-distributed-tracing
 description: OpenTelemetry JS SDK for distributed tracing across agent chains. Span creation, context propagation (W3C Trace Context), OTLP export, baggage passing, and auto-instrumentation for Node.js. Sources: open-telemetry/opentelemetry-js (Apache-2.0).
-origin: yamtam-engine — synthesized from open-telemetry/opentelemetry-js (Apache-2.0)
+origin: yana-ai — synthesized from open-telemetry/opentelemetry-js (Apache-2.0)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.52
+compatibility: yana-ai >= 1.3.52
 ---
 
 # /opentelemetry-distributed-tracing
@@ -35,7 +35,7 @@ import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentation
 
 const sdk = new NodeSDK({
   resource: new Resource({
-    [SEMRESATTRS_SERVICE_NAME]: process.env.YAMTAM_AGENT_ID ?? 'yamtam-agent',
+    [SEMRESATTRS_SERVICE_NAME]: process.env.YANA_AGENT_ID ?? 'yana-ai-agent',
   }),
   traceExporter: new OTLPTraceExporter({
     url: 'http://otel-collector:4318/v1/traces',
@@ -54,14 +54,14 @@ process.on('SIGTERM', () => sdk.shutdown())
 ```javascript
 import { trace, context, SpanStatusCode } from '@opentelemetry/api'
 
-const tracer = trace.getTracer('yamtam-agent', '1.3.52')
+const tracer = trace.getTracer('yana-ai-agent', '1.3.52')
 
 async function executeTask(taskId: string, tool: string, params: object) {
   const span = tracer.startSpan('task.execute', {
     attributes: {
-      'yamtam.task_id':  taskId,
-      'yamtam.tool':     tool,
-      'yamtam.agent_id': process.env.YAMTAM_AGENT_ID!,
+      'yana-ai.task_id':  taskId,
+      'yana-ai.tool':     tool,
+      'yana-ai.agent_id': process.env.YANA_AGENT_ID!,
     },
   })
 
@@ -69,7 +69,7 @@ async function executeTask(taskId: string, tool: string, params: object) {
     try {
       const result = await runTool(tool, params)
       span.setStatus({ code: SpanStatusCode.OK })
-      span.setAttribute('yamtam.output_tokens', result.tokens ?? 0)
+      span.setAttribute('yana-ai.output_tokens', result.tokens ?? 0)
       return result
     } catch (err: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: err.message })
@@ -121,14 +121,14 @@ import { propagation, context, baggageEntryMetadataFromString } from '@opentelem
 
 // Set baggage: pass agentId and tier through the entire trace
 const baggage = propagation.createBaggage({
-  'yamtam.agent_id': { value: 'agent-1' },
-  'yamtam.tier':     { value: 'power' },
+  'yana-ai.agent_id': { value: 'agent-1' },
+  'yana-ai.tier':     { value: 'power' },
 })
 const ctx = propagation.setBaggage(context.active(), baggage)
 
 // Read baggage downstream
 const bag      = propagation.getBaggage(context.active())
-const agentId  = bag?.getEntry('yamtam.agent_id')?.value
+const agentId  = bag?.getEntry('yana-ai.agent_id')?.value
 ```
 
 ---

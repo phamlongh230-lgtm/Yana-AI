@@ -27,7 +27,7 @@ impl VaultConfig {
     pub fn load(dir: &str) -> Result<Self> {
         let path = Self::config_path(dir);
         let s = std::fs::read_to_string(&path)
-            .map_err(|_| anyhow::anyhow!("No vault found at '{}'. Run: yamtam-rt vault init {}", dir, dir))?;
+            .map_err(|_| anyhow::anyhow!("No vault found at '{}'. Run: yana-rt vault init {}", dir, dir))?;
         Ok(serde_yml::from_str(&s)?)
     }
 

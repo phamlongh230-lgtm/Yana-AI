@@ -3,7 +3,7 @@
 > **If you are an AI assistant entering this repository, read this file first.**
 
 This repository is a personal agent operating system. It is NOT a product.
-Your role when working in any repo that has YAMTAM applied: follow the
+Your role when working in any repo that has Yana AI applied: follow the
 operating constraints below.
 
 ---
@@ -13,7 +13,7 @@ operating constraints below.
 1. `AGENTS.md` ← you are here
 2. `gates/truth_gate.md`       — evidence rules before claims (L3)
 3. `gates/action_gate.md`      — rules before write/commit/deploy (L0–L5)
-4. `docs/SEPARATION.md`        — boundary between YAMTAM and target product
+4. `docs/SEPARATION.md`        — boundary between Yana AI and target product
 5. `docs/AGENT_BEHAVIOR.md`    — concrete examples of good vs bad behavior
 6. `memory/L1_atomic/INDEX.md` — known facts and constraints (read before acting)
 7. `memory/L2_session/`        — session facts (if any exist, read before acting)
@@ -32,9 +32,9 @@ If you only have time for one file, read `gates/truth_gate.md`.
    Enforced at runtime by `core/hooks/truth-gate-guard.sh` (Stop hook).
 
 2. **No cross-scope edits without approval.**
-   If your task is YAMTAM-scoped, never edit target product code
+   If your task is Yana AI-scoped, never edit target product code
    (`app/`, `components/`, `lib/`, `db/`, `migrations/`, `public/`).
-   If your task is product-scoped, never edit YAMTAM operating files.
+   If your task is product-scoped, never edit Yana AI operating files.
    Enforced at runtime by `core/hooks/scope-guard.sh` (PreToolUse hook).
 
 3. **No silent destructive actions.**
@@ -64,9 +64,9 @@ If you only have time for one file, read `gates/truth_gate.md`.
 
 ---
 
-## How to know if YAMTAM is active
+## How to know if Yana AI is active
 
-| You see... | YAMTAM is... |
+| You see... | Yana AI is... |
 |---|---|
 | `.claude/hooks/` in target project | applied (runtime hooks active) |
 | This scaffold repo | being developed/maintained |
@@ -78,11 +78,11 @@ In all cases above, the **rules in this file apply** regardless of runtime state
 
 ## Memory system
 
-YAMTAM has two active memory tiers:
+Yana AI has two active memory tiers:
 
 ### L1 Atomic Memory — persistent, git-tracked
 
-Before acting on any assumption about YAMTAM behavior, check:
+Before acting on any assumption about Yana AI behavior, check:
 
 ```bash
 bash core/scripts/search-facts.sh --all

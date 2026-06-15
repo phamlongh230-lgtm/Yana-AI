@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — VS Code Adapter
+# Yana AI — VS Code Adapter
 
 **Engine:** GitHub Copilot (via VS Code)  
 **Mode:** Advisory (no native hook support)  
@@ -23,13 +23,13 @@
 
 ## Setup
 
-### Step 1 — Apply YAMTAM instructions to Copilot
+### Step 1 — Apply Yana AI instructions to Copilot
 
-Copy the YAMTAM core rules into `.github/copilot-instructions.md`:
+Copy the Yana AI core rules into `.github/copilot-instructions.md`:
 
 ```bash
 cat > .github/copilot-instructions.md << 'EOF'
-# YAMTAM ENGINE — Copilot Instructions
+# Yana AI — Copilot Instructions
 
 ## Hard rules (always follow)
 
@@ -71,7 +71,7 @@ Add to `.vscode/tasks.json`:
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "YAMTAM: Checkpoint",
+      "label": "Yana AI: Checkpoint",
       "type": "shell",
       "command": "bash core/scripts/session-checkpoint.sh --force",
       "group": "none",
@@ -79,7 +79,7 @@ Add to `.vscode/tasks.json`:
       "problemMatcher": []
     },
     {
-      "label": "YAMTAM: Rollback (latest)",
+      "label": "Yana AI: Rollback (latest)",
       "type": "shell",
       "command": "bash core/scripts/session-rollback.sh --list && read -p 'Enter checkpoint ID: ' ID && bash core/scripts/session-rollback.sh --id $ID",
       "group": "none",
@@ -87,7 +87,7 @@ Add to `.vscode/tasks.json`:
       "problemMatcher": []
     },
     {
-      "label": "YAMTAM: Risk Scan (current diff)",
+      "label": "Yana AI: Risk Scan (current diff)",
       "type": "shell",
       "command": "git diff --stat HEAD && git diff --name-only HEAD",
       "group": "none",
@@ -95,7 +95,7 @@ Add to `.vscode/tasks.json`:
       "problemMatcher": []
     },
     {
-      "label": "YAMTAM: Session Trace",
+      "label": "Yana AI: Session Trace",
       "type": "shell",
       "command": "tail -30 .claude/state/audit-chain.log 2>/dev/null | python3 -c \"import sys,json; [print(f'{e.get(\\\"ts\\\",\\\"\\\")[-8:]}  {e.get(\\\"hook\\\",\\\"\\\")[:20]:<22} {e.get(\\\"decision\\\",\\\"\\\")}') for line in sys.stdin for e in [json.loads(line)] if line.strip()]\"",
       "group": "none",
@@ -106,7 +106,7 @@ Add to `.vscode/tasks.json`:
 }
 ```
 
-Run tasks via: `Ctrl+Shift+P → Tasks: Run Task → YAMTAM: ...`
+Run tasks via: `Ctrl+Shift+P → Tasks: Run Task → Yana AI: ...`
 
 ### Step 3 — Keyboard shortcuts (optional)
 
@@ -116,12 +116,12 @@ Add to `keybindings.json`:
   {
     "key": "ctrl+shift+k c",
     "command": "workbench.action.tasks.runTask",
-    "args": "YAMTAM: Checkpoint"
+    "args": "Yana AI: Checkpoint"
   },
   {
     "key": "ctrl+shift+k r",
     "command": "workbench.action.tasks.runTask",
-    "args": "YAMTAM: Risk Scan (current diff)"
+    "args": "Yana AI: Risk Scan (current diff)"
   }
 ]
 ```
@@ -142,10 +142,10 @@ Add to `keybindings.json`:
 
 ## Recommended workflow for VS Code
 
-1. Run `YAMTAM: Checkpoint` before starting any significant task
+1. Run `Yana AI: Checkpoint` before starting any significant task
 2. Paste relevant command content (e.g., `/diff-review` contents) into Copilot chat
-3. Run `YAMTAM: Risk Scan` before committing
-4. Run `YAMTAM: Checkpoint` after completing each phase
-5. Run `YAMTAM: Rollback` if something goes wrong
+3. Run `Yana AI: Risk Scan` before committing
+4. Run `Yana AI: Checkpoint` after completing each phase
+5. Run `Yana AI: Rollback` if something goes wrong
 
 For full enforcement: use Claude Code instead of Copilot.

@@ -1,0 +1,87 @@
+name: Yana AI Audit
+
+# Example workflow — copy this into YOUR repo (not the yana-ai repo itself)
+# to run yana-ai audit in CI and fail on high-risk findings.
+#
+# Usage:
+#   1. Copy this file to .github/workflows/yana-ai-audit.yml in your project
+#   2. Adjust FAIL_ON_LEVEL to your preferred threshold (low/medium/high/critical)
+#   3. Adjust YANA_REF to pin a specific release tag (recommended for reproducibility)
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  yana-ai-audit:
+    name: Yana AI Agent Setup Audit
+    # This is a demo/example workflow. Skip it on the yana-ai repo itself.
+    if: github.repository != 'phamlongh230-lgtm/yana-ai'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      security-events: write   # required for SARIF upload to GitHub Code Scanning
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3 (node24)
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0 (node24)
+        with:
+          python-version: '3.11'
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install yana-rt
+        run: cargo install yana-rt
+
+      - name: Install Yana AI
+        run: |
+          YANA_REF="main"   # pin to a release tag in production, e.g. "v1.8.0"
+          git clone --depth 1 --branch "$YANA_REF" \
+            https://github.com/phamlongh230-lgtm/yana-ai.git /tmp/yana-ai
+          chmod +x /tmp/yana-ai/bin/yana-ai
+
+      - name: Run Yana AI audit
+        env:
+          FAIL_ON_LEVEL: high   # fail CI on HIGH or CRITICAL findings (adjust as needed)
+        run: |
+          # On PRs: scan only changed files. On push to main: scan everything.
+          DIFF_FLAG=""
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            DIFF_FLAG="--diff origin/${{ github.base_ref }}"
+          fi
+
+          /tmp/yana-ai/bin/yana-ai audit . \
+            $DIFF_FLAG \
+            --fail-on "$FAIL_ON_LEVEL" \
+            --ignore AU010 \
+            --ignore CI008 \
+            --sarif yana-ai-audit.sarif \
+            --markdown yana-ai-audit-report.md
+
+      - name: Upload SARIF to GitHub Code Scanning
+        if: always()
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: yana-ai-audit.sarif
+          category: yana-ai-agent-audit
+
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1 (node24)
+        with:
+          name: yana-ai-audit-report
+          path: |
+            yana-ai-audit-report.md
+            yana-ai-audit.sarif
+          retention-days: 30

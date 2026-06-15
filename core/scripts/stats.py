@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yamtam stats [target] — audit score trend over time."""
+"""yana-ai stats [target] — audit score trend over time."""
 
 import argparse
 import json
@@ -17,13 +17,13 @@ RED    = "\033[31m"; CYAN   = "\033[36m"; DIM    = "\033[2m"; RESET  = "\033[0m"
 RISK_COLOR = {"CRITICAL": RED, "HIGH": RED, "MEDIUM": YELLOW, "LOW": GREEN}
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
 
 def history_path(target: str) -> str:
-    return os.path.join(target, ".yamtam", "history.json")
+    return os.path.join(target, ".yana-ai", "history.json")
 
 def load_history(target: str) -> list[dict]:
     path = history_path(target)
@@ -63,7 +63,7 @@ def trend_arrow(prev: int, curr: int) -> str:
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="yamtam stats",
+        prog="yana-ai stats",
         description="Audit score trend over time",
     )
     parser.add_argument("target",  nargs="?", default=".")
@@ -115,12 +115,12 @@ def main():
         return
 
     print()
-    print(c(BOLD, "  yamtam stats") + c(DIM, f" — {os.path.abspath(args.target)}"))
+    print(c(BOLD, "  yana-ai stats") + c(DIM, f" — {os.path.abspath(args.target)}"))
     print()
 
     if not history:
         print(c(DIM, "  No history yet."))
-        print(c(DIM, "  Run: yamtam stats --record  to start tracking"))
+        print(c(DIM, "  Run: yana-ai stats --record  to start tracking"))
         print()
         return
 
@@ -153,7 +153,7 @@ def main():
     print(f"  Best:  {score_bar(best['score'],  10)}  on {best['ts'][:10]}")
     print(f"  Worst: {score_bar(worst['score'], 10)}  on {worst['ts'][:10]}")
     print()
-    print(c(DIM, "  Run: yamtam stats --record  to add today's scan"))
+    print(c(DIM, "  Run: yana-ai stats --record  to add today's scan"))
     print()
 
 

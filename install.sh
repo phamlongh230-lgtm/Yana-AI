@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE — One-line installer
-# Usage: curl -sSL https://raw.githubusercontent.com/phamlongh230-lgtm/yamtam-engine/main/install.sh | bash
+# Yana AI — One-line installer
+# Usage: curl -sSL https://raw.githubusercontent.com/phamlongh230-lgtm/yana-ai/main/install.sh | bash
 #
 # Options (env vars):
-#   YAMTAM_DIR       — install target (default: .claude in current dir)
-#   YAMTAM_SKIP_TEST — set to 1 to skip post-install verification
+#   YANA_DIR       — install target (default: .claude in current dir)
+#   YANA_SKIP_TEST — set to 1 to skip post-install verification
 
 set -euo pipefail
 
-REPO="phamlongh230-lgtm/yamtam-engine"
-INSTALL_DIR="${YAMTAM_DIR:-.claude}"
-SKIP_TEST="${YAMTAM_SKIP_TEST:-0}"
-TMP_ZIP="$(mktemp /tmp/yamtam-XXXXXX.zip)"
+REPO="phamlongh230-lgtm/yana-ai"
+INSTALL_DIR="${YANA_DIR:-.claude}"
+SKIP_TEST="${YANA_SKIP_TEST:-0}"
+TMP_ZIP="$(mktemp /tmp/yana-ai-XXXXXX.zip)"
 
 RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; CYAN='\033[0;36m'; BOLD='\033[1m'; NC='\033[0m'
 
-VI="${YAMTAM_LANG:-$(locale 2>/dev/null | grep LANG | head -1 | grep -qi 'vi' && echo vi || echo en)}"
+VI="${YANA_LANG:-$(locale 2>/dev/null | grep LANG | head -1 | grep -qi 'vi' && echo vi || echo en)}"
 [[ "$VI" == "vi" ]] || VI="${LANG:-en}"; [[ "$VI" == vi* ]] && VI=vi || VI=en
 
 banner() {
@@ -23,12 +23,12 @@ banner() {
   echo -e "${CYAN}${BOLD}"
   if [[ "$VI" == "vi" ]]; then
     echo "  ╔══════════════════════════════════════╗"
-    echo "  ║       BỘ CÀI YAMTAM ENGINE           ║"
+    echo "  ║       BỘ CÀI Yana AI           ║"
     echo "  ║   Hệ điều hành Agent cho Claude Code ║"
     echo "  ╚══════════════════════════════════════╝"
   else
     echo "  ╔══════════════════════════════════════╗"
-    echo "  ║        YAMTAM ENGINE INSTALLER       ║"
+    echo "  ║        Yana AI INSTALLER       ║"
     echo "  ║  Personal Agent OS for Claude Code   ║"
     echo "  ╚══════════════════════════════════════╝"
   fi
@@ -104,14 +104,14 @@ apply_claude_md() {
     return
   fi
 
-  if [[ -f "$dst" ]] && grep -q "YAMTAM ENGINE" "$dst" 2>/dev/null; then
-    [[ "$VI" == "vi" ]] && success "CLAUDE.md đã có block YAMTAM — bỏ qua" \
-                         || success "CLAUDE.md already contains YAMTAM block — skipped"
+  if [[ -f "$dst" ]] && grep -q "Yana AI" "$dst" 2>/dev/null; then
+    [[ "$VI" == "vi" ]] && success "CLAUDE.md đã có block Yana AI — bỏ qua" \
+                         || success "CLAUDE.md already contains Yana AI block — skipped"
     return
   fi
 
-  [[ "$VI" == "vi" ]] && info "Đang áp cấu hình YAMTAM vào CLAUDE.md..." \
-                       || info "Applying YAMTAM config to CLAUDE.md..."
+  [[ "$VI" == "vi" ]] && info "Đang áp cấu hình Yana AI vào CLAUDE.md..." \
+                       || info "Applying Yana AI config to CLAUDE.md..."
   if [[ -f "$dst" ]]; then
     { echo ""; cat "$src"; } >> "$dst"
   else
@@ -123,8 +123,8 @@ apply_claude_md() {
 
 verify() {
   if [[ "$SKIP_TEST" == "1" ]]; then
-    [[ "$VI" == "vi" ]] && warn "Bỏ qua kiểm tra (YAMTAM_SKIP_TEST=1)" \
-                         || warn "Skipping verification (YAMTAM_SKIP_TEST=1)"
+    [[ "$VI" == "vi" ]] && warn "Bỏ qua kiểm tra (YANA_SKIP_TEST=1)" \
+                         || warn "Skipping verification (YANA_SKIP_TEST=1)"
     return
   fi
 
@@ -148,12 +148,12 @@ verify() {
 print_done() {
   echo ""
   if [[ "$VI" == "vi" ]]; then
-    echo -e "  ${GREEN}${BOLD}YAMTAM ENGINE đã cài thành công!${NC}"
+    echo -e "  ${GREEN}${BOLD}Yana AI đã cài thành công!${NC}"
     echo ""
     echo -e "  ${CYAN}→${NC} Mở Claude Code trong thư mục này — hooks đã hoạt động."
     echo -e "  ${CYAN}→${NC} Tài liệu: https://github.com/$REPO"
   else
-    echo -e "  ${GREEN}${BOLD}YAMTAM ENGINE installed successfully!${NC}"
+    echo -e "  ${GREEN}${BOLD}Yana AI installed successfully!${NC}"
     echo ""
     echo -e "  ${CYAN}→${NC} Open Claude Code in this directory — hooks are active."
     echo -e "  ${CYAN}→${NC} Docs: https://github.com/$REPO"

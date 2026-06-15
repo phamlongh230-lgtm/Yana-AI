@@ -1,4 +1,4 @@
-# YAMTAM ENGINE - Upgrade Proposals 2026
+# Yana AI - Upgrade Proposals 2026
 
 **Date:** 2026-05-23
 **Current Version:** 1.6.1

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE — Auto Feedback Loop (AutoGen-inspired self-correction)
+# Yana AI — Auto Feedback Loop (AutoGen-inspired self-correction)
 #
 # Runs a test command, captures failures, writes structured error context
 # to .claude/signals/feedback.pending for the agent to read and fix.
@@ -15,7 +15,7 @@ MAX_ATTEMPTS="${2:-5}"
 SIGNAL_DIR=".claude/signals"
 mkdir -p "$SIGNAL_DIR"
 
-echo "=== YAMTAM Feedback Loop ==="
+echo "=== Yana AI Feedback Loop ==="
 echo "Command:      $TEST_CMD"
 echo "Max attempts: $MAX_ATTEMPTS"
 echo ""

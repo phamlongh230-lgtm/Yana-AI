@@ -13,7 +13,7 @@ def run(args: list[str]):
 
 
 def _assert_ok(path: str) -> None:
-    p = run(["bash", "bin/yamtam", "check-context", path])
+    p = run(["bash", "bin/yana-ai", "check-context", path])
     if p.returncode != 0 or "Result: VALID" not in p.stdout:
         raise SystemExit(
             f"{path} should pass\ncode={p.returncode}\nstdout={p.stdout}\nstderr={p.stderr}"
@@ -21,7 +21,7 @@ def _assert_ok(path: str) -> None:
 
 
 def _assert_invalid(path: str) -> None:
-    p = run(["bash", "bin/yamtam", "check-context", path])
+    p = run(["bash", "bin/yana-ai", "check-context", path])
     if p.returncode != 1 or "Result: INVALID" not in p.stdout:
         raise SystemExit(
             f"{path} should fail\ncode={p.returncode}\nstdout={p.stdout}\nstderr={p.stderr}"
@@ -29,7 +29,7 @@ def _assert_invalid(path: str) -> None:
 
 
 def _assert_json(path: str, expected_code: int, expected_status: str) -> dict:
-    p = run(["bash", "bin/yamtam", "check-context", path, "--json"])
+    p = run(["bash", "bin/yana-ai", "check-context", path, "--json"])
     if p.returncode != expected_code:
         raise SystemExit(
             f"{path} json mode code mismatch\nexpected={expected_code}\ncode={p.returncode}\nstdout={p.stdout}\nstderr={p.stderr}"
@@ -61,16 +61,16 @@ def _assert_json(path: str, expected_code: int, expected_status: str) -> dict:
     return payload
 
 
-def _yamtam_rt_available() -> bool:
+def _yana-ai_rt_available() -> bool:
     import shutil
-    if shutil.which("yamtam-rt"):
+    if shutil.which("yana-rt"):
         return True
-    return (ROOT / "target" / "release" / "yamtam-rt").exists() or (ROOT / "target" / "debug" / "yamtam-rt").exists()
+    return (ROOT / "target" / "release" / "yana-rt").exists() or (ROOT / "target" / "debug" / "yana-rt").exists()
 
 
 def main() -> int:
-    if not _yamtam_rt_available():
-        print("SKIP: yamtam-rt not installed — skipping context-pack regression tests")
+    if not _yana-ai_rt_available():
+        print("SKIP: yana-rt not installed — skipping context-pack regression tests")
         return 0
     _assert_ok("examples/context-packs/valid-basic")
     _assert_ok("examples/context-packs/valid-with-narrow-globs")
@@ -78,7 +78,7 @@ def main() -> int:
     _assert_invalid("examples/context-packs/invalid-broad-scope")
     _assert_invalid("examples/context-packs/invalid-vague-content")
 
-    miss = run(["bash", "bin/yamtam", "check-context", "examples/context-packs/not-found"])
+    miss = run(["bash", "bin/yana-ai", "check-context", "examples/context-packs/not-found"])
     if miss.returncode != 2:
         raise SystemExit(
             f"missing dir should return code 2\ncode={miss.returncode}\nstdout={miss.stdout}\nstderr={miss.stderr}"

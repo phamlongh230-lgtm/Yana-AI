@@ -1,10 +1,10 @@
 ---
 name: agent-verification-gate
 description: Deterministic verification gate for agent task close-out. Reads scope contract, rule report, feedback log, and diff — emits a single verification_report.json verdict. Block-severity failures cannot be overridden by the agent. Sources: rohitg00/ai-engineering-from-scratch (Apache-2.0).
-origin: yamtam-engine — synthesized from rohitg00/ai-engineering-from-scratch (Apache-2.0)
+origin: yana-ai — synthesized from rohitg00/ai-engineering-from-scratch (Apache-2.0)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.54
+compatibility: yana-ai >= 1.3.54
 ---
 
 # /agent-verification-gate
@@ -14,7 +14,7 @@ compatibility: yamtam-engine >= 1.3.54
 - Agent is about to mark a task as "done" — gate must confirm before close-out
 - CI pipeline needs a machine-readable verdict on whether an agentic change is complete
 - Preventing self-certification: agent cannot judge its own work as complete
-- Implementing YAMTAM Truth Gate evidence requirement in a structured pipeline
+- Implementing Yana AI Truth Gate evidence requirement in a structured pipeline
 
 ## Do NOT use for
 

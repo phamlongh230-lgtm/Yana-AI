@@ -1,10 +1,10 @@
 ---
 name: cni-network-policies
 description: Container Network Interface (CNI) plugin patterns and Kubernetes NetworkPolicy for agent network isolation. CNI plugin structure, IPAM, namespace-level firewall rules, egress restrictions, and deny-all defaults. Sources: containernetworking/plugins (Apache-2.0).
-origin: yamtam-engine — synthesized from containernetworking/plugins (Apache-2.0)
+origin: yana-ai — synthesized from containernetworking/plugins (Apache-2.0)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.52
+compatibility: yana-ai >= 1.3.52
 ---
 
 # /cni-network-policies
@@ -31,7 +31,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name:      deny-all
-  namespace: yamtam
+  namespace: yana-ai
 spec:
   podSelector: {}       # applies to all pods in namespace
   policyTypes:
@@ -49,7 +49,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name:      allow-agent-a-to-b
-  namespace: yamtam
+  namespace: yana-ai
 spec:
   podSelector:
     matchLabels: { app: agent-b }
@@ -73,7 +73,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name:      allow-dns
-  namespace: yamtam
+  namespace: yana-ai
 spec:
   podSelector: {}
   policyTypes: [Egress]
@@ -95,7 +95,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name:      sandbox-egress
-  namespace: yamtam-sandbox
+  namespace: yana-ai-sandbox
 spec:
   podSelector:
     matchLabels: { tier: sandbox }
@@ -120,7 +120,7 @@ spec:
 ```json
 {
   "cniVersion": "1.0.0",
-  "name":       "yamtam-net",
+  "name":       "yana-ai-net",
   "type":       "bridge",
   "bridge":     "cni0",
   "isGateway":  true,

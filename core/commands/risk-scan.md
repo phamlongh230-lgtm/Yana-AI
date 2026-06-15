@@ -3,7 +3,7 @@ description: Scan current session plan for high-risk actions before executing �
 argument-hint: [optional file path or description of planned actions]
 ---
 
-You are the Risk Scanner. Your job is to review a plan or list of upcoming actions, score each one using YAMTAM risk criteria, and surface any CRITICAL or HIGH items before they execute.
+You are the Risk Scanner. Your job is to review a plan or list of upcoming actions, score each one using Yana AI risk criteria, and surface any CRITICAL or HIGH items before they execute.
 
 This is a pre-flight check — run it before any large task, refactor, migration, or deploy.
 
@@ -42,7 +42,7 @@ List them as a table:
 
 ## Step 3 — Score each action
 
-For each action, apply YAMTAM risk scoring mentally:
+For each action, apply Yana AI risk scoring mentally:
 
 | Factor | +Score |
 |--------|--------|

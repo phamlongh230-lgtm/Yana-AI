@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""yamtam hunt [target] — active security scanner.
+"""yana-ai hunt [target] — active security scanner.
 
-Inspired by gadievron/raptor. Turns YAMTAM from passive auditor → active hunter.
-Unlike `yamtam audit` (reads config/settings), `hunt` digs into source code.
+Inspired by gadievron/raptor. Turns Yana AI from passive auditor → active hunter.
+Unlike `yana-ai audit` (reads config/settings), `hunt` digs into source code.
 
 Subcommands:
   secrets      Scan for exposed secrets, API keys, tokens
@@ -22,7 +22,7 @@ BOLD="\033[1m"; GREEN="\033[32m"; RED="\033[31m"; YELLOW="\033[33m"
 CYAN="\033[36m"; DIM="\033[2m"; MAGENTA="\033[35m"; RESET="\033[0m"
 SEV_COLOR = {"CRITICAL":RED,"HIGH":RED,"MEDIUM":YELLOW,"LOW":DIM}
 
-def no_color(): return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+def no_color(): return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 def c(code,t):  return t if no_color() else f"{code}{t}{RESET}"
 
 # ── Secret patterns ────────────────────────────────────────────────────────────
@@ -67,7 +67,7 @@ SUPPLY_CHAIN_PATTERNS = [
     ("PyPI floating",          r'^[a-zA-Z][a-zA-Z0-9_-]*\s*>=[0-9]', "LOW"),
 ]
 
-IGNORE_DIRS = {".git","node_modules","dist","build",".yamtam","__pycache__","venv",".venv","target"}
+IGNORE_DIRS = {".git","node_modules","dist","build",".yana-ai","__pycache__","venv",".venv","target"}
 IGNORE_EXTS = {".png",".jpg",".jpeg",".gif",".svg",".ico",".woff",".woff2",".ttf",".eot",
                ".pdf",".zip",".tar",".gz",".lock",".pyc",".class",".o",".so"}
 
@@ -223,7 +223,7 @@ def render_findings(findings: list[dict], category: str) -> None:
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="yamtam hunt",
+    parser = argparse.ArgumentParser(prog="yana-ai hunt",
         description="Active security scanner — digs into source code")
     parser.add_argument("target", nargs="?", default=".", help="Directory to scan")
     parser.add_argument("checks", nargs="*",
@@ -240,7 +240,7 @@ def main():
 
     if not args.json:
         print()
-        print(c(BOLD, "  yamtam hunt"))
+        print(c(BOLD, "  yana-ai hunt"))
         print(c(DIM,  f"  {target}"))
         print()
 
@@ -275,7 +275,7 @@ def main():
 
     if args.json:
         print(json.dumps({
-            "tool": "yamtam hunt", "target": target, "timestamp": ts,
+            "tool": "yana-ai hunt", "target": target, "timestamp": ts,
             "summary": by_sev, "findings": all_findings
         }, indent=2))
         return

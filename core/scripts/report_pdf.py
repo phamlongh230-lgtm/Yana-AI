@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yamtam report pdf [target] — export audit report as PDF.
+"""yana-ai report pdf [target] — export audit report as PDF.
 
 Tries conversion backends in order:
   1. weasyprint  (pip install weasyprint)
@@ -20,7 +20,7 @@ BOLD  = "\033[1m"; GREEN = "\033[32m"; RED = "\033[31m"
 CYAN  = "\033[36m"; DIM  = "\033[2m";  RESET = "\033[0m"
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -28,7 +28,7 @@ def c(code, text):
 
 def build_html(target: str, extra: list[str]) -> str:
     """Generate HTML report into a temp file, return its path."""
-    fd, path = tempfile.mkstemp(suffix=".html", prefix="yamtam-pdf-")
+    fd, path = tempfile.mkstemp(suffix=".html", prefix="yana-ai-pdf-")
     os.close(fd)
     cmd = [sys.executable, REPORT_HTML, target, "--out", path] + extra
     r = subprocess.run(cmd, capture_output=True, text=True)
@@ -64,13 +64,13 @@ def try_wkhtmltopdf(html_path: str, pdf_path: str) -> bool:
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="yamtam report pdf",
+        prog="yana-ai report pdf",
         description="Export audit report as PDF",
     )
     parser.add_argument("target", nargs="?", default=".",
                         help="Directory to audit (default: .)")
-    parser.add_argument("--out", default="yamtam-report.pdf",
-                        help="Output PDF path (default: yamtam-report.pdf)")
+    parser.add_argument("--out", default="yana-ai-report.pdf",
+                        help="Output PDF path (default: yana-ai-report.pdf)")
     parser.add_argument("--fail-on", choices=["low", "medium", "high", "critical"],
                         default=None)
     parser.add_argument("--ignore", metavar="ID", action="append", default=[])
@@ -79,7 +79,7 @@ def main():
     args = parser.parse_args()
 
     print()
-    print(c(BOLD, "  yamtam report pdf"))
+    print(c(BOLD, "  yana-ai report pdf"))
     print()
 
     extra = []

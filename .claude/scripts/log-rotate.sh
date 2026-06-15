@@ -9,7 +9,7 @@
 set -euo pipefail
 
 PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$(pwd)}"
-LOG_DIR="${YAMTAM_LOG_DIR:-$PROJECT_ROOT/core/memory/audit}"
+LOG_DIR="${YANA_LOG_DIR:-$PROJECT_ROOT/core/memory/audit}"
 LOG_FILE="$LOG_DIR/agent-actions.log"
 ARCHIVE_DIR="$PROJECT_ROOT/releases/logs"
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H%M%SZ")

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE - SBOM Generator
+# Yana AI - SBOM Generator
 # Hook: PostToolUse (fires after tool execution)
 # Purpose: Generate Software Bill of Materials after dependency installations
 # Version: 1.0
@@ -13,7 +13,7 @@ AUDIT_LOG="${CLAUDE_STATE_DIR:-.claude/state}/audit.log"
 SESSION_ID="${CLAUDE_SESSION_ID:-unknown}"
 
 # Bypass for testing
-if [[ "${YAMTAM_SBOM_BYPASS:-0}" == "1" ]]; then
+if [[ "${YANA_SBOM_BYPASS:-0}" == "1" ]]; then
   exit 0
 fi
 

@@ -1,4 +1,4 @@
-# Contributing to YAMTAM ENGINE · Đóng góp cho YAMTAM ENGINE
+# Contributing to Yana AI · Đóng góp cho Yana AI
 
 > **[Tiếng Việt bên dưới / Vietnamese below](#tiếng-việt)**
 
@@ -9,8 +9,8 @@ Thank you for helping build the most comprehensive AI agent safety framework.
 ## Quick Start
 
 ```bash
-git clone https://github.com/phamlongh230-lgtm/yamtam-engine
-cd yamtam-engine
+git clone https://github.com/phamlongh230-lgtm/yana-ai
+cd yana-ai
 bash core/tests/skills/test-skill-triggering.sh  # should show Result: PASS
 bash core/tests/hooks/run-hook-tests.sh          # should show all passing
 ```
@@ -27,7 +27,7 @@ bash core/tests/hooks/run-hook-tests.sh          # should show all passing
 | Cross-engine adapters | ✅ | Add to `adapters/` |
 | Performance improvements | ✅ | Benchmark before/after |
 | New agent definitions | ✅ | Must be generic, no product coupling |
-| Product-specific code | ❌ | Keep YAMTAM engine-agnostic |
+| Product-specific code | ❌ | Keep Yana AI engine-agnostic |
 | Credentials / secrets | ❌ | Hard rejected at PR stage |
 
 ---
@@ -152,8 +152,8 @@ Cảm ơn bạn đã giúp xây dựng framework an toàn cho AI agent toàn di�
 ### Bắt đầu nhanh
 
 ```bash
-git clone https://github.com/phamlongh230-lgtm/yamtam-engine
-cd yamtam-engine
+git clone https://github.com/phamlongh230-lgtm/yana-ai
+cd yana-ai
 bash core/tests/skills/test-skill-triggering.sh  # phải hiện Result: PASS
 bash core/tests/hooks/run-hook-tests.sh          # phải hiện tất cả đạt
 ```
@@ -168,7 +168,7 @@ bash core/tests/hooks/run-hook-tests.sh          # phải hiện tất cả đ�
 | Adapter đa engine | ✅ | Thêm vào `adapters/` |
 | Cải thiện hiệu năng | ✅ | Benchmark trước/sau |
 | Định nghĩa agent mới | ✅ | Phải generic, không gắn với product cụ thể |
-| Code gắn với product | ❌ | Giữ YAMTAM engine-agnostic |
+| Code gắn với product | ❌ | Giữ Yana AI engine-agnostic |
 | Thông tin nhạy cảm / secret | ❌ | Bị từ chối cứng ở giai đoạn PR |
 
 ### Thêm Skill mới

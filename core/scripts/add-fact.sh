@@ -22,12 +22,12 @@ L1_DIR="$PROJECT_ROOT/memory/L1_atomic"
 INDEX="$L1_DIR/INDEX.md"
 
 if [[ ! -d "$L1_DIR" ]]; then
-  echo "Error: $L1_DIR does not exist. Run from yamtam-engine root." >&2
+  echo "Error: $L1_DIR does not exist. Run from yana-ai root." >&2
   exit 1
 fi
 
 echo ""
-echo "=== YAMTAM L1 Atomic Memory — Add Fact ==="
+echo "=== Yana AI L1 Atomic Memory — Add Fact ==="
 echo "Schema: memory/L1_atomic/SCHEMA.md"
 echo "Type 'quit' at any prompt to abort."
 echo ""
@@ -89,12 +89,12 @@ source="${input_source:-$default_source}"
 abort_if_quit "$source"
 
 # ── Prompt: scope ─────────────────────────────────────────────────────────────
-echo "Scope options: YAMTAM | product | both"
+echo "Scope options: Yana AI | product | both"
 read -rp "Scope (required): " input_scope
 abort_if_quit "$input_scope"
 case "$input_scope" in
-  YAMTAM|product|both) ;;
-  *) echo "Error: Scope must be YAMTAM, product, or both." >&2; exit 1 ;;
+  Yana AI|product|both) ;;
+  *) echo "Error: Scope must be Yana AI, product, or both." >&2; exit 1 ;;
 esac
 scope="$input_scope"
 

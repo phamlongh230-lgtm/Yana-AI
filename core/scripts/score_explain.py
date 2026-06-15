@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yamtam score [target] [--explain] — score breakdown with deduction trail."""
+"""yana-ai score [target] [--explain] — score breakdown with deduction trail."""
 
 import argparse
 import json
@@ -22,7 +22,7 @@ SEV_COLOR  = {"CRITICAL": RED, "HIGH": RED, "MED": YELLOW, "MEDIUM": YELLOW, "LO
 RISK_COLOR = {"CRITICAL": RED, "HIGH": RED, "MEDIUM": YELLOW, "LOW": GREEN}
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -49,7 +49,7 @@ def print_score(data: dict, explain: bool):
     rc = RISK_COLOR.get(risk, "")
 
     print()
-    print(c(BOLD, "  YAMTAM Score Report"))
+    print(c(BOLD, "  Yana AI Score Report"))
     print(c(DIM,  f"  Target: {target}  ·  {scanned} files scanned"))
     print()
 
@@ -107,7 +107,7 @@ def print_score(data: dict, explain: bool):
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="yamtam score",
+        prog="yana-ai score",
         description="Show audit score and optional deduction breakdown",
     )
     parser.add_argument("target", nargs="?", default=".", help="Directory to score (default: .)")

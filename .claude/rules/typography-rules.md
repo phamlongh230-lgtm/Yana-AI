@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Typography Rules
+# Yana AI — Typography Rules
 # Source: github/primer/primitives (tokens/functional/typography) + modern-font-stacks
 
 **Status:** Active  

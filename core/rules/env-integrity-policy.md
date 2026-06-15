@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Environment Integrity Policy
+# Yana AI — Environment Integrity Policy
 # Source: aquasecurity/defsec execution context security rules (Apache 2.0)
 # github.com/aquasecurity/defsec
 # Gate: Action Gate L2 (pre-commit + pre-execution)
@@ -127,7 +127,7 @@ Any match → emit BLOCKED + merge block.
 ## Violation Response
 
 ```
-[yamtam/env-integrity] BLOCKED — critical environment variable modification
+[yana-ai/env-integrity] BLOCKED — critical environment variable modification
   Variable : <name>
   File     : <path>:<line>
   Tier     : A/B

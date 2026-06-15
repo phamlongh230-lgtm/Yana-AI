@@ -123,7 +123,7 @@ def extract_patterns(repo_path: str, topic: str) -> list[dict]:
 | path/to/file.ts | 42 | `function cacheAside(...)` | ★★★ |
 
 ## Extraction Candidates for Yamtam
-- [ ] Pattern A: describe what it does + which yamtam skill it maps to
+- [ ] Pattern A: describe what it does + which yana-ai skill it maps to
 - [ ] Pattern B: ...
 
 ## What to Skip
@@ -145,7 +145,7 @@ Agent steps:
 3. Run Phase 1 snapshot → extract entry points + dependency hotspots
 4. Run Phase 2 semantic search for topic keywords in function signatures
 5. Synthesize Phase 3 spec → write to .claude/ingestion/report.md
-6. Propose: "Found 5 extractable patterns — import as yamtam skill? (y/N)"
+6. Propose: "Found 5 extractable patterns — import as yana-ai skill? (y/N)"
 ```
 
 ---

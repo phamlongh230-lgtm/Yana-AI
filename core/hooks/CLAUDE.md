@@ -23,7 +23,7 @@ exit 2 → enforce decision (approve or deny)
 
 ## Bypass convention
 
-Every hook that can block must respect a `YAMTAM_*_BYPASS=1` env var. Document it in the hook header.
+Every hook that can block must respect a `YANA_*_BYPASS=1` env var. Document it in the hook header.
 
 ## Before adding a new hook
 

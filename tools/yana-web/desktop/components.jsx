@@ -60,7 +60,7 @@ function Wordmark({ compact }) {
       {!compact && (
         <div style={{ lineHeight: 1.15 }}>
           <div style={{ fontSize: 17, fontWeight: 500, letterSpacing: "-0.01em" }}>Yana</div>
-          <div style={{ fontSize: 10.5, color: "var(--ink-3)", letterSpacing: "0.06em" }}>YAMTAM ENGINE</div>
+          <div style={{ fontSize: 10.5, color: "var(--ink-3)", letterSpacing: "0.06em" }}>Yana AI</div>
         </div>
       )}
     </div>
@@ -144,7 +144,7 @@ function Sidebar({ page, onNav }) {
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <span style={{ color: "var(--primary)" }}>{Icons.safety(16)}</span>
-          <span style={{ fontSize: 12.5, fontWeight: 500, color: "var(--primary)" }}>YAMTAM Core</span>
+          <span style={{ fontSize: 12.5, fontWeight: 500, color: "var(--primary)" }}>Yana AI Core</span>
         </div>
         <div style={{ fontSize: 12, color: "var(--ink-2)" }}>{D.stats.agents} {L("agents supervised", "tác nhân được giám sát")}</div>
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -164,7 +164,7 @@ function Sidebar({ page, onNav }) {
             fontSize: 12.5, fontWeight: 500,
             overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
           }}>{account || "Yana"}</div>
-          <div style={{ fontSize: 11, color: "var(--ink-3)" }}>{L("Account", "Tài khoản")} · YAMTAM</div>
+          <div style={{ fontSize: 11, color: "var(--ink-3)" }}>{L("Account", "Tài khoản")} · Yana AI</div>
         </div>
         <button onClick={signOut} title={L("Sign out", "Đăng xuất")} aria-label={L("Sign out", "Đăng xuất")} style={{
           background: "none", border: "none", cursor: "pointer", padding: 4,

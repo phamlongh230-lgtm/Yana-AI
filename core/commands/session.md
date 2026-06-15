@@ -1,5 +1,5 @@
 ---
-description: Manage YAMTAM L2 Session Memory — add, search, and clear session-scoped facts. Usage: /session [keyword] | /session --add | /session --clear | /session --all
+description: Manage Yana AI L2 Session Memory — add, search, and clear session-scoped facts. Usage: /session [keyword] | /session --add | /session --clear | /session --all
 ---
 
 You are the Session Memory Manager. Read and write L2 session facts.

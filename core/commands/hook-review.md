@@ -26,7 +26,7 @@ Với mỗi file `.sh` trong `core/hooks/`:
 
 **2a. Version header**
 ```bash
-head -5 core/hooks/<hook>.sh | grep "YAMTAM ENGINE"
+head -5 core/hooks/<hook>.sh | grep "Yana AI"
 ```
 Flag nếu version cũ hơn 2 minor releases so với MANIFEST.
 
@@ -54,7 +54,7 @@ Flag nếu không có commit nào trong 6 tháng qua (stale candidate).
 
 ```bash
 # Có hook nào được bypass nhiều không?
-grep -r "YAMTAM_BYPASS\|SKIP_HOOK\|--no-verify" . \
+grep -r "YANA_BYPASS\|SKIP_HOOK\|--no-verify" . \
   --include="*.sh" --include="*.md" --include="*.json" \
   | grep -v "releases/" | grep -v "docs/archive/" | grep -v "core/commands/"
 ```

@@ -7,7 +7,7 @@
  *
  * Usage:
  *   node core/monitor/live-dashboard.js
- *   YAMTAM_REFRESH_MS=500 node core/monitor/live-dashboard.js   # faster refresh
+ *   YANA_REFRESH_MS=500 node core/monitor/live-dashboard.js   # faster refresh
  *   node core/monitor/live-dashboard.js --once                   # single snapshot
  *
  * Data sources:
@@ -19,10 +19,10 @@
 import { readFileSync, existsSync } from 'fs';
 import os from 'os';
 
-const REFRESH_MS    = parseInt(process.env.YAMTAM_REFRESH_MS ?? '1000');
-const ROUTER_LOG    = process.env.YAMTAM_ROUTE_LOG    ?? 'releases/logs/swarm-router.jsonl';
-const GATE_LOG      = process.env.YAMTAM_GATE_LOG     ?? 'releases/logs/identity-gate.log';
-const LEDGER_PATH   = process.env.YAMTAM_LEDGER_PATH  ?? 'core/memory/trust-ledger.json';
+const REFRESH_MS    = parseInt(process.env.YANA_REFRESH_MS ?? '1000');
+const ROUTER_LOG    = process.env.YANA_ROUTE_LOG    ?? 'releases/logs/swarm-router.jsonl';
+const GATE_LOG      = process.env.YANA_GATE_LOG     ?? 'releases/logs/identity-gate.log';
+const LEDGER_PATH   = process.env.YANA_LEDGER_PATH  ?? 'core/memory/trust-ledger.json';
 const ONCE          = process.argv.includes('--once');
 const W             = process.stdout.columns || 72;
 
@@ -179,7 +179,7 @@ function render() {
   const lines = [];
 
   // ── Header ──────────────────────────────────────────────────────────────────
-  const title   = bold(cyn('YAMTAM SWARM MONITOR')) + dim(` v1.4.00`);
+  const title   = bold(cyn('Yana AI SWARM MONITOR')) + dim(` v1.4.00`);
   const ts      = dim(now);
   const titleW  = W - 4;
   const titlePad = titleW - visLen(title) - visLen(ts);

@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Agent System Prompt
+# Yana AI — Agent System Prompt
 
 Copy the block below into the AI assistant's system prompt or first message
 of a new session. Self-contained — does not require the assistant to read
@@ -11,7 +11,7 @@ other files in this repo.
 ## Copy-paste block
 
 ```
-You operate under YAMTAM ENGINE v1.3.26 constraints.
+You operate under Yana AI v1.3.26 constraints.
 
 ── CORE RULES ──────────────────────────────────────────────────────────────
 
@@ -27,7 +27,7 @@ You operate under YAMTAM ENGINE v1.3.26 constraints.
    Never say "done" based on TODO.md, MEMORY.md, or your own previous message.
 
 2. Scope discipline.
-   YAMTAM-scoped tasks must NOT edit product directories without explicit
+   Yana AI-scoped tasks must NOT edit product directories without explicit
    cross-scope approval in the current session:
      app/  components/  lib/  db/  migrations/  public/  src/
      .env*  vercel.json  next.config.*  docker-compose*.yml
@@ -51,7 +51,7 @@ You operate under YAMTAM ENGINE v1.3.26 constraints.
 
 ── MEMORY (L1 ATOMIC) ─────────────────────────────────────────────────────
 
-Before acting on assumptions about YAMTAM behavior, check:
+Before acting on assumptions about Yana AI behavior, check:
   bash core/scripts/search-facts.sh --all
   bash core/scripts/search-facts.sh "KEYWORD"
 
@@ -81,7 +81,7 @@ Do not treat unverified facts as reliable for decisions.
   /audit    Quality audit via 5 agents
   /review   Code review
 
-── END YAMTAM ENGINE v1.3.26 ───────────────────────────────────────────────
+── END Yana AI v1.3.26 ───────────────────────────────────────────────
 ```
 
 ---
@@ -97,7 +97,7 @@ Do not treat unverified facts as reliable for decisions.
 | Continue | `~/.continue/config.json` system message |
 
 For repo-specific use, also create a project-level `AGENTS.md` pointing the
-agent to this YAMTAM scaffold for full rules.
+agent to this Yana AI scaffold for full rules.
 
 ---
 

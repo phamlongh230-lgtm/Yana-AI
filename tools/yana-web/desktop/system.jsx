@@ -190,7 +190,7 @@ function Providers() {
     <div data-screen-label="Providers">
       <PageHeader
         title={L("Providers", "Nhà cung cấp")}
-        sub={connected + L(" of ", " trong ") + D.providers.length + L(" providers connected · Groq routes, YAMTAM supervises every call", " nhà cung cấp đã kết nối · Groq định tuyến, YAMTAM giám sát mọi lệnh gọi")}>
+        sub={connected + L(" of ", " trong ") + D.providers.length + L(" providers connected · Groq routes, Yana AI supervises every call", " nhà cung cấp đã kết nối · Groq định tuyến, Yana AI giám sát mọi lệnh gọi")}>
         <button onClick={connectNext} style={{
           display: "flex", alignItems: "center", gap: 7, padding: "8px 15px", borderRadius: 99,
           border: "none", cursor: "pointer", background: "var(--primary)", color: "white",
@@ -493,7 +493,7 @@ function Settings({ t, setTweak }) {
     <div data-screen-label="Settings">
       <PageHeader
         title={L("Settings", "Cài đặt")}
-        sub={L("Quiet defaults. Everything supervised by YAMTAM Core.", "Cài đặt mặc định. Mọi thứ được YAMTAM Core giám sát.")} />
+        sub={L("Quiet defaults. Everything supervised by Yana AI Core.", "Cài đặt mặc định. Mọi thứ được Yana AI Core giám sát.")} />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "var(--gap)", maxWidth: 900 }}>
         <AppearanceCard t={t} setTweak={setTweak} />
         <AboutYouCard />
@@ -535,7 +535,7 @@ function Settings({ t, setTweak }) {
           </div>
           <SettingRow
             label={L("Task routing", "Định tuyến tác vụ")}
-            desc={L("yamtam-rt classifier — local, before any provider call", "yamtam-rt classifier — chạy local, trước mọi lệnh gọi provider")}
+            desc={L("yana-rt classifier — local, before any provider call", "yana-rt classifier — chạy local, trước mọi lệnh gọi provider")}
             value={L("simple · complex · external", "simple · complex · external")} />
           <SettingRow label={L("Fallback chain", "Chuỗi dự phòng")}
             desc={L("Connected providers, in order", "Các nhà cung cấp đã kết nối, theo thứ tự")}

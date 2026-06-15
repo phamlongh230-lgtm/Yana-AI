@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE - Canary Token Guard
+# Yana AI - Canary Token Guard
 # Hook: Stop (fires after every agent response)
 # Purpose: Detect prompt extraction attempts via canary token echoing
 # Version: 1.0
@@ -13,7 +13,7 @@ AUDIT_LOG="${CLAUDE_STATE_DIR:-.claude/state}/audit.log"
 SESSION_ID="${CLAUDE_SESSION_ID:-unknown}"
 
 # Bypass for testing
-if [[ "${YAMTAM_CANARY_BYPASS:-0}" == "1" ]]; then
+if [[ "${YANA_CANARY_BYPASS:-0}" == "1" ]]; then
   exit 0
 fi
 
@@ -23,7 +23,7 @@ generate_canaries() {
   session_uuid=$(uuidgen 2>/dev/null || echo "${RANDOM}${RANDOM}")
 
   cat > "$CANARY_FILE" <<EOF
-<!-- YAMTAM_CANARY_${session_uuid} -->
+<!-- YANA_CANARY_${session_uuid} -->
 INTERNAL_MARKER_DO_NOT_ECHO_${session_uuid}
 SYSTEM_BOUNDARY_TOKEN_${session_uuid}
 PROMPT_INTEGRITY_CHECK_${session_uuid}

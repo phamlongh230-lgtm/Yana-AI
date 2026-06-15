@@ -25,4 +25,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy docs --project-name=yamtam-engine --commit-dirty=true
+          command: pages deploy docs --project-name=yana-ai --commit-dirty=true

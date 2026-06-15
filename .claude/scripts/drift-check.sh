@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Read-only script — YAMTAM Engine Status Drift Detector
+# Read-only script — Yana AI Engine Status Drift Detector
 #
 # Checks three classes of drift and prints one issue per line.
 # Exit 0 if clean, exit 1 if any drift found.

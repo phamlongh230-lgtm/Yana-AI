@@ -1,4 +1,4 @@
-# PHASE 1B Plan — YAMTAM Context-Pack Check (Planning Only)
+# PHASE 1B Plan — Yana AI Context-Pack Check (Planning Only)
 
 **Status:** Planning document only (no runtime implementation yet)  
 **Layer alignment:** L2 Context Governance Gate  
@@ -15,7 +15,7 @@ It should:
 - enforce scoped context selection,
 - reduce accidental full-repo reads,
 - support L2 Context Governance Gate behavior,
-- preserve **YAMTAM Agent Auditor — Audit first. Guard later.**
+- preserve **Yana AI Agent Auditor — Audit first. Guard later.**
 
 This is internal control-layer planning, not public marketing.
 
@@ -26,13 +26,13 @@ This is internal control-layer planning, not public marketing.
 Primary command (future):
 
 ```bash
-bash bin/yamtam check-context <context-pack-dir>
+bash bin/yana-ai check-context <context-pack-dir>
 ```
 
 Optional later integration:
 
 ```bash
-bash bin/yamtam validate-spec <spec-file> --context-pack <context-pack-dir>
+bash bin/yana-ai validate-spec <spec-file> --context-pack <context-pack-dir>
 ```
 
 ---
@@ -134,7 +134,7 @@ Before any blocking CI gate:
 
 Phase 1B Context-Pack Check:
 
-- builds on `.yamtam/context-packs/README.md`,
+- builds on `.yana-ai/context-packs/README.md`,
 - complements `validate-spec`,
 - does not replace Auditor MVP scanner/risk flow,
 - remains internal Harness Scaling control-layer work.

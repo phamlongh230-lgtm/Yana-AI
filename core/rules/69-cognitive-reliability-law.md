@@ -149,7 +149,7 @@ Confidence:  <0–100%>
 ## Violation Response
 
 ```
-[yamtam/69-cognitive-reliability] FLAGGED — unreliable report detected
+[yana-ai/69-cognitive-reliability] FLAGGED — unreliable report detected
   Guard    : L6.<n> <name>
   Signal   : <the overconfident/unevidenced statement>
   Action   : Report must be restated using the Output Contract before

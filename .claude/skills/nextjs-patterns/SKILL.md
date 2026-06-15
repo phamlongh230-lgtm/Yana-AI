@@ -10,7 +10,7 @@ description: >
   "streaming UI", "Suspense boundary", "parallel routes", "Next.js metadata",
   or "Next.js data fetching". Do NOT use for: React patterns generally
   — see frontend-patterns. Do NOT use for: deployment infra — see cicd-patterns.
-origin: yamtam-original
+origin: yana-ai-original
 license: MIT © 2026 Vũ Văn Tâm
 version: 1.0.0
 compatibility: "Next.js ≥ 14.0 (App Router). Pages Router patterns not covered."

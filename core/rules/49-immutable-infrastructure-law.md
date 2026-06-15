@@ -15,7 +15,7 @@ All write operations to the monorepo root surface MUST be:
 |-------|-----------|--------|
 | L1 | `tool-proxy.sh` sanitize phase | Subshell, pipe-to-interpreter, LD_PRELOAD |
 | L2 | `anti-graffiti-guard.js` schema gate | Malformed payloads, path traversal, env hijack |
-| L2.5 | ECC signature check (`YAMTAM_REQUIRE_SIG=1`) | Unsigned agent tool calls |
+| L2.5 | ECC signature check (`YANA_REQUIRE_SIG=1`) | Unsigned agent tool calls |
 | L3 | OverlayFS / bubblewrap sandbox | Direct disk writes to lowerdir (core/) |
 | L4 | Merkle audit log (`secure-logger.sh`) | Log-wiping — root hash drift detected instantly |
 
@@ -31,11 +31,11 @@ All write operations to the monorepo root surface MUST be:
 
 - `releases/logs/` — append-only audit logs
 - `/tmp/` and RAM-backed `tmpfs` mounts — ephemeral session state
-- Explicit user-authorized paths listed in `YAMTAM_WRITE_ALLOWLIST`
+- Explicit user-authorized paths listed in `YANA_WRITE_ALLOWLIST`
 
 ## Signature Requirement
 
-When `YAMTAM_REQUIRE_SIG=1` is set:
+When `YANA_REQUIRE_SIG=1` is set:
 - Every tool call payload MUST include a `signature` field
 - Signature = ECDSA-P256 over `SHA256(agentId + command + args_hash + timestamp)`
 - Unsigned calls are blocked at `anti-graffiti-guard.js` with exit code 3

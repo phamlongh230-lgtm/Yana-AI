@@ -1,6 +1,6 @@
-# YAMTAM ENGINE — Hook Wiring Guide
+# Yana AI — Hook Wiring Guide
 
-How to wire all YAMTAM hooks into a target project's Claude Code `settings.json`.
+How to wire all Yana AI hooks into a target project's Claude Code `settings.json`.
 
 **Version:** 1.3.26
 **Reference:** Claude Code hooks documentation — hooks fire on tool events and
@@ -10,7 +10,7 @@ receive a JSON payload on stdin. Exit 0 = allow, JSON + exit 2 = block.
 
 ## Quick start
 
-After applying the YAMTAM pack (`unzip yamtam-engine-latest.zip -d .claude/`),
+After applying the Yana AI pack (`unzip yana-ai-latest.zip -d .claude/`),
 create or merge this into your target project's `.claude/settings.json`:
 
 ```json
@@ -105,26 +105,26 @@ create or merge this into your target project's `.claude/settings.json`:
 | Hook | Action | Bypass |
 |------|--------|--------|
 | `guard-destructive.sh` | Blocks `rm -rf`, `git push --force`, `git reset --hard`, direct push to main | — |
-| `db-protect.sh` | Blocks `prisma migrate reset`, prod `DATABASE_URL`, `DROP TABLE`, Vercel/Render/Fly prod deploys | `YAMTAM_PROD_APPROVED=1` |
-| `api-destruct-guard.sh` | Blocks destructive HTTP (DELETE) and GraphQL mutations against production URLs | `YAMTAM_PROD_APPROVED=1` |
-| `deploy-gate.sh` | Blocks `gh workflow run`, `kubectl apply`, `docker push`, `gcloud run deploy`, `fly deploy`, Heroku ops | `YAMTAM_DEPLOY_APPROVED=1` |
-| `commit-gate.sh` | Warns on `git commit` when staged files include product paths (cross-scope) | `YAMTAM_SCOPE_OK=1` |
-| `cost-guard.sh` | Blocks full E2E in Codespaces, unscoped repo scans; warns on long builds | `YAMTAM_COST_GUARD_BYPASS=1` |
+| `db-protect.sh` | Blocks `prisma migrate reset`, prod `DATABASE_URL`, `DROP TABLE`, Vercel/Render/Fly prod deploys | `YANA_PROD_APPROVED=1` |
+| `api-destruct-guard.sh` | Blocks destructive HTTP (DELETE) and GraphQL mutations against production URLs | `YANA_PROD_APPROVED=1` |
+| `deploy-gate.sh` | Blocks `gh workflow run`, `kubectl apply`, `docker push`, `gcloud run deploy`, `fly deploy`, Heroku ops | `YANA_DEPLOY_APPROVED=1` |
+| `commit-gate.sh` | Warns on `git commit` when staged files include product paths (cross-scope) | `YANA_SCOPE_OK=1` |
+| `cost-guard.sh` | Blocks full E2E in Codespaces, unscoped repo scans; warns on long builds | `YANA_COST_GUARD_BYPASS=1` |
 | `code-freeze.sh` | Blocks all writes during active code freeze | — |
-| `token-scope-guard.sh` | Warns on reads of `.env*`, secret/token patterns | `YAMTAM_TOKEN_SCOPE_OK=1` |
+| `token-scope-guard.sh` | Warns on reads of `.env*`, secret/token patterns | `YANA_TOKEN_SCOPE_OK=1` |
 
 ### PreToolUse — Read, Grep, Glob
 
 | Hook | Action | Bypass |
 |------|--------|--------|
-| `token-scope-guard.sh` | Warns on reads of `.env*`, secret/token patterns | `YAMTAM_TOKEN_SCOPE_OK=1` |
+| `token-scope-guard.sh` | Warns on reads of `.env*`, secret/token patterns | `YANA_TOKEN_SCOPE_OK=1` |
 
 ### PreToolUse — Write, Edit, MultiEdit
 
 | Hook | Action | Bypass |
 |------|--------|--------|
 | `context-gate.sh` | Blocks edits to files not yet read this session | — |
-| `scope-guard.sh` | Warns on writes to `app/ components/ lib/ db/ .env*`… | `YAMTAM_SCOPE_OK=1` |
+| `scope-guard.sh` | Warns on writes to `app/ components/ lib/ db/ .env*`… | `YANA_SCOPE_OK=1` |
 | `format-on-write.sh` | Runs formatter on written files (if formatter available) | — |
 
 ### PreToolUse — All tools
@@ -151,7 +151,7 @@ create or merge this into your target project's `.claude/settings.json`:
 
 | Hook | Action | Bypass |
 |------|--------|--------|
-| `truth-gate-guard.sh` | Warns on claim verbs without evidence in last assistant message | `YAMTAM_TRUTH_GATE_BYPASS=1` |
+| `truth-gate-guard.sh` | Warns on claim verbs without evidence in last assistant message | `YANA_TRUTH_GATE_BYPASS=1` |
 | `validate-completion.sh` | Warns if implementation changed but docs/tests not updated | — |
 | `auto-qa-trigger.sh` | Signals QA agent when implementation files change | — |
 | `auto-kill-stuck-tasks.sh` | Kills tasks exceeding timeout | — |
@@ -160,13 +160,13 @@ create or merge this into your target project's `.claude/settings.json`:
 
 | Hook | Action | Bypass |
 |------|--------|--------|
-| `session-bootstrap.sh` | Injects matching L1 facts (max 5), session trust score (if <80), Budget Mode status, L2 fact count into Claude context | `YAMTAM_BOOTSTRAP_BYPASS=1` |
+| `session-bootstrap.sh` | Injects matching L1 facts (max 5), session trust score (if <80), Budget Mode status, L2 fact count into Claude context | `YANA_BOOTSTRAP_BYPASS=1` |
 
 ### PermissionRequest — When Claude requests permission
 
 | Hook | Action | Bypass |
 |------|--------|--------|
-| `permission-auto-approve.sh` | Auto-approves Read/Glob/Grep/LS tools and safe read-only Bash commands; passes through everything else | `YAMTAM_PERMISSION_BYPASS=1` |
+| `permission-auto-approve.sh` | Auto-approves Read/Glob/Grep/LS tools and safe read-only Bash commands; passes through everything else | `YANA_PERMISSION_BYPASS=1` |
 
 ---
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE v1.2 E2E runner wrapper
+# Yana AI v1.2 E2E runner wrapper
 # Runs real Playwright commands only. Never writes simulated pass reports.
 
 set -euo pipefail
@@ -26,8 +26,8 @@ case "$MODE" in
     exec npx playwright test "$spec" "$@"
     ;;
   full)
-    if [[ -n "${CODESPACE_NAME:-}" && "${YAMTAM_ALLOW_FULL_E2E:-}" != "1" ]]; then
-      echo "Full E2E blocked in Codespaces. Use CI or set YAMTAM_ALLOW_FULL_E2E=1 intentionally." >&2
+    if [[ -n "${CODESPACE_NAME:-}" && "${YANA_ALLOW_FULL_E2E:-}" != "1" ]]; then
+      echo "Full E2E blocked in Codespaces. Use CI or set YANA_ALLOW_FULL_E2E=1 intentionally." >&2
       exit 3
     fi
     exec npm run test:e2e -- "$@"

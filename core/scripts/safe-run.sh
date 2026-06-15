@@ -7,7 +7,7 @@
 #   ADVISORY (Claude, default) — WARN_PATTERNS prompt for confirmation
 #   HARD     (Cursor, Aider)   — WARN_PATTERNS are blocked without prompting
 #
-# Bypass: YAMTAM_SAFE_RUN_BYPASS=1 skips all checks (sovereign use only)
+# Bypass: YANA_SAFE_RUN_BYPASS=1 skips all checks (sovereign use only)
 set -euo pipefail
 
 ENGINE="claude"
@@ -17,7 +17,7 @@ if [[ "${1:-}" == "--engine" ]]; then
 fi
 
 COMMAND="$*"
-LOG_FILE="${YAMTAM_LOG:-/tmp/yamtam-audit.log}"
+LOG_FILE="${YANA_LOG:-/tmp/yana-ai-audit.log}"
 
 # Hard enforcement for non-Claude engines (no interactive prompt available)
 HARD_MODE=false
@@ -26,19 +26,19 @@ case "$ENGINE" in
 esac
 
 # Bypass — sovereign override only (requires identity verification)
-if [[ "${YAMTAM_SAFE_RUN_BYPASS:-0}" == "1" ]]; then
+if [[ "${YANA_SAFE_RUN_BYPASS:-0}" == "1" ]]; then
   IDENTITY_GATE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/gates/identity-gate.sh"
   if [[ -f "$IDENTITY_GATE" ]]; then
     if ! bash "$IDENTITY_GATE" --verify 2>/dev/null; then
-      echo "[yamtam/safe-run] BYPASS denied — identity verification failed" >&2
+      echo "[yana-ai/safe-run] BYPASS denied — identity verification failed" >&2
       echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] BYPASS-DENIED engine='$ENGINE' cmd='$COMMAND'" >> "$LOG_FILE" 2>/dev/null || true
       exit 1
     fi
   else
-    echo "[yamtam/safe-run] BYPASS denied — identity-gate.sh not found" >&2
+    echo "[yana-ai/safe-run] BYPASS denied — identity-gate.sh not found" >&2
     exit 1
   fi
-  echo "[yamtam/safe-run] BYPASS active (engine=$ENGINE, identity verified)" >> "$LOG_FILE" 2>/dev/null || true
+  echo "[yana-ai/safe-run] BYPASS active (engine=$ENGINE, identity verified)" >> "$LOG_FILE" 2>/dev/null || true
   eval "$COMMAND"
   exit $?
 fi
@@ -103,7 +103,7 @@ RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; CYAN='\033[0;36m'; NC
 
 for pattern in "${BLOCKED_PATTERNS[@]}"; do
   if echo "$COMMAND" | grep -qiE "$pattern"; then
-    echo -e "${RED}[yamtam/safe-run] BLOCKED: dangerous pattern detected${NC}"
+    echo -e "${RED}[yana-ai/safe-run] BLOCKED: dangerous pattern detected${NC}"
     echo -e "  Engine  : $ENGINE"
     echo -e "  Command : $COMMAND"
     echo -e "  Pattern : $pattern"
@@ -130,7 +130,7 @@ WARN_PATTERNS=(
 for pattern in "${WARN_PATTERNS[@]}"; do
   if echo "$COMMAND" | grep -qiE "$pattern"; then
     if [[ "$HARD_MODE" == "true" ]]; then
-      echo -e "${RED}[yamtam/safe-run] HARD BLOCK: elevated-risk command from $ENGINE${NC}"
+      echo -e "${RED}[yana-ai/safe-run] HARD BLOCK: elevated-risk command from $ENGINE${NC}"
       echo -e "  Engine  : $ENGINE (non-interactive — no TTY confirm available)"
       echo -e "  Command : $COMMAND"
       echo -e "  Pattern : $pattern"
@@ -138,7 +138,7 @@ for pattern in "${WARN_PATTERNS[@]}"; do
       echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] HARD-BLOCKED engine='$ENGINE' pattern='$pattern' cmd='$COMMAND'" >> "$LOG_FILE" 2>/dev/null || true
       exit 1
     else
-      echo -e "${YELLOW}[yamtam/safe-run] WARNING: elevated-risk command${NC}"
+      echo -e "${YELLOW}[yana-ai/safe-run] WARNING: elevated-risk command${NC}"
       echo -e "  Command : $COMMAND"
       echo -e "  Pattern : $pattern"
       printf "  Proceed? (y/N): " >&2

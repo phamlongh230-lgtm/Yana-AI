@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Read-only script — Search YAMTAM L1 Atomic Memory facts.
+# Read-only script — Search Yana AI L1 Atomic Memory facts.
 #
 # Usage:
 #   bash core/scripts/search-facts.sh [KEYWORD]
@@ -12,7 +12,7 @@
 #   --all             List every fact regardless of keyword
 #   --expired         Show only facts whose expires_at is in the past
 #   --type TYPE       Filter by type: fact | decision | constraint | assumption | observation
-#   --scope SCOPE     Filter by scope: YAMTAM | product | both
+#   --scope SCOPE     Filter by scope: Yana AI | product | both
 #   --confidence LVL  Filter by confidence: unverified | low | medium | high
 #   --tag TAG         Filter by tag (case-insensitive, partial match)
 #
@@ -25,7 +25,7 @@ L1_DIR="$PROJECT_ROOT/memory/L1_atomic"
 TODAY=$(date +%Y-%m-%d)
 
 if [[ ! -d "$L1_DIR" ]]; then
-  echo "Error: memory/L1_atomic/ not found. Run from yamtam-engine root." >&2
+  echo "Error: memory/L1_atomic/ not found. Run from yana-ai root." >&2
   exit 1
 fi
 

@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Container Hardening Law
+# Yana AI — Container Hardening Law
 # Sources:
 #   hadolint/hadolint (GPL-3.0)        — github.com/hadolint/hadolint
 #   aquasecurity/trivy (Apache 2.0)    — github.com/aquasecurity/trivy
@@ -111,7 +111,7 @@ Add to `/security-scan` skill execution pipeline.
 ## Violation Response
 
 ```
-[yamtam/container-hardening] BLOCKED — dangerous container configuration
+[yana-ai/container-hardening] BLOCKED — dangerous container configuration
   File    : <path>
   Rule    : <rule name>
   Source  : hadolint/<trivy>

@@ -1,7 +1,7 @@
 # Third-Party Inspiration Log
 
 Tài liệu này ghi lại tất cả nguồn bên ngoài được dùng để tham khảo
-hoặc adapt khi phát triển YAMTAM ENGINE.
+hoặc adapt khi phát triển Yana AI.
 
 Không phải tất cả đều được copy nguyên — nhiều nguồn chỉ dùng làm
 inspiration để viết original content. Xem cột "Nature" để phân biệt.
@@ -25,7 +25,7 @@ Mọi file adapt phải ghi attribution trong header comment của file đó.
 - **Dùng trong:** Phase 1 — Security Skill Pack, Security Scan Modes doc
 - **Nature:** Concept adaptation — scan mode taxonomy, Red/Blue/Purple Team framing, agent state machine pattern
 - **Files adapted:** `docs/security-scan-modes.md` (adapted, Apache 2.0), security skills (concept only, viết original)
-- **Changes made:** Rewritten cho YAMTAM context, không port code nào
+- **Changes made:** Rewritten cho Yana AI context, không port code nào
 - **Không copy:** Python source, Docker configs, cloud integration, Strix brand/logo
 - **Attribution required:** Ghi "Adapted from Strix (Apache 2.0)" trong file header
 
@@ -51,7 +51,7 @@ Mọi file adapt phải ghi attribution trong header comment của file đó.
 - **Dùng trong:** Phase 2 — Skill Spec, Writing Guide, Evaluation Rules
 - **Nature:** Adapted documentation structure và field definitions
 - **Files adapted:** `docs/skill-spec.md`, `docs/skill-writing-guide.md`, `docs/skill-evaluation-rules.md`
-- **Changes made:** Adapted sang YAMTAM format, thêm YAMTAM-specific fields (origin, Anti-Fake-Pass), bỏ Mintlify-specific content
+- **Changes made:** Adapted sang Yana AI format, thêm Yana AI-specific fields (origin, Anti-Fake-Pass), bỏ Mintlify-specific content
 - **Không copy:** JSX components, docs.json, package.json
 - **Attribution required:** Ghi "Adapted from AgentSkills (Apache 2.0, © Anthropic PBC)" trong file header
 

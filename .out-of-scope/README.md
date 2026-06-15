@@ -1,6 +1,6 @@
-# YAMTAM ENGINE — Out of Scope
+# Yana AI — Out of Scope
 
-Things YAMTAM will deliberately NOT do, and why.
+Things Yana AI will deliberately NOT do, and why.
 
 This folder exists to resist scope creep. Every item here was considered and rejected.
 Before adding a new feature, check if it belongs here instead.
@@ -23,6 +23,6 @@ Each file documents one rejected direction:
 |------|-------|
 | [real-time-cost-dashboard.md](real-time-cost-dashboard.md) | Live token/cost monitoring UI |
 | [enterprise-rbac.md](enterprise-rbac.md) | Full role-based access control system |
-| [multi-agent-coordination.md](multi-agent-coordination.md) | Orchestrating multiple YAMTAM instances |
+| [multi-agent-coordination.md](multi-agent-coordination.md) | Orchestrating multiple Yana AI instances |
 | [cloud-console-protection.md](cloud-console-protection.md) | Protecting cloud infrastructure |
 | [l3-l4-memory-tiers.md](l3-l4-memory-tiers.md) | Episodic and long-term memory layers |

@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>YAMTAM Marketplace — Skills & Agents</title>
-<meta property="og:title" content="Marketplace — YAMTAM ENGINE">
+<title>Yana AI Marketplace — Skills & Agents</title>
+<meta property="og:title" content="Marketplace — Yana AI">
 <meta property="og:description" content="Install any skill or agent in one command. 2,571 items available.">
-<meta property="og:image" content="https://phamlongh230-lgtm.github.io/yamtam-engine/yamtam-engine-overview.png">
-<meta property="og:url" content="https://yamtam-engine.pages.dev/marketplace.html">
+<meta property="og:image" content="https://phamlongh230-lgtm.github.io/yana-ai/yana-ai-overview.png">
+<meta property="og:url" content="https://yana-ai.pages.dev/marketplace.html">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Marketplace — YAMTAM ENGINE">
+<meta name="twitter:title" content="Marketplace — Yana AI">
 <meta name="twitter:description" content="Install any skill or agent in one command. 2,571 items available.">
 <meta name="description" content="Install any skill or agent in one command. 2,571 items available.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -161,7 +161,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 1.5r
 <body>
 
 <nav>
-  <a class="nav-logo" href="./">YAMTAM ENGINE</a>
+  <a class="nav-logo" href="./">Yana AI</a>
   <div class="nav-links">
     <a href="./">Home</a>
     <a href="skills.html">Skills</a>
@@ -169,7 +169,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 1.5r
     <a href="changelog.html">Changelog</a>
     <a href="guide.html">Guide</a>
     <a href="search.html">🔍</a>
-    <a href="https://github.com/phamlongh230-lgtm/yamtam-engine" target="_blank">GitHub</a>
+    <a href="https://github.com/phamlongh230-lgtm/yana-ai" target="_blank">GitHub</a>
     <button id="theme-toggle" onclick="toggleTheme()" title="Toggle dark/light" style="border:none;background:transparent;cursor:pointer;font-size:1.05rem;padding:.2rem .4rem;border-radius:6px;line-height:1">🌙</button>
   </div>
   <button class="hbg" id="hbg" onclick="toggleHbg()" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -181,7 +181,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 1.5r
   <a href="changelog.html" onclick="toggleHbg()">Changelog</a>
   <a href="guide.html" onclick="toggleHbg()">Guide</a>
   <a href="search.html" onclick="toggleHbg()">Search 🔍</a>
-  <a href="https://github.com/phamlongh230-lgtm/yamtam-engine" target="_blank" onclick="toggleHbg()">GitHub</a>
+  <a href="https://github.com/phamlongh230-lgtm/yana-ai" target="_blank" onclick="toggleHbg()">GitHub</a>
 </div>
 <script>(function(){if(localStorage.getItem('theme')==='dark')document.documentElement.classList.add('dark');})();function toggleTheme(){
   const html = document.documentElement;
@@ -204,7 +204,7 @@ document.addEventListener('DOMContentLoaded', function(){
 </script>
 
 <div class="hero">
-  <h1 data-i18n="hero.title">YAMTAM Marketplace</h1>
+  <h1 data-i18n="hero.title">Yana AI Marketplace</h1>
   <p>3,457 skills · 95 agents · 45 hooks · 164 commands · 61 rules</p>
   <div class="search-hero">
     <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function(){
         <div class="featured-label">⭐ Featured category</div>
         <div class="featured-name">Security</div>
         <div class="featured-desc">Prompt injection guards, secret scanning, OWASP checks, supply chain vetting</div>
-        <div class="featured-badge">🛡️ YAMTAM</div>
+        <div class="featured-badge">🛡️ Yana AI</div>
       </div>
       <div class="featured-card" style="background:linear-gradient(135deg,hsl(142,55%,36%),hsl(170,60%,35%))" onclick="document.getElementById('search').value='agent';applySearch()">
         <div class="featured-label">🔥 Most popular</div>
@@ -275,7 +275,7 @@ let SKILLS = [], AGENTS = [], HOOKS = [], COMMANDS = [], RULES = [], ALL = [];
 let currentType = 'all', currentCat = 'all', currentQ = '';
 
 const SKILL_CAT_MAP = {
-  yamtam:   {label:'YAMTAM Core',  icon:'🛡️', color:'#3b82f6'},
+  yana-ai:   {label:'Yana AI Core',  icon:'🛡️', color:'#3b82f6'},
   openai:   {label:'OpenAI Plugins',icon:'🔌', color:'#10a37f'},
   terminal: {label:'TerminalSkills',icon:'⚡', color:'#6366f1'},
   venice:   {label:'Venice AI',    icon:'🎨', color:'#f59e0b'},
@@ -366,7 +366,7 @@ function render(){
 function renderSkillCard(s){
   const meta = SKILL_CAT_MAP[s.ns] || {label:s.ns,icon:'📦',color:'#8b949e'};
   const ic   = `<div class="card-icon" style="background:${meta.color}22">${meta.icon}</div>`;
-  const cmd  = `npx yamtam-install --skill ${s.id||s.name}`;
+  const cmd  = `npx yana-ai-install --skill ${s.id||s.name}`;
   return `<div class="mkt-card">
     <div class="card-head">${ic}
       <div style="flex:1;min-width:0"><div class="card-title">${esc(s.short||s.name)}</div></div>

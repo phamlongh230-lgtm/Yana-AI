@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-import_openai_plugins.py — Import openai/plugins skills into YAMTAM core/skills/
+import_openai_plugins.py — Import openai/plugins skills into Yana AI core/skills/
 
 Source: https://github.com/openai/plugins (MIT)
 Naming: openai--<plugin>--<skill-name>
@@ -25,7 +25,7 @@ BOLD  = "\033[1m"; GREEN = "\033[32m"; RED = "\033[31m"
 CYAN  = "\033[36m"; DIM  = "\033[2m"; YELLOW = "\033[33m"; RESET = "\033[0m"
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -61,7 +61,7 @@ def build_frontmatter(plugin_name: str, skill_name: str, orig: dict) -> str:
         f'origin: "openai/plugins — {plugin_name}/{skill_name} (MIT)"',
         f'license: MIT',
         f'version: "0.1.0"',
-        f'compatibility: "yamtam-engine >= 0.14.0"',
+        f'compatibility: "yana-ai >= 0.14.0"',
         "---",
     ]
     return "\n".join(lines) + "\n"
@@ -111,7 +111,7 @@ def import_skill(plugin_dir: Path, skill_dir: Path, dry_run: bool) -> bool:
 def main():
     parser = argparse.ArgumentParser(
         prog="import_openai_plugins",
-        description="Import openai/plugins skills into YAMTAM core/skills/",
+        description="Import openai/plugins skills into Yana AI core/skills/",
     )
     parser.add_argument("source", help="Path to cloned openai/plugins repo")
     parser.add_argument("--dry-run", action="store_true",
@@ -127,7 +127,7 @@ def main():
         sys.exit(1)
 
     print()
-    print(c(BOLD, "  import openai/plugins → yamtam core/skills/"))
+    print(c(BOLD, "  import openai/plugins → yana-ai core/skills/"))
     if args.dry_run:
         print(c(YELLOW, "  DRY RUN — no files written"))
     print()
@@ -186,7 +186,7 @@ def main():
 
     print()
     if not args.dry_run:
-        print(c(GREEN, f"  ✓ Done. Run `yamtam rule test --all` to validate."))
+        print(c(GREEN, f"  ✓ Done. Run `yana-ai rule test --all` to validate."))
     else:
         print(c(YELLOW, f"  Dry run complete. Remove --dry-run to apply."))
     print()

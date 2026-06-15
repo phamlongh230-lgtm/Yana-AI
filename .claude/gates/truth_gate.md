@@ -1,8 +1,8 @@
-# YAMTAM ENGINE — L3 Truth Gate
+# Yana AI — L3 Truth Gate
 
 **Version:** 1.0
 **Status:** Active — enforced via AI prompt template + runtime hook (core/hooks/truth-gate-guard.sh)
-**Layer:** L3 of YAMTAM Memory Pipeline
+**Layer:** L3 of Yana AI Memory Pipeline
 **Purpose:** Prevent agent overclaim by requiring evidence before claim verbs.
 
 ---
@@ -118,6 +118,6 @@ Behaviour:
   4. Allows if fallback qualifiers present (reportedly / unverified…)
   5. Warns with exact verbs found if neither condition is met
 
-Bypass:  YAMTAM_TRUTH_GATE_BYPASS=1
+Bypass:  YANA_TRUTH_GATE_BYPASS=1
 Test seam: TRUTH_GATE_TEST_TEXT="<text>" (no transcript needed)
 Tests: core/tests/hooks/run-hook-tests.sh — 7 cases

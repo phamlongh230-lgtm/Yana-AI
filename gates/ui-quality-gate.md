@@ -1,7 +1,7 @@
-# YAMTAM ENGINE — UI Quality Gate
+# Yana AI — UI Quality Gate
 
 **Status:** Active
-**Origin:** yamtam (original)
+**Origin:** yana-ai (original)
 **Companion skills:** `core/skills/design-taste-frontend`, `core/skills/output-enforcement`
 **Related gate:** `gates/anti-fake-pass-gate.md`
 

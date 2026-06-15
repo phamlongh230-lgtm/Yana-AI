@@ -14,7 +14,7 @@ templates:
 
   ci-safe:
     description: Safe GitHub Actions CI — pinned SHA actions, explicit permissions, no auto-merge
-    target: .github/workflows/yamtam-ci.yml
+    target: .github/workflows/yana-ai-ci.yml
     fixes: [CI001, CI006, CI007, CI008, CI010]
     file: templates/ci-safe.yml
 

@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Audit Hardening Policy
+# Yana AI — Audit Hardening Policy
 # Source: google/trillian Verifiable Log architecture (Apache 2.0) — github.com/google/trillian
 # Tier: TIER 1 — SECURITY
 
@@ -60,7 +60,7 @@ Exit codes:
 If `verify-audit-chain.sh` exits 1:
 
 ```
-[yamtam/audit-hardening] CHAIN BROKEN — log tampering detected
+[yana-ai/audit-hardening] CHAIN BROKEN — log tampering detected
   Line     : <N>
   Expected : <expected hash>
   Got      : <stored hash>

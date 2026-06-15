@@ -9,7 +9,7 @@ No agent may install, download, or load packages from the public internet at run
 ```
 Agent needs package X
         ↓
-Request goes to internal proxy (YAMTAM_NPM_PROXY / YAMTAM_PIP_PROXY)
+Request goes to internal proxy (YANA_NPM_PROXY / YANA_PIP_PROXY)
         ↓
 Proxy checks: is X in approved-packages.json?
   NO  → reject, log SUPPLY_CHAIN_BLOCK

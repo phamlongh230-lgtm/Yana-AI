@@ -1,6 +1,6 @@
-# YAMTAM ENGINE — Changelog
+# Yana AI — Changelog
 
-All notable changes to YAMTAM ENGINE release packs are documented here.
+All notable changes to Yana AI release packs are documented here.
 
 > **Note:** This changelog tracks **release pack** events. This scaffold repo
 > does not enforce any release item at runtime until the pack's `hooks/`,
@@ -21,7 +21,7 @@ All notable changes to YAMTAM ENGINE release packs are documented here.
   completion vocabulary 8 trạng thái, Claim/Evidence/Confidence contract,
   cấm success-only wrap-up, formal layer model update
 - **CI**: bump tất cả action pins lên Node 24 (GitHub deadline 2026-06-16),
-  fix demo audit workflow không chạy trên yamtam-engine repo
+  fix demo audit workflow không chạy trên yana-ai repo
 - **Docs**: SECURITY.md viết lại cho 0.41.x, fonts docs → Be Vietnam Pro + Inter,
   README VI sections dịch sang EN
 
@@ -30,7 +30,7 @@ All notable changes to YAMTAM ENGINE release packs are documented here.
 ## v0.41.2 — rule 68 full-stack + Yana settings real + PyPI publish fix
 *2026-06-12*
 
-- **Rule 68 thành code thật 3 tầng**: `yamtam-rt route classify` trả `sensitivity`
+- **Rule 68 thành code thật 3 tầng**: `yana-rt route classify` trả `sensitivity`
   (public/internal/confidential/sovereign) + `allow_persist` + `model_scope`;
   classifier mirror + export `classifySensitivity`; Yana web có
   **Confidential Mode** (nút 🔒 + auto-detect marker VI/EN → không lưu lịch sử,
@@ -50,7 +50,7 @@ All notable changes to YAMTAM ENGINE release packs are documented here.
 ## v0.41.1 — npm v12 prep + Yana auth hardening + 6 workflow skills
 *2026-06-11*
 
-- **npm v12 prep**: `npx yamtam-install` documented as the required install step —
+- **npm v12 prep**: `npx yana-ai-install` documented as the required install step —
   npm v12 (ETA 07/2026) disables postinstall scripts by default; README (EN/VI),
   docs install card + guide updated
 - **yana-web auth**: proxy-aware login rate limiting (`req.clientIp` từ X-Forwarded-For),
@@ -70,7 +70,7 @@ All notable changes to YAMTAM ENGINE release packs are documented here.
 ## v0.41.0 — yana-router + mission-dispatcher + +32 trending skills + cleanup
 *2026-06-07*
 
-- **yana-router**: smarter agent selection, VI keyword support, `yamtam-rt route classify`
+- **yana-router**: smarter agent selection, VI keyword support, `yana-rt route classify`
 - **mission-dispatcher**: parallel multi-agent mission loop, cancel/retry/--instructions, broken pipe fix
 - **mission-run skill**: integrate mission-run vào yana-classify complex path
 - **+32 GitHub trending skills** (Batches 1–5): 3,463→3,495
@@ -93,13 +93,13 @@ All notable changes to YAMTAM ENGINE release packs are documented here.
 
 ---
 
-## v0.18.0 — yamtam-rt v1.1.0: CI publish + score command
+## v0.18.0 — yana-rt v1.1.0: CI publish + score command
 *SKIPPED — 2026-06-07*
 
 ### Status: SKIPPED ⏭
 
-Superseded by v0.40.0 which shipped yamtam-rt with full CI publish pipeline, binary artifact releases, and expanded subcommand set. Items planned here were absorbed into later milestones:
-- `score` subcommand → absorbed into `yamtam ci` gate scoring
+Superseded by v0.40.0 which shipped yana-rt with full CI publish pipeline, binary artifact releases, and expanded subcommand set. Items planned here were absorbed into later milestones:
+- `score` subcommand → absorbed into `yana-ai ci` gate scoring
 - CI publish → shipped in v0.40.0 CI workflow
 - Integration tests → shipped across v0.30.0–v0.40.0
 
@@ -108,7 +108,7 @@ Superseded by v0.40.0 which shipped yamtam-rt with full CI publish pipeline, bin
 ## Milestone — 1,000,000 lines
 *2026-06-01*
 
-YAMTAM ENGINE vượt mốc **1,026,000 dòng** — 15,502 files, không tính `.git` và `node_modules`.
+Yana AI vượt mốc **1,026,000 dòng** — 15,502 files, không tính `.git` và `node_modules`.
 
 - Skills: 8,550 SKILL.md — 641,675 dòng
 - Safety layer: rules + hooks + gates + scripts — ~29,000 dòng
@@ -117,13 +117,13 @@ YAMTAM ENGINE vượt mốc **1,026,000 dòng** — 15,502 files, không tính `
 
 ---
 
-## v0.17.0 — yamtam-rt v1.0.0: Full Python CLI parity in Rust
+## v0.17.0 — yana-rt v1.0.0: Full Python CLI parity in Rust
 *2026-05-30*
 
 ### Status: RELEASED ✅
 
 ### Highlights
-- **yamtam-rt v1.0.0** — 17 Rust subcommands, full Python CLI parity
+- **yana-rt v1.0.0** — 17 Rust subcommands, full Python CLI parity
 - **Ported 9 Python scripts → Rust** (~4.5k lines): scan, graph, hunt, design, doctor, spec, ci, map, fix
 - **vault** subcommand: Vietnamese-first knowledge vault + multilingual translation links (WMT23-inspired)
 - **+235 skills** imported from affaan-m/ECC (225), Leonxlnx/taste-skill (7), hardikpandya/stop-slop (1), NanmiCoder/cc-haha (2) — total 2197 skills
@@ -134,20 +134,20 @@ YAMTAM ENGINE vượt mốc **1,026,000 dòng** — 15,502 files, không tính `
 
 ---
 
-## v0.16.0 — yamtam-rt runtime: Agent Bus + L3 Memory + Config/Plugin/Cost
+## v0.16.0 — yana-rt runtime: Agent Bus + L3 Memory + Config/Plugin/Cost
 *2026-05-29*
 
 ### Status: RELEASED ✅
 
-### New: `yamtam-rt bus` — Agent Message Bus (Phase 1)
-JSONL event bus at `.yamtam/bus.jsonl`. Agents pass output to each other via file, not context window.
+### New: `yana-rt bus` — Agent Message Bus (Phase 1)
+JSONL event bus at `.yana-ai/bus.jsonl`. Agents pass output to each other via file, not context window.
 - `bus emit <from> <to> <type> <payload>` — broadcast supported via `to="*"`
 - `bus read [--agent] [--since] [--reply-to] [--last]` — filtered event stream
 - `bus reply <id> <from> <payload>` — linked reply with `reply_to` field
 - `bus inbox <agent>` — all messages addressed to an agent
 
-### New: `yamtam-rt memory` — L3 Shared Memory (Phase 2)
-Workspace-level fact store at `.yamtam/l3.jsonl`. Survives across sessions, shared between agents.
+### New: `yana-rt memory` — L3 Shared Memory (Phase 2)
+Workspace-level fact store at `.yana-ai/l3.jsonl`. Survives across sessions, shared between agents.
 - `memory store <key> <value> [--tag] [--agent] [--confidence]` — upsert
 - `memory get <key>` — prefix-match lookup
 - `memory list [--tag] [--agent] [--last]` — promoted flag shown
@@ -155,8 +155,8 @@ Workspace-level fact store at `.yamtam/l3.jsonl`. Survives across sessions, shar
 - `memory import [--l2-dir]` — bulk L2 session facts → L3
 - Promotion pipeline: L2 (session) → L3 (workspace) → L1 (permanent, git-tracked)
 
-### New: `yamtam-rt config / plugin / cost` — Cross-repo Pack (Phase 3)
-- `config init/show/set` — reads `.yamtam/settings.json` from any target repo
+### New: `yana-rt config / plugin / cost` — Cross-repo Pack (Phase 3)
+- `config init/show/set` — reads `.yana-ai/settings.json` from any target repo
 - `plugin add/remove/enable/disable/run` — inject custom guards without forking
 - `cost log/show/breakdown` — token usage ledger with tier/model/task breakdown (rates from `model-routing-policy.yml`)
 
@@ -165,13 +165,13 @@ Workspace-level fact store at `.yamtam/l3.jsonl`. Survives across sessions, shar
 
 ---
 
-## v0.15.0 — yamtam hunt, yamtam design, design/book skills (Total: 1,967)
+## v0.15.0 — yana-ai hunt, yana-ai design, design/book skills (Total: 1,967)
 *2026-05-29*
 
 ### Status: RELEASED ✅
 
-### New: `yamtam hunt [target]` — active security scanner
-Turns YAMTAM from passive auditor → active hunter. Inspired by gadievron/raptor.
+### New: `yana-ai hunt [target]` — active security scanner
+Turns Yana AI from passive auditor → active hunter. Inspired by gadievron/raptor.
 
 - **secrets**: 13 patterns (AWS keys, GitHub tokens, OpenAI/Anthropic keys, Stripe, private keys, DB connection strings, JWT secrets...)
 - **code**: SQL injection, command injection, path traversal, debug flags, security TODOs
@@ -179,19 +179,19 @@ Turns YAMTAM from passive auditor → active hunter. Inspired by gadievron/rapto
 - **deps**: npm audit + pip-audit integration
 - `--json` machine-readable output, `--fail-on` CI gate
 
-### New: `yamtam design <subcommand>` — design context extraction
+### New: `yana-ai design <subcommand>` — design context extraction
 Inspired by bergside/design-md-chrome. Extract design tokens from any URL → DESIGN.md for AI agent context.
 
-- `yamtam design extract <url>` — fetch page, extract CSS variables, colors, fonts, spacing, shadows, border-radius
-- `yamtam design show` — display extracted token summary
-- `yamtam design init` — generate DESIGN.md from tokens (ready for AI agent context)
+- `yana-ai design extract <url>` — fetch page, extract CSS variables, colors, fonts, spacing, shadows, border-radius
+- `yana-ai design show` — display extracted token summary
+- `yana-ai design init` — generate DESIGN.md from tokens (ready for AI agent context)
 
 ### Skill imports (+116)
 - **bergside/awesome-design-skills** (MIT): 67 design skills — glassmorphism, neumorphism, neobrutalism, brutalism, claymorphism, retro, vintage, luxury, editorial, matrix, tetris, sega, shadcn...
 - **ciembor/agent-rules-books** (MIT): 42 skills (14 books × 3 variants: full/mini/nano) — Clean Code, Clean Architecture, DDIA, DDD, Pragmatic Programmer, Refactoring, Release It!, PoEAA, Philosophy of Software Design, Code Complete, Working with Legacy Code
 
 ### CLI version bump
-- `bin/yamtam` → v0.15.0
+- `bin/yana-ai` → v0.15.0
 - New commands: `hunt`, `design`
 - Total skills: 1,851 → **1,967**
 
@@ -229,30 +229,30 @@ Inspired by bergside/design-md-chrome. Extract design tokens from any URL → DE
 
 ---
 
-## v0.14.0 — yamtam graph (Understand-Anything knowledge graph pipeline)
+## v0.14.0 — yana-ai graph (Understand-Anything knowledge graph pipeline)
 *2026-05-29*
 
 ### Status: RELEASED ✅
 
-### New: `yamtam graph` — knowledge graph pipeline
+### New: `yana-ai graph` — knowledge graph pipeline
 Adapted from Lum1104/Understand-Anything (MIT, 43k stars). Pure Python, no tree-sitter, no automatic LLM calls.
 
 **Pipeline (graph_builder.py):**
 - Stage 1 — project_scan: file walk, language/framework detection, regex import map (12 languages)
-- Stage 2 — file_analyze: batched (20 files), ast for Python, regex for TS/JS; 1,427 nodes from YAMTAM itself
+- Stage 2 — file_analyze: batched (20 files), ast for Python, regex for TS/JS; 1,427 nodes from Yana AI itself
 - Stage 3 — arch_analyze: heuristic layer assignment (api/service/data/ui/config/test/docs/util)
 - Stage 4 — tour_build: topological sort (Kahn's) → dependency-ordered tour
-- Stage 5 — assemble → `.yamtam/graph/knowledge-graph.json`
+- Stage 5 — assemble → `.yana-ai/graph/knowledge-graph.json`
 
 **Commands:**
-- `yamtam graph build [target]` — build knowledge graph
-- `yamtam graph show [target]` — summary (nodes/edges/layers/tour)
-- `yamtam graph search <query>` — keyword search with `--expand` for 1-hop neighbours
-- `yamtam graph onboard [target]` — Markdown onboarding guide (`--out <file>`)
-- `yamtam graph diff [base]` — diff impact analysis (risk level, blast radius, affected layers)
+- `yana-ai graph build [target]` — build knowledge graph
+- `yana-ai graph show [target]` — summary (nodes/edges/layers/tour)
+- `yana-ai graph search <query>` — keyword search with `--expand` for 1-hop neighbours
+- `yana-ai graph onboard [target]` — Markdown onboarding guide (`--out <file>`)
+- `yana-ai graph diff [base]` — diff impact analysis (risk level, blast radius, affected layers)
 
 ### CLI version bump
-- `bin/yamtam` → v0.14.0
+- `bin/yana-ai` → v0.14.0
 - New command: `graph`
 - scripts: 81 → 83
 
@@ -263,26 +263,26 @@ Adapted from Lum1104/Understand-Anything (MIT, 43k stars). Pure Python, no tree-
 
 ### Status: RELEASED ✅
 
-### New: `yamtam audit --watch`
+### New: `yana-ai audit --watch`
 - Re-audits whenever files in target directory change (polls every 2s, sha256 fingerprint)
 - Ctrl-C to stop; supports all audit flags (--json, --quiet, --ignore, --only)
 
-### New: `yamtam report pdf`
+### New: `yana-ai report pdf`
 - Generates HTML first, converts to PDF via: weasyprint → wkhtmltopdf → fallback HTML
 - `--out`, `--fail-on`, `--ignore`, `--open` flags
 
-### New: `yamtam rule test`
-- `yamtam rule test --all` — validates all 69 scanner YAML files (structure + regex compile); 0 failures
-- `yamtam rule test <id>` — show rule metadata (severity, description, match pattern)
-- `yamtam rule test <id> --file <path>` — test rule against a specific file
+### New: `yana-ai rule test`
+- `yana-ai rule test --all` — validates all 69 scanner YAML files (structure + regex compile); 0 failures
+- `yana-ai rule test <id>` — show rule metadata (severity, description, match pattern)
+- `yana-ai rule test <id> --file <path>` — test rule against a specific file
 
-### New: `yamtam config`
-- Manages `.yamtam/config.yml`: `list`, `get`, `set`, `reset`, `show`
+### New: `yana-ai config`
+- Manages `.yana-ai/config.yml`: `list`, `get`, `set`, `reset`, `show`
 - Persists: `fail_on`, `ignore`, `no_color`, `quiet`, `scanner_dir`, `since`, `open_report`
 - Coerces types; saves only keys that differ from defaults
 
 ### CLI version bump
-- `bin/yamtam` → v0.13.0
+- `bin/yana-ai` → v0.13.0
 - New commands: `config`, `rule test`, `report pdf`, `audit --watch`
 - scripts: 78 → 81
 
@@ -293,29 +293,29 @@ Adapted from Lum1104/Understand-Anything (MIT, 43k stars). Pure Python, no tree-
 
 ### Status: RELEASED ✅
 
-### New: `yamtam check <file>` — single file scanner
+### New: `yana-ai check <file>` — single file scanner
 - Scan any file against all matching rules (regex, json, exists)
 - Shows severity, rule ID, line number, description, fix suggestion
 - `--severity` filter threshold, `--json` machine-readable
 - 69 rules checked per file
 
-### New: `yamtam template list/show` — policy template browser
+### New: `yana-ai template list/show` — policy template browser
 - Lists all 5 policy templates with names, fix IDs, output paths
-- `yamtam template show claude-settings` — preview template content
+- `yana-ai template show claude-settings` — preview template content
 - `--json` output for scripting
 
-### New: `yamtam audit . --since <date>` — date-filtered scan
+### New: `yana-ai audit . --since <date>` — date-filtered scan
 - Only scan files modified since a given date via `git log`
 - Accepts: `2026-05-01`, `yesterday`, `7 days ago`, `1 week ago`
 - Exit 0 if no files modified since date
 
-### Enhanced: `yamtam doctor` — +2 new checks
-- `yamtam CLI` — verifies `bin/yamtam` accessible and reports version
-- `yamtam hooks` — checks if hooks are wired in `.claude/settings.json`
+### Enhanced: `yana-ai doctor` — +2 new checks
+- `yana-ai CLI` — verifies `bin/yana-ai` accessible and reports version
+- `yana-ai hooks` — checks if hooks are wired in `.claude/settings.json`
 - Total: 15 checks (was 13)
 
 ### CLI version bump
-- `bin/yamtam` → v0.12.0
+- `bin/yana-ai` → v0.12.0
 - New commands: `check`, `template`
 - scripts: 78 → 80
 
@@ -326,34 +326,34 @@ Adapted from Lum1104/Understand-Anything (MIT, 43k stars). Pure Python, no tree-
 
 ### Status: RELEASED ✅
 
-### New: `yamtam lint [path]` — rule YAML linter
+### New: `yana-ai lint [path]` — rule YAML linter
 - Validates rule files against schema: required fields (id/severity/target/description), valid severity, valid match types
 - Detects duplicate IDs, unknown fields, missing `fix` field
 - `--errors-only` show only ERRORs, `--json` machine-readable
 - Default: lints all files in `scanner/`
 
-### New: `yamtam snapshot save/list/diff/delete` — audit snapshots
-- `yamtam snapshot save <name>` — save current audit state to `.yamtam/snapshots/`
-- `yamtam snapshot list` — show all snapshots with score + risk
-- `yamtam snapshot diff <a> <b>` — compare two snapshots (delegates to diff-report)
-- `yamtam snapshot show <name>` — print audit JSON
-- `yamtam snapshot delete <name>` — remove snapshot
+### New: `yana-ai snapshot save/list/diff/delete` — audit snapshots
+- `yana-ai snapshot save <name>` — save current audit state to `.yana-ai/snapshots/`
+- `yana-ai snapshot list` — show all snapshots with score + risk
+- `yana-ai snapshot diff <a> <b>` — compare two snapshots (delegates to diff-report)
+- `yana-ai snapshot show <name>` — print audit JSON
+- `yana-ai snapshot delete <name>` — remove snapshot
 - `--note` add a label, auto-generates timestamp name if omitted
 
-### New: `yamtam policy check [target]` — policy compliance
+### New: `yana-ai policy check [target]` — policy compliance
 - Verifies `.claude/settings.json`, `.mcp.json`, `.github/workflows/` match policy templates
 - Checks: `dangerouslyAllowAll=false`, deny list present, no bare `Bash(*)`, no root filesystem MCP, permissions block in workflows
 - `--policy <name>` check single policy, `--json` output
 
-### New: `yamtam export [target] --format <fmt>` — multi-format export
+### New: `yana-ai export [target] --format <fmt>` — multi-format export
 - `csv` — for Excel, Jira, spreadsheets
 - `markdown` — readable report with finding tables by severity
 - `junit` — XML for Jenkins / GitHub Actions test reporter
-- `json` — raw audit JSON (same as `yamtam audit . --json`)
+- `json` — raw audit JSON (same as `yana-ai audit . --json`)
 - `--out <file>` custom path, `--stdout` pipe to another tool
 
 ### CLI version bump
-- `bin/yamtam` → v0.12.0
+- `bin/yana-ai` → v0.12.0
 - New commands: `lint`, `snapshot`, `policy check`, `export`
 - scripts: 74 → 78
 
@@ -364,36 +364,36 @@ Adapted from Lum1104/Understand-Anything (MIT, 43k stars). Pure Python, no tree-
 
 ### Status: RELEASED ✅
 
-### New: `yamtam init [target]` — interactive setup wizard
+### New: `yana-ai init [target]` — interactive setup wizard
 - Guided setup: select AI engine (claude/cursor/aider/copilot/other), risk profile, guards, CI
 - Risk profiles: `strict` (minimal tools), `balanced` (default), `minimal` (audit only)
-- Generates `.claude/settings.recommended.json`, `.yamtamignore`, `.gitignore` additions
+- Generates `.claude/settings.recommended.json`, `.yana-aiignore`, `.gitignore` additions
 - Optionally installs runtime guards and CI workflow
 - Runs initial audit after setup
 - `--yes` for non-interactive / CI use
 
-### New: `yamtam verify [target]` — hook wiring check
+### New: `yana-ai verify [target]` — hook wiring check
 - Checks 8 core safety hooks: exists on disk + wired in `.claude/settings.json`
 - L0 audit, L1 scope, L1.5 validate, L3 truth gate, L3.5 inject, L4 deploy, L4.5 supply chain, L5 destructive
-- `--fix` auto-runs `yamtam guard install all`
+- `--fix` auto-runs `yana-ai guard install all`
 - `--json` machine-readable output
 
-### New: `yamtam monitor [target]` — real-time log tail
+### New: `yana-ai monitor [target]` — real-time log tail
 - Tails `.claude/state/audit.log` with color-coded output
 - BLOCK (red), WARN (yellow), PASS (green), BUDGET (cyan), SECURITY (red)
 - `--filter <pattern>` show only matching lines
 - `--lines` initial backlog, `--interval` poll frequency
 - Auto-detects log file location across project structures
 
-### New: `yamtam stats [target]` — score trend
-- Records audit scores to `.yamtam/history.json` (keeps last 100)
+### New: `yana-ai stats [target]` — score trend
+- Records audit scores to `.yana-ai/history.json` (keeps last 100)
 - `--record` run new scan and save to history
 - Shows score bar chart, risk level, trend arrow per scan
 - Displays best/worst scores with dates
 - `--limit` number of entries, `--clear` reset history, `--json` output
 
 ### CLI version bump
-- `bin/yamtam` → v0.10.0
+- `bin/yana-ai` → v0.10.0
 - New commands: `init`, `verify`, `monitor`, `stats`
 - scripts: 70 → 74
 
@@ -404,28 +404,28 @@ Adapted from Lum1104/Understand-Anything (MIT, 43k stars). Pure Python, no tree-
 
 ### Status: RELEASED ✅
 
-### New: `yamtam report html [target]` — standalone HTML report
+### New: `yana-ai report html [target]` — standalone HTML report
 - Generates self-contained HTML with score bar, risk badge, color-coded findings
-- `--out <file>` custom output path (default: `yamtam-report.html`)
+- `--out <file>` custom output path (default: `yana-ai-report.html`)
 - `--open` opens in browser immediately after generation
 - `--fail-on`, `--ignore`, `--diff` passthrough to scanner
 - No external dependencies — pure inline CSS/HTML
 
-### New: `yamtam scan <url>` — scan GitHub repo by URL
+### New: `yana-ai scan <url>` — scan GitHub repo by URL
 - Clones to temp dir, audits, cleans up — no permanent files left
 - Supports any `https://github.com/owner/repo` URL
 - `--html <file>` generate HTML report, `--markdown <file>` generate Markdown
 - `--branch <name>` scan a specific branch
 - `--json` machine-readable output, `--fail-on` CI gate
 
-### New: `yamtam rule import <source>` — import rule pack
+### New: `yana-ai rule import <source>` — import rule pack
 - Import from local file or remote URL
 - Validates schema before writing (checks/severity/id required)
 - Conflict detection: skips existing IDs unless `--force`
 - `--name` custom output filename in `scanner/`
 - `--dry-run` validate and preview without writing
 
-### New: `yamtam upgrade` — self-update
+### New: `yana-ai upgrade` — self-update
 - Fetches latest release info from GitHub API
 - `--check` — show if update available without installing
 - `--yes` — skip confirmation prompt
@@ -435,7 +435,7 @@ Adapted from Lum1104/Understand-Anything (MIT, 43k stars). Pure Python, no tree-
 - scripts count: 66 → 70
 
 ### CLI version bump
-- `bin/yamtam` → v0.9.0
+- `bin/yana-ai` → v0.9.0
 - New commands: `report html`, `scan`, `rule import`, `upgrade`
 
 ---
@@ -445,29 +445,29 @@ Adapted from Lum1104/Understand-Anything (MIT, 43k stars). Pure Python, no tree-
 
 ### Status: RELEASED ✅
 
-### New: `yamtam ci-check [target]` — CI/CD pipeline health
-- Checks `.github/workflows/` for: missing permissions, unpinned action SHAs, no timeout, auto-merge, pull_request_target risks, missing yamtam audit step
+### New: `yana-ai ci-check [target]` — CI/CD pipeline health
+- Checks `.github/workflows/` for: missing permissions, unpinned action SHAs, no timeout, auto-merge, pull_request_target risks, missing yana-ai audit step
 - Levels: FAIL / WARN / INFO / PASS
 - `--json` output, `--fail-on` threshold
 - Score impact: each WARN/FAIL explains fix inline
 
-### New: `yamtam diff-report <before.json> <after.json>` — audit run comparison
-- Compare two `yamtam audit . --json` snapshots
+### New: `yana-ai diff-report <before.json> <after.json>` — audit run comparison
+- Compare two `yana-ai audit . --json` snapshots
 - Shows score delta (▲ +10 / ▼ -20), new findings (+), resolved findings (-)
 - Exit 1 if score regressed
 - `--json` output for CI integration
 
-### New: `yamtam rule add/list/remove` — custom rule management
+### New: `yana-ai rule add/list/remove` — custom rule management
 - Add project-specific rules to `scanner/custom-checks.yml`
-- `yamtam rule add --id CUSTOM001 --severity HIGH --target ".env" --pattern "..."``
-- `yamtam rule list` — show all custom rules
-- `yamtam rule remove CUSTOM001`
+- `yana-ai rule add --id CUSTOM001 --severity HIGH --target ".env" --pattern "..."``
+- `yana-ai rule list` — show all custom rules
+- `yana-ai rule remove CUSTOM001`
 - `--dry-run` preview, supports all match types (regex/json/exists)
 
-### New: `yamtam install [target]` — one-command project setup
-- Creates `.yamtamignore`, `.gitignore` additions, `.claude/settings.recommended.json`, `.mcp.recommended.json`, `.github/workflows/yamtam-audit.yml`
+### New: `yana-ai install [target]` — one-command project setup
+- Creates `.yana-aiignore`, `.gitignore` additions, `.claude/settings.recommended.json`, `.mcp.recommended.json`, `.github/workflows/yana-ai-audit.yml`
 - `--dry-run` shows what would be written
-- `--guards` also runs `yamtam guard install all`
+- `--guards` also runs `yana-ai guard install all`
 - `--no-audit` skips initial scan
 - Runs initial audit and shows top findings after setup
 
@@ -475,11 +475,11 @@ Adapted from Lum1104/Understand-Anything (MIT, 43k stars). Pure Python, no tree-
 - `MANIFEST.json` scripts: 47 → 66 (all scripts listed)
 - `plugin.json` + `marketplace.json` synced to 66
 - `release.yml`: workflow-level permissions + pinned SHA + timeout
-- `yamtam-audit.yml`: workflow-level permissions block
+- `yana-ai-audit.yml`: workflow-level permissions block
 - Score: 64/100 HIGH → **77/100 MEDIUM**
 
 ### CLI version bump
-- `bin/yamtam` → v0.8.0
+- `bin/yana-ai` → v0.8.0
 - New commands: `ci-check`, `diff-report`, `rule`, `install`
 
 ---
@@ -489,28 +489,28 @@ Adapted from Lum1104/Understand-Anything (MIT, 43k stars). Pure Python, no tree-
 
 ### Status: RELEASED ✅
 
-### New: `yamtam score [target] --explain` — deduction trail
+### New: `yana-ai score [target] --explain` — deduction trail
 - Shows every score deduction step: Start 100 → -10 CI007 → -10 CI006 → … → Final
-- `yamtam score .` — compact view: score + risk + finding counts
-- `yamtam score . --explain` — full breakdown with severity, rule ID, description
-- `yamtam score . --json` — machine-readable breakdown array
+- `yana-ai score .` — compact view: score + risk + finding counts
+- `yana-ai score . --explain` — full breakdown with severity, rule ID, description
+- `yana-ai score . --json` — machine-readable breakdown array
 - `--ignore` and `--diff` flags passthrough to scanner
 
-### New: `yamtam badge .` — shields.io badge generator
+### New: `yana-ai badge .` — shields.io badge generator
 - Generates badge URL + Markdown snippet for README
 - Color-coded by risk: green (LOW) / amber (MEDIUM) / red (HIGH) / dark-red (CRITICAL)
-- `yamtam badge . --url-only` — just the URL (CI/script use)
-- `yamtam badge . --json` — JSON with score, risk, badge_url, markdown
+- `yana-ai badge . --url-only` — just the URL (CI/script use)
+- `yana-ai badge . --json` — JSON with score, risk, badge_url, markdown
 - `--style` flag: for-the-badge / flat / flat-square / plastic
 
-### New: `yamtam watch .` — live re-audit on file change
+### New: `yana-ai watch .` — live re-audit on file change
 - Polls `.claude/settings.json`, `.mcp.json`, `.github/workflows/`, `scripts/`, `.env*`
 - Shows score diff on every change: `64/100 HIGH → 74/100 MEDIUM (+10)`
 - Lists new/gone findings with `+/-` diff view
 - `--interval` flag (default 2s), `--ignore`, `--fail-on` passthrough
 - No external dependencies — pure Python polling
 
-### New: `yamtam fix <rule-id>` — opt-in auto-fix
+### New: `yana-ai fix <rule-id>` — opt-in auto-fix
 - Automated fixes: AC002 (remove Bash\*), AC003 (dangerouslyAllowAll→false), CI007 (add permissions block), MCP001 (scope filesystem path)
 - Template-based fixes: AC001/AC004 → claude-settings, MCP002/MCP003 → mcp-minimal
 - Manual-only block for secrets rules (SE*, AU*, CI004) — never auto-fixed
@@ -518,7 +518,7 @@ Adapted from Lum1104/Understand-Anything (MIT, 43k stars). Pure Python, no tree-
 - `--yes` skips confirmation prompt
 
 ### CLI version bump
-- `bin/yamtam` → v0.7.0
+- `bin/yana-ai` → v0.7.0
 - New commands: `score`, `badge`, `watch`, `fix`
 
 ---
@@ -528,30 +528,30 @@ Adapted from Lum1104/Understand-Anything (MIT, 43k stars). Pure Python, no tree-
 
 ### Status: RELEASED ✅
 
-### New: `yamtam explain <rule-id>` — rule curriculum
+### New: `yana-ai explain <rule-id>` — rule curriculum
 - Plain-language explanation for every finding: what it means, why it's risky, how to fix
 - Covers all 70 rules across 7 categories (AC, AU, CI, DB, MCP, SE, SH)
-- `yamtam explain CI001` → target, risk reason, fix, detection pattern
-- `yamtam explain --list` → full rule catalog by category
+- `yana-ai explain CI001` → target, risk reason, fix, detection pattern
+- `yana-ai explain --list` → full rule catalog by category
 - Extended docs from `rules/docs/<ID>.md` if present
 
-### New: `yamtam map .` — Agent Blast Radius Map
+### New: `yana-ai map .` — Agent Blast Radius Map
 - Answers: "What can my AI agent actually reach?"
 - Scans `.claude/settings.json` → shell, file read/write, git, network access levels
 - Scans `.mcp.json` → MCP servers with risk level (filesystem root = CRITICAL)
 - Scans `.github/workflows/` → auto-merge, secrets exposure, pull_request_target risks
 - Overall risk rating: CRITICAL / HIGH / MEDIUM / LOW
-- `yamtam map . --json` for machine-readable output
+- `yana-ai map . --json` for machine-readable output
 
-### New: `yamtam init-policy <tool>` — safe config generator
+### New: `yana-ai init-policy <tool>` — safe config generator
 - Generates safe config templates without auto-fixing existing files
-- `yamtam init-policy claude` → `.claude/settings.recommended.json`
-- `yamtam init-policy mcp` → `.mcp.recommended.json`
-- `yamtam init-policy github-actions` → `.github/workflows/ai-pr-safe.yml`
-- `yamtam init-policy gitignore` → `.gitignore.yamtam`
-- `yamtam init-policy env` → `.env.example.yamtam`
+- `yana-ai init-policy claude` → `.claude/settings.recommended.json`
+- `yana-ai init-policy mcp` → `.mcp.recommended.json`
+- `yana-ai init-policy github-actions` → `.github/workflows/ai-pr-safe.yml`
+- `yana-ai init-policy gitignore` → `.gitignore.yana-ai`
+- `yana-ai init-policy env` → `.env.example.yana-ai`
 - `--dry-run` flag to preview without writing
-- `yamtam init-policy list` → list all 5 tools
+- `yana-ai init-policy list` → list all 5 tools
 
 ### New: GitHub Action — `uses: .../actions/audit@v1`
 - `.github/actions/audit/action.yml` — composite action
@@ -561,7 +561,7 @@ Adapted from Lum1104/Understand-Anything (MIT, 43k stars). Pure Python, no tree-
 - Zero external dependencies beyond Python + PyYAML
 
 ### CLI version bump
-- `bin/yamtam` → v0.6.0
+- `bin/yana-ai` → v0.6.0
 - New commands: `explain`, `map`, `init-policy`
 
 ---
@@ -571,16 +571,16 @@ Adapted from Lum1104/Understand-Anything (MIT, 43k stars). Pure Python, no tree-
 
 ### Status: RELEASED ✅
 
-### New: `yamtam task` — task lifecycle management
-- `yamtam task create "description" [--scope "src/"]` — tạo task, sinh UUID
-- `yamtam task list` — list tasks với status icon (○ open / ✓ done)
-- `yamtam task done <id> --evidence "..."` — mark done + attach evidence
-- `yamtam task status <id>` — xem chi tiết task
-- `yamtam task drop <id>` — xoá task
+### New: `yana-ai task` — task lifecycle management
+- `yana-ai task create "description" [--scope "src/"]` — tạo task, sinh UUID
+- `yana-ai task list` — list tasks với status icon (○ open / ✓ done)
+- `yana-ai task done <id> --evidence "..."` — mark done + attach evidence
+- `yana-ai task status <id>` — xem chi tiết task
+- `yana-ai task drop <id>` — xoá task
 
-### New: `yamtam eval` — evidence validation
-- `yamtam eval run <id>` — validate evidence → PASS/FAIL + confidence level
-- `yamtam eval schema` — hiển thị Evidence Schema v1 (JSON)
+### New: `yana-ai eval` — evidence validation
+- `yana-ai eval run <id>` — validate evidence → PASS/FAIL + confidence level
+- `yana-ai eval schema` — hiển thị Evidence Schema v1 (JSON)
 
 ### Evidence parsing (deterministic, no AI)
 - Tự động detect: `tests_passed`, `tests_failed`, `build_ok`, `coverage_pct`, `manual_note`
@@ -589,9 +589,9 @@ Adapted from Lum1104/Understand-Anything (MIT, 43k stars). Pure Python, no tree-
 - Warn nếu `coverage_pct < 80%`
 
 ### Implementation
-- Rust binary `yamtam-rt v0.5.0` — clap 4, serde, uuid, chrono
-- State lưu tại `.yamtam/tasks.json` trong project
-- `bin/yamtam` delegate `task` + `eval` subcommands sang Rust binary
+- Rust binary `yana-rt v0.5.0` — clap 4, serde, uuid, chrono
+- State lưu tại `.yana-ai/tasks.json` trong project
+- `bin/yana-ai` delegate `task` + `eval` subcommands sang Rust binary
 
 ### Roadmap
 | Version | Status |
@@ -717,9 +717,9 @@ Adapted from Lum1104/Understand-Anything (MIT, 43k stars). Pure Python, no tree-
 ### Bypass vars
 | Hook | Bypass |
 |---|---|
-| `prompt-injection-guard.sh` | `YAMTAM_PROMPT_INJECT_BYPASS=1` |
-| `supply-chain-guard.sh` | `YAMTAM_SUPPLY_OK=1` |
-| `tool-validator.sh` | `YAMTAM_TOOL_VALID_BYPASS=1` |
+| `prompt-injection-guard.sh` | `YANA_PROMPT_INJECT_BYPASS=1` |
+| `supply-chain-guard.sh` | `YANA_SUPPLY_OK=1` |
+| `tool-validator.sh` | `YANA_TOOL_VALID_BYPASS=1` |
 
 ---
 
@@ -803,7 +803,7 @@ Adapted from Lum1104/Understand-Anything (MIT, 43k stars). Pure Python, no tree-
 
 ### New features
 - **100% skill trigger coverage** — 350/350 skills covered by `test-skill-triggering.sh`, 678 checks, 0 failures
-- **Copilot hard enforcement** — `.github/copilot-instructions.md` Hard Enforcement section; `.vscode/tasks.json` with 6 YAMTAM gate tasks
+- **Copilot hard enforcement** — `.github/copilot-instructions.md` Hard Enforcement section; `.vscode/tasks.json` with 6 Yana AI gate tasks
 - **L1 memory expiry sweep** — `sweep-expired-facts.sh`: scan all L1 facts for expired `expires_at`, archive to `memory/L1_atomic/archived/`, `--dry-run` + `--force` flags
 - **Cost-report dashboard** — `/cost-report` command: per-tool call counts, circuit state, estimated USD (Sonnet $3/$15 per MTok)
 
@@ -839,12 +839,12 @@ Independent review passed after resolving 5 metadata blockers.
 
 ### New features (v1.4.20)
 - **Cross-engine hard enforcement** — `safe-run.sh --engine cursor|aider` blocks elevated-risk commands without TTY
-- **switch-engine.sh cursor** → generates `.cursor/rules/yamtam-hard-enforcement.mdc`
+- **switch-engine.sh cursor** → generates `.cursor/rules/yana-ai-hard-enforcement.mdc`
 - **switch-engine.sh aider** → generates `.aider.conf.yml` with shell proxy
 - **Circuit Breaker** in `token-budget-guard.sh` — HARD BLOCK at 5 consecutive tool calls, escalating cooldown (60s → 300s → 1800s), fast-tier Haiku recommendation
 - **Rule 43** — `43-prompt-jailbreak-advanced`: memory exfiltration, psychological manipulation, identity spoofing, multi-turn chain detection
 - **Rule 44** — `44-supply-chain-vetting`: typosquatting, lock file integrity, OSV scan gate, pipe-to-shell block
-- **Identity Gate** — auto-auth from `YAMTAM_SOVEREIGN_NAME` env var, case-insensitive sovereign check
+- **Identity Gate** — auto-auth from `YANA_SOVEREIGN_NAME` env var, case-insensitive sovereign check
 
 ### Count sync
 | Metric | v1.4.00 | v1.4.20 |
@@ -1245,7 +1245,7 @@ Cả `verify-skills-lock.sh` và `update-skills-lock.sh` đều áp dụng cùng
 | `pulse` | Multi-source recency research (Reddit, HN, open web) — 7–90 day window |
 | `research` | Intelligent research router — dispatches to pulse/litreview/dossier/patent |
 
-### New Skills — YAMTAM-native (from disler patterns)
+### New Skills — Yana AI-native (from disler patterns)
 2 skills created from `disler/claude-code-hooks-mastery` patterns:
 
 | Skill | Mô tả |
@@ -1292,13 +1292,13 @@ Subagent phải giải thích *tại sao* đưa ra kết luận và liệt kê n
 
 ---
 
-## v1.3.20 — YAMTAM-Native Governance Skills
+## v1.3.20 — Yana AI-Native Governance Skills
 *2026-05-19*
 
 ### New Skills (+2, total 36 → 38)
 
 **`telemetry-analysis`**
-Phân tích dữ liệu telemetry local của YAMTAM: hook activity, token usage pattern,
+Phân tích dữ liệu telemetry local của Yana AI: hook activity, token usage pattern,
 trust score health, bypass usage. Đọc từ `.claude/state/telemetry.jsonl`,
 `audit-chain.log`, `session-trust.json`. Không cần network.
 Triggers: "xem log", "hook nào fire", "audit trail", "token usage", "session summary".
@@ -1342,7 +1342,7 @@ Source: wshobson/commands (MIT License)
 - Version 1.3.18 → 1.3.19; commands 96 → 141.
 
 ### Release
-- `releases/yamtam-engine-v1.3.19-fixed.zip` — 847K.
+- `releases/yana-ai-v1.3.19-fixed.zip` — 847K.
 
 ---
 
@@ -1389,7 +1389,7 @@ Source: wshobson/commands (MIT License)
 - Version 1.3.17 → 1.3.18; agents 42→83, commands 74→96, skills 24→36.
 
 ### Release
-- `releases/yamtam-engine-v1.3.18-fixed.zip` — 348 files.
+- `releases/yana-ai-v1.3.18-fixed.zip` — 348 files.
 
 ---
 
@@ -1426,7 +1426,7 @@ Source: wshobson/commands (MIT License)
 - Version 1.3.16 → 1.3.17; agents 19→42, commands 33→74, skills 20→24.
 
 ### Release
-- `releases/yamtam-engine-v1.3.17-fixed.zip` — 254 files, 452K.
+- `releases/yana-ai-v1.3.17-fixed.zip` — 254 files, 452K.
 
 ---
 
@@ -1465,13 +1465,13 @@ Source: wshobson/commands (MIT License)
 - `core/skills/executing-plans/SKILL.md` — structured execution of approved plans; gate checks before each step
 - `core/skills/requesting-code-review/SKILL.md` — how to request code review with context and scope
 - `core/skills/receiving-code-review/SKILL.md` — how to receive and address review comments
-- `core/skills/writing-skills/SKILL.md` — how to author new YAMTAM skill files correctly
+- `core/skills/writing-skills/SKILL.md` — how to author new Yana AI skill files correctly
 
 ### Tests
 - +8 skill trigger tests (4 new skills × 2 phrases each) → 22 total
 
 ### Release
-- `releases/yamtam-engine-v1.3.15-fixed.zip` — 173 files, 260K
+- `releases/yana-ai-v1.3.15-fixed.zip` — 173 files, 260K
 
 ---
 
@@ -1508,7 +1508,7 @@ Source: wshobson/commands (MIT License)
 - `core/skills/debug-protocol/SKILL.md` — structured debug loop: reproduce → isolate → fix → verify
 - `core/skills/branch-finish/SKILL.md` — branch completion checklist before merge
 - `core/skills/worktree-safety/SKILL.md` — safe experiment isolation via git worktree
-- Source: adapted from obra/superpowers v5.1.0 (MIT License); content rewritten in YAMTAM style
+- Source: adapted from obra/superpowers v5.1.0 (MIT License); content rewritten in Yana AI style
 
 ### New Commands
 - `/diff-review` — review staged diff before commit; checks scope, test coverage, doc drift
@@ -1629,7 +1629,7 @@ Source: wshobson/commands (MIT License)
 ### New Files
 - `.claude-plugin/plugin.json` — schema_version 1; install via zip from GitHub Releases latest.
 - `.claude-plugin/marketplace.json` — tagline, highlights, stats, install command.
-- `build-release.sh` updated: creates `yamtam-engine-latest.zip` symlink for stable install URL.
+- `build-release.sh` updated: creates `yana-ai-latest.zip` symlink for stable install URL.
 
 ---
 
@@ -1675,7 +1675,7 @@ Source: wshobson/commands (MIT License)
 - +8 commit-gate tests → 42 total (was 34).
 
 ### Release
-- `releases/yamtam-engine-v1.3.3-fixed.zip` — 133 files, 208K.
+- `releases/yana-ai-v1.3.3-fixed.zip` — 133 files, 208K.
 
 ---
 
@@ -1684,10 +1684,10 @@ Source: wshobson/commands (MIT License)
 
 ### New Hooks
 - `commit-gate.sh` (PreToolUse, L2 advisory): warns when staged files touch cross-scope paths.
-  Bypass: `YAMTAM_SCOPE_OK=1`. Test seam: `COMMIT_GATE_TEST_STAGED`.
+  Bypass: `YANA_SCOPE_OK=1`. Test seam: `COMMIT_GATE_TEST_STAGED`.
 - `deploy-gate.sh` (PreToolUse, L4 block): blocks gh workflow run, kubectl apply/rollout,
   docker push, gcloud deploy, fly deploy/launch, heroku releases:promote.
-  Bypass: `YAMTAM_DEPLOY_APPROVED=1`.
+  Bypass: `YANA_DEPLOY_APPROVED=1`.
 
 ### Tests
 - +8 deploy-gate tests, +8 commit-gate tests → 34 total (was 26).
@@ -1731,10 +1731,10 @@ Source: wshobson/commands (MIT License)
 ### New Hooks
 - `truth-gate-guard.sh` (Stop): scans last assistant message for claim verbs
   (done/fixed/deployed…); warns when no evidence patterns or fallback qualifiers
-  present. Non-blocking. Bypass: `YAMTAM_TRUTH_GATE_BYPASS=1`.
+  present. Non-blocking. Bypass: `YANA_TRUTH_GATE_BYPASS=1`.
 - `scope-guard.sh` (PreToolUse): warns when Write/Edit targets product dirs
   (`app/ components/ lib/ db/ migrations/ .env* vercel.json`…).
-  Advisory only. Bypass: `YAMTAM_SCOPE_OK=1`.
+  Advisory only. Bypass: `YANA_SCOPE_OK=1`.
 
 ### New Commands
 - `/verify` — full health check: git state + hook syntax + test suite + drift report.

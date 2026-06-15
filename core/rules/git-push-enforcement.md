@@ -1,5 +1,5 @@
-# YAMTAM ENGINE — Git Push Enforcement
-# Source: github/ruleset-recipes bypass/enforcement structure + yamtam action gate
+# Yana AI — Git Push Enforcement
+# Source: github/ruleset-recipes bypass/enforcement structure + yana-ai action gate
 
 **Status:** Active  
 **Enforced by:** action_gate.md, PreToolUse hook, all agents  

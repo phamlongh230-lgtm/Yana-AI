@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yamtam scan <url> — scan a GitHub repo URL without cloning permanently."""
+"""yana-ai scan <url> — scan a GitHub repo URL without cloning permanently."""
 
 import argparse
 import json
@@ -18,7 +18,7 @@ RED   = "\033[31m"; CYAN  = "\033[36m"; DIM   = "\033[2m"; RESET = "\033[0m"
 RISK_COLOR = {"CRITICAL": RED, "HIGH": RED, "MEDIUM": YELLOW, "LOW": GREEN}
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -45,7 +45,7 @@ def parse_github_url(url: str) -> tuple[str, str]:
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="yamtam scan",
+        prog="yana-ai scan",
         description="Scan a GitHub repo URL for AI agent risks",
     )
     parser.add_argument("url", help="GitHub repo URL (https://github.com/owner/repo)")
@@ -62,11 +62,11 @@ def main():
 
     if not args.json:
         print()
-        print(c(BOLD, f"  yamtam scan"))
+        print(c(BOLD, f"  yana-ai scan"))
         print(c(DIM,  f"  {clone_url}"))
         print()
 
-    with tempfile.TemporaryDirectory(prefix="yamtam-scan-") as tmpdir:
+    with tempfile.TemporaryDirectory(prefix="yana-ai-scan-") as tmpdir:
         clone_path = os.path.join(tmpdir, name)
 
         # Clone

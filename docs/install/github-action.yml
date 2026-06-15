@@ -1,7 +1,7 @@
-# Copy this file to .github/workflows/yamtam-scan.yml in YOUR repo
-# Full docs: https://phamlongh230-lgtm.github.io/yamtam-engine/
+# Copy this file to .github/workflows/yana-ai-scan.yml in YOUR repo
+# Full docs: https://phamlongh230-lgtm.github.io/yana-ai/
 
-name: YAMTAM Security Scan
+name: Yana AI Security Scan
 
 on:
   push:
@@ -15,7 +15,7 @@ permissions:
   security-events: write        # needed for SARIF upload to Code Scanning
 
 jobs:
-  yamtam-scan:
+  yana-ai-scan:
     name: Agent Security Scan
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: phamlongh230-lgtm/yamtam-engine/.github/actions/scan@main
+      - uses: phamlongh230-lgtm/yana-ai/.github/actions/scan@main
         with:
           target: '.'
           fail-on: 'high'          # fail CI on HIGH or CRITICAL findings

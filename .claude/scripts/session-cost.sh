@@ -140,7 +140,7 @@ if earliest and latest:
     period = f"  Period:  {earliest.strftime('%Y-%m-%d %H:%M')} → {latest.strftime('%Y-%m-%d %H:%M')} UTC"
 
 print()
-print(f"Session Cost Report — YAMTAM ENGINE")
+print(f"Session Cost Report — Yana AI")
 print(f"{'─'*50}")
 print(f"  Scope:   {label}")
 if period:

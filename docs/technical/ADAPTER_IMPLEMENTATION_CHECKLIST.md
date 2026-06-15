@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Adapter Implementation Checklist
+# Yana AI — Adapter Implementation Checklist
 
 **Version:** v1.8.0  
 **Status:** PROMOTE_CANDIDATE — all phases REVIEWED 2026-05-25; not production-released  
@@ -79,7 +79,7 @@ Before writing any adapter file, the schema for each engine config must be agree
 | `provider` | Upstream provider | `OpenRouter`, `Google`, `Anthropic`, `Cursor` |
 | `model` | Default model identifier | `qwen/qwen3-coder`, `gemini-2.5-pro` |
 | `env_var_api_key` | Name of env var holding the key (never the value) | `$OPENROUTER_API_KEY` |
-| `env_var_model` | Name of env var for model override (if supported) | `$YAMTAM_QWEN_MODEL` |
+| `env_var_model` | Name of env var for model override (if supported) | `$YANA_QWEN_MODEL` |
 | `config_output_path` | Where `switch-engine.sh` writes the adapter config | `adapters/qwen.md`, `GEMINI.md` |
 | `enforcement_tier` | `FULL`, `ADVISORY`, or `PROXY` | `ADVISORY` |
 | `safe_run_required` | Whether shell cmds must be wrapped with `safe-run.sh` | `true` / `false` |
@@ -155,7 +155,7 @@ Before writing any adapter file, the schema for each engine config must be agree
 - [ ] `--yes` flag explicitly prohibited in adapter instructions — not verified in this pass
 - [x] OpenRouter base URL documented: reference only, not embedded as a functional call
 - [x] Enforcement tier declared: `ADVISORY`
-- [x] ADVISORY_GAP note: "tool calls in this engine are not in YAMTAM audit trail"
+- [x] ADVISORY_GAP note: "tool calls in this engine are not in Yana AI audit trail"
 
 ### 4.2 switch-engine.sh qwen case checklist
 
@@ -232,10 +232,10 @@ Before writing any adapter file, the schema for each engine config must be agree
 - [ ] If returning from an ADVISORY engine, emits `ADVISORY_GAP_END` with gap duration — `ADVISORY_GAP_END` text is printed to stdout but not emitted as a structured audit log event with gap duration
 - [ ] Calls `session-bootstrap.sh` to restore L2 context (if session state file exists) — NOT implemented
 
-### 6.2 Cursor adapter (`.cursor/rules/yamtam-hard-enforcement.mdc`)
+### 6.2 Cursor adapter (`.cursor/rules/yana-ai-hard-enforcement.mdc`)
 
 - [x] `cursor` case added to switch-engine.sh
-- [x] Generates `.cursor/rules/yamtam-hard-enforcement.mdc` with `alwaysApply: true`
+- [x] Generates `.cursor/rules/yana-ai-hard-enforcement.mdc` with `alwaysApply: true`
 - [x] Carries same 7 minimum rule categories
 - [x] Instructs Cursor to wrap bash commands with `core/scripts/safe-run.sh`
 - [x] No API key or credential in `.mdc` file
@@ -253,7 +253,7 @@ Before writing any adapter file, the schema for each engine config must be agree
 ### 6.4 Verification before marking complete
 
 - [x] `bash -n core/scripts/switch-engine.sh` — syntax check passes (`SYNTAX OK`)
-- [ ] `grep -E "alwaysApply" .cursor/rules/yamtam-hard-enforcement.mdc` — NOT tested: `.mdc` was not regenerated in this verification pass (used `--dry-run` only); working tree clean confirms no write
+- [ ] `grep -E "alwaysApply" .cursor/rules/yana-ai-hard-enforcement.mdc` — NOT tested: `.mdc` was not regenerated in this verification pass (used `--dry-run` only); working tree clean confirms no write
 - [x] `switch-engine.sh --dry-run cursor` writes no files — confirmed via `git status -sb` showing clean tree after all runs
 - [ ] `switch-engine.sh claude` with prior engine `qwen` emits `ADVISORY_GAP_END` — NOT tested as structured audit event; stdout message exists but event schema not verified
 
@@ -279,7 +279,7 @@ These gates must pass at every phase boundary, not just at the end.
 
 - [x] Every `switch-engine.sh` case that writes a file creates a `.bak` copy first — confirmed in source (gemini, cursor, aider cases)
 - [ ] `GEMINI.md.bak` created before `GEMINI.md` is overwritten — UNTESTED: `GEMINI.md` does not yet exist; backup triggers on subsequent runs
-- [ ] `.cursor/rules/yamtam-hard-enforcement.mdc.bak` created before `.mdc` is overwritten — UNTESTED: dry-run used; real run needed to confirm
+- [ ] `.cursor/rules/yana-ai-hard-enforcement.mdc.bak` created before `.mdc` is overwritten — UNTESTED: dry-run used; real run needed to confirm
 - [x] Backup files excluded from `.gitignore` — `*.bak` and `*.bak.*` added to `.gitignore` in commit `0079ad9` on 2026-05-25
 
 ### 7.4 No fake PASS
@@ -359,7 +359,7 @@ git diff --stat
 #   core/scripts/secure-logger.sh  (if modified)
 #   adapters/*.md
 #   GEMINI.md  (if generated)
-#   .cursor/rules/yamtam-hard-enforcement.mdc  (if generated)
+#   .cursor/rules/yana-ai-hard-enforcement.mdc  (if generated)
 #   docs/technical/ADAPTER_IMPLEMENTATION_CHECKLIST.md  (this file)
 ```
 
@@ -390,7 +390,7 @@ If any phase introduces a regression, use this rollback sequence.
 ```bash
 # Restore backed-up config files
 cp GEMINI.md.bak GEMINI.md
-cp .cursor/rules/yamtam-hard-enforcement.mdc.bak .cursor/rules/yamtam-hard-enforcement.mdc
+cp .cursor/rules/yana-ai-hard-enforcement.mdc.bak .cursor/rules/yana-ai-hard-enforcement.mdc
 ```
 
 ### Rollback switch-engine.sh changes
@@ -462,4 +462,4 @@ No partial commits. No "I'll fix the tests after merging."
 
 ---
 
-*YAMTAM ENGINE v1.8.0 · Implementation Checklist · Apache 2.0 · Vũ Văn Tâm*
+*Yana AI v1.8.0 · Implementation Checklist · Apache 2.0 · Vũ Văn Tâm*

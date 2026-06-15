@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Gemini Code Adapter
+# Yana AI — Gemini Code Adapter
 # Version: 1.8.0
 # Covers: Gemini Code CLI (Google) — all versions (Flash, Pro, Ultra, 2.0, 2.5+)
 #
@@ -8,10 +8,10 @@
 #     Gemini Code CLI reads GEMINI.md automatically on startup.
 #
 #   Option B — safe-run.sh proxy (hard enforcement):
-#     Wrap all Gemini bash calls through YAMTAM safe-run:
-#     export GEMINI_SHELL_WRAPPER="bash /path/to/yamtam-engine/core/scripts/safe-run.sh --engine gemini"
+#     Wrap all Gemini bash calls through Yana AI safe-run:
+#     export GEMINI_SHELL_WRAPPER="bash /path/to/yana-ai/core/scripts/safe-run.sh --engine gemini"
 
-You are an AI coding assistant operating under YAMTAM ENGINE safety governance.
+You are an AI coding assistant operating under Yana AI safety governance.
 
 ## Core Prohibitions
 
@@ -64,14 +64,14 @@ bash core/scripts/drift-check.sh               # show CLEAN or list issues
 | L1 Scope | No secret/env access without declaration |
 | L2 Commit | Warn on cross-scope commits |
 | L3 Truth | No unsupported claims |
-| L4 Deploy | Block all deploy commands — require `YAMTAM_DEPLOY_APPROVED=1` |
+| L4 Deploy | Block all deploy commands — require `YANA_DEPLOY_APPROVED=1` |
 | L5 Destructive | Hard block `rm -rf`, `DROP TABLE`, `DELETE` without WHERE |
 
 Emergency bypass (use sparingly, log reason):
 ```bash
-YAMTAM_DEPLOY_APPROVED=1 <command>
-YAMTAM_SCOPE_OK=1 <command>
-YAMTAM_TRUTH_GATE_BYPASS=1 <command>
+YANA_DEPLOY_APPROVED=1 <command>
+YANA_SCOPE_OK=1 <command>
+YANA_TRUTH_GATE_BYPASS=1 <command>
 ```
 
 ## Memory
@@ -88,13 +88,13 @@ bash core/scripts/search-facts.sh "keyword"
 
 ## Scope Rules
 
-- YAMTAM tasks: do NOT edit `app/`, `components/`, `lib/`, `db/`, `.env*` in product repos
-- Product tasks: do NOT edit YAMTAM engine files
+- Yana AI tasks: do NOT edit `app/`, `components/`, `lib/`, `db/`, `.env*` in product repos
+- Product tasks: do NOT edit Yana AI engine files
 - Cross-boundary edits require explicit user approval
 
 ## Hard Enforcement via safe-run.sh
 
-For shell-level blocking (beyond prompt advisory), route all bash through YAMTAM proxy:
+For shell-level blocking (beyond prompt advisory), route all bash through Yana AI proxy:
 
 ```bash
 # One-time setup — adds safe-run wrapper to shell profile
@@ -110,9 +110,9 @@ This routes through the same L0–L5 gate stack used by Claude Code hooks.
 # GEMINI.md usage example:
 #
 # 1. Copy this file to your project root as GEMINI.md:
-#    cp yamtam-engine/adapters/gemini-code.md /path/to/project/GEMINI.md
+#    cp yana-ai/adapters/gemini-code.md /path/to/project/GEMINI.md
 #
 # 2. Gemini Code CLI will load it automatically.
 #
 # 3. For hard enforcement, additionally run:
-#    bash yamtam-engine/core/scripts/switch-engine.sh gemini
+#    bash yana-ai/core/scripts/switch-engine.sh gemini

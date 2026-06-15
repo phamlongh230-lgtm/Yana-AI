@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Security Scope Gate
+# Yana AI — Security Scope Gate
 
 **Version:** 1.0
 **Status:** Active — prompt-enforced + log-based
@@ -57,7 +57,7 @@ Only after confirmation is logged may the scan begin.
 For automated / pre-authorized workflows only:
 
 ```bash
-export YAMTAM_SCOPE_CONFIRMED=1
+export YANA_SCOPE_CONFIRMED=1
 ```
 
 Setting this env var skips the interactive confirmation prompt but still
@@ -101,8 +101,8 @@ NEVER share confirmation logs outside the local .claude/state/ directory.
 File: `.claude/state/security-scope-confirmations.log`
 
 ```
-2026-05-21T13:00:00Z | target=yamtam-engine | mode=quick | confirmed-by=user | bypass=false
-2026-05-21T13:30:00Z | target=yamtam-engine | mode=deep  | confirmed-by=user | bypass=false
+2026-05-21T13:00:00Z | target=yana-ai | mode=quick | confirmed-by=user | bypass=false
+2026-05-21T13:30:00Z | target=yana-ai | mode=deep  | confirmed-by=user | bypass=false
 ```
 
 This file is gitignored. It is for local audit only.

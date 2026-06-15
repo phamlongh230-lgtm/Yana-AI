@@ -1,5 +1,5 @@
-# YAMTAM ENGINE — Memory Persistence Law
-# Source: discourse/AI-AGENTS.md pattern + yamtam L1/L2 memory system
+# Yana AI — Memory Persistence Law
+# Source: discourse/AI-AGENTS.md pattern + yana-ai L1/L2 memory system
 
 **Status:** Active  
 **Enforced by:** All agents, session wrap, pre-compact-backup  

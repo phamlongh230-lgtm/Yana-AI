@@ -54,7 +54,7 @@ Xử lý theo DIRECTION.md — lọc, ưu tiên, không dump raw.
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   BRIEFING  •  [Thứ X, HH:MM]
-  YAMTAM v[version]  •  [ngày]
+  Yana AI v[version]  •  [ngày]
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 TÌNH HÌNH

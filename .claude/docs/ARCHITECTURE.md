@@ -1,13 +1,13 @@
-# YAMTAM ENGINE — Architecture
+# Yana AI — Architecture
 
 **Version:** 1.4.20
 **Type:** Hook layer — not a service, not a framework.
 
 ---
 
-## What YAMTAM is
+## What Yana AI is
 
-YAMTAM is a portable pack of bash hooks, scripts, agents, and commands that
+Yana AI is a portable pack of bash hooks, scripts, agents, and commands that
 you drop into any Claude Code project to constrain what an AI agent can do.
 It enforces safety rules at the tool-call level, not at the application level.
 
@@ -24,7 +24,7 @@ It runs as Claude Code hooks — shell scripts that fire on tool events.
 | No external deps | Hooks degrade gracefully when jq/python3 absent |
 | Non-blocking by default | Advisory hooks warn via stdout; only explicit guards block (exit 2) |
 | Gitignored state | Session state (`L2_session/`, circuit state) never enters version control |
-| YAMTAM ≠ product | Zero coupling to any target project's code or schema |
+| Yana AI ≠ product | Zero coupling to any target project's code or schema |
 | Fail closed | When a critical dep is missing, blocking hooks deny (not allow) |
 
 ---
@@ -37,7 +37,7 @@ It runs as Claude Code hooks — shell scripts that fire on tool events.
 │  core/gates/identity-gate.sh                                            │
 │  · Tier 0 (GUEST) / Tier 1 (OPERATOR) / Tier 2 (SOVEREIGN)             │
 │  · SHA-256 hash verification, case-insensitive, auto-auth from env var  │
-│  · YAMTAM_SOVEREIGN_NAME → immediate Tier 2 grant                       │
+│  · YANA_SOVEREIGN_NAME → immediate Tier 2 grant                       │
 └─────────────────────────────────┬───────────────────────────────────────┘
                                   │
                                   ▼
@@ -57,7 +57,7 @@ It runs as Claude Code hooks — shell scripts that fire on tool events.
 │    --engine aider    → HARD_MODE (no TTY, instant deny)                 │
 │    --engine copilot  → advisory (prompt layer only)                     │
 │                                                                         │
-│  BYPASS: YAMTAM_SAFE_RUN_BYPASS=1 (sovereign only)                      │
+│  BYPASS: YANA_SAFE_RUN_BYPASS=1 (sovereign only)                      │
 └─────────────────────────────────┬───────────────────────────────────────┘
                                   │
                                   ▼
@@ -85,7 +85,7 @@ It runs as Claude Code hooks — shell scripts that fire on tool events.
 │                                                                         │
 │  L4 — DEPLOY GATE (blocking, PreToolUse, exit 2)                        │
 │    deploy-gate.sh  — DENY: kubectl · docker push · gh workflow run ·    │
-│                      gcloud · fly · heroku; BYPASS: YAMTAM_DEPLOY_APPROVED=1│
+│                      gcloud · fly · heroku; BYPASS: YANA_DEPLOY_APPROVED=1│
 │                                                                         │
 │  L5 — DESTRUCTIVE GUARD (blocking, PreToolUse, exit 2)                  │
 │    guard-destructive.sh  — rm -rf · force push · git reset --hard       │
@@ -100,7 +100,7 @@ It runs as Claude Code hooks — shell scripts that fire on tool events.
 │    · OPEN after 5 consecutive calls without success → HARD BLOCK        │
 │    · Escalating cooldown: open_count 1→60s, 2→300s, 3+→1800s           │
 │    · Fast-tier: recommends claude-haiku-4-5-20251001 on loop detect     │
-│    · BYPASS: YAMTAM_BUDGET_BYPASS=1                                     │
+│    · BYPASS: YANA_BUDGET_BYPASS=1                                     │
 │                                                                         │
 │  AUTO-FLOW HOOKS (utility)                                              │
 │    auto-qa-trigger.sh        — trigger QA on file writes                │
@@ -132,14 +132,14 @@ It runs as Claude Code hooks — shell scripts that fire on tool events.
 
 ## Cross-Engine Adapter Architecture
 
-YAMTAM natively targets Claude Code. Adapters extend governance to other engines:
+Yana AI natively targets Claude Code. Adapters extend governance to other engines:
 
 ```
 Claude Code ──── settings.json hooks ─────────────────► Runtime blocking (L0–L5)
                                                           Native hook API
 Cursor ──────── .cursorrules (legacy) ────────────────► Advisory (context)
-             └─ .cursor/rules/yamtam-security.mdc ───► Advisory (MDC)
-             └─ .cursor/rules/yamtam-hard-enforcement.mdc
+             └─ .cursor/rules/yana-ai-security.mdc ───► Advisory (MDC)
+             └─ .cursor/rules/yana-ai-hard-enforcement.mdc
                   bash core/scripts/safe-run.sh --engine cursor
                   → HARD BLOCK on blocked/warn patterns, no TTY      ► Hard enforcement
 
@@ -265,12 +265,12 @@ bash core/scripts/build-release.sh
   1. Syntax check all .sh files (bash -n)
   2. Run core/tests/hooks/run-hook-tests.sh       (65 tests, must PASS)
   3. Run core/scripts/drift-check.sh              (must be CLEAN)
-  4. Zip: core/ memory/ gates/ prompts/ docs/ → releases/yamtam-engine-vX.Y.Z-fixed.zip
-  5. Symlink: releases/yamtam-engine-latest.zip → new zip
+  4. Zip: core/ memory/ gates/ prompts/ docs/ → releases/yana-ai-vX.Y.Z-fixed.zip
+  5. Symlink: releases/yana-ai-latest.zip → new zip
 
 # Tag and release
 git tag vX.Y.Z && git push origin vX.Y.Z
-gh release create vX.Y.Z releases/yamtam-engine-vX.Y.Z-fixed.zip
+gh release create vX.Y.Z releases/yana-ai-vX.Y.Z-fixed.zip
 ```
 
 GitHub Actions (`.github/workflows/release.yml`) auto-runs on semver tag push
@@ -278,7 +278,7 @@ when Actions budget is available.
 
 ---
 
-## What YAMTAM Does NOT Do
+## What Yana AI Does NOT Do
 
 - No LLM calls of its own
 - No HTTP requests (telemetry-sender.sh is opt-in, disabled by default)

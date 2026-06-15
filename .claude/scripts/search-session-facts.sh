@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Read-only script — Search YAMTAM L2 Session Memory facts.
+# Read-only script — Search Yana AI L2 Session Memory facts.
 #
 # Usage:
 #   bash core/scripts/search-session-facts.sh [KEYWORD]
@@ -19,7 +19,7 @@ PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$(pwd)}"
 L2_DIR="$PROJECT_ROOT/memory/L2_session"
 
 if [[ ! -d "$L2_DIR" ]]; then
-  echo "Error: memory/L2_session/ not found. Run from yamtam-engine root." >&2
+  echo "Error: memory/L2_session/ not found. Run from yana-ai root." >&2
   exit 1
 fi
 

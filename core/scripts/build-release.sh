@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
-# Build a YAMTAM ENGINE release pack zip.
+# Build a Yana AI release pack zip.
 #
 # Usage:
 #   bash core/scripts/build-release.sh [VERSION]
 #   VERSION defaults to value in MANIFEST.json
 #
 # Output:
-#   releases/yamtam-engine-<VERSION>-fixed.zip
+#   releases/yana-ai-<VERSION>-fixed.zip
 #
 # The zip is structured so that:
-#   unzip yamtam-engine-<VERSION>-fixed.zip -d .claude/
+#   unzip yana-ai-<VERSION>-fixed.zip -d .claude/
 # drops all assets directly into the target project's .claude/ directory.
 #
 # Includes: hooks/ scripts/ commands/ agents/ rules/ config/ tests/ skills/ templates/
@@ -33,12 +33,12 @@ else
   VERSION="${VERSION:-1.3.26}"
 fi
 
-PACK_NAME="yamtam-engine-v${VERSION}-fixed.zip"
+PACK_NAME="yana-ai-v${VERSION}-fixed.zip"
 OUTPUT="$RELEASES_DIR/$PACK_NAME"
 
 mkdir -p "$RELEASES_DIR"
 
-echo "=== YAMTAM ENGINE — Build Release Pack ==="
+echo "=== Yana AI — Build Release Pack ==="
 echo "Version: $VERSION"
 echo "Output:  $OUTPUT"
 echo ""
@@ -49,21 +49,21 @@ bash -n "$CORE_DIR"/hooks/*.sh 2>&1 && echo "        hooks: OK"
 bash -n "$CORE_DIR"/scripts/*.sh 2>&1 && echo "        scripts: OK"
 
 echo "[ 2/4 ] Run hook tests..."
-if bash "$CORE_DIR/tests/hooks/run-hook-tests.sh" > /tmp/yamtam-test-output.txt 2>&1; then
-  PASS_LINE=$(grep "Passed:" /tmp/yamtam-test-output.txt || true)
+if bash "$CORE_DIR/tests/hooks/run-hook-tests.sh" > /tmp/yana-ai-test-output.txt 2>&1; then
+  PASS_LINE=$(grep "Passed:" /tmp/yana-ai-test-output.txt || true)
   echo "        tests: $PASS_LINE"
 else
   echo "ERROR: Hook tests failed. Aborting release build." >&2
-  cat /tmp/yamtam-test-output.txt >&2
+  cat /tmp/yana-ai-test-output.txt >&2
   exit 1
 fi
 
 echo "[ 3/4 ] Drift check..."
-if bash "$CORE_DIR/scripts/drift-check.sh" > /tmp/yamtam-drift-output.txt 2>&1; then
-  cat /tmp/yamtam-drift-output.txt
+if bash "$CORE_DIR/scripts/drift-check.sh" > /tmp/yana-ai-drift-output.txt 2>&1; then
+  cat /tmp/yana-ai-drift-output.txt
 else
   echo "WARNING: Drift detected — review before distributing:" >&2
-  cat /tmp/yamtam-drift-output.txt >&2
+  cat /tmp/yana-ai-drift-output.txt >&2
 fi
 
 # ── Build zip ─────────────────────────────────────────────────────────────────
@@ -118,6 +118,6 @@ echo "  unzip $PACK_NAME -d /path/to/project/.claude/"
 echo "  bash /path/to/project/.claude/tests/hooks/run-hook-tests.sh"
 
 # ── Update latest symlink (for plugin install URL) ────────────────────────────
-LATEST="$RELEASES_DIR/yamtam-engine-latest.zip"
+LATEST="$RELEASES_DIR/yana-ai-latest.zip"
 cp "$OUTPUT" "$LATEST"
 echo "Latest: $LATEST (copy of $PACK_NAME)"

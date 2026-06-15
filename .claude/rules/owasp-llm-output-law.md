@@ -67,8 +67,8 @@ sanitize_llm_path() {
   local clean="${raw//\.\.\//}"
   clean="${clean//[[:cntrl:]]/}"
   clean="${clean#/}"
-  # Must stay within YAMTAM_WORKSPACE
-  echo "$YAMTAM_WORKSPACE/$clean"
+  # Must stay within YANA_WORKSPACE
+  echo "$YANA_WORKSPACE/$clean"
 }
 # Never: eval "cat $LLM_GENERATED_PATH"
 # Always: cat "$(sanitize_llm_path "$path")"

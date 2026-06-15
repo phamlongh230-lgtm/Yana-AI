@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Output Budget Layer: Integration Guide
+# Yana AI — Output Budget Layer: Integration Guide
 
 **Version:** 1.0
 **Applies to:** Claude Code, Cursor, Gemini CLI, Gemini Code Assist
@@ -37,7 +37,7 @@ Full integration. All three components work natively.
 
 ### Filter policy enforcement
 
-Claude Code agents read `docs/OUTPUT_BUDGET_POLICY.md` via the YAMTAM pack.
+Claude Code agents read `docs/OUTPUT_BUDGET_POLICY.md` via the Yana AI pack.
 The filter is convention-enforced (agents self-apply). No hook is required.
 
 To add hook enforcement in the future (optional):
@@ -79,7 +79,7 @@ When running terminal commands, apply the Output Budget Filter:
 - Keep: exit code, last 1-3 lines, lines with ERROR/WARN/FAIL/✓/✗
 - Drop: progress bars, npm download logs, docker build layer lines
 - If I need the full output, I'll ask for /output-raw recovery
-Source: yamtam-engine/docs/OUTPUT_BUDGET_POLICY.md
+Source: yana-ai/docs/OUTPUT_BUDGET_POLICY.md
 ```
 
 2. Warn rules for large commands apply the same way — paste the WARN list from
@@ -107,7 +107,7 @@ Minimal integration. Apply policy via system prompt snippet.
 Add to your Gemini CLI system prompt or `~/.config/gemini/system_prompt.md`:
 
 ```markdown
-## Output Budget Policy (YAMTAM)
+## Output Budget Policy (Yana AI)
 
 When running shell commands, apply these filter rules:
 - Keep: exit code, last 1-3 lines, lines with ERROR/WARN/FAIL
@@ -116,7 +116,7 @@ When running shell commands, apply these filter rules:
   summarize; offer to show full output on request.
 
 Do not claim token savings percentages without measured data.
-Full policy: yamtam-engine/docs/OUTPUT_BUDGET_POLICY.md
+Full policy: yana-ai/docs/OUTPUT_BUDGET_POLICY.md
 ```
 
 ### What does not work

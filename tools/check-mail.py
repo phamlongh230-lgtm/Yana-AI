@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-YAMTAM Mail Reader — check Gmail for unread emails via IMAP.
+Yana AI Mail Reader — check Gmail for unread emails via IMAP.
 
 Usage:
   python3 tools/check-mail.py              # show unread count + last 5
@@ -114,7 +114,7 @@ def get_unread(mail, filter_from=None, limit=5):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="YAMTAM Mail Reader")
+    parser = argparse.ArgumentParser(description="Yana AI Mail Reader")
     parser.add_argument("--all", action="store_true", help="Show all unread (no limit)")
     parser.add_argument("--count", action="store_true", help="Unread count only")
     parser.add_argument("--from", dest="filter_from", help="Filter by sender")

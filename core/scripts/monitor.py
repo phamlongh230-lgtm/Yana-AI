@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yamtam monitor [target] — real-time audit log tail with color output."""
+"""yana-ai monitor [target] — real-time audit log tail with color output."""
 
 import argparse
 import os
@@ -29,7 +29,7 @@ BLOCK_PATTERNS = [
 ]
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -72,7 +72,7 @@ def tail_file(path: str, lines: int = 20):
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="yamtam monitor",
+        prog="yana-ai monitor",
         description="Real-time audit log tail with color output",
     )
     parser.add_argument("target",    nargs="?", default=".",
@@ -91,7 +91,7 @@ def main():
     log_path = args.log or find_log(args.target)
 
     print()
-    print(c(BOLD, "  yamtam monitor") + c(DIM, " — real-time audit log"))
+    print(c(BOLD, "  yana-ai monitor") + c(DIM, " — real-time audit log"))
 
     if not log_path:
         print(c(YELLOW, "  ! No audit log found. Watching for log file creation…"))

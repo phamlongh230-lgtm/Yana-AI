@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Script
+# Yana AI Script
 # Version: 1.6.0 | Status: active
 # Description: Session Checkpoint — snapshot git state + L2 facts every N tool calls
 # Last Reviewed: 2026-05-23
@@ -8,7 +8,7 @@
 
 set -uo pipefail
 
-[[ "${YAMTAM_CHECKPOINT_BYPASS:-0}" == "1" ]] && exit 0
+[[ "${YANA_CHECKPOINT_BYPASS:-0}" == "1" ]] && exit 0
 
 command -v git     >/dev/null 2>&1 || { echo "[session-checkpoint] git not found — skipping"; exit 0; }
 command -v python3 >/dev/null 2>&1 || { echo "[session-checkpoint] python3 not found — skipping"; exit 0; }
@@ -17,12 +17,12 @@ PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}"
 STATE_DIR="$PROJECT_DIR/.claude/state"
 CHECKPOINT_DIR="$STATE_DIR/checkpoints"
 L2_DIR="$PROJECT_DIR/memory/L2_session"
-BUDGET_FILE="${YAMTAM_TOKEN_BUDGET:-$STATE_DIR/token-budget.json}"
+BUDGET_FILE="${YANA_TOKEN_BUDGET:-$STATE_DIR/token-budget.json}"
 COUNTER_FILE="$STATE_DIR/checkpoint-counter.json"
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 EPOCH=$(date +%s)
-MAX_CHECKPOINTS="${YAMTAM_MAX_CHECKPOINTS:-10}"
-CHECKPOINT_EVERY="${YAMTAM_CHECKPOINT_EVERY:-5}"
+MAX_CHECKPOINTS="${YANA_MAX_CHECKPOINTS:-10}"
+CHECKPOINT_EVERY="${YANA_CHECKPOINT_EVERY:-5}"
 
 # -- Parse args
 CHECKPOINT_NAME=""

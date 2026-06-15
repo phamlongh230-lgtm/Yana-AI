@@ -1,10 +1,10 @@
 ---
 name: http-client-auth-patterns
 description: HTTP client with authentication, retry, progress, and request pipeline patterns. superagent bearer token injection, multipart uploads, response validation, and timeout enforcement for agent API calls. Sources: ladjs/superagent.
-origin: yamtam-engine — synthesized from ladjs/superagent (MIT)
+origin: yana-ai — synthesized from ladjs/superagent (MIT)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.48
+compatibility: yana-ai >= 1.3.48
 ---
 
 # /http-client-auth-patterns
@@ -32,7 +32,7 @@ async function callAPI<T>(path: string): Promise<T> {
   const res = await request
     .get(`https://api.github.com${path}`)
     .set('Authorization', `Bearer ${process.env.GITHUB_TOKEN}`)
-    .set('User-Agent',     'yamtam-agent/1.3.48')
+    .set('User-Agent',     'yana-ai-agent/1.3.48')
     .set('Accept',         'application/vnd.github.v3+json')
     .timeout({ response: 10_000, deadline: 30_000 })
     .retry(2)  // 2 retries on network errors
@@ -80,7 +80,7 @@ if (!res.type.includes('application/json')) {
 const res = await request
   .post('https://uploads.example.com/files')
   .set('Authorization', `Bearer ${token}`)
-  .attach('file', '/tmp/release.zip', { filename: 'yamtam-1.3.48.zip' })
+  .attach('file', '/tmp/release.zip', { filename: 'yana-ai-1.3.48.zip' })
   .field('version', '1.3.48')
   .timeout({ deadline: 120_000 })
 ```

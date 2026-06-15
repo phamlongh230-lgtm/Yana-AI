@@ -18,7 +18,7 @@ pub struct Plugin {
 
 fn plugins_path() -> PathBuf {
     let base = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
-    base.join(".yamtam").join("plugins.json")
+    base.join(".yana-ai").join("plugins.json")
 }
 
 fn load_plugins() -> Vec<Plugin> {
@@ -37,7 +37,7 @@ fn save_plugins(plugins: &[Plugin]) {
 pub fn cmd_plugin_list() {
     let plugins = load_plugins();
     if plugins.is_empty() {
-        println!("No plugins registered.\nAdd: yamtam-rt plugin add <name> <script>");
+        println!("No plugins registered.\nAdd: yana-rt plugin add <name> <script>");
         return;
     }
     println!("{:<10} {:<3} {:<20} {}", "ID", "ON", "NAME", "SCRIPT");
@@ -98,7 +98,7 @@ pub fn cmd_plugin_run(name: String, input: Option<String>) {
     };
     let mut proc = Command::new(&parts[0]);
     proc.args(&parts[1..]);
-    if let Some(ref inp) = input { proc.env("YAMTAM_PLUGIN_INPUT", inp); }
+    if let Some(ref inp) = input { proc.env("YANA_PLUGIN_INPUT", inp); }
     let status = proc.status().expect("failed to spawn plugin");
     if !status.success() {
         eprintln!("plugin exited: {}", status.code().unwrap_or(-1));

@@ -1,5 +1,5 @@
-name: YAMTAM Audit
-description: Scan AI agent setup for risk patterns — yamtam audit .
+name: Yana AI Audit
+description: Scan AI agent setup for risk patterns — yana-ai audit .
 
 inputs:
   target:
@@ -41,11 +41,11 @@ runs:
       shell: bash
       run: pip install pyyaml --quiet
 
-    - name: Run yamtam audit
+    - name: Run yana-ai audit
       id: audit
       shell: bash
       env:
-        YAMTAM_NO_COLOR: '1'
+        YANA_NO_COLOR: '1'
       run: |
         SCRIPT="${{ github.action_path }}/../../../core/scripts/audit_scanner.py"
         ARGS="${{ inputs.target }}"

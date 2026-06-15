@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Output Budget Policy
+# Yana AI — Output Budget Policy
 
 **Version:** 1.0
 **Status:** Active — convention-enforced (prompt-level); no runtime telemetry.
@@ -97,7 +97,7 @@ If the filter discards something important, the agent MUST:
 ## Benchmark Clause
 
 This policy does NOT claim any specific token or cost savings percentage.
-No benchmark has been run against YAMTAM sessions as of v1.0.
+No benchmark has been run against Yana AI sessions as of v1.0.
 Claims of "X% savings" MUST NOT be added without measured session data.
 
 ---

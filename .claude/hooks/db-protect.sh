@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Hook
+# Yana AI Hook
 # Version: 1.3.26
 # Status: active
 # Description: Block destructive database operations
@@ -19,7 +19,7 @@
 #   - Block any command targeting production env vars (DATABASE_URL, etc.)
 #   - Block prisma db push / migrate deploy in production
 #   - Block any CLI tool with --production / --env=production flags
-#   - Require YAMTAM_PROD_APPROVED=1 to bypass (per-command, not session-wide)
+#   - Require YANA_PROD_APPROVED=1 to bypass (per-command, not session-wide)
 
 set -uo pipefail
 
@@ -38,7 +38,7 @@ CMD=$(echo "$INPUT" | jq -r '.tool_input.command // ""')
 [[ -z "$CMD" ]] && exit 0
 
 # Single-command bypass for human-approved emergency operations
-if [[ "${YAMTAM_PROD_APPROVED:-}" == "1" ]]; then
+if [[ "${YANA_PROD_APPROVED:-}" == "1" ]]; then
   exit 0
 fi
 
@@ -50,18 +50,18 @@ deny() {
 # ── Layer 1: Production env file/var references ─────────────────────────────
 # Block reads/writes to .env.production, env files for prod
 if echo "$CMD" | grep -qE '\.env\.production|\.env\.prod\b|env\.production'; then
-  deny "Blocked: production env file detected. Production secrets must not be touched by AI. Set YAMTAM_PROD_APPROVED=1 for one command only after human review."
+  deny "Blocked: production env file detected. Production secrets must not be touched by AI. Set YANA_PROD_APPROVED=1 for one command only after human review."
 fi
 
 # Block sourcing or exporting prod DATABASE_URL
 if echo "$CMD" | grep -qE 'DATABASE_URL.*prod|PROD_DATABASE_URL|PRODUCTION_DB'; then
-  deny "Blocked: production DATABASE_URL reference detected. Use staging/dev DB. Set YAMTAM_PROD_APPROVED=1 after human review."
+  deny "Blocked: production DATABASE_URL reference detected. Use staging/dev DB. Set YANA_PROD_APPROVED=1 after human review."
 fi
 
 # ── Layer 2: Prisma destructive operations ──────────────────────────────────
 # prisma db push --force-reset — DESTROYS database
 if echo "$CMD" | grep -qE 'prisma\s+db\s+push.*--force-reset|prisma\s+migrate\s+reset'; then
-  deny "Blocked: prisma db push --force-reset / migrate reset DESTROYS the database. This is exactly the Replit incident. Set YAMTAM_PROD_APPROVED=1 only after backup + human approval."
+  deny "Blocked: prisma db push --force-reset / migrate reset DESTROYS the database. This is exactly the Replit incident. Set YANA_PROD_APPROVED=1 only after backup + human approval."
 fi
 
 # prisma migrate deploy — runs in production
@@ -74,7 +74,7 @@ fi
 # ── Layer 3: Database CLI tools ──────────────────────────────────────────────
 # psql/mysql/mongo direct connection to prod
 if echo "$CMD" | grep -qE 'psql\s+.*prod|mysql\s+.*prod|mongo\s+.*prod'; then
-  deny "Blocked: direct DB CLI connection to production. Use read-only replicas for inspection. Set YAMTAM_PROD_APPROVED=1 after human review."
+  deny "Blocked: direct DB CLI connection to production. Use read-only replicas for inspection. Set YANA_PROD_APPROVED=1 after human review."
 fi
 
 # Generic destructive SQL on any host

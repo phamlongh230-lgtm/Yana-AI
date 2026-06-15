@@ -76,7 +76,7 @@ fn cmd_doctor(target: &str, as_json: bool) {
         return;
     }
 
-    println!("\n  yamtam doctor\n");
+    println!("\n  yana-ai doctor\n");
     let mut fails = 0usize;
     let mut warns = 0usize;
     for c in &checks {
@@ -141,7 +141,7 @@ fn check_claude_settings(target: &str) -> Check {
     if paths.iter().any(|p| p.exists()) {
         Check::pass("claude settings", "found .claude/settings.json")
     } else {
-        Check::warn("claude settings", "no .claude/settings.json", "Run: yamtam init")
+        Check::warn("claude settings", "no .claude/settings.json", "Run: yana-ai init")
     }
 }
 
@@ -204,7 +204,7 @@ fn check_python() -> Check {
             }
         }
     }
-    Check::warn("python", "not found (yamtam audit uses Python)", "Install python3")
+    Check::warn("python", "not found (yana-ai audit uses Python)", "Install python3")
 }
 
 fn check_node() -> Check {

@@ -3,16 +3,16 @@
 # Every agent tool call passes through this proxy before execution.
 #
 # Usage:  bash core/scripts/tool-proxy.sh <command> [args...]
-# Env:    YAMTAM_TOOL_TIMEOUT      — max exec seconds  (default: 30)
-#         YAMTAM_TOOL_MAX_MEM      — ulimit -v KB       (default: 524288 = 512MB)
-#         YAMTAM_PROXY_LOG         — audit log path     (default: releases/logs/tool-proxy.log)
-#         YAMTAM_PROXY_DRY_RUN     — 1 = log+sanitize only, no exec
-#         YAMTAM_RETRY_MAX         — max retries on 429/503 (default: 4)
-#         YAMTAM_RETRY_BASE_MS     — base backoff milliseconds (default: 1000)
-#         YAMTAM_RETRY_MAX_JITTER  — max jitter milliseconds  (default: 500)
-#         YAMTAM_SANDBOX_MODE      — 1 = wrap exec in bubblewrap OverlayFS sandbox
-#         YAMTAM_SANDBOX_ROOTDIR   — read-only bind path (default: /workspaces/yamtam-engine)
-#         YAMTAM_SANDBOX_WRITEDIR  — allowed write path  (default: releases/logs)
+# Env:    YANA_TOOL_TIMEOUT      — max exec seconds  (default: 30)
+#         YANA_TOOL_MAX_MEM      — ulimit -v KB       (default: 524288 = 512MB)
+#         YANA_PROXY_LOG         — audit log path     (default: releases/logs/tool-proxy.log)
+#         YANA_PROXY_DRY_RUN     — 1 = log+sanitize only, no exec
+#         YANA_RETRY_MAX         — max retries on 429/503 (default: 4)
+#         YANA_RETRY_BASE_MS     — base backoff milliseconds (default: 1000)
+#         YANA_RETRY_MAX_JITTER  — max jitter milliseconds  (default: 500)
+#         YANA_SANDBOX_MODE      — 1 = wrap exec in bubblewrap OverlayFS sandbox
+#         YANA_SANDBOX_ROOTDIR   — read-only bind path (default: /workspaces/yana-ai)
+#         YANA_SANDBOX_WRITEDIR  — allowed write path  (default: releases/logs)
 #
 # Exit codes:
 #   0  — executed successfully
@@ -30,17 +30,17 @@
 set -uo pipefail
 
 # ─── Config ──────────────────────────────────────────────────────────────────
-TIMEOUT_SEC="${YAMTAM_TOOL_TIMEOUT:-30}"
-MAX_MEM_KB="${YAMTAM_TOOL_MAX_MEM:-524288}"
-LOG_FILE="${YAMTAM_PROXY_LOG:-releases/logs/tool-proxy.log}"
-DRY_RUN="${YAMTAM_PROXY_DRY_RUN:-0}"
-SESSION_ID="${YAMTAM_SESSION_ID:-unknown}"
-RETRY_MAX="${YAMTAM_RETRY_MAX:-4}"
-RETRY_BASE_MS="${YAMTAM_RETRY_BASE_MS:-1000}"
-RETRY_MAX_JITTER="${YAMTAM_RETRY_MAX_JITTER:-500}"
-SANDBOX_MODE="${YAMTAM_SANDBOX_MODE:-0}"
-SANDBOX_ROOTDIR="${YAMTAM_SANDBOX_ROOTDIR:-/workspaces/yamtam-engine}"
-SANDBOX_WRITEDIR="${YAMTAM_SANDBOX_WRITEDIR:-releases/logs}"
+TIMEOUT_SEC="${YANA_TOOL_TIMEOUT:-30}"
+MAX_MEM_KB="${YANA_TOOL_MAX_MEM:-524288}"
+LOG_FILE="${YANA_PROXY_LOG:-releases/logs/tool-proxy.log}"
+DRY_RUN="${YANA_PROXY_DRY_RUN:-0}"
+SESSION_ID="${YANA_SESSION_ID:-unknown}"
+RETRY_MAX="${YANA_RETRY_MAX:-4}"
+RETRY_BASE_MS="${YANA_RETRY_BASE_MS:-1000}"
+RETRY_MAX_JITTER="${YANA_RETRY_MAX_JITTER:-500}"
+SANDBOX_MODE="${YANA_SANDBOX_MODE:-0}"
+SANDBOX_ROOTDIR="${YANA_SANDBOX_ROOTDIR:-/workspaces/yana-ai}"
+SANDBOX_WRITEDIR="${YANA_SANDBOX_WRITEDIR:-releases/logs}"
 PHASE=""
 
 # ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -154,9 +154,9 @@ fi
 [[ ${#MUTATIONS[@]} -gt 0 ]] && log_proxy "INFO" "mutated" "\"mutations\":\"${MUTATIONS[*]}\""
 
 # ─── PHASE 3.5 — SANDBOX (Gate L3) ───────────────────────────────────────────
-# Path A: sandbox-exec.sh  (YAMTAM_SANDBOX_MODE=docker|nsjail|ulimit|auto)
+# Path A: sandbox-exec.sh  (YANA_SANDBOX_MODE=docker|nsjail|ulimit|auto)
 #           → full L3 isolation via Docker/nsjail/ulimit
-# Path B: bwrap legacy     (YAMTAM_SANDBOX_MODE=1)
+# Path B: bwrap legacy     (YANA_SANDBOX_MODE=1)
 #           → OverlayFS bubblewrap cage
 PHASE="sandbox"
 
@@ -176,14 +176,14 @@ if [[ "$SANDBOX_MODE" == "docker" || "$SANDBOX_MODE" == "nsjail" || \
   exec bash "$SANDBOX_EXEC_BIN" --mode "$SANDBOX_MODE" "$RAW_CMD" "${CLEAN_ARGS[@]}"
 fi
 
-# Path B — bwrap legacy (YAMTAM_SANDBOX_MODE=1)
+# Path B — bwrap legacy (YANA_SANDBOX_MODE=1)
 if [[ "$SANDBOX_MODE" == "1" ]]; then
   BWRAP_BIN="$(command -v bwrap 2>/dev/null || true)"
-  SANDBOX_STRICT="${YAMTAM_SANDBOX_STRICT:-1}"
+  SANDBOX_STRICT="${YANA_SANDBOX_STRICT:-1}"
 
   if [[ -z "$BWRAP_BIN" ]]; then
     if [[ "$SANDBOX_STRICT" == "1" ]]; then
-      proxy_block "SANDBOX_MODE=1 but bwrap not found — install bubblewrap or set YAMTAM_SANDBOX_STRICT=0" 6
+      proxy_block "SANDBOX_MODE=1 but bwrap not found — install bubblewrap or set YANA_SANDBOX_STRICT=0" 6
     else
       log_proxy "WARN" "bwrap not found — sandbox skipped (strict=0)"
     fi

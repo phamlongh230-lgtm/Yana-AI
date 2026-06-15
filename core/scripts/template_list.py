@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yamtam template list/show — list and preview policy templates."""
+"""yana-ai template list/show — list and preview policy templates."""
 
 import argparse
 import json
@@ -29,7 +29,7 @@ TEMPLATE_META = {
         "name": "ci-safe",
         "desc": "Safe GitHub Actions workflow — permissions, approval gates",
         "fixes": ["CI001","CI003","CI007"],
-        "output": ".github/workflows/yamtam-audit.yml",
+        "output": ".github/workflows/yana-ai-audit.yml",
     },
     "env-example.txt": {
         "name": "env-example",
@@ -46,7 +46,7 @@ TEMPLATE_META = {
 }
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -85,7 +85,7 @@ def cmd_list(as_json: bool):
         fixes = ", ".join(t.get("fixes",[])[:3])
         print(f"  {c(CYAN, t['name']):<29} {c(DIM, fixes):<29} {c(DIM, t.get('output','')):<44} {t['desc']}")
     print()
-    print(c(DIM, "  Use: yamtam init-policy <name>  or  yamtam init-policy list"))
+    print(c(DIM, "  Use: yana-ai init-policy <name>  or  yana-ai init-policy list"))
     print()
 
 
@@ -119,7 +119,7 @@ def cmd_show(name: str):
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="yamtam template",
+    parser = argparse.ArgumentParser(prog="yana-ai template",
                                      description="List and preview policy templates")
     sub = parser.add_subparsers(dest="subcmd")
     p_list = sub.add_parser("list", help="List all templates")
@@ -127,7 +127,7 @@ def main():
     p_show = sub.add_parser("show", help="Preview a template")
     p_show.add_argument("name")
 
-    # bare: yamtam template (= list)
+    # bare: yana-ai template (= list)
     parser.add_argument("--json", action="store_true", help=argparse.SUPPRESS)
 
     args = parser.parse_args()

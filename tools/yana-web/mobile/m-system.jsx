@@ -275,7 +275,7 @@ function MSettings({ t, setTweak }) {
   })();
   return (
     <div data-screen-label="Settings" style={{ display: "flex", flexDirection: "column", gap: "var(--gap)" }}>
-      <MHead title={L("Settings", "Cài đặt")} sub={L("Quiet defaults. Everything supervised by YAMTAM Core.", "Mặc định tĩnh lặng. Mọi thứ do YAMTAM Core giám sát.")} />
+      <MHead title={L("Settings", "Cài đặt")} sub={L("Quiet defaults. Everything supervised by Yana AI Core.", "Mặc định tĩnh lặng. Mọi thứ do Yana AI Core giám sát.")} />
 
       <MCard title={L("Appearance", "Giao diện")}>
         <div className="hscroll" style={{ marginBottom: 6 }}>

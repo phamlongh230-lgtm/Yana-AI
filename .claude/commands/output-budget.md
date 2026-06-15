@@ -44,7 +44,7 @@ Count from this conversation:
 Output exactly this format (fill in real counts from session context):
 
 ```
-Output Budget Report — YAMTAM ENGINE
+Output Budget Report — Yana AI
 ─────────────────────────────────────
 Bash tool calls:       <N>
 Read tool calls:       <N>   (~<estimated KB> KB)

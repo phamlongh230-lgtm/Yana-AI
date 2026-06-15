@@ -1,6 +1,6 @@
-# YAMTAM ENGINE — Runbook
+# Yana AI — Runbook
 
-How to apply YAMTAM ENGINE to any project.
+How to apply Yana AI to any project.
 
 ---
 
@@ -8,20 +8,20 @@ How to apply YAMTAM ENGINE to any project.
 
 - Target project uses git.
 - Target project has a `.claude/` directory (or will have one).
-- You have the YAMTAM release pack: `yamtam-engine-vX.Y.Z-fixed.zip`.
+- You have the Yana AI release pack: `yana-ai-vX.Y.Z-fixed.zip`.
 
 ---
 
-## Apply YAMTAM to a Project
+## Apply Yana AI to a Project
 
 ```bash
 # 1. Backup current state
 cd /path/to/target-project
 git status
-git diff > before-yamtam-vX.Y.Z.patch
+git diff > before-yana-ai-vX.Y.Z.patch
 
 # 2. Apply pack
-unzip /path/to/yamtam-engine-vX.Y.Z-fixed.zip -d .claude/
+unzip /path/to/yana-ai-vX.Y.Z-fixed.zip -d .claude/
 
 # 3. Verify syntax
 bash -n .claude/hooks/*.sh .claude/scripts/*.sh
@@ -39,31 +39,31 @@ node .claude/scripts/verify-claude-pack.js
 
 # 6. Commit
 git add .claude/
-git commit -m "chore: apply YAMTAM ENGINE vX.Y.Z-fixed"
+git commit -m "chore: apply Yana AI vX.Y.Z-fixed"
 ```
 
 ---
 
-## Update YAMTAM in an Existing Project
+## Update Yana AI in an Existing Project
 
 Same as apply — unzip overwrites existing files.
 Always run tests after update.
 
 ```bash
-git diff .claude/ > yamtam-update-diff.patch   # optional: save diff
-unzip yamtam-engine-vX.Y.Z-fixed.zip -d .claude/
+git diff .claude/ > yana-ai-update-diff.patch   # optional: save diff
+unzip yana-ai-vX.Y.Z-fixed.zip -d .claude/
 .claude/tests/hooks/run-hook-tests.sh
 git add .claude/
-git commit -m "chore: update YAMTAM ENGINE to vX.Y.Z-fixed"
+git commit -m "chore: update Yana AI to vX.Y.Z-fixed"
 ```
 
 ---
 
-## Remove YAMTAM from a Project
+## Remove Yana AI from a Project
 
 ```bash
 git rm -r .claude/hooks/ .claude/scripts/ .claude/tests/
-git commit -m "chore: remove YAMTAM ENGINE hooks"
+git commit -m "chore: remove Yana AI hooks"
 ```
 
 ---
@@ -73,7 +73,7 @@ git commit -m "chore: remove YAMTAM ENGINE hooks"
 After applying, add this to your Claude Code or AI assistant prompt template:
 
 ```
-YAMTAM ENGINE vX.Y.Z-fixed is active.
+Yana AI vX.Y.Z-fixed is active.
 Hooks: api-destruct-guard, token-scope-guard, guard-destructive, db-protect.
 
 Before using: done / finished / passed / clean / fixed /
@@ -90,10 +90,10 @@ Before any write/commit/push:
 
 ---
 
-## Cut a New YAMTAM Release
+## Cut a New Yana AI Release
 
 ```bash
-# In yamtam-engine repo:
+# In yana-ai repo:
 
 # 1. Update CHANGELOG.md
 # 2. Run tests
@@ -103,11 +103,11 @@ Before any write/commit/push:
 
 # 4. Pack
 cd core/
-zip -r ../releases/yamtam-engine-vX.Y.Z-fixed.zip hooks/ scripts/ tests/
+zip -r ../releases/yana-ai-vX.Y.Z-fixed.zip hooks/ scripts/ tests/
 
 # 5. Commit + tag
 git add .
-git commit -m "release: yamtam-engine vX.Y.Z-fixed"
+git commit -m "release: yana-ai vX.Y.Z-fixed"
 git tag vX.Y.Z-fixed
 git push origin main --tags
 ```
@@ -125,5 +125,5 @@ git push origin main --tags
 
 Override (use with caution):
 ```bash
-YAMTAM_PROD_APPROVED=1 <command>
+YANA_PROD_APPROVED=1 <command>
 ```

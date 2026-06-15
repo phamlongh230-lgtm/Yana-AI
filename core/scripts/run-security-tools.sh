@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE — Security Tools Runner
+# Yana AI — Security Tools Runner
 # Version: 1.3.27
 # Status: active
 # Description: Run available SAST / secret-scanning / dependency-audit tools
@@ -9,13 +9,13 @@
 #   bash core/scripts/run-security-tools.sh [--mode quick|targeted|deep] [--target <path>]
 #
 # Requires:
-#   YAMTAM_SCOPE_CONFIRMED=1   (set by security-scope-gate or pass manually)
+#   YANA_SCOPE_CONFIRMED=1   (set by security-scope-gate or pass manually)
 #
 # Bypass:
-#   YAMTAM_SECURITY_TOOLS_BYPASS=1  — skip all tool runs (testing only)
+#   YANA_SECURITY_TOOLS_BYPASS=1  — skip all tool runs (testing only)
 #
 # Output:
-#   Writes findings to stdout in YAMTAM finding format.
+#   Writes findings to stdout in Yana AI finding format.
 #   Writes a tool-run summary to .claude/state/security-tools-last-run.log
 #
 # Tools supported (skipped silently if not installed):
@@ -32,11 +32,11 @@
 
 set -uo pipefail
 
-[[ "${YAMTAM_SECURITY_TOOLS_BYPASS:-}" == "1" ]] && exit 0
+[[ "${YANA_SECURITY_TOOLS_BYPASS:-}" == "1" ]] && exit 0
 
 # ── Scope gate enforcement ────────────────────────────────────────────────────
-if [[ "${YAMTAM_SCOPE_CONFIRMED:-}" != "1" ]]; then
-  echo "ERROR: YAMTAM_SCOPE_CONFIRMED=1 is required before running security tools."
+if [[ "${YANA_SCOPE_CONFIRMED:-}" != "1" ]]; then
+  echo "ERROR: YANA_SCOPE_CONFIRMED=1 is required before running security tools."
   echo "       Follow the flow in gates/security-scope-gate.md first."
   exit 1
 fi
@@ -60,7 +60,7 @@ LOG_FILE="$STATE_DIR/security-tools-last-run.log"
 RUN_TS=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 echo "================================================================"
-echo "YAMTAM ENGINE — Security Tools Run"
+echo "Yana AI — Security Tools Run"
 echo "Timestamp : $RUN_TS"
 echo "Mode      : $MODE"
 echo "Target    : $TARGET"

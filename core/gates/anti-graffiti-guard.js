@@ -62,15 +62,15 @@ const ToolCallSchema = z.object({
   env: z.record(z.string()).optional().default({}),
   agentId: z.string().min(1).max(128),
   sessionId: z.string().optional(),
-  signature: z.string().optional(),   // ECC sig — required when YAMTAM_REQUIRE_SIG=1
+  signature: z.string().optional(),   // ECC sig — required when YANA_REQUIRE_SIG=1
 });
 
 // ─── Core guard class ─────────────────────────────────────────────────────────
 
 export class AntiGraffitiGuard {
   constructor(opts = {}) {
-    this.requireSignature = opts.requireSignature ?? (process.env.YAMTAM_REQUIRE_SIG === '1');
-    this.dryRun = opts.dryRun ?? (process.env.YAMTAM_PROXY_DRY_RUN === '1');
+    this.requireSignature = opts.requireSignature ?? (process.env.YANA_REQUIRE_SIG === '1');
+    this.dryRun = opts.dryRun ?? (process.env.YANA_PROXY_DRY_RUN === '1');
     this.auditLog = opts.auditLog ?? [];
   }
 

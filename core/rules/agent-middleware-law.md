@@ -91,7 +91,7 @@ const MIDDLEWARE_STACK: ToolMiddleware[] = [
     name: 'blast-radius',
     pre: async (ctx) => {
       ctx.blastScore = computeBlastRadius(ctx)
-      if (ctx.blastScore >= 4 && !process.env.YAMTAM_IRREVERSIBLE_OK) {
+      if (ctx.blastScore >= 4 && !process.env.YANA_IRREVERSIBLE_OK) {
         return { blocked: true, reason: `blast score ${ctx.blastScore}/5`, gate: 'L1', exitCode: 1 }
       }
       return ctx
@@ -199,7 +199,7 @@ async function runWithMiddleware(ctx: ToolContext, execute: () => Promise<string
 ```
 - No middleware may be removed from the stack at runtime
 - No tool call may bypass the stack by calling execute() directly
-- YAMTAM_MIDDLEWARE_BYPASS env var = BLOCKED (exit 1, logged)
+- YANA_MIDDLEWARE_BYPASS env var = BLOCKED (exit 1, logged)
 - Sub-agents inherit parent middleware stack — cannot reduce it
 ```
 
@@ -208,7 +208,7 @@ async function runWithMiddleware(ctx: ToolContext, execute: () => Promise<string
 ```
 ❌ Tool called directly without passing through middleware compose
 ❌ Middleware step removed "for performance" (injection scan is mandatory)
-❌ Blast radius check skipped when YAMTAM_IRREVERSIBLE_OK is set globally
+❌ Blast radius check skipped when YANA_IRREVERSIBLE_OK is set globally
 ❌ Post-execution sanitize missing (result returned raw to agent)
 ❌ Size cap absent (context flooding via large tool result)
 ❌ Audit log not last in post-stack (truncation before audit = invisible tool call)

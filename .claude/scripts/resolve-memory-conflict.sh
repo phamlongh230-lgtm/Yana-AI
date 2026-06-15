@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Script
+# Yana AI Script
 # Version: 1.6.0 | Status: active
 # Description: Memory Conflict Resolution — detect contradicting L1 facts and resolve by confidence/recency
 # Last Reviewed: 2026-05-23
@@ -10,7 +10,7 @@ set -uo pipefail
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}"
 L1_DIR="$PROJECT_DIR/memory/L1_atomic"
 ARCHIVE_DIR="$L1_DIR/archived"
-AUDIT_LOG="${YAMTAM_LOG:-/tmp/yamtam-audit.log}"
+AUDIT_LOG="${YANA_LOG:-/tmp/yana-ai-audit.log}"
 NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 DRY_RUN=false
@@ -68,7 +68,7 @@ for f in l1_path.glob('*.md'):
 
 print()
 print('  ╔══════════════════════════════════════════════╗')
-print('  ║      YAMTAM MEMORY CONFLICT RESOLUTION       ║')
+print('  ║      Yana AI MEMORY CONFLICT RESOLUTION       ║')
 print('  ╚══════════════════════════════════════════════╝')
 print()
 

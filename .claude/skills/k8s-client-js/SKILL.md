@@ -1,10 +1,10 @@
 ---
 name: k8s-client-js
 description: Kubernetes JavaScript client for agent-driven cluster operations. Pod CRUD, Deployment scaling, namespace isolation, ConfigMap injection, log streaming, and exec into containers. Sources: kubernetes-client/javascript (Apache-2.0).
-origin: yamtam-engine — synthesized from kubernetes-client/javascript (Apache-2.0)
+origin: yana-ai — synthesized from kubernetes-client/javascript (Apache-2.0)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.52
+compatibility: yana-ai >= 1.3.52
 ---
 
 # /k8s-client-js
@@ -44,19 +44,19 @@ const batchApi = kc.makeApiClient(k8s.BatchV1Api)
 
 ```javascript
 async function spawnAgentPod(agentId: string, tier: string): Promise<string> {
-  const pod = await coreApi.createNamespacedPod('yamtam', {
+  const pod = await coreApi.createNamespacedPod('yana-ai', {
     metadata: {
       name:   `agent-${agentId}`,
-      labels: { app: 'yamtam-agent', tier, agentId },
+      labels: { app: 'yana-ai-agent', tier, agentId },
     },
     spec: {
       restartPolicy: 'Never',
       containers: [{
         name:  'agent',
-        image: `ghcr.io/yamtam/agent:latest`,
+        image: `ghcr.io/yana-ai/agent:latest`,
         env:   [
-          { name: 'YAMTAM_AGENT_ID',   value: agentId },
-          { name: 'YAMTAM_AGENT_TIER', value: tier },
+          { name: 'YANA_AGENT_ID',   value: agentId },
+          { name: 'YANA_AGENT_TIER', value: tier },
         ],
         resources: {
           requests: { memory: '256Mi', cpu: '100m' },
@@ -94,7 +94,7 @@ async function scaleDeployment(name: string, namespace: string, replicas: number
 ## Stream pod logs
 
 ```javascript
-async function streamPodLogs(podName: string, namespace = 'yamtam') {
+async function streamPodLogs(podName: string, namespace = 'yana-ai') {
   const logStream = await new k8s.Log(kc).log(
     namespace,
     podName,
@@ -115,7 +115,7 @@ async function streamPodLogs(podName: string, namespace = 'yamtam') {
 ## Wait for Pod to be Running
 
 ```javascript
-async function waitForPod(podName: string, namespace = 'yamtam', timeoutMs = 60_000) {
+async function waitForPod(podName: string, namespace = 'yana-ai', timeoutMs = 60_000) {
   const start = Date.now()
 
   while (Date.now() - start < timeoutMs) {

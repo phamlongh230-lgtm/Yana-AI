@@ -1,6 +1,6 @@
 # References — Harness Scaling (Internal)
 
-**Purpose:** Capture external references used for internal Harness Scaling design decisions, and clarify what YAMTAM should borrow vs what remains uniquely YAMTAM.
+**Purpose:** Capture external references used for internal Harness Scaling design decisions, and clarify what Yana AI should borrow vs what remains uniquely Yana AI.
 
 ---
 
@@ -15,7 +15,7 @@
 - Workflow state model and resume semantics
 - Human checkpoint between phases
 
-**How this maps to YAMTAM**
+**How this maps to Yana AI**
 - Supports L0.5 Spec Gate intent (spec discipline before action)
 - Supports L2 Context Governance via phase artifacts as bounded context
 
@@ -30,7 +30,7 @@
 - Artifact-as-context discipline
 - Drift reduction by explicit scope/task boundaries
 
-**How this maps to YAMTAM**
+**How this maps to Yana AI**
 - Reinforces Spec Gate acceptance criteria and verification plan structure
 - Reinforces context pack hygiene and minimal-context operation
 
@@ -47,7 +47,7 @@
 - Evidence trail expectations
 - Lifecycle-oriented risk management
 
-**How this maps to YAMTAM**
+**How this maps to Yana AI**
 - Strengthens Memory Hygiene and Runtime/Cost decision records
 - Justifies explicit evidence requirements before success claims
 
@@ -60,7 +60,7 @@
 - Secure software practices mapped to AI-assisted workflows
 - Control mapping and implementation checklist style
 
-**How this maps to YAMTAM**
+**How this maps to Yana AI**
 - Helps keep Harness Scaling gates auditable and implementation-ready
 - Informs future validator and policy hardening
 
@@ -76,21 +76,21 @@
 - Conditional validation (`if`/`then`) where appropriate
 - Contract versioning (`schema_version`)
 
-**How this maps to YAMTAM**
+**How this maps to Yana AI**
 - Supports robust-but-evolvable `spec.schema.json` and `run-log.schema.json`
 - Supports future semantic validation in CI
 
 ---
 
-## What YAMTAM keeps unique
+## What Yana AI keeps unique
 
-Even when borrowing from external systems, YAMTAM keeps these as core differentiators:
+Even when borrowing from external systems, Yana AI keeps these as core differentiators:
 
-- **YAMTAM Agent Auditor** positioning
+- **Yana AI Agent Auditor** positioning
 - **Audit first. Guard later.** public message
 - Truth Gate evidence discipline
 - Agent-risk scanner findings (MCP/shell/CI risk surface)
-- YAMTAM-specific memory tiers and gate stack
+- Yana AI-specific memory tiers and gate stack
 
 Harness Scaling remains **internal architecture**, not public marketing.
 
@@ -98,7 +98,7 @@ Harness Scaling remains **internal architecture**, not public marketing.
 
 ## 1-page comparison matrix
 
-| Area | Spec Kit / external reference | YAMTAM current state | Gap / next step (small, safe) |
+| Area | Spec Kit / external reference | Yana AI current state | Gap / next step (small, safe) |
 |---|---|---|---|
 | Delivery flow | Spec → Plan → Tasks → Implement | Direction doc + templates exist | Add explicit spec validator path (docs plan first) |
 | Workflow state | created/running/paused/completed/resume patterns | Run-log schema includes status + timestamps | Decide validator policy for ended_at and status transitions |

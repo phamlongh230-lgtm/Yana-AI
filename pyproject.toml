@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "yamtam-engine"
+name = "yana-ai"
 version = "0.40.0"
 description = "Audits your AI coding agent setup before it can damage your repo. Scan first. Guard later."
 readme = "README.md"
@@ -36,17 +36,17 @@ pdf = ["weasyprint>=60.0"]
 audit = ["pip-audit>=2.0"]
 
 [project.urls]
-Homepage    = "https://phamlongh230-lgtm.github.io/yamtam-engine/"
-Repository  = "https://github.com/phamlongh230-lgtm/yamtam-engine"
-Changelog   = "https://github.com/phamlongh230-lgtm/yamtam-engine/blob/main/CHANGELOG.md"
-"Bug Tracker" = "https://github.com/phamlongh230-lgtm/yamtam-engine/issues"
+Homepage    = "https://phamlongh230-lgtm.github.io/yana-ai/"
+Repository  = "https://github.com/phamlongh230-lgtm/yana-ai"
+Changelog   = "https://github.com/phamlongh230-lgtm/yana-ai/blob/main/CHANGELOG.md"
+"Bug Tracker" = "https://github.com/phamlongh230-lgtm/yana-ai/issues"
 
 [project.scripts]
-yamtam    = "yamtam_engine.cli:main"
-yamtam-rt = "yamtam_engine.rt:main"
+yana-ai    = "yana-ai_engine.cli:main"
+yana-rt = "yana-ai_engine.rt:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/yamtam_engine"]
+packages = ["src/yana-ai_engine"]
 
 [tool.hatch.build.targets.sdist]
 include = [

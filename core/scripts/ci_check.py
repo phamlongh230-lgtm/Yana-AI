@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yamtam ci-check [target] — CI/CD pipeline health check."""
+"""yana-ai ci-check [target] — CI/CD pipeline health check."""
 
 import argparse
 import glob
@@ -12,7 +12,7 @@ BOLD   = "\033[1m"; RED    = "\033[31m"; YELLOW = "\033[33m"
 GREEN  = "\033[32m"; CYAN   = "\033[36m"; DIM    = "\033[2m"; RESET  = "\033[0m"
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -27,7 +27,7 @@ def check_workflows(target: str) -> list[dict]:
     if not os.path.exists(wf_dir):
         results.append({"id": "CI-SETUP-001", "level": "WARN",
                          "msg": "No .github/workflows/ directory found",
-                         "fix": "Add yamtam-audit.yml CI workflow"})
+                         "fix": "Add yana-ai-audit.yml CI workflow"})
         return results
 
     wf_files = sorted(glob.glob(os.path.join(wf_dir, "*.yml")) +
@@ -39,7 +39,7 @@ def check_workflows(target: str) -> list[dict]:
                          "fix": "Add at least one CI workflow"})
         return results
 
-    has_yamtam_audit = False
+    has_yana-ai_audit = False
 
     for wf_path in wf_files:
         name = os.path.basename(wf_path)
@@ -49,9 +49,9 @@ def check_workflows(target: str) -> list[dict]:
         except OSError:
             continue
 
-        # Check: yamtam audit present
-        if "yamtam" in content and "audit" in content:
-            has_yamtam_audit = True
+        # Check: yana-ai audit present
+        if "yana-ai" in content and "audit" in content:
+            has_yana-ai_audit = True
 
         # Check: permissions block
         if "permissions:" not in content:
@@ -97,16 +97,16 @@ def check_workflows(target: str) -> list[dict]:
                              "fix": "Never echo env vars containing secrets"})
 
         # Check: fail-on flag for any audit step
-        if "yamtam" in content and "fail-on" not in content and "fail_on" not in content:
+        if "yana-ai" in content and "fail-on" not in content and "fail_on" not in content:
             results.append({"id": "CI-AUDIT-001", "level": "WARN",
                              "file": name,
-                             "msg": f"{name}: yamtam used but --fail-on not set — audit won't gate the build",
-                             "fix": "Add --fail-on high to yamtam audit step"})
+                             "msg": f"{name}: yana-ai used but --fail-on not set — audit won't gate the build",
+                             "fix": "Add --fail-on high to yana-ai audit step"})
 
-    if not has_yamtam_audit:
+    if not has_yana-ai_audit:
         results.append({"id": "CI-AUDIT-002", "level": "WARN",
-                         "msg": "No yamtam audit step found in any workflow",
-                         "fix": "Copy .github/workflows/yamtam-audit.yml into your repo"})
+                         "msg": "No yana-ai audit step found in any workflow",
+                         "fix": "Copy .github/workflows/yana-ai-audit.yml into your repo"})
 
     return results
 
@@ -155,7 +155,7 @@ def print_report(target: str, results: list[dict], as_json: bool):
 
     sc = LEVEL_COLOR.get(status, "")
     print()
-    print(c(BOLD, "  YAMTAM CI Health Check"))
+    print(c(BOLD, "  Yana AI CI Health Check"))
     print(c(DIM,  f"  Target: {os.path.abspath(target)}"))
     print()
     print(f"  Status: {c(BOLD + sc, status)}")
@@ -185,7 +185,7 @@ def print_report(target: str, results: list[dict], as_json: bool):
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="yamtam ci-check",
+        prog="yana-ai ci-check",
         description="CI/CD pipeline health check — missing gates, weak permissions",
     )
     parser.add_argument("target", nargs="?", default=".",

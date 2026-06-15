@@ -1,10 +1,10 @@
 ---
 name: ecc-key-management
 description: Elliptic curve cryptography for agent key pairs and command signing. EC key generation (secp256k1/p256), ECDSA sign/verify, ECDH shared secret, DER/PEM encoding, and hardware-safe key storage patterns. Sources: indutny/elliptic.
-origin: yamtam-engine — synthesized from indutny/elliptic (MIT)
+origin: yana-ai — synthesized from indutny/elliptic (MIT)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.49
+compatibility: yana-ai >= 1.3.49
 ---
 
 # /ecc-key-management
@@ -103,12 +103,12 @@ const aesKey = createHash('sha256').update(Buffer.from(sharedA, 'hex')).digest()
 node -e "
 const { ec: EC } = require('elliptic')
 const kp = new EC('p256').genKeyPair()
-console.log('YAMTAM_AGENT_PRIV=' + kp.getPrivate('hex'))
-console.log('YAMTAM_AGENT_PUB='  + kp.getPublic('hex'))
+console.log('YANA_AGENT_PRIV=' + kp.getPrivate('hex'))
+console.log('YANA_AGENT_PUB='  + kp.getPublic('hex'))
 "
 
 # Load in agent session
-export YAMTAM_AGENT_PRIV="$(cat /run/secrets/agent-priv-key)"
+export YANA_AGENT_PRIV="$(cat /run/secrets/agent-priv-key)"
 ```
 
 ---

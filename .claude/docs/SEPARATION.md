@@ -1,11 +1,11 @@
-# YAMTAM ENGINE — Separation Policy
+# Yana AI — Separation Policy
 
 ## Core principle
 
-YAMTAM ENGINE is a **personal agent operating system**.
+Yana AI is a **personal agent operating system**.
 It is NOT a product. It is NOT bundled with any product repo by default.
 
-Any product repo that uses YAMTAM treats it as an **external tool**, applied
+Any product repo that uses Yana AI treats it as an **external tool**, applied
 via a release pack into the target's `.claude/` directory.
 
 ---
@@ -26,14 +26,14 @@ Mixing operating tooling with product code causes:
 
 ## Boundary rules
 
-### YAMTAM repo (this repo) contains:
+### Yana AI repo (this repo) contains:
 
 ```txt
 core/hooks/         hook source
 core/scripts/       support scripts
 core/tests/         hook test suite
 gates/              truth gate, action gate specs
-docs/               YAMTAM internal docs
+docs/               Yana AI internal docs
 releases/           versioned packs
 CHANGELOG.md
 ROADMAP.md
@@ -41,7 +41,7 @@ MANIFEST.json
 README.md
 ```
 
-### YAMTAM repo does NOT contain:
+### Yana AI repo does NOT contain:
 
 ```txt
 any product application code (app/, components/, lib/, etc.)
@@ -52,12 +52,12 @@ any product-specific secrets, API keys, or credentials
 any product-specific handover documents
 ```
 
-### Target product repo contains (after applying YAMTAM):
+### Target product repo contains (after applying Yana AI):
 
 ```txt
-.claude/hooks/      ← copied from YAMTAM release pack
-.claude/scripts/    ← copied from YAMTAM release pack
-.claude/tests/      ← copied from YAMTAM release pack
+.claude/hooks/      ← copied from Yana AI release pack
+.claude/scripts/    ← copied from Yana AI release pack
+.claude/tests/      ← copied from Yana AI release pack
 ```
 
 ### Target product repo does NOT contain:
@@ -66,23 +66,23 @@ any product-specific handover documents
 MEMORY.md           ← agent operating file, lives outside product repo
 BRAIN_DUMP.md       ← agent operating file, lives outside product repo
 agent checkpoint files
-gates/              ← YAMTAM internal
-docs/               ← YAMTAM internal (product has its own docs/)
+gates/              ← Yana AI internal
+docs/               ← Yana AI internal (product has its own docs/)
 ```
 
 ---
 
-## How YAMTAM is applied to a product
+## How Yana AI is applied to a product
 
-1. Cut a release in YAMTAM repo:
-   `releases/yamtam-engine-vX.Y.Z-fixed.zip`
+1. Cut a release in Yana AI repo:
+   `releases/yana-ai-vX.Y.Z-fixed.zip`
 2. In the target product repo:
    ```bash
-   unzip yamtam-engine-vX.Y.Z-fixed.zip -d .claude/
+   unzip yana-ai-vX.Y.Z-fixed.zip -d .claude/
    ```
 3. Commit to the product repo with a clear message:
    ```
-   chore: apply YAMTAM ENGINE vX.Y.Z-fixed
+   chore: apply Yana AI vX.Y.Z-fixed
    ```
 
 The release pack contains only `hooks/`, `scripts/`, `tests/`.
@@ -90,26 +90,26 @@ No memory, no docs, no operating files.
 
 ---
 
-## How to update YAMTAM in a product
+## How to update Yana AI in a product
 
 Same as apply — unzip overwrites. Always re-run the test suite afterward.
 Never edit hooks directly inside a product repo. All edits happen in this
-YAMTAM repo, then a new release is cut and applied.
+Yana AI repo, then a new release is cut and applied.
 
 ---
 
-## How to remove YAMTAM from a product
+## How to remove Yana AI from a product
 
 ```bash
 git rm -r .claude/hooks/ .claude/scripts/ .claude/tests/
-git commit -m "chore: remove YAMTAM ENGINE hooks"
+git commit -m "chore: remove Yana AI hooks"
 ```
 
 ---
 
 ## README policy
 
-- Product README: product description, contribution history. Untouched by YAMTAM.
-- YAMTAM README: operating system description, apply guide.
+- Product README: product description, contribution history. Untouched by Yana AI.
+- Yana AI README: operating system description, apply guide.
 - The two READMEs do not cross-reference each other in detail.
-- A product README MAY note "this repo uses YAMTAM ENGINE vX.Y.Z" in tooling section.
+- A product README MAY note "this repo uses Yana AI vX.Y.Z" in tooling section.

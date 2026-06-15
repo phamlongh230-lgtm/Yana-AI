@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Hook
+# Yana AI Hook
 # Version: 1.6.0 | Status: active
-# Description: Hook Timeout Guard — kill any hook running longer than YAMTAM_HOOK_TIMEOUT seconds
+# Description: Hook Timeout Guard — kill any hook running longer than YANA_HOOK_TIMEOUT seconds
 # Hook type: PreToolUse (wraps execution of other hooks via subshell)
 # Last Reviewed: 2026-05-23
-# Bypass: YAMTAM_TIMEOUT_BYPASS=1
+# Bypass: YANA_TIMEOUT_BYPASS=1
 # Requires: bash 4+
 
 set -uo pipefail
 
-[[ "${YAMTAM_TIMEOUT_BYPASS:-0}" == "1" ]] && exit 0
+[[ "${YANA_TIMEOUT_BYPASS:-0}" == "1" ]] && exit 0
 
-TIMEOUT="${YAMTAM_HOOK_TIMEOUT:-30}"
+TIMEOUT="${YANA_HOOK_TIMEOUT:-30}"
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}"
 STATE_DIR="$PROJECT_DIR/.claude/state"
 LOG="$STATE_DIR/hook-timeouts.log"
@@ -26,9 +26,9 @@ trap 'rm -f "$TMP_INPUT"' EXIT
 
 TOOL_NAME=$(python3 -c "import json,sys; d=json.load(open('$TMP_INPUT')); print(d.get('tool_name','unknown'))" 2>/dev/null || echo "unknown")
 
-# If YAMTAM_GUARDED_HOOK is set, we're running as the inner hook — enforce timeout on self
-if [[ -n "${YAMTAM_GUARDED_HOOK:-}" ]]; then
-  HOOK_SCRIPT="$YAMTAM_GUARDED_HOOK"
+# If YANA_GUARDED_HOOK is set, we're running as the inner hook — enforce timeout on self
+if [[ -n "${YANA_GUARDED_HOOK:-}" ]]; then
+  HOOK_SCRIPT="$YANA_GUARDED_HOOK"
   if [[ ! -x "$HOOK_SCRIPT" ]]; then
     exit 0
   fi

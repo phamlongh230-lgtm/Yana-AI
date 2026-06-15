@@ -13,7 +13,7 @@ log_fail() { echo -e "${RED}  FAIL${NC}  $1"; FAIL=$((FAIL+1)); ERRORS+=("$1"); 
 log_warn() { echo -e "${YELLOW}  WARN${NC}  $1"; }
 
 echo "================================================"
-echo " YAMTAM verify-rules.sh — pre-commit gate"
+echo " Yana AI verify-rules.sh — pre-commit gate"
 echo "================================================"
 
 # ── Gate 1: function length ≤ 50 lines ──────────────────────────────────────

@@ -4,7 +4,7 @@ type: fact
 statement: Truth Gate (L3) is enforced by both AI prompt template and runtime Stop hook truth-gate-guard.sh as of v1.3.0.
 source: file:core/hooks/truth-gate-guard.sh
 confidence: high
-scope: YAMTAM
+scope: Yana AI
 tags: [hook, truth-gate, claim-verb]
 forbidden_assumptions:
   - Do not assume the hook blocks responses — it warns only (exit 0)
@@ -17,4 +17,4 @@ passing, clean, working, fixed, resolved, ready, merged, pushed, deployed,
 released, shipped, verified, confirmed, tested, validated.
 
 Fallback phrasings when evidence unavailable: claimed / reportedly / expected / unverified.
-Bypass: YAMTAM_TRUTH_GATE_BYPASS=1.
+Bypass: YANA_TRUTH_GATE_BYPASS=1.

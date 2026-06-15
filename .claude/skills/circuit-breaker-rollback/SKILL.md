@@ -1,7 +1,7 @@
 ---
 name: circuit-breaker-rollback
 description: Implement circuit breaker patterns, canary deployment gates, hallucination telemetry checkers, and automated rollback for agent skill deployments. Stop cascading failures before they propagate across the swarm.
-origin: Netflix Hystrix concept, Martin Fowler Circuit Breaker pattern, YAMTAM rules 56–57
+origin: Netflix Hystrix concept, Martin Fowler Circuit Breaker pattern, Yana AI rules 56–57
 license: Apache-2.0
 version: 1.0.0
 compatibility: claude-sonnet-4-6, claude-opus-4-7
@@ -16,7 +16,7 @@ Isolate failing agents/tools automatically before errors cascade. Deploy new ski
 - Agent or tool returning repeated errors that are slowing the entire swarm
 - Deploying a new skill and wanting automatic rollback if it degrades quality
 - Protecting downstream agents from an upstream agent stuck in an error loop
-- Implementing the YAMTAM circuit-breaker-law (rule 56) and canary-deployment-law (rule 57)
+- Implementing the Yana AI circuit-breaker-law (rule 56) and canary-deployment-law (rule 57)
 
 ## Do NOT use for
 
@@ -147,7 +147,7 @@ async function emergencyRollback() {
   const actual = sha256(readFileSync(snapshotPath));
   if (actual !== lastGoodRoot) throw new Error('SNAPSHOT_TAMPERED');
 
-  execSync(`tar -xzf ${snapshotPath} -C /workspaces/yamtam-engine/`);
+  execSync(`tar -xzf ${snapshotPath} -C /workspaces/yana-ai/`);
   secureLogger.logAction('system', 'emergency-rollback', 'PASS', { root: lastGoodRoot });
 }
 ```

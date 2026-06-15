@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""yamtam config <subcommand> — manage .yamtam/config.yml
+"""yana-ai config <subcommand> — manage .yana-ai/config.yml
 
 Subcommands:
   list               Show all config keys and current values
   get <key>          Print value of a key
-  set <key> <value>  Set a key (persists to .yamtam/config.yml)
+  set <key> <value>  Set a key (persists to .yana-ai/config.yml)
   reset [key]        Reset one key (or all) to defaults
   show               Pretty-print current effective config
 """
@@ -51,14 +51,14 @@ VALID_VALUES: dict[str, list] = {
 
 
 def no_color_env():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color_env() else f"{code}{text}{RESET}"
 
 
 def config_path(target: str) -> str:
-    return os.path.join(os.path.abspath(target), ".yamtam", "config.yml")
+    return os.path.join(os.path.abspath(target), ".yana-ai", "config.yml")
 
 
 def load_config(target: str) -> dict:
@@ -112,7 +112,7 @@ def coerce(key: str, raw: str):
 
 def cmd_list(cfg: dict, path: str) -> None:
     print()
-    print(c(BOLD, "  yamtam config"))
+    print(c(BOLD, "  yana-ai config"))
     print(c(DIM, f"  {path}"))
     print()
     for key, default in DEFAULTS.items():
@@ -126,7 +126,7 @@ def cmd_list(cfg: dict, path: str) -> None:
 
 def cmd_get(cfg: dict, key: str) -> None:
     if key not in DEFAULTS:
-        print(c(RED, f"  ✗ Unknown key: {key!r}. Run 'yamtam config list' to see all keys."),
+        print(c(RED, f"  ✗ Unknown key: {key!r}. Run 'yana-ai config list' to see all keys."),
               file=sys.stderr)
         sys.exit(1)
     val = cfg.get(key, DEFAULTS[key])
@@ -178,8 +178,8 @@ def cmd_show(cfg: dict, path: str) -> None:
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="yamtam config",
-        description="Manage .yamtam/config.yml project configuration",
+        prog="yana-ai config",
+        description="Manage .yana-ai/config.yml project configuration",
     )
     parser.add_argument("subcommand", nargs="?", default="list",
                         choices=["list", "get", "set", "reset", "show"],

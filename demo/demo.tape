@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — vhs tape (github.com/charmbracelet/vhs)
+# Yana AI ENGINE — vhs tape (github.com/charmbracelet/vhs)
 # Regenerate the README demo GIF deterministically:
 #   vhs demo/demo.tape          (run from the repo root)
 # Output lands at docs/demo.gif — same path the README references.

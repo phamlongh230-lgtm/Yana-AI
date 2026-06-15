@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
- * yamtam-engine npm installer
+ * yana-ai npm installer
  * Copies plugin files to .claude/ in the current project.
- * Run: npx yamtam-engine  OR  yarn yamtam-engine
+ * Run: npx yana-ai  OR  yarn yana-ai
  */
 
 const fs   = require("fs");
@@ -43,7 +43,7 @@ function copyDir(src, dest) {
 }
 
 function main() {
-  console.log("\n  🛡️  yamtam-engine installer\n");
+  console.log("\n  🛡️  yana-ai installer\n");
 
   if (AUTO_MODE && TARGET === PKG_ROOT) {
     // postinstall fired inside node_modules — skip
@@ -76,7 +76,7 @@ function main() {
   }
 
   console.log(`\n  ✓ ${total} files installed to .claude/`);
-  console.log("  Next: yamtam doctor .\n");
+  console.log("  Next: yana-ai doctor .\n");
 }
 
 main();

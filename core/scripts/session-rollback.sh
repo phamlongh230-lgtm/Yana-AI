@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Script
+# Yana AI Script
 # Version: 1.6.0 | Status: active
 # Description: Session Rollback — restore working tree to a saved checkpoint
 # Last Reviewed: 2026-05-23
@@ -55,10 +55,10 @@ print(f'  Total: {len(cps)} checkpoints')
 fi
 
 # -- Sovereign check
-SOVEREIGN="${YAMTAM_SOVEREIGN_NAME:-}"
+SOVEREIGN="${YANA_SOVEREIGN_NAME:-}"
 if [[ -z "$SOVEREIGN" ]]; then
-  echo "[session-rollback] BLOCK: YAMTAM_SOVEREIGN_NAME not set"
-  echo "  Set: export YAMTAM_SOVEREIGN_NAME='your name'"
+  echo "[session-rollback] BLOCK: YANA_SOVEREIGN_NAME not set"
+  echo "  Set: export YANA_SOVEREIGN_NAME='your name'"
   exit 2
 fi
 
@@ -87,7 +87,7 @@ fi
 
 # -- Show info
 echo ""
-echo "  YAMTAM SESSION ROLLBACK"
+echo "  Yana AI SESSION ROLLBACK"
 echo "  ─────────────────────────────────────────────"
 python3 -c "
 import json
@@ -134,7 +134,7 @@ fi
 
 # -- Pre-rollback checkpoint
 echo "  [1/4] Saving pre-rollback snapshot..."
-YAMTAM_CHECKPOINT_BYPASS=0 bash "$(dirname "$0")/session-checkpoint.sh" \
+YANA_CHECKPOINT_BYPASS=0 bash "$(dirname "$0")/session-checkpoint.sh" \
   --name "pre-rollback-$(date +%s)" --force 2>/dev/null || true
 
 # -- Apply rollback

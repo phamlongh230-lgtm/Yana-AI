@@ -43,4 +43,4 @@ npm run build:win      # nsis installer
 
 ---
 
-Part of [YAMTAM ENGINE](../../README.md) · Apache 2.0
+Part of [Yana AI](../../README.md) · Apache 2.0

@@ -5,7 +5,7 @@ use std::collections::HashMap;
 use std::net::ToSocketAddrs;
 use std::path::Path;
 
-const DESIGN_DIR: &str = ".yamtam/design";
+const DESIGN_DIR: &str = ".yana-ai/design";
 const DESIGN_FILE: &str = "design-context.json";
 
 // ── CLI ───────────────────────────────────────────────────────────────────────
@@ -74,7 +74,7 @@ fn cmd_show(target: &str, as_json: bool) -> Result<()> {
     validate_relative_path(target, "--target")?;
     let path = Path::new(target).join(DESIGN_DIR).join(DESIGN_FILE);
     let s = std::fs::read_to_string(&path)
-        .map_err(|_| anyhow::anyhow!("No design context. Run: yamtam-rt design extract <url>"))?;
+        .map_err(|_| anyhow::anyhow!("No design context. Run: yana-rt design extract <url>"))?;
     let tokens: DesignTokens = serde_json::from_str(&s)?;
     if as_json { println!("{}", serde_json::to_string_pretty(&tokens)?); }
     else { print_tokens(&tokens); }
@@ -85,7 +85,7 @@ fn cmd_init(target: &str, out_path: Option<&str>) -> Result<()> {
     validate_relative_path(target, "--target")?;
     let path = Path::new(target).join(DESIGN_DIR).join(DESIGN_FILE);
     let s = std::fs::read_to_string(&path)
-        .map_err(|_| anyhow::anyhow!("No design context. Run: yamtam-rt design extract <url> first"))?;
+        .map_err(|_| anyhow::anyhow!("No design context. Run: yana-rt design extract <url> first"))?;
     let tokens: DesignTokens = serde_json::from_str(&s)?;
     let md = tokens_to_markdown(&tokens);
     let dest = out_path.unwrap_or("DESIGN.md");
@@ -145,7 +145,7 @@ fn fetch_source(source: &str) -> Result<String> {
             }
         }
         let resp = ureq::get(source)
-            .header("User-Agent", "yamtam-rt/0.9 design-extractor")
+            .header("User-Agent", "yana-rt/0.9 design-extractor")
             .call()
             .map_err(|e| anyhow::anyhow!("fetch failed: {e}"))?;
         Ok(resp.into_body().read_to_string()?)
@@ -290,7 +290,7 @@ fn print_tokens(t: &DesignTokens) {
 
 fn tokens_to_markdown(t: &DesignTokens) -> String {
     let mut md = String::from("# Design Context\n\n");
-    md.push_str("> Auto-extracted by `yamtam-rt design extract`\n\n");
+    md.push_str("> Auto-extracted by `yana-rt design extract`\n\n");
 
     if !t.colors.is_empty() {
         md.push_str("## Colors\n\n");

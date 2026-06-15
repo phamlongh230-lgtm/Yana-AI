@@ -1,10 +1,10 @@
 ---
 name: jepsen-fault-testing
 description: Jepsen-style distributed system fault injection patterns. Network partition simulation, clock skew injection, process kill scenarios, linearizability checkers, and fault-tolerance test design. Sources: jepsen-io/jepsen (EPL-1.0).
-origin: yamtam-engine — synthesized from jepsen-io/jepsen (EPL-1.0), Jepsen analysis methodology
+origin: yana-ai — synthesized from jepsen-io/jepsen (EPL-1.0), Jepsen analysis methodology
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.50
+compatibility: yana-ai >= 1.3.50
 ---
 
 # /jepsen-fault-testing
@@ -27,7 +27,7 @@ compatibility: yamtam-engine >= 1.3.50
 
 ```clojure
 ;; A Jepsen test has 5 components:
-{:name    "yamtam-raft-lock"
+{:name    "yana-ai-raft-lock"
  :db      (raft-cluster-db)         ; setup/teardown cluster
  :client  (lock-client)             ; operations: acquire/release
  :nemesis (nemesis/partition-random-halves)  ; fault injector

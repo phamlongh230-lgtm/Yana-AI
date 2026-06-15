@@ -13,7 +13,7 @@ version: 1.0.0
 compatibility: "React/JSX output by default. Mention stack preference to get Vue, HTML, or other output."
 ---
 
-<!-- Adapted from taste-skill (MIT © 2026 Leonxlnx). Changes: added YAMTAM origin/Anti-Fake-Pass/compatibility fields, removed GPT-specific behavior, generalized to any frontend stack. -->
+<!-- Adapted from taste-skill (MIT © 2026 Leonxlnx). Changes: added Yana AI origin/Anti-Fake-Pass/compatibility fields, removed GPT-specific behavior, generalized to any frontend stack. -->
 
 ## When to Use
 

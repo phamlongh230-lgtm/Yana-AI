@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Hook
+# Yana AI Hook
 # Version: 1.7.0
 # Status: active
 # Description: L3.5 Prompt Injection Guard — detect and block injection patterns in tool inputs
@@ -18,12 +18,12 @@
 #   JSON + exit 2   — block (hard injection patterns)
 #   additionalContext + exit 0 — warn (soft patterns)
 #
-# Bypass: YAMTAM_PROMPT_INJECT_BYPASS=1
+# Bypass: YANA_PROMPT_INJECT_BYPASS=1
 # Test seam: PROMPT_INJECT_TEST_INPUT="<text>"
 
 set -uo pipefail
 
-[[ "${YAMTAM_PROMPT_INJECT_BYPASS:-}" == "1" ]] && exit 0
+[[ "${YANA_PROMPT_INJECT_BYPASS:-}" == "1" ]] && exit 0
 
 command -v jq >/dev/null 2>&1 || exit 0
 
@@ -89,19 +89,19 @@ warn() {
 # Identity override
 if printf '%s' "$SCAN_TEXT" | grep -qiE \
   '(ignore (all |your )?(previous|prior|earlier|above) (instructions?|rules?|constraints?|guidelines?))|(disregard (your|all) (training|instructions?|rules?|programming))|(you are (now |no longer )?(an? )?(AI|assistant|claude|language model))|(forget (everything|all) (you know|your instructions?))|(new (persona|identity|role|mode)[:]\s*(DAN|AIM|STAN|JAILBREAK))'; then
-  deny "Blocked [L3.5 Prompt Injection]: Identity override or instruction-ignore pattern detected in tool input. This matches known prompt injection techniques. If this is legitimate content (e.g. writing security test cases), set YAMTAM_PROMPT_INJECT_BYPASS=1."
+  deny "Blocked [L3.5 Prompt Injection]: Identity override or instruction-ignore pattern detected in tool input. This matches known prompt injection techniques. If this is legitimate content (e.g. writing security test cases), set YANA_PROMPT_INJECT_BYPASS=1."
 fi
 
 # System prompt extraction
 if printf '%s' "$SCAN_TEXT" | grep -qiE \
   '(print (your|the) (system |full )?prompt)|(reveal (your|the) (instructions?|system prompt|context))|(show me (your|the) (prompt|instructions?|training))|(what (is|are) your (instructions?|system prompt|guidelines))|(repeat (everything|all) (above|before this))'; then
-  deny "Blocked [L3.5 Prompt Injection]: System prompt extraction attempt detected. Patterns like 'print your system prompt' or 'reveal your instructions' indicate prompt injection. Set YAMTAM_PROMPT_INJECT_BYPASS=1 if writing security test content."
+  deny "Blocked [L3.5 Prompt Injection]: System prompt extraction attempt detected. Patterns like 'print your system prompt' or 'reveal your instructions' indicate prompt injection. Set YANA_PROMPT_INJECT_BYPASS=1 if writing security test content."
 fi
 
 # Jailbreak trigger words
 if printf '%s' "$SCAN_TEXT" | grep -qiE \
   '\b(DAN mode|Developer Mode|jailbreak (mode|enabled?|activated?)|STAN mode|AIM mode|maximum (power|capability)|unrestricted mode|god mode|bypass (all|your) (filters?|restrictions?|safety))\b'; then
-  deny "Blocked [L3.5 Prompt Injection]: Jailbreak trigger phrase detected ('DAN mode', 'Developer Mode', 'bypass filters', etc.). Set YAMTAM_PROMPT_INJECT_BYPASS=1 if writing security test content."
+  deny "Blocked [L3.5 Prompt Injection]: Jailbreak trigger phrase detected ('DAN mode', 'Developer Mode', 'bypass filters', etc.). Set YANA_PROMPT_INJECT_BYPASS=1 if writing security test content."
 fi
 
 # ── Soft warn patterns — suspicious but may be legitimate ────────────────────
@@ -110,14 +110,14 @@ fi
 if printf '%s' "$SCAN_TEXT" | grep -qE '[A-Za-z0-9+/]{60,}={0,2}'; then
   DECODED=$(printf '%s' "$SCAN_TEXT" | grep -oE '[A-Za-z0-9+/]{60,}={0,2}' | head -1 | base64 -d 2>/dev/null || true)
   if printf '%s' "$DECODED" | grep -qiE '(ignore|disregard|forget|you are now|system prompt|instructions?)'; then
-    warn "⚠️  Prompt Injection Guard [L3.5]: Base64-encoded string in tool input decodes to instruction-like content. Review before proceeding. Decoded prefix: $(printf '%s' "$DECODED" | head -c 80)... | Bypass: YAMTAM_PROMPT_INJECT_BYPASS=1"
+    warn "⚠️  Prompt Injection Guard [L3.5]: Base64-encoded string in tool input decodes to instruction-like content. Review before proceeding. Decoded prefix: $(printf '%s' "$DECODED" | head -c 80)... | Bypass: YANA_PROMPT_INJECT_BYPASS=1"
   fi
 fi
 
 # Multi-turn manipulation markers
 if printf '%s' "$SCAN_TEXT" | grep -qiE \
   '(previous (conversation|session|context) said|earlier you (agreed|said|confirmed|promised)|in (our|a) previous (chat|session|turn) you)'; then
-  warn "⚠️  Prompt Injection Guard [L3.5]: Multi-turn context manipulation pattern detected ('in our previous session you agreed...'). Verify this content is expected. Reference: core/rules/43-prompt-jailbreak-advanced.md | Bypass: YAMTAM_PROMPT_INJECT_BYPASS=1"
+  warn "⚠️  Prompt Injection Guard [L3.5]: Multi-turn context manipulation pattern detected ('in our previous session you agreed...'). Verify this content is expected. Reference: core/rules/43-prompt-jailbreak-advanced.md | Bypass: YANA_PROMPT_INJECT_BYPASS=1"
 fi
 
 exit 0

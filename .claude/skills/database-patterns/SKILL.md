@@ -7,7 +7,7 @@ description: >
   problem", "paginate results", "write a migration", or "database is slow".
   Covers PostgreSQL/MySQL patterns. Do NOT use for: NoSQL document design —
   that requires a separate approach. Do NOT use for: frontend performance.
-origin: yamtam-original
+origin: yana-ai-original
 license: MIT © 2025 Vũ Văn Tâm
 version: 1.0.0
 compatibility: "PostgreSQL/MySQL. ORM-agnostic patterns — examples in SQL."

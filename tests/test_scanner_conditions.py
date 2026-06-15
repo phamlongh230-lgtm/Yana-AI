@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-YAMTAM Scanner condition engine tests.
+Yana AI Scanner condition engine tests.
 Tests that condition logic (accompanied_by, not_accompanied_by, etc.) works correctly.
 Run: python3 tests/test_scanner_conditions.py
 """

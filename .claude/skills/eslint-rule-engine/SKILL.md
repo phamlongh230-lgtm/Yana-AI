@@ -1,10 +1,10 @@
 ---
 name: eslint-rule-engine
 description: ESLint custom rule architecture. AST visitor rules with auto-fix, rule metadata, nested rule hierarchies, RuleTester harness, and monorepo-wide static analysis configuration. Sources: eslint/eslint (MIT).
-origin: yamtam-engine — synthesized from eslint/eslint (MIT)
+origin: yana-ai — synthesized from eslint/eslint (MIT)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.49
+compatibility: yana-ai >= 1.3.49
 ---
 
 # /eslint-rule-engine
@@ -13,7 +13,7 @@ compatibility: yamtam-engine >= 1.3.49
 
 - Write custom ESLint rules for project-specific code patterns
 - Add auto-fix capability to enforce naming conventions, remove deprecated APIs
-- Extend ESLint for yamtam security rules (e.g., block `eval`, unsafe assignments)
+- Extend ESLint for yana-ai security rules (e.g., block `eval`, unsafe assignments)
 - RuleTester: unit-test rules with valid/invalid fixtures without running the full linter
 
 ## Do NOT use for
@@ -129,8 +129,8 @@ import noUnsafeEval from './rules/no-unsafe-eval.js'
 
 export default [
   {
-    plugins: { yamtam: { rules: { 'no-unsafe-eval': noUnsafeEval } } },
-    rules:   { 'yamtam/no-unsafe-eval': 'error' },
+    plugins: { yana-ai: { rules: { 'no-unsafe-eval': noUnsafeEval } } },
+    rules:   { 'yana-ai/no-unsafe-eval': 'error' },
     files:   ['src/**/*.{js,ts,tsx}'],
     ignores: ['node_modules', 'dist'],
   },

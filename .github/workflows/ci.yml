@@ -41,8 +41,8 @@ jobs:
       - name: Validate Harness Scaling schema examples
         run: python3 tests/test_harness_schema_examples.py
 
-      - name: Validate .yamtamignore regression behavior
-        run: python3 tests/test_yamtamignore.py
+      - name: Validate .yana-aiignore regression behavior
+        run: python3 tests/test_yana-aiignore.py
 
       - name: Validate spec command regression behavior
         run: python3 tests/test_validate_spec.py
@@ -57,7 +57,7 @@ jobs:
         run: python3 -m pytest tests/test_audit_json_mvp.py -q
 
   rust-tests:
-    name: Rust Integration Tests (yamtam-rt)
+    name: Rust Integration Tests (yana-rt)
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -78,8 +78,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cargo-
 
-      - name: Build yamtam-rt
-        run: cargo build --bin yamtam-rt
+      - name: Build yana-rt
+        run: cargo build --bin yana-rt
 
       - name: Run integration tests
         run: cargo test --test integration_runtime -- --test-threads=4

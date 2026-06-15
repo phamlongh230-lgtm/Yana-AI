@@ -12,7 +12,7 @@ PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$(pwd)}"
 L1_DIR="$PROJECT_ROOT/memory/L1_atomic"
 ARCHIVE_DIR="$L1_DIR/archived"
 INDEX_FILE="$L1_DIR/INDEX.md"
-AUDIT_LOG="${YAMTAM_LOG:-/tmp/yamtam-audit.log}"
+AUDIT_LOG="${YANA_LOG:-/tmp/yana-ai-audit.log}"
 NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 FACT_ID=""

@@ -15,7 +15,7 @@ compatibility: "Any mobile web, React Native, or responsive frontend."
 
 <!-- Adapted from phazurlabs/ux-ui-mastery (MIT) — Mobile UX Design skill.
      Touch targets, thumb zone research (Hoober), iOS/Material conventions,
-     form design, responsive breakpoints. YAMTAM structure is original. -->
+     form design, responsive breakpoints. Yana AI structure is original. -->
 
 ## When to Use
 

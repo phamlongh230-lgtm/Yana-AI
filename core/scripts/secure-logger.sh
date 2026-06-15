@@ -49,13 +49,13 @@ if [[ "${1:-}" == "--scan-egress" ]]; then
 
     for pattern in "${SECRET_PATTERNS[@]}"; do
       if echo "$CMD" | grep -qP "$pattern" 2>/dev/null || echo "$CMD" | grep -qE "$pattern" 2>/dev/null; then
-        echo "[yamtam/secure-logger] EGRESS BLOCKED — secret pattern detected in network command"
+        echo "[yana-ai/secure-logger] EGRESS BLOCKED — secret pattern detected in network command"
         echo "  Pattern : $pattern"
         echo "  Gate    : L1 (data exfiltration prevention)"
-        LOG_DIR="${YAMTAM_LOG_DIR:-core/memory/audit}"
+        LOG_DIR="${YANA_LOG_DIR:-core/memory/audit}"
         LOG_FILE="$LOG_DIR/agent-actions.log"
         chmod 644 "$LOG_FILE" 2>/dev/null || true
-        echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ") | session=${YAMTAM_SESSION_ID:-unknown} | EGRESS_BLOCKED | pattern=$pattern" >> "$LOG_FILE" 2>/dev/null || true
+        echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ") | session=${YANA_SESSION_ID:-unknown} | EGRESS_BLOCKED | pattern=$pattern" >> "$LOG_FILE" 2>/dev/null || true
         chmod 444 "$LOG_FILE" 2>/dev/null || true
         exit 2
       fi
@@ -64,19 +64,19 @@ if [[ "${1:-}" == "--scan-egress" ]]; then
   exit 0
 fi
 
-LOG_DIR="${YAMTAM_LOG_DIR:-core/memory/audit}"
+LOG_DIR="${YANA_LOG_DIR:-core/memory/audit}"
 LOG_FILE="$LOG_DIR/agent-actions.log"
 
 EVENT_TYPE="${1:-event}"
 MESSAGE="${2:-}"
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-SESSION="${YAMTAM_SESSION_ID:-unknown}"
+SESSION="${YANA_SESSION_ID:-unknown}"
 GIT_COMMIT=$(git rev-parse --short HEAD 2>/dev/null || echo "no-git")
 
 # ── Initialize log directory if needed ────────────────────────────────────────
 if [[ ! -d "$LOG_DIR" ]]; then
   mkdir -p "$LOG_DIR"
-  echo "# YAMTAM Agent Audit Log — append-only" > "$LOG_FILE"
+  echo "# Yana AI Agent Audit Log — append-only" > "$LOG_FILE"
   echo "# Format: timestamp | session | commit | event_type | message" >> "$LOG_FILE"
 fi
 

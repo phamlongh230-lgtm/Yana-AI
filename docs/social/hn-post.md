@@ -2,7 +2,7 @@
 
 ## Title
 ```
-Show HN: YAMTAM ENGINE – Safety OS for AI coding agents (Rust runtime, 9-layer gates, 3,432 skills)
+Show HN: Yana AI – Safety OS for AI coding agents (Rust runtime, 9-layer gates, 3,432 skills)
 ```
 
 ## Body
@@ -11,7 +11,7 @@ I'm 17, from Vietnam. I spent the last month building a safety layer for AI codi
 watching Claude Code and Cursor make real mistakes — force-push to main, rm -rf the wrong directory, 
 suggest installing typosquatted packages.
 
-YAMTAM sits between the agent and your system. Every tool call passes through 9 gates before executing.
+Yana AI sits between the agent and your system. Every tool call passes through 9 gates before executing.
 
 What each gate catches:
 - L1 Anti-evasion: base64 decode+exec, pipe-to-shell (curl | bash)
@@ -25,21 +25,21 @@ What each gate catches:
 - L9 Sovereign gate: human can freeze all agents, full rollback to last verified snapshot
 
 Beyond the safety gates:
-- yamtam scan: security scanner — secrets, CVEs, supply chain risks
-- yamtam graph: knowledge graph — file deps, import resolution (Rust/TS/Python/Go)
-- yamtam map: blast radius map — what can the agent actually touch in your repo?
-- yamtam vault: searchable skill library
-- yamtam doctor: full system health check
+- yana-ai scan: security scanner — secrets, CVEs, supply chain risks
+- yana-ai graph: knowledge graph — file deps, import resolution (Rust/TS/Python/Go)
+- yana-ai map: blast radius map — what can the agent actually touch in your repo?
+- yana-ai vault: searchable skill library
+- yana-ai doctor: full system health check
 
 3,432 skill definitions, 93 specialist agents, 61 enforced rules, 46 hooks.
 12 harness adapters: Claude Code, Cursor, OpenCode, Zed, Gemini, Copilot, Aider.
 
-The Rust runtime (yamtam-rt) is 1256x faster than the Python equivalent on a 10k-file repo.
+The Rust runtime (yana-rt) is 1256x faster than the Python equivalent on a 10k-file repo.
 
 Total: 1,026,000 lines, 15,502 files. One person, one month.
 
-Repo: https://github.com/phamlongh230-lgtm/yamtam-engine
-Docs: https://phamlongh230-lgtm.github.io/yamtam-engine/
+Repo: https://github.com/phamlongh230-lgtm/yana-ai
+Docs: https://phamlongh230-lgtm.github.io/yana-ai/
 
 Happy to go deep on any of the gate implementations or the Rust architecture.
 ```

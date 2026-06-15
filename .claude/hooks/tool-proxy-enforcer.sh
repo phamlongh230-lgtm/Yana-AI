@@ -12,7 +12,7 @@
 #   exit 0          — allow the command
 #   JSON + exit 2   — block the command
 #
-# Bypass: YAMTAM_TOOL_PROXY_BYPASS=1 (sovereign use only — logged)
+# Bypass: YANA_TOOL_PROXY_BYPASS=1 (sovereign use only — logged)
 
 set -uo pipefail
 
@@ -43,8 +43,8 @@ print(json.dumps({
 }
 
 # Bypass — sovereign only
-if [[ "${YAMTAM_TOOL_PROXY_BYPASS:-0}" == "1" ]]; then
-  LOG_FILE="${YAMTAM_LOG:-/tmp/yamtam-audit.log}"
+if [[ "${YANA_TOOL_PROXY_BYPASS:-0}" == "1" ]]; then
+  LOG_FILE="${YANA_LOG:-/tmp/yana-ai-audit.log}"
   echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] TOOL-PROXY-BYPASS used cmd='$(echo "$COMMAND" | head -c 80)'" >> "$LOG_FILE" 2>/dev/null || true
   exit 0
 fi

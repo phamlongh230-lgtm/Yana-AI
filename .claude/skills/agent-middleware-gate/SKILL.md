@@ -1,10 +1,10 @@
 ---
 name: agent-middleware-gate
 description: Intercept-layer skill for wrapping all agent tool calls through a sanitize-mutate-execute proxy pipeline. Onion middleware composition (koa), request/response interceptors (axios), scope-aware handler chains (express), near-zero-latency proxy routing (caddy), and in-memory pipe streams (piping-server). Implements core/scripts/tool-proxy.sh. Sources: koajs/koa, axios/axios, expressjs/express, caddyserver/caddy, nwtgck/piping-server.
-origin: yamtam-engine — synthesized from koajs/koa, axios/axios, expressjs/express, caddyserver/caddy, nwtgck/piping-server
+origin: yana-ai — synthesized from koajs/koa, axios/axios, expressjs/express, caddyserver/caddy, nwtgck/piping-server
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.45
+compatibility: yana-ai >= 1.3.45
 ---
 
 # /intercept-layer
@@ -202,7 +202,7 @@ const MUTATION_RULES: MutationRule[] = [
     // Auto-add timeout if not present
     match:  (ctx) => ctx.tool === 'Bash' && !ctx.args.timeout,
     mutate: (ctx) => {
-      ctx.args = { ...ctx.args, timeout: Number(process.env.YAMTAM_TOOL_TIMEOUT ?? 30000) }
+      ctx.args = { ...ctx.args, timeout: Number(process.env.YANA_TOOL_TIMEOUT ?? 30000) }
       return ctx
     },
   },
@@ -218,7 +218,7 @@ const MUTATION_RULES: MutationRule[] = [
     // Auto-wrap destructive Bash commands with ulimit
     match:  (ctx) => ctx.tool === 'Bash' && /rm|chmod|chown/.test(String(ctx.args.command ?? '')),
     mutate: (ctx) => {
-      const MAX_MEM_KB = process.env.YAMTAM_TOOL_MAX_MEM ?? '524288'  // 512MB
+      const MAX_MEM_KB = process.env.YANA_TOOL_MAX_MEM ?? '524288'  // 512MB
       ctx.args = {
         ...ctx.args,
         command: `ulimit -v ${MAX_MEM_KB}; ${ctx.args.command}`,
@@ -250,8 +250,8 @@ The companion script at `core/scripts/tool-proxy.sh` — run every Bash tool cal
 # Usage: bash core/scripts/tool-proxy.sh <command> [args...]
 # Returns: exit 0 = safe + executed; exit 3 = sanitize block; exit 1 = mutate block
 
-YAMTAM_TOOL_TIMEOUT=30
-YAMTAM_TOOL_MAX_MEM=524288   # 512MB in KB
+YANA_TOOL_TIMEOUT=30
+YANA_TOOL_MAX_MEM=524288   # 512MB in KB
 
 bash core/scripts/tool-proxy.sh "ls -la /tmp"
 bash core/scripts/tool-proxy.sh "git diff HEAD"

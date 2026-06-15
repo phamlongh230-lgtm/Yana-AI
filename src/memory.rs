@@ -22,7 +22,7 @@ pub struct L3Fact {
 
 pub fn l3_path() -> PathBuf {
     std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."))
-        .join(".yamtam").join("l3.jsonl")
+        .join(".yana-ai").join("l3.jsonl")
 }
 
 pub fn l3_read_all() -> Vec<L3Fact> {

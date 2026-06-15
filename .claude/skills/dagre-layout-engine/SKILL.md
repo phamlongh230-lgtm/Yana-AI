@@ -1,17 +1,17 @@
 ---
 name: dagre-layout-engine
 description: Directed acyclic graph layout computation for auto-positioning nodes. dagre coordinate assignment, edge routing, rank assignment, and integration with rendering libraries for skill/rule dependency graphs. Sources: dagrejs/dagre.
-origin: yamtam-engine — synthesized from dagrejs/dagre (MIT)
+origin: yana-ai — synthesized from dagrejs/dagre (MIT)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.48
+compatibility: yana-ai >= 1.3.48
 ---
 
 # /dagre-layout-engine
 
 ## When to Use
 
-- Auto-compute (x, y) positions for yamtam skill dependency graph nodes
+- Auto-compute (x, y) positions for yana-ai skill dependency graph nodes
 - Render agent hierarchy diagram without manual coordinate placement
 - Generate layered layouts for rule gate topology (L0 → L5)
 - Integrate with D3.js, React Flow, or SVG rendering for visual output

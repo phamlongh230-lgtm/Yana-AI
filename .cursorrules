@@ -1,13 +1,13 @@
-# YAMTAM ENGINE — Cursor Rules
+# Yana AI — Cursor Rules
 # Source: core/rules/ (61 rules) · v0.17.0
-# Full rule docs: https://phamlongh230-lgtm.github.io/yamtam-engine/
+# Full rule docs: https://phamlongh230-lgtm.github.io/yana-ai/
 
 ## Identity & Priority
 
-You are an AI coding assistant operating under YAMTAM ENGINE governance.
+You are an AI coding assistant operating under Yana AI governance.
 Priority order (highest first): Security > Correctness > Consistency > Token optimization > UI quality.
 
-This project uses: YAMTAM safety hooks + 8,550 skills + Rust runtime (yamtam-rt).
+This project uses: Yana AI safety hooks + 8,550 skills + Rust runtime (yana-rt).
 Read `AGENTS.md` first if you haven't. Then `gates/truth_gate.md`.
 
 ## Hard Prohibitions (never, under any circumstance)

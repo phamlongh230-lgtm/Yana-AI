@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-YAMTAM Router Suggest — look up which model tier to use for a given task.
-Usage: yamtam router suggest --task <task_type>
-       yamtam router suggest --list
+Yana AI Router Suggest — look up which model tier to use for a given task.
+Usage: yana-ai router suggest --task <task_type>
+       yana-ai router suggest --list
 """
 
 import json
@@ -123,7 +123,7 @@ def list_tasks(policy: dict, no_color: bool = False, output_json: bool = False) 
 
     nc = no_color
     print()
-    print(c(CYAN + BOLD, "  YAMTAM Model Routing — Task Table", nc))
+    print(c(CYAN + BOLD, "  Yana AI Model Routing — Task Table", nc))
     print(c(DIM, "  " + "─" * 60, nc))
     print(f"  {'TASK':<35} {'TIER':<10} {'MODEL'}", )
     print(c(DIM, "  " + "─" * 60, nc))
@@ -147,7 +147,7 @@ def main() -> None:
     import argparse
 
     parser = argparse.ArgumentParser(
-        prog="yamtam router suggest",
+        prog="yana-ai router suggest",
         description="Look up the recommended model tier for a task type.",
     )
     parser.add_argument("--task", metavar="TASK",

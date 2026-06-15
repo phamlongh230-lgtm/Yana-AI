@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "description": "Rate limiting configuration for YAMTAM ENGINE tools and operations",
+  "description": "Rate limiting configuration for Yana AI tools and operations",
   "updated": "2026-05-23",
   "global": {
     "bash_calls_per_minute": 30,
@@ -77,7 +77,7 @@
     "description": "Circuit breaker for repeated failures"
   },
   "bypass": {
-    "env_var": "YAMTAM_RATE_LIMIT_BYPASS",
+    "env_var": "YANA_RATE_LIMIT_BYPASS",
     "description": "Set to '1' to bypass rate limiting (sovereign only)"
   }
 }

@@ -3,7 +3,7 @@ description: Print a readable map of all 19 agents — what each does, when to u
 argument-hint: (no arguments)
 ---
 
-You are printing the YAMTAM agent map.
+You are printing the Yana AI agent map.
 
 Read these files:
 1. `core/config/agent-routing-map.json` — routing rules (match keywords → agent)
@@ -13,7 +13,7 @@ Then produce the following output. Do not add commentary — just the map.
 
 ---
 
-## YAMTAM Agent Map
+## Yana AI Agent Map
 
 ### All Agents
 

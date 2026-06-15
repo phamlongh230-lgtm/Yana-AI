@@ -17,7 +17,7 @@ PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$(pwd)}"
 L2_DIR="$PROJECT_ROOT/memory/L2_session"
 
 if [[ ! -d "$L2_DIR" ]]; then
-  echo "Error: $L2_DIR not found. Run from yamtam-engine root." >&2
+  echo "Error: $L2_DIR not found. Run from yana-ai root." >&2
   exit 1
 fi
 

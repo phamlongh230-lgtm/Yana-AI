@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   build:
-    name: Build yamtam-sandbox Docker image
+    name: Build yana-ai-sandbox Docker image
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -29,7 +29,7 @@ jobs:
           context: core/sandbox
           file: core/sandbox/Dockerfile.sandbox
           push: false
-          tags: yamtam-sandbox:latest
+          tags: yana-ai-sandbox:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -41,7 +41,7 @@ jobs:
             --tmpfs /tmp:rw,size=32m,noexec \
             --cap-drop ALL --security-opt no-new-privileges \
             --user nobody \
-            yamtam-sandbox:latest echo "smoke test passed"
+            yana-ai-sandbox:latest echo "smoke test passed"
 
       - name: Smoke test — network blocked
         run: |
@@ -50,7 +50,7 @@ jobs:
             --tmpfs /workspace:rw,size=64m,noexec \
             --cap-drop ALL --security-opt no-new-privileges \
             --user nobody \
-            yamtam-sandbox:latest \
+            yana-ai-sandbox:latest \
             bash -c "wget -q http://example.com -O /dev/null 2>&1 && echo FAIL || echo 'network blocked — PASS'"
 
       - name: Smoke test — filesystem read-only
@@ -60,5 +60,5 @@ jobs:
             --tmpfs /workspace:rw,size=64m,noexec \
             --cap-drop ALL --security-opt no-new-privileges \
             --user nobody \
-            yamtam-sandbox:latest \
+            yana-ai-sandbox:latest \
             bash -c "echo pwned > /etc/pwned 2>&1 && echo FAIL || echo 'read-only FS — PASS'"

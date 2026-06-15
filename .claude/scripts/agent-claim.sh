@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Claim file paths for the current agent in the arbitration registry.
 # Usage: bash agent-claim.sh <path1> [path2] ...
-#        YAMTAM_AGENT_ID=my-agent bash agent-claim.sh src/components/
+#        YANA_AGENT_ID=my-agent bash agent-claim.sh src/components/
 #
 # Options:
 #   --release   Release all claims for this agent instead of adding
@@ -10,8 +10,8 @@
 set -uo pipefail
 
 PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$(pwd)}"
-REGISTRY="${YAMTAM_AGENT_REGISTRY:-$PROJECT_ROOT/core/memory/L2_session/agent-registry.json}"
-AGENT_ID="${YAMTAM_AGENT_ID:-default}"
+REGISTRY="${YANA_AGENT_REGISTRY:-$PROJECT_ROOT/core/memory/L2_session/agent-registry.json}"
+AGENT_ID="${YANA_AGENT_ID:-default}"
 NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 mkdir -p "$(dirname "$REGISTRY")"

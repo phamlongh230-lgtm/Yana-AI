@@ -214,7 +214,7 @@ const PROVIDERS = {
     headers: key => ({
       'Authorization': `Bearer ${key}`,
       'content-type':  'application/json',
-      'HTTP-Referer':  'https://github.com/phamlongh230-lgtm/yamtam-engine',
+      'HTTP-Referer':  'https://github.com/phamlongh230-lgtm/yana-ai',
       'X-Title':       'Yana AI',
     }),
     body: (model, system, task, images) => {
@@ -611,7 +611,7 @@ async function handleApiModels(req, res) {
       path:     '/api/v1/models',
       headers:  k => ({
         'Authorization': `Bearer ${k}`,
-        'HTTP-Referer':  'https://github.com/phamlongh230-lgtm/yamtam-engine',
+        'HTTP-Referer':  'https://github.com/phamlongh230-lgtm/yana-ai',
         'X-Title':       'Yana AI',
       }),
       transform: data => (data.data || [])

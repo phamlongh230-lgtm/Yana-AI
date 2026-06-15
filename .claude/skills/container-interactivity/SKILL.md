@@ -1,10 +1,10 @@
 ---
 name: container-interactivity
 description: Real-time data streaming to/from isolated containers for AI agent sandboxing. Docker ephemeral exec patterns, stdin/stdout pipe attachment, nsjail namespace jail setup, streaming output with live tail, container health monitoring, and clean teardown. Sources: moby/moby, google/nsjail, containers/podman, kata-containers/kata-containers, firecracker-microvm/firecracker.
-origin: yamtam-engine — synthesized from moby/moby, google/nsjail, containers/podman, kata-containers/kata-containers, firecracker-microvm/firecracker
+origin: yana-ai — synthesized from moby/moby, google/nsjail, containers/podman, kata-containers/kata-containers, firecracker-microvm/firecracker
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.47
+compatibility: yana-ai >= 1.3.47
 ---
 
 # /container-interactivity
@@ -44,7 +44,7 @@ Hardware-level isolation required (multi-tenant cloud)?
 ```bash
 # One-shot: run command and auto-remove container (no state persists)
 docker run --rm \
-  --name    "yamtam-$(uuidgen | head -c 8)" \
+  --name    "yana-ai-$(uuidgen | head -c 8)" \
   --network none \                          # no NIC — zero network
   --read-only \                             # root FS immutable
   --tmpfs   /workspace:rw,size=64m,noexec \ # memory-only workspace
@@ -56,7 +56,7 @@ docker run --rm \
   --cap-drop ALL \
   --security-opt no-new-privileges \
   --user    nobody \
-  yamtam-sandbox:latest \
+  yana-ai-sandbox:latest \
   bash -c "$TOOL_COMMAND"
 ```
 
@@ -65,7 +65,7 @@ import { execa } from 'execa'
 
 // Stream container stdout/stderr in real-time — no buffering
 async function runInContainer(command: string, args: string[]): Promise<string> {
-  const containerName = `yamtam-${Date.now()}`
+  const containerName = `yana-ai-${Date.now()}`
   const output: string[] = []
 
   const proc = execa('docker', [
@@ -80,7 +80,7 @@ async function runInContainer(command: string, args: string[]): Promise<string> 
     '--cap-drop', 'ALL',
     '--security-opt', 'no-new-privileges',
     '--user',     'nobody',
-    'yamtam-sandbox:latest',
+    'yana-ai-sandbox:latest',
     command, ...args,
   ])
 

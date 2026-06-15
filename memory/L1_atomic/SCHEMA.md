@@ -1,4 +1,4 @@
-# YAMTAM L1 Atomic Memory — Schema v1.0
+# Yana AI L1 Atomic Memory — Schema v1.0
 
 Each fact lives in its own `.md` file with this YAML frontmatter.
 Do not store secrets, tokens, credentials, or personally identifiable data.
@@ -14,7 +14,7 @@ type:       <fact | decision | constraint | assumption | observation>
 statement:  <one sentence — the fact itself>
 source:     <where this came from: "user:2026-05-17" | "git-log:abc123" | "file:path/to/file.md">
 confidence: <unverified | low | medium | high>
-scope:      <YAMTAM | product | both>
+scope:      <Yana AI | product | both>
 ---
 ```
 
@@ -53,7 +53,7 @@ Confidence is `unverified` by default. It MUST be promoted manually — never au
 
 | Value   | Meaning                                             |
 |---------|-----------------------------------------------------|
-| YAMTAM  | Applies only to this yamtam-engine repo             |
+| Yana AI  | Applies only to this yana-ai repo             |
 | product | Applies only to the target product being built      |
 | both    | Applies across both contexts                        |
 
@@ -72,14 +72,14 @@ Scope is mandatory. Without it, the fact cannot be safely applied.
 ---
 id: fact-001
 type: constraint
-statement: YAMTAM-scoped tasks must not touch app/ components/ lib/ db/ without explicit cross-scope approval.
+statement: Yana AI-scoped tasks must not touch app/ components/ lib/ db/ without explicit cross-scope approval.
 source: user:2026-05-17
 confidence: high
 scope: both
 expires_at: 2027-01-01
 forbidden_assumptions:
   - Do not assume approval carries over between sessions
-  - Do not assume YAMTAM scope = product scope
+  - Do not assume Yana AI scope = product scope
 evidence: gates/action_gate.md § Scope Rules
 ---
 

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""yamtam rule test [rule-id] — test scanner rules against fixtures.
+"""yana-ai rule test [rule-id] — test scanner rules against fixtures.
 
 Usage:
-  yamtam rule test               Run all built-in rule sanity checks
-  yamtam rule test <id>          Show what content rule <id> would match
-  yamtam rule test <id> --file <path>   Test rule <id> against a specific file
-  yamtam rule test --all         Validate all rule YAML structure (deep lint)
+  yana-ai rule test               Run all built-in rule sanity checks
+  yana-ai rule test <id>          Show what content rule <id> would match
+  yana-ai rule test <id> --file <path>   Test rule <id> against a specific file
+  yana-ai rule test --all         Validate all rule YAML structure (deep lint)
 """
 
 import argparse
@@ -30,7 +30,7 @@ PASS_MARK = "✓"; FAIL_MARK = "✗"; SKIP_MARK = "–"
 
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -137,7 +137,7 @@ def test_rule_against_content(check: dict, content: str) -> list[dict]:
 def cmd_all(scanner_dir: str) -> int:
     """Validate all rule YAML files — structure + regex compilation."""
     print()
-    print(c(BOLD, "  yamtam rule test --all"))
+    print(c(BOLD, "  yana-ai rule test --all"))
     print(c(DIM, f"  Scanner: {scanner_dir}"))
     print()
 
@@ -177,7 +177,7 @@ def cmd_show(rule_id: str) -> int:
     result = find_rule(rule_id)
     if not result:
         print(c(RED, f"  ✗ Rule {rule_id!r} not found."), file=sys.stderr)
-        print(f"  Run {c(CYAN, 'yamtam rule list')} to see available rules.", file=sys.stderr)
+        print(f"  Run {c(CYAN, 'yana-ai rule list')} to see available rules.", file=sys.stderr)
         return 1
 
     fn, check = result
@@ -242,7 +242,7 @@ def cmd_test_file(rule_id: str, file_path: str) -> int:
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="yamtam rule test",
+        prog="yana-ai rule test",
         description="Test scanner rules for correctness",
     )
     parser.add_argument("rule_id", nargs="?", default=None,

@@ -9,11 +9,11 @@ on:
 
 jobs:
   publish-pypi:
-    name: PyPI — yamtam-engine
+    name: PyPI — yana-ai
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/project/yamtam-engine/
+      url: https://pypi.org/project/yana-ai/
     permissions:
       id-token: write   # OIDC trusted publishing (no token needed)
     steps:
@@ -28,7 +28,7 @@ jobs:
           VERSION="${{ github.ref_name }}"
           VERSION="${VERSION#v}"
           sed -i "s/^version = .*/version = \"$VERSION\"/" pyproject.toml
-          sed -i "s/__version__ = .*/__version__ = \"$VERSION\"/" src/yamtam_engine/__init__.py
+          sed -i "s/__version__ = .*/__version__ = \"$VERSION\"/" src/yana-ai_engine/__init__.py
 
       - name: Install build tools
         run: pip install hatchling build
@@ -42,11 +42,11 @@ jobs:
         uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # release/v1
 
   publish-npm:
-    name: npm — yamtam-engine
+    name: npm — yana-ai
     runs-on: ubuntu-latest
     environment:
       name: npm
-      url: https://www.npmjs.com/package/yamtam-engine
+      url: https://www.npmjs.com/package/yana-ai
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3 (node24)
 
@@ -67,11 +67,11 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   publish-crates:
-    name: crates.io — yamtam-rt
+    name: crates.io — yana-rt
     runs-on: ubuntu-latest
     environment:
       name: crates-io
-      url: https://crates.io/crates/yamtam-rt
+      url: https://crates.io/crates/yana-rt
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3 (node24)
 

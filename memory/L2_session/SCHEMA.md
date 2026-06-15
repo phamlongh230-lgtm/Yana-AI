@@ -1,4 +1,4 @@
-# YAMTAM L2 Session Memory — Schema v1.0
+# Yana AI L2 Session Memory — Schema v1.0
 
 Session facts live only for the current work session.
 They are cleared by `clear-session.sh` at the start of each session or on demand.
@@ -31,7 +31,7 @@ evidence:  <path or quoted excerpt>
 |----------|-----------|------------|
 | Persistence | Permanent (git-tracked) | Session only (gitignored) |
 | Confidence | Required, promoted manually | Not used — all session facts are provisional |
-| Scope | Required (YAMTAM / product / both) | Implied: current session |
+| Scope | Required (Yana AI / product / both) | Implied: current session |
 | expires_at | Optional date | Not used — expires with session |
 | Ceremony | High | Low — fast writes |
 

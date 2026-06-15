@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Hook
+# Yana AI Hook
 # Version: 1.3.26
 # Status: active
 # Description: UserPromptSubmit — inject relevant L1 facts + session trust into Claude context
@@ -17,12 +17,12 @@
 #
 # Hook event:   UserPromptSubmit
 # Blocking:     yes (stdout goes into Claude context — keep under 500 chars)
-# Bypass:       YAMTAM_BOOTSTRAP_BYPASS=1
+# Bypass:       YANA_BOOTSTRAP_BYPASS=1
 # Requires:     jq
 
 set -uo pipefail
 
-[[ "${YAMTAM_BOOTSTRAP_BYPASS:-}" == "1" ]] && exit 0
+[[ "${YANA_BOOTSTRAP_BYPASS:-}" == "1" ]] && exit 0
 command -v jq >/dev/null 2>&1 || exit 0
 
 INPUT=$(cat)
@@ -99,7 +99,7 @@ fi
 # ── Output ────────────────────────────────────────────────────────────────────
 if [[ ${#OUTPUT_PARTS[@]} -gt 0 ]]; then
   JOINED=$(printf '%s | ' "${OUTPUT_PARTS[@]}")
-  printf '[YAMTAM] %s\n' "${JOINED% | }"
+  printf '[Yana AI] %s\n' "${JOINED% | }"
 fi
 
 exit 0

@@ -1,4 +1,4 @@
-# YAMTAM ENGINE — Anti-Evasion Law
+# Yana AI — Anti-Evasion Law
 # Source: CISOfy/lynis security auditing framework (GPL-3.0)
 # github.com/CISOfy/lynis
 # Gate: Action Gate L1 (pre-execution, highest speed)
@@ -113,7 +113,7 @@ These patterns are checked BEFORE the existing BLOCKED_PATTERNS in `safe-run.sh`
 
 ## Lynis Audit Principle Applied
 
-Lynis checks for hidden processes and encoded execution chains. YAMTAM applies
+Lynis checks for hidden processes and encoded execution chains. Yana AI applies
 the same principle at the command-injection layer:
 
 ```
@@ -126,7 +126,7 @@ Any command whose effect cannot be verified by reading it = BLOCKED.
 ## Violation Response
 
 ```
-[yamtam/anti-evasion] BLOCKED — evasion technique detected
+[yana-ai/anti-evasion] BLOCKED — evasion technique detected
   Command  : <truncated to 200 chars>
   Pattern  : <matched evasion pattern>
   Gate     : L1

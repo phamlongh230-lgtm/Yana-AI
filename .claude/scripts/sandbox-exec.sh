@@ -19,25 +19,25 @@
 #   4  — requested sandbox mode not available on this host
 #
 # Env overrides:
-#   YAMTAM_SANDBOX_MODE     — docker | nsjail | ulimit
-#   YAMTAM_SANDBOX_IMAGE    — Docker image (default: yamtam-sandbox:latest)
-#   YAMTAM_SANDBOX_TIMEOUT  — seconds (default: 30)
-#   YAMTAM_SANDBOX_MEM_MB   — container memory cap in MB (default: 128)
-#   YAMTAM_SANDBOX_CPU      — Docker --cpus value (default: 0.5)
-#   YAMTAM_SANDBOX_LOG      — audit log path (default: releases/logs/sandbox.log)
+#   YANA_SANDBOX_MODE     — docker | nsjail | ulimit
+#   YANA_SANDBOX_IMAGE    — Docker image (default: yana-ai-sandbox:latest)
+#   YANA_SANDBOX_TIMEOUT  — seconds (default: 30)
+#   YANA_SANDBOX_MEM_MB   — container memory cap in MB (default: 128)
+#   YANA_SANDBOX_CPU      — Docker --cpus value (default: 0.5)
+#   YANA_SANDBOX_LOG      — audit log path (default: releases/logs/sandbox.log)
 #
 # Gate: L3 (runtime isolation)
 # Sources: moby/moby, google/nsjail, firecracker-microvm/firecracker
 set -uo pipefail
 
 # ─── Config ──────────────────────────────────────────────────────────────────
-MODE="${YAMTAM_SANDBOX_MODE:-auto}"
-IMAGE="${YAMTAM_SANDBOX_IMAGE:-yamtam-sandbox:latest}"
-TIMEOUT="${YAMTAM_SANDBOX_TIMEOUT:-30}"
-MEM_MB="${YAMTAM_SANDBOX_MEM_MB:-128}"
-CPU="${YAMTAM_SANDBOX_CPU:-0.5}"
-LOG_FILE="${YAMTAM_SANDBOX_LOG:-releases/logs/sandbox.log}"
-SESSION_ID="${YAMTAM_SESSION_ID:-unknown}"
+MODE="${YANA_SANDBOX_MODE:-auto}"
+IMAGE="${YANA_SANDBOX_IMAGE:-yana-ai-sandbox:latest}"
+TIMEOUT="${YANA_SANDBOX_TIMEOUT:-30}"
+MEM_MB="${YANA_SANDBOX_MEM_MB:-128}"
+CPU="${YANA_SANDBOX_CPU:-0.5}"
+LOG_FILE="${YANA_SANDBOX_LOG:-releases/logs/sandbox.log}"
+SESSION_ID="${YANA_SESSION_ID:-unknown}"
 SANDBOX_ID="sb-$(date +%s%N | md5sum | head -c 8)"
 
 # ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -86,7 +86,7 @@ if [[ "$RESOLVED_MODE" == "docker" ]]; then
   # Ephemeral container: --rm removes it immediately on exit
   DOCKER_ARGS=(
     run --rm
-    --name  "yamtam-${SANDBOX_ID}"
+    --name  "yana-ai-${SANDBOX_ID}"
     --network  none                              # no network
     --read-only                                  # immutable root FS
     --tmpfs    /workspace:rw,size=64m,noexec     # writable workspace (memory-only)

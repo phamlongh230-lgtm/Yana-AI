@@ -1,16 +1,16 @@
-# YAMTAM ENGINE — Model Routing Strategy
+# Yana AI — Model Routing Strategy
 
 **Status:** Active (concept doc — no runtime code)
 **Adapted from:** Free Claude Code concept (MIT © 2026 Ali Khokhar) — ProviderDescriptor pattern,
   model tiering taxonomy. No Python/FastAPI code copied.
-**Changes:** Rewritten for YAMTAM context, added YAMTAM agent routing conventions,
+**Changes:** Rewritten for Yana AI context, added Yana AI agent routing conventions,
   removed proxy/credential patterns, grounded in Claude API (Anthropic native).
 
 ---
 
 ## Purpose
 
-This document describes how YAMTAM ENGINE should route tasks to the right model tier.
+This document describes how Yana AI should route tasks to the right model tier.
 It is a strategy guide, not an implementation spec. There is no proxy, no provider
 abstraction layer, and no runtime switching — Claude Code handles model selection.
 
@@ -23,7 +23,7 @@ Use this document when:
 
 ## Model Tier Taxonomy
 
-YAMTAM uses three tiers, mapped to the Claude model family:
+Yana AI uses three tiers, mapped to the Claude model family:
 
 | Tier | Model | Use for |
 |------|-------|---------|
@@ -65,7 +65,7 @@ YAMTAM uses three tiers, mapped to the Claude model family:
 
 ---
 
-## YAMTAM Agent Routing Map
+## Yana AI Agent Routing Map
 
 Current agent assignments (review when adding new agents):
 
@@ -102,9 +102,9 @@ Cost reduction strategies in order of impact:
 
 ---
 
-## What YAMTAM Does NOT Do
+## What Yana AI Does NOT Do
 
-Per YAMTAM hard rules:
+Per Yana AI hard rules:
 
 - No proxy server that intercepts Claude API calls
 - No credential rotation or API key sharing
@@ -114,7 +114,7 @@ Per YAMTAM hard rules:
 
 This strategy document describes tier selection within Anthropic's Claude family only.
 For multi-provider routing, consult the Free Claude Code repo (MIT © 2026 Ali Khokhar)
-as a separate tool — do not integrate it into YAMTAM ENGINE.
+as a separate tool — do not integrate it into Yana AI.
 
 ---
 

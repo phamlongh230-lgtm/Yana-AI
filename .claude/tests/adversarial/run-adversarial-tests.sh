@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE - Adversarial Test Suite
+# Yana AI - Adversarial Test Suite
 # Purpose: Systematic red team validation of security defenses
 # Version: 1.0
 # Date: 2026-05-23
@@ -280,7 +280,7 @@ test_supply_chain_lock_file_integrity() {
 
 main() {
   echo "=========================================="
-  echo "YAMTAM ENGINE - Adversarial Test Suite"
+  echo "Yana AI - Adversarial Test Suite"
   echo "Version: 1.0"
   echo "Date: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
   echo "=========================================="

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yamtam snapshot — save or restore full audit state."""
+"""yana-ai snapshot — save or restore full audit state."""
 
 import argparse
 import json
@@ -16,13 +16,13 @@ RED   = "\033[31m"; CYAN  = "\033[36m"; DIM   = "\033[2m"; RESET = "\033[0m"
 RISK_COLOR = {"CRITICAL": RED, "HIGH": RED, "MEDIUM": YELLOW, "LOW": GREEN}
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
 
 def snapshots_dir(target: str) -> str:
-    return os.path.join(target, ".yamtam", "snapshots")
+    return os.path.join(target, ".yana-ai", "snapshots")
 
 def snapshot_path(target: str, name: str) -> str:
     if not name.endswith(".json"):
@@ -39,7 +39,7 @@ def cmd_save(target: str, name: str, extra: list[str], note: str):
         print(c(RED, "  ✗ Audit scan failed")); sys.exit(1)
 
     snap = {
-        "yamtam_snapshot": True,
+        "yana-ai_snapshot": True,
         "version": "1",
         "name": name,
         "note": note,
@@ -69,7 +69,7 @@ def cmd_list(target: str):
     print(c(BOLD, "  Snapshots"))
     print()
     if not os.path.exists(sdir):
-        print(c(DIM, "  No snapshots yet. Run: yamtam snapshot save [name]"))
+        print(c(DIM, "  No snapshots yet. Run: yana-ai snapshot save [name]"))
         print(); return
 
     files = sorted(f for f in os.listdir(sdir) if f.endswith(".json"))
@@ -140,7 +140,7 @@ def cmd_delete(target: str, name: str):
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="yamtam snapshot",
+    parser = argparse.ArgumentParser(prog="yana-ai snapshot",
                                      description="Save and manage audit snapshots")
     sub = parser.add_subparsers(dest="subcmd")
 
@@ -171,7 +171,7 @@ def main():
     p_del.add_argument("name")
     p_del.add_argument("--target",    default=".")
 
-    # bare: yamtam snapshot [name] (= save)
+    # bare: yana-ai snapshot [name] (= save)
     parser.add_argument("name_bare",  nargs="?", help=argparse.SUPPRESS)
     parser.add_argument("--target",   default=".")
     parser.add_argument("--note",     default="")

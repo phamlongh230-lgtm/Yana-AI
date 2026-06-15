@@ -1,4 +1,4 @@
-# YAMTAM CORE AUDIT — Nuclear Reactor Model
+# Yana AI CORE AUDIT — Nuclear Reactor Model
 **Date:** 2026-06-08
 **Auditor:** Assistant (Architecture Review)
 
@@ -23,7 +23,7 @@
 
 ### TIER 2 — Runtime Protection
 - ✅ 48 active hooks covering: budget, scope, risk, truth-gate, supply-chain
-- ✅ Self-healing hook detects YAMTAM_BYPASS abuse
+- ✅ Self-healing hook detects YANA_BYPASS abuse
 - ✅ Honey-vault canary tokens (6 fake secrets)
 
 ### TIER 3 — Policy Layer
@@ -39,14 +39,14 @@
 
 1. **BYPASS vulnerability in safe-run.sh**
    - **File:** `core/scripts/safe-run.sh:29-32`
-   - **Issue:** `YAMTAM_SAFE_RUN_BYPASS=1` chỉ log rồi `eval` trực tiếp — không verify sovereign identity
+   - **Issue:** `YANA_SAFE_RUN_BYPASS=1` chỉ log rồi `eval` trực tiếp — không verify sovereign identity
    - **Risk:** Agent nào cũng có thể set env var này và bypass toàn bộ gate
    - **Fix:** Phải check `identity-gate.sh` signature trước khi cho phép bypass
    ```bash
-   if [[ "${YAMTAM_SAFE_RUN_BYPASS:-0}" == "1" ]]; then
+   if [[ "${YANA_SAFE_RUN_BYPASS:-0}" == "1" ]]; then
      # MISSING: identity verification
      bash "$(dirname "$0")/identity-gate.sh" --verify || exit 1
-     echo "[yamtam/safe-run] BYPASS active (engine=$ENGINE)" >> "$LOG_FILE"
+     echo "[yana-ai/safe-run] BYPASS active (engine=$ENGINE)" >> "$LOG_FILE"
      eval "$COMMAND"
    fi
    ```
@@ -80,7 +80,7 @@
 6. **sandbox-exec.sh fallback to ulimit without warning in prod**
    - **File:** `core/scripts/sandbox-exec.sh`
    - **Issue:** Khi Docker/nsjail không có, fallback sang ulimit (yếu hơn nhiều) mà không cảnh báo rõ ràng
-   - **Fix:** YAMTAM_ENV=prod phải require Docker hoặc nsjail, reject ulimit fallback
+   - **Fix:** YANA_ENV=prod phải require Docker hoặc nsjail, reject ulimit fallback
 
 ### MEDIUM
 
@@ -98,7 +98,7 @@
    - **Issue:** Regex fallback khi acorn không có → chỉ 8 patterns, dễ bypass
    - **Fix:** Require acorn as mandatory dep, remove fallback
 
-10. **YAMTAM_PROXY_DRY_RUN có thể leak command mà không block**
+10. **YANA_PROXY_DRY_RUN có thể leak command mà không block**
     - **File:** `core/scripts/tool-proxy.sh:36,224-228`
     - **Issue:** DRY_RUN=1 sẽ echo command ra stdout rồi exit 0 — không block dangerous cmd
     - **Fix:** DRY_RUN phải vẫn qua sanitize + mutate phase, chỉ skip execute
@@ -112,10 +112,10 @@
 1. **Fix safe-run.sh BYPASS** — thêm identity-gate verification
    ```bash
    # File: core/scripts/safe-run.sh:29
-   if [[ "${YAMTAM_SAFE_RUN_BYPASS:-0}" == "1" ]]; then
+   if [[ "${YANA_SAFE_RUN_BYPASS:-0}" == "1" ]]; then
      IDENTITY_GATE="$(dirname "$0")/../gates/identity-gate.sh"
      if ! bash "$IDENTITY_GATE" --verify 2>/dev/null; then
-       echo "[yamtam/safe-run] BYPASS denied — identity verification failed" >&2
+       echo "[yana-ai/safe-run] BYPASS denied — identity verification failed" >&2
        exit 1
      fi
      # rest of bypass logic
@@ -130,14 +130,14 @@
    TOOL="$1"
    if [[ "$TOOL" == "Bash" ]]; then
      # Wrap command in tool-proxy.sh
-     export YAMTAM_TOOL_PROXY_ENFORCE=1
+     export YANA_TOOL_PROXY_ENFORCE=1
    fi
    ```
 
 3. **Move honey-vault out of source**
    ```bash
    # File: core/gates/honey-vault.env.example (NEW)
-   # Real file: ~/.yamtam/honey-vault.env (gitignored, loaded at runtime)
+   # Real file: ~/.yana-ai/honey-vault.env (gitignored, loaded at runtime)
    STRIPE_SECRET_KEY=sk_live_HONEY_...
    OPENAI_API_KEY=sk-HONEY-proj-...
    # sovereign-interceptor.js loads from process.env at runtime
@@ -155,7 +155,7 @@
 6. **Reject ulimit fallback in prod**
    ```bash
    # File: core/scripts/sandbox-exec.sh
-   if [[ "$YAMTAM_ENV" == "prod" && "$EFFECTIVE_MODE" == "ulimit" ]]; then
+   if [[ "$YANA_ENV" == "prod" && "$EFFECTIVE_MODE" == "ulimit" ]]; then
      echo "[sandbox-exec] REJECT: ulimit mode not allowed in prod" >&2
      exit 6
    fi
@@ -169,7 +169,7 @@
    - Check hooks/gates exist
 
 8. **Per-hook rate limiter**
-   - Track hook executions in `/tmp/yamtam-hook-rate/`
+   - Track hook executions in `/tmp/yana-ai-hook-rate/`
    - Block if > 10 exec/min per hook
 
 9. **Remove AST scanner fallback — require acorn**
@@ -209,7 +209,7 @@
 
 ## CONCLUSION
 
-Lõi YAMTAM **đủ chắc để chạy production** nhưng có **3 critical gaps** cần đắp ngay:
+Lõi Yana AI **đủ chắc để chạy production** nhưng có **3 critical gaps** cần đắp ngay:
 
 1. BYPASS vulnerability (P0)
 2. tool-proxy không bắt buộc (P0)

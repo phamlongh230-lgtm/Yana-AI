@@ -1,4 +1,4 @@
-# Multi-Agent Failure Modes — YAMTAM Reference Vocabulary
+# Multi-Agent Failure Modes — Yana AI Reference Vocabulary
 
 Reference vocabulary for understanding, naming, and mitigating failures in
 multi-agent AI systems. Use this doc when designing orchestration flows,
@@ -72,7 +72,7 @@ Amplifiers that increase the probability and severity of the three categories ab
 ### Token Budget Gate
 - Set hard dollar/token ceiling per session. Terminate on breach with `BudgetExhaustionException`.
 - Velocity check: if 50% budget consumed but <20% tasks done, auto-pause.
-- YAMTAM: see `core/hooks/cost-guard.sh` and `docs/OUTPUT_BUDGET_POLICY.md`.
+- Yana AI: see `core/hooks/cost-guard.sh` and `docs/OUTPUT_BUDGET_POLICY.md`.
 
 ### Loop Detection via State Hashing
 - Hash agent turn state after each output.
@@ -93,12 +93,12 @@ Amplifiers that increase the probability and severity of the three categories ab
 - Each sub-agent receives only the tools it needs for its task.
 - Write/delete actions require explicit approval (Just-In-Time Writes).
 - **WORM God Log**: immutable audit trail capturing tool calls + reasoning before every action.
-- YAMTAM: `core/hooks/rbac-guard.sh`, `core/hooks/audit-log.sh`.
+- Yana AI: `core/hooks/rbac-guard.sh`, `core/hooks/audit-log.sh`.
 
 ### Conflict Resolution Hierarchy
 - Define who breaks ties before dispatch: Manager agent > Senior agent > Human escalation.
 - Iteration limit: if N rounds of disagreement with no resolution, escalate.
-- YAMTAM: `core/rules/conflict-resolution.md`.
+- Yana AI: `core/rules/conflict-resolution.md`.
 
 ### Circuit Breaker Agent
 - Deploy a lightweight monitoring agent watching the swarm.
@@ -107,9 +107,9 @@ Amplifiers that increase the probability and severity of the three categories ab
 
 ---
 
-## YAMTAM Touchpoints
+## Yana AI Touchpoints
 
-| Failure Mode | Relevant YAMTAM Asset |
+| Failure Mode | Relevant Yana AI Asset |
 |---|---|
 | Context explosion | `core/hooks/context-gate.sh`, `docs/OUTPUT_BUDGET_POLICY.md` |
 | Infinite loop | `core/hooks/cost-guard.sh` (token budget kill-switch) |

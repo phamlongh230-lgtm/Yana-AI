@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yamtam upgrade — self-update yamtam to latest release."""
+"""yana-ai upgrade — self-update yana-ai to latest release."""
 
 import argparse
 import json
@@ -10,7 +10,7 @@ import sys
 import tempfile
 import urllib.request
 
-REPO       = "phamlongh230-lgtm/yamtam-engine"
+REPO       = "phamlongh230-lgtm/yana-ai"
 API_URL    = f"https://api.github.com/repos/{REPO}/releases/latest"
 CLONE_URL  = f"https://github.com/{REPO}.git"
 
@@ -18,7 +18,7 @@ BOLD  = "\033[1m"; GREEN = "\033[32m"; YELLOW = "\033[33m"
 RED   = "\033[31m"; CYAN  = "\033[36m"; DIM   = "\033[2m"; RESET = "\033[0m"
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -26,7 +26,7 @@ def c(code, text):
 
 def get_latest_release() -> dict:
     req = urllib.request.Request(API_URL,
-          headers={"Accept": "application/vnd.github+json", "User-Agent": "yamtam-cli"})
+          headers={"Accept": "application/vnd.github+json", "User-Agent": "yana-ai-cli"})
     try:
         with urllib.request.urlopen(req, timeout=10) as r:
             return json.loads(r.read())
@@ -37,23 +37,23 @@ def get_latest_release() -> dict:
 
 def current_version() -> str:
     script_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    bin_path   = os.path.join(script_dir, "bin", "yamtam")
+    bin_path   = os.path.join(script_dir, "bin", "yana-ai")
     try:
         r = subprocess.run([bin_path, "version"], capture_output=True, text=True)
-        return r.stdout.strip().replace("yamtam ", "")
+        return r.stdout.strip().replace("yana-ai ", "")
     except Exception:
         return "unknown"
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="yamtam upgrade",
-                                     description="Self-update yamtam to latest release")
+    parser = argparse.ArgumentParser(prog="yana-ai upgrade",
+                                     description="Self-update yana-ai to latest release")
     parser.add_argument("--check", action="store_true", help="Check for update without installing")
     parser.add_argument("--yes",   action="store_true", help="Skip confirmation")
     args = parser.parse_args()
 
     print()
-    print(c(BOLD, "  yamtam upgrade"))
+    print(c(BOLD, "  yana-ai upgrade"))
     print()
 
     current = current_version()
@@ -75,7 +75,7 @@ def main():
 
     if args.check:
         print(c(YELLOW, f"  Update available: {current} → v{latest}"))
-        print(f"  Run: yamtam upgrade  to install")
+        print(f"  Run: yana-ai upgrade  to install")
         print()
         return
 
@@ -93,7 +93,7 @@ def main():
     repo_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
     with tempfile.TemporaryDirectory() as tmpdir:
-        clone_path = os.path.join(tmpdir, "yamtam-engine")
+        clone_path = os.path.join(tmpdir, "yana-ai")
         print(f"  Cloning v{latest}…")
 
         r = subprocess.run(
@@ -119,7 +119,7 @@ def main():
 
     print()
     print(c(GREEN, f"  ✓ Upgraded to v{latest}"))
-    print(f"  Run: yamtam version  to confirm")
+    print(f"  Run: yana-ai version  to confirm")
     print()
 
 

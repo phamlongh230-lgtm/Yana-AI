@@ -1,10 +1,10 @@
 ---
 name: unprivileged-sandbox-bubblewrap
 description: Rootless sandbox via bubblewrap (bwrap). No-root container isolation using user namespaces, read-only bind mounts, tmpfs overlays, seccomp profiles, and capability dropping. Ideal for GitHub Codespaces. Sources: containers/bubblewrap.
-origin: yamtam-engine — synthesized from containers/bubblewrap (Flatpak project, LGPL-2.0)
+origin: yana-ai — synthesized from containers/bubblewrap (Flatpak project, LGPL-2.0)
 license: Apache-2.0
 version: 1.0.0
-compatibility: yamtam-engine >= 1.3.48
+compatibility: yana-ai >= 1.3.48
 ---
 
 # /unprivileged-sandbox-bubblewrap
@@ -73,7 +73,7 @@ bwrap \
   --seccomp 10 \
   --new-session \
   -- /bin/bash -c "echo safe" \
-  10< /etc/yamtam/seccomp-agent.json
+  10< /etc/yana-ai/seccomp-agent.json
 # fd 10 passes the seccomp BPF profile
 ```
 
@@ -105,7 +105,7 @@ bwrap_exec_isolated() {
 
 ```bash
 # In tool-proxy.sh mutate phase — upgrade L2 sandbox to bwrap if available
-if command -v bwrap &>/dev/null && [[ "${YAMTAM_BWRAP_SANDBOX:-0}" == "1" ]]; then
+if command -v bwrap &>/dev/null && [[ "${YANA_BWRAP_SANDBOX:-0}" == "1" ]]; then
   BWRAP_ARGS=(
     bwrap
     --ro-bind /usr /usr --ro-bind /lib /lib --ro-bind /lib64 /lib64

@@ -1,5 +1,5 @@
-# YAMTAM ENGINE — Meta-Rule Enforcer
-# Source: yamtam-original (priority arbitration + single-source-of-truth law)
+# Yana AI — Meta-Rule Enforcer
+# Source: yana-ai-original (priority arbitration + single-source-of-truth law)
 
 **Status:** Active  
 **Priority:** HIGHEST — overrides all other rules when conflicts arise  
@@ -72,7 +72,7 @@ Canonical file locations:
 core/rules/
   00-meta-rule-enforcer.md    ← THIS FILE — priority arbiter + rule constitution
   02-terminal-validator.md    ← dangerous command detection + blocking
-  03-privilege-isolation.md   ← env/secret file write gate (YAMTAM_SCOPE_OK=1)
+  03-privilege-isolation.md   ← env/secret file write gate (YANA_SCOPE_OK=1)
   agent-code-constraints.md   ← hard metric limits (lines, params, nesting)
   agents-v2.md                ← multi-agent orchestration policy
   api-security-gate.md        ← OWASP API Top 10 enforcement (Gate L3)
@@ -171,7 +171,7 @@ No agent, command, or instruction may override:
 ❌ Cannot create skills with >220 lines "because this one is special"
 ❌ Cannot ignore a test failure "because the test is wrong"
    → Fix the test or the code; never suppress the check
-❌ Cannot write .env / token files without YAMTAM_SCOPE_OK=1 (03-privilege-isolation)
+❌ Cannot write .env / token files without YANA_SCOPE_OK=1 (03-privilege-isolation)
 ❌ Cannot install unvetted packages without L4 gate (dependency-vetting-law)
 ❌ Cannot pass secrets through network commands (secure-logger --scan-egress gate)
 ```

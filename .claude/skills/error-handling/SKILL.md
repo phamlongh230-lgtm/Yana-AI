@@ -11,7 +11,7 @@ description: >
   that calls external services or parses user input.
   Do NOT use for: logging infrastructure — see observability-instrumentation.
   Do NOT use for: resilience retry/circuit-breaker — see resilience-patterns.
-origin: yamtam-original
+origin: yana-ai-original
 license: MIT © 2026 Vũ Văn Tâm
 version: 1.0.0
 compatibility: "Node.js ≥ 18, TypeScript ≥ 5, React ≥ 18. Patterns apply to any language."

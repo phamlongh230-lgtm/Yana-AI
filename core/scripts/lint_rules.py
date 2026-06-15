@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yamtam lint [path] — lint rule YAML files for schema correctness."""
+"""yana-ai lint [path] — lint rule YAML files for schema correctness."""
 
 import argparse
 import glob
@@ -22,7 +22,7 @@ VALID_MATCH_TYPES      = {"regex", "json", "exists", "not_exists", "size_gt",
 REQUIRED_TOP_FIELDS    = {"version", "scope", "checks"}
 
 def no_color():
-    return os.environ.get("YAMTAM_NO_COLOR") or not sys.stdout.isatty()
+    return os.environ.get("YANA_NO_COLOR") or not sys.stdout.isatty()
 
 def c(code, text):
     return text if no_color() else f"{code}{text}{RESET}"
@@ -108,7 +108,7 @@ def lint_file(path: str) -> list[dict]:
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="yamtam lint",
+        prog="yana-ai lint",
         description="Lint rule YAML files for schema correctness",
     )
     parser.add_argument("path", nargs="?", default=None,
@@ -140,7 +140,7 @@ def main():
         return
 
     print()
-    print(c(BOLD, "  yamtam lint") + c(DIM, f" — {len(files)} file(s)"))
+    print(c(BOLD, "  yana-ai lint") + c(DIM, f" — {len(files)} file(s)"))
     print()
 
     if not all_issues:

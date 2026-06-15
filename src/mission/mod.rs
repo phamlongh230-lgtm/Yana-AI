@@ -173,7 +173,7 @@ pub struct BriefScope {
 // ── Storage ───────────────────────────────────────────────────────────────────
 
 fn missions_dir() -> PathBuf {
-    PathBuf::from(".yamtam/missions")
+    PathBuf::from(".yana-ai/missions")
 }
 
 fn mission_path(id: &str) -> PathBuf {
@@ -463,7 +463,7 @@ fn cmd_list() {
         .collect();
 
     if missions.is_empty() {
-        println!("no missions yet — create one with: yamtam-rt mission create <name>");
+        println!("no missions yet — create one with: yana-rt mission create <name>");
         return;
     }
 

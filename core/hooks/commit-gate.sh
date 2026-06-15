@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# YAMTAM ENGINE Hook
+# Yana AI Hook
 # Version: 1.3.26
 # Status: active
 # Description: Advisory warn on cross-scope commits
 # Last Reviewed: 2026-05-19
-# PreToolUse hook — YAMTAM ENGINE L2 Commit Gate
+# PreToolUse hook — Yana AI L2 Commit Gate
 #
 # Fires before git commit. Warns (non-blocking) when the staged changes
-# contain product paths that YAMTAM-scoped tasks must not touch without
+# contain product paths that Yana AI-scoped tasks must not touch without
 # explicit cross-scope approval.
 #
 # Why at commit time: scope-guard.sh warns at write time, but the agent
@@ -17,13 +17,13 @@
 # Behaviour:
 #   - Advisory warn (additionalContext) — does not block
 #   - Fails open: any error → exit 0
-#   - Bypass: YAMTAM_SCOPE_OK=1 (same flag as scope-guard.sh)
+#   - Bypass: YANA_SCOPE_OK=1 (same flag as scope-guard.sh)
 #
 # Reference: gates/action_gate.md § Risk Levels (L2 — Commit)
 
 set -uo pipefail
 
-[[ "${YAMTAM_SCOPE_OK:-}" == "1" ]] && exit 0
+[[ "${YANA_SCOPE_OK:-}" == "1" ]] && exit 0
 
 command -v jq >/dev/null 2>&1 || exit 0
 
@@ -68,7 +68,7 @@ SAMPLE=$(printf '%s' "$ALL_PRODUCT" | head -4 | tr '\n' '  ')
 jq -n --arg count "$FILE_COUNT" --arg sample "$SAMPLE" '{
   hookSpecificOutput: {
     hookEventName: "PreToolUse",
-    additionalContext: ("⚠️  Commit Gate (L2): this commit includes \($count) product path(s): \($sample). YAMTAM-scoped tasks must not commit product code without explicit cross-scope approval. If approved this session, set YAMTAM_SCOPE_OK=1 and document the approval in the commit message. If not approved, stop and request it. Reference: gates/action_gate.md § Scope Rules.")
+    additionalContext: ("⚠️  Commit Gate (L2): this commit includes \($count) product path(s): \($sample). Yana AI-scoped tasks must not commit product code without explicit cross-scope approval. If approved this session, set YANA_SCOPE_OK=1 and document the approval in the commit message. If not approved, stop and request it. Reference: gates/action_gate.md § Scope Rules.")
   }
 }'
 

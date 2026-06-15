@@ -9,7 +9,7 @@
 
 ## Principle
 
-Every artifact consumed or produced by YAMTAM-governed agents must have
+Every artifact consumed or produced by Yana AI-governed agents must have
 verifiable provenance. "It came from the internet" is not provenance.
 
 ## SLSA Levels (minimum enforcement)
@@ -73,14 +73,14 @@ link.dump("build.link")
 # Any step skipped or material tampered = reject artifact
 ```
 
-## Minimum provenance fields (YAMTAM artifact manifest)
+## Minimum provenance fields (Yana AI artifact manifest)
 
 ```json
 {
-  "artifact": "yamtam-engine-v1.3.39.zip",
+  "artifact": "yana-ai-v1.3.39.zip",
   "sha256": "<hash>",
   "builder":  { "id": "https://github.com/actions/runner" },
-  "source":   { "uri": "git+https://github.com/phamlongh230-lgtm/yamtam-engine@refs/tags/v1.3.39" },
+  "source":   { "uri": "git+https://github.com/phamlongh230-lgtm/yana-ai@refs/tags/v1.3.39" },
   "build_type": "https://slsa.dev/provenance/v1",
   "slsa_level": 2
 }
