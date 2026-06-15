@@ -134,13 +134,21 @@ function MProviders() {
 
 /* ---------- Settings ---------- */
 const M_THEME_PREVIEWS = [
-  { label: "Lotus Dawn 🌸",  accent: "#b96b80", sky: "linear-gradient(160deg, #faf5f3 30%, #f2dfdc 100%)", wash: "rgba(236,196,134,.45)" },
-  { label: "Jade Lake 🌿",   accent: "#2f7e6e", sky: "linear-gradient(160deg, #f6faf7 30%, #ddeee7 100%)", wash: "rgba(122,184,168,.40)" },
+  { label: "Lotus Dawn 🌸",   accent: "#b96b80", sky: "linear-gradient(160deg, #faf5f3 30%, #f2dfdc 100%)", wash: "rgba(236,196,134,.45)" },
+  { label: "Jade Lake 🌿",    accent: "#2f7e6e", sky: "linear-gradient(160deg, #f6faf7 30%, #ddeee7 100%)", wash: "rgba(122,184,168,.40)" },
   { label: "Morning Mist ☁️", accent: "#4a7a6a", sky: "linear-gradient(160deg, #f8f7f4 30%, #ecebe5 100%)", wash: "rgba(214,222,214,.55)" },
-  { label: "Glass Silver ✨", accent: "#3a7ca5", sky: "linear-gradient(160deg, #f3f6fa 30%, #dde6ef 100%)", wash: "rgba(168,199,224,.45)" },
+  { label: "Glass Silver ✨",  accent: "#3a7ca5", sky: "linear-gradient(160deg, #f3f6fa 30%, #dde6ef 100%)", wash: "rgba(168,199,224,.45)" },
+  { label: "iOS Rose 🌷",     accent: "#e879a0", sky: "linear-gradient(160deg, #fdf0f6 30%, #f5d0e8 100%)", wash: "rgba(232,121,160,.40)" },
+  { label: "iOS Night 🌙",    accent: "#e879a0", sky: "linear-gradient(160deg, #2a0818 30%, #14020a 100%)", wash: "rgba(232,121,160,.22)", dark: true },
+  { label: "Prism Glass 🔮",  accent: "#6060ff", sky: "linear-gradient(160deg, #f5f5fc 30%, #e0e0f8 100%)", wash: "rgba(96,96,255,.35)" },
+  { label: "Obsidian 🌑",     accent: "#8080ff", sky: "linear-gradient(160deg, #1a1a2e 30%, #0c0c1a 100%)", wash: "rgba(128,128,255,.22)", dark: true },
 ];
 
+const M_DARK_THEMES = new Set(["iOS Night 🌙", "Obsidian 🌑"]);
+
 function MThemeCard({ p, active, onPick }) {
+  const glass = p.dark ? "rgba(255,255,255,.12)" : "rgba(255,255,255,.65)";
+  const glass2 = p.dark ? "rgba(255,255,255,.09)" : "rgba(255,255,255,.5)";
   return (
     <button onClick={onPick} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", textAlign: "center", color: "inherit", flex: "none" }}>
       <div style={{
@@ -149,9 +157,9 @@ function MThemeCard({ p, active, onPick }) {
         transition: "box-shadow .15s",
       }}>
         <div style={{ position: "absolute", inset: 0, background: `radial-gradient(70px 36px at 80% 100%, ${p.wash}, transparent 70%)` }}></div>
-        <div style={{ position: "absolute", left: 7, top: 7, bottom: 7, width: 22, borderRadius: 5, background: "rgba(255,255,255,.65)" }}></div>
-        <div style={{ position: "absolute", left: 34, top: 7, right: 7, height: 18, borderRadius: 5, background: "rgba(255,255,255,.6)" }}></div>
-        <div style={{ position: "absolute", left: 34, top: 29, right: 7, bottom: 7, borderRadius: 5, background: "rgba(255,255,255,.5)" }}></div>
+        <div style={{ position: "absolute", left: 7, top: 7, bottom: 7, width: 22, borderRadius: 5, background: glass }}></div>
+        <div style={{ position: "absolute", left: 34, top: 7, right: 7, height: 18, borderRadius: 5, background: glass2 }}></div>
+        <div style={{ position: "absolute", left: 34, top: 29, right: 7, bottom: 7, borderRadius: 5, background: glass2 }}></div>
         <div style={{ position: "absolute", left: 11, top: 11, width: 9, height: 9, borderRadius: 3, background: p.accent, opacity: .9 }}></div>
       </div>
       <div style={{ fontSize: 11.5, marginTop: 7, fontWeight: active ? 500 : 400, color: active ? "var(--ink)" : "var(--ink-2)" }}>{p.label}</div>
@@ -262,6 +270,107 @@ function _mDetectTz() {
 
 const M_PROVIDER_NAMES = { claude: "Claude", openai: "OpenAI", gemini: "Gemini", groq: "Groq", deepseek: "DeepSeek", openrouter: "OpenRouter", "9router": "9Router", ollama: "Ollama" };
 
+function MProfileHero({ t, setTweak }) {
+  const D = window.YANA;
+  const account = D.account || "";
+  const initial = account.trim().charAt(0).toUpperCase() || "Y";
+  const [dispName, setDispName] = React.useState(() =>
+    localStorage.getItem("yana.display-name") || account || "Yana AI"
+  );
+  const memberSince = React.useMemo(() => {
+    const key = "yana.member-since";
+    let s = localStorage.getItem(key);
+    if (!s) { s = new Date().toLocaleDateString("vi-VN", { year: "numeric", month: "long" }); localStorage.setItem(key, s); }
+    return s;
+  }, []);
+
+  const [colorMode, setColorMode] = React.useState(() => {
+    const stored = localStorage.getItem("yana.color-mode");
+    if (stored === "auto") return "auto";
+    return M_DARK_THEMES.has(t.theme) ? "dark" : "light";
+  });
+  React.useEffect(() => {
+    if (localStorage.getItem("yana.color-mode") !== "auto")
+      setColorMode(M_DARK_THEMES.has(t.theme) ? "dark" : "light");
+  }, [t.theme]);
+
+  function applyMode(mode) {
+    localStorage.setItem("yana.color-mode", mode);
+    setColorMode(mode);
+    if (mode === "dark") {
+      if (!M_DARK_THEMES.has(t.theme)) localStorage.setItem("yana.last-light-theme", t.theme);
+      setTweak("theme", localStorage.getItem("yana.last-dark-theme") || "iOS Night 🌙");
+    } else if (mode === "light") {
+      if (M_DARK_THEMES.has(t.theme)) localStorage.setItem("yana.last-dark-theme", t.theme);
+      setTweak("theme", localStorage.getItem("yana.last-light-theme") || "Jade Lake 🌿");
+    } else {
+      if (M_DARK_THEMES.has(t.theme)) localStorage.setItem("yana.last-dark-theme", t.theme);
+      else localStorage.setItem("yana.last-light-theme", t.theme);
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      setTweak("theme", prefersDark
+        ? (localStorage.getItem("yana.last-dark-theme") || "iOS Night 🌙")
+        : (localStorage.getItem("yana.last-light-theme") || "Jade Lake 🌿")
+      );
+    }
+  }
+
+  const MODES = [
+    { key: "light", icon: "☀️", label: L("Light", "Sáng") },
+    { key: "dark",  icon: "🌙", label: L("Dark", "Tối") },
+    { key: "auto",  icon: "✦",  label: L("Auto", "Tự") },
+  ];
+
+  const D2 = window.YANA || {};
+  const stats = D2.stats || {};
+  const statsRow = [
+    { v: stats.agents || "—",   l: L("Agents", "Tác nhân") },
+    { v: stats.memories || "—", l: L("Memories", "Ký ức") },
+    { v: stats.providers || "—", l: L("Providers", "Providers") },
+    { v: stats.gateMode || "Strict", l: L("Gate", "Cổng") },
+  ];
+
+  return (
+    <MCard>
+      <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "2px 0 16px" }}>
+        <div style={{
+          width: 52, height: 52, borderRadius: 17, flex: "none", display: "grid", placeItems: "center",
+          fontSize: 20, fontWeight: 700, color: "white",
+          background: "linear-gradient(150deg, var(--primary), color-mix(in oklab, var(--primary) 72%, #1d3530))",
+          boxShadow: "0 4px 14px color-mix(in oklab, var(--primary) 30%, transparent)",
+        }}>{initial}</div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: 15.5, fontWeight: 600, lineHeight: 1.25 }}>{dispName}</div>
+          <div style={{ fontSize: 12, color: "var(--ink-3)" }}>{account || L("Yana AI", "Yana AI")}</div>
+          <div style={{ fontSize: 11, color: "var(--ink-3)", marginTop: 2 }}>{L("Since", "Từ")} {memberSince}</div>
+        </div>
+        <span className="chip gold" style={{ fontSize: 10.5, flex: "none" }}>Sovereign</span>
+      </div>
+
+      <div style={{ display: "flex", gap: 4, padding: "12px 0", borderTop: "1px solid var(--border)" }}>
+        {MODES.map((m) => (
+          <button key={m.key} onClick={() => applyMode(m.key)} style={{
+            flex: 1, padding: "7px 6px", borderRadius: 10, border: "none", cursor: "pointer", fontSize: 12,
+            fontWeight: colorMode === m.key ? 600 : 400,
+            background: colorMode === m.key ? "var(--primary-soft)" : "transparent",
+            color: colorMode === m.key ? "var(--primary)" : "var(--ink-3)",
+            boxShadow: colorMode === m.key ? "inset 0 0 0 1px var(--primary)" : "none",
+            transition: "all .15s",
+          }}>{m.icon} {m.label}</button>
+        ))}
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 4, paddingTop: 12, borderTop: "1px solid var(--border)" }}>
+        {statsRow.map((s) => (
+          <div key={s.l} style={{ textAlign: "center" }}>
+            <div style={{ fontSize: 16, fontWeight: 700 }}>{s.v}</div>
+            <div style={{ fontSize: 10.5, color: "var(--ink-3)", marginTop: 1 }}>{s.l}</div>
+          </div>
+        ))}
+      </div>
+    </MCard>
+  );
+}
+
 function MSettings({ t, setTweak }) {
   const _p = mGetProviderConfig().provider;
   const _orchModel = M_CHAT_MODELS[_p] || _p;
@@ -276,6 +385,8 @@ function MSettings({ t, setTweak }) {
   return (
     <div data-screen-label="Settings" style={{ display: "flex", flexDirection: "column", gap: "var(--gap)" }}>
       <MHead title={L("Settings", "Cài đặt")} sub={L("Quiet defaults. Everything supervised by Yana AI Core.", "Mặc định tĩnh lặng. Mọi thứ do Yana AI Core giám sát.")} />
+
+      <MProfileHero t={t} setTweak={setTweak} />
 
       <MCard title={L("Appearance", "Giao diện")}>
         <div className="hscroll" style={{ marginBottom: 6 }}>

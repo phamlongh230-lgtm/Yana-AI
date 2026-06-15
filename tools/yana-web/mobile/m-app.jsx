@@ -15,16 +15,22 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 }/*EDITMODE-END*/;
 
 const THEME_MAP = {
-  "Lotus Dawn 🌸": "dawn",
-  "Jade Lake 🌿": "jade",
+  "Lotus Dawn 🌸":   "dawn",
+  "Jade Lake 🌿":    "jade",
   "Morning Mist ☁️": "mist",
-  "Glass Silver ✨": "silver",
+  "Glass Silver ✨":  "silver",
+  "iOS Rose 🌷":     "ios-rose",
+  "iOS Night 🌙":    "ios-night",
+  "Prism Glass 🔮":  "liquid",
+  "Obsidian 🌑":     "obsidian",
 };
 const DENSITY = { "Compact": 0.85, "Regular": 1, "Spacious": 1.18 };
+const DARK_THEMES = new Set(["iOS Night 🌙", "Obsidian 🌑"]);
 
 function applyTweaks(t) {
   const root = document.documentElement;
   root.setAttribute("data-theme", THEME_MAP[t.theme] || "jade");
+  root.style.colorScheme = DARK_THEMES.has(t.theme) ? "dark" : "light";
   root.style.setProperty("--blur", t.blur / 100);
   root.style.setProperty("--alpha", t.transparency / 100);
   root.style.setProperty("--reflect", t.reflection / 100);
