@@ -123,6 +123,8 @@ const THEME_MAP = {
   "Jade Lake 🌿": "jade",
   "Morning Mist ☁️": "mist",
   "Glass Silver ✨": "silver",
+  "iOS Rose 🌷": "ios-rose",
+  "iOS Night 🌙": "ios-night",
   "Prism Glass 🔮": "liquid",
   "Obsidian 🌑": "obsidian",
 };

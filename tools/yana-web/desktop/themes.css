@@ -128,6 +128,59 @@
   --glass-blur-max: 32px;
 }
 
+/* ---------- iOS Rose (ported from jnmt-hub light) ---------- */
+[data-theme="ios-rose"] {
+  --bg-base: #fdf0f6;
+  --bg-scene:
+    radial-gradient(1100px 560px at 16% -10%, rgba(250, 210, 230, 0.52), transparent 60%),
+    radial-gradient(900px 500px at 88% 0%,   rgba(252, 220, 200, 0.40), transparent 58%),
+    radial-gradient(1300px 760px at 50% 115%,rgba(232, 200, 240, 0.35), transparent 64%),
+    linear-gradient(180deg, #fef5fa 0%, #f9e8f2 100%);
+  --surface-rgb: 255, 255, 255;
+  --shadow-rgb: 80, 10, 50;
+  --ink: #1a0a12;
+  --ink-2: #6b4057;
+  --ink-3: #b080a0;
+  --primary: #e879a0;
+  --primary-soft: rgba(232, 121, 160, 0.12);
+  --pink: #e879a0;
+  --pink-soft: rgba(232, 121, 160, 0.12);
+  --gold: #f59e0b;
+  --gold-soft: rgba(245, 158, 11, 0.14);
+  --good: #10b981;
+  --warn: #f59e0b;
+  --border: rgba(240, 200, 220, 0.80);
+  --border-strong: rgba(220, 150, 185, 0.90);
+  --glass-blur-max: 48px;
+}
+
+/* ---------- iOS Night (ported from jnmt-hub dark) ---------- */
+[data-theme="ios-night"] {
+  --bg-base: #14020a;
+  --bg-scene:
+    radial-gradient(1100px 560px at 18% -10%, rgba(200, 20, 90, 0.28), transparent 60%),
+    radial-gradient(900px 500px at 86%  0%,  rgba(180, 10, 70, 0.22), transparent 58%),
+    radial-gradient(800px 450px at 50%  55%, rgba(140, 10, 80, 0.16), transparent 60%),
+    radial-gradient(1300px 760px at 50% 118%,rgba(60, 200, 150, 0.14), transparent 65%),
+    linear-gradient(180deg, #180308 0%, #100206 100%);
+  --surface-rgb: 40, 10, 25;
+  --shadow-rgb: 0, 0, 0;
+  --ink: #ffeef6;
+  --ink-2: #c088a0;
+  --ink-3: #804060;
+  --primary: #e879a0;
+  --primary-soft: rgba(232, 121, 160, 0.18);
+  --pink: #f472b6;
+  --pink-soft: rgba(244, 114, 182, 0.16);
+  --gold: #fbbf24;
+  --gold-soft: rgba(251, 191, 36, 0.15);
+  --good: #34d399;
+  --warn: #fbbf24;
+  --border: rgba(255, 255, 255, 0.13);
+  --border-strong: rgba(255, 255, 255, 0.22);
+  --glass-blur-max: 44px;
+}
+
 /* ---------- Prism Glass (light liquid glass) ---------- */
 [data-theme="liquid"] {
   --bg-base: #f5f5fc;
@@ -213,16 +266,67 @@ body {
 /* Transparency slider raises see-through-ness; reflection lights the top edge;
    depth scales the shadow; blur scales backdrop blur. */
 .glass, .glass-strong {
+  position: relative;
+  overflow: hidden;
   border: 1px solid var(--border);
-  -webkit-backdrop-filter: blur(calc(var(--glass-blur-max) * var(--blur))) saturate(1.15);
-  backdrop-filter: blur(calc(var(--glass-blur-max) * var(--blur))) saturate(1.15);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur-max) * var(--blur))) saturate(1.18) brightness(1.01);
+  backdrop-filter: blur(calc(var(--glass-blur-max) * var(--blur))) saturate(1.18) brightness(1.01);
   box-shadow:
     0 1px 2px rgba(var(--shadow-rgb), calc(0.02 + var(--depth) * 0.05)),
     0 12px 36px rgba(var(--shadow-rgb), calc(0.02 + var(--depth) * 0.10)),
-    inset 0 1px 0 rgba(255, 255, 255, calc(var(--reflect) * 0.85));
+    inset 0 1.5px 0 rgba(255, 255, 255, calc(var(--reflect) * 0.90)),
+    inset 0 -1px 0 rgba(255, 255, 255, calc(var(--reflect) * 0.16)),
+    inset 1px 0 0 rgba(255, 255, 255, calc(var(--reflect) * 0.20));
 }
 .glass { background: rgba(var(--surface-rgb), calc(0.92 - var(--alpha) * 0.48)); }
 .glass-strong { background: rgba(var(--surface-rgb), calc(0.97 - var(--alpha) * 0.25)); }
+
+/* Noise grain — frosted physical texture (SVG feTurbulence, opacity ~0.03) */
+.glass::before, .glass-strong::before {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none; border-radius: inherit;
+  z-index: 0; opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* Water-shine sweep — light glint sliding across the glass surface */
+.glass::after, .glass-strong::after {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none; border-radius: inherit;
+  z-index: 1;
+  background: linear-gradient(
+    105deg,
+    transparent          32%,
+    rgba(255,255,255,0.26) 47%,
+    rgba(255,255,255,0.42) 52%,
+    transparent          68%
+  );
+  transform: translateX(-130%) skewX(-18deg);
+  will-change: transform, opacity;
+  animation: water-shine 11s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+/* stagger so cards don't all shimmer simultaneously */
+.glass:nth-child(2n)::after  { animation-delay: 2.2s; }
+.glass:nth-child(3n)::after  { animation-delay: 4.4s; }
+.glass:nth-child(4n)::after  { animation-delay: 1.1s; }
+.glass:nth-child(5n)::after  { animation-delay: 6.6s; }
+.glass-strong::after         { animation-duration: 16s; animation-delay: 3.5s; }
+
+/* ensure children render above noise + shine layers */
+.glass > *, .glass-strong > * { position: relative; z-index: 2; }
+
+@keyframes water-shine {
+  0%   { transform: translateX(-130%) skewX(-18deg); opacity: 0; }
+  12%  { opacity: 1; }
+  55%  { opacity: 0.5; }
+  100% { transform: translateX(240%)  skewX(-18deg); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .glass::after, .glass-strong::after { display: none; }
+}
 
 /* ============ shared atoms ============ */
 .h-display { font-weight: 300; letter-spacing: -0.02em; }
@@ -496,6 +600,18 @@ button:not([disabled]) {
     radial-gradient(ellipse 55% 42% at 82% 72%, rgba(199, 214, 229, 0.28) 0%, transparent 60%),
     radial-gradient(ellipse 75% 55% at 48% 105%, rgba(58, 124, 165, 0.18) 0%, transparent 68%);
 }
+[data-theme="ios-rose"] .scene-swell {
+  background:
+    radial-gradient(ellipse 65% 50% at 18% 28%, rgba(240, 180, 210, 0.38) 0%, transparent 65%),
+    radial-gradient(ellipse 55% 42% at 82% 68%, rgba(252, 210, 170, 0.32) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 50% 85%, rgba(232, 121, 160, 0.22) 0%, transparent 68%);
+}
+[data-theme="ios-night"] .scene-swell {
+  background:
+    radial-gradient(ellipse 65% 50% at 18% 28%, rgba(200, 20, 90, 0.38) 0%, transparent 65%),
+    radial-gradient(ellipse 55% 42% at 82% 72%, rgba(180, 10, 70, 0.30) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 50% 90%, rgba(232, 121, 160, 0.22) 0%, transparent 68%);
+}
 [data-theme="liquid"] .scene-swell {
   background:
     radial-gradient(ellipse 65% 50% at 18% 28%, rgba(160, 140, 255, 0.30) 0%, transparent 65%),
@@ -541,6 +657,20 @@ button:not([disabled]) {
     radial-gradient(ellipse 110px 65px  at 67% 32%, rgba(220, 235, 255, 0.13) 0%, transparent 80%),
     radial-gradient(ellipse 140px 80px  at 83% 74%, rgba(220, 235, 255, 0.10) 0%, transparent 80%),
     radial-gradient(ellipse  90px 50px  at 44% 18%, rgba(220, 235, 255, 0.11) 0%, transparent 80%);
+}
+[data-theme="ios-rose"] .scene-caustics {
+  background:
+    radial-gradient(ellipse 160px 90px  at 27% 58%, rgba(255, 220, 235, 0.22) 0%, transparent 80%),
+    radial-gradient(ellipse 110px 65px  at 67% 32%, rgba(255, 200, 220, 0.18) 0%, transparent 80%),
+    radial-gradient(ellipse 140px 80px  at 83% 74%, rgba(255, 235, 210, 0.14) 0%, transparent 80%),
+    radial-gradient(ellipse  90px 50px  at 44% 18%, rgba(255, 210, 230, 0.16) 0%, transparent 80%);
+}
+[data-theme="ios-night"] .scene-caustics {
+  background:
+    radial-gradient(ellipse 160px 90px  at 27% 58%, rgba(232, 80, 140, 0.24) 0%, transparent 80%),
+    radial-gradient(ellipse 110px 65px  at 67% 32%, rgba(200, 40, 100, 0.18) 0%, transparent 80%),
+    radial-gradient(ellipse 140px 80px  at 83% 74%, rgba(255, 100, 160, 0.14) 0%, transparent 80%),
+    radial-gradient(ellipse  90px 50px  at 44% 18%, rgba(52, 211, 153, 0.12) 0%, transparent 80%);
 }
 [data-theme="liquid"] .scene-caustics {
   background:
@@ -670,6 +800,32 @@ button:not([disabled]) {
 }
 
 [data-theme="mist"] .scene-shimmer { opacity: 0.45; }
+[data-theme="ios-rose"] .scene-shimmer {
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255,220,235,0) 34%,
+    rgba(255,230,240,0.26) 46%,
+    rgba(255,210,230,0.20) 52%,
+    rgba(255,200,220,0.14) 58%,
+    transparent 70%,
+    transparent 100%
+  );
+  opacity: 0.95;
+}
+[data-theme="ios-night"] .scene-shimmer {
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(232,80,140,0) 32%,
+    rgba(232,100,150,0.30) 44%,
+    rgba(255,120,170,0.22) 50%,
+    rgba(232,80,140,0.16) 58%,
+    transparent 70%,
+    transparent 100%
+  );
+  opacity: 0.80;
+}
 [data-theme="liquid"] .scene-shimmer {
   background: linear-gradient(
     105deg,
@@ -729,6 +885,22 @@ button:not([disabled]) {
   background:
     radial-gradient(ellipse 220px 120px at 22% 78%, rgba(74, 122, 106, 0.08) 0%, transparent 70%),
     radial-gradient(ellipse 180px 100px at 73% 85%, rgba(163, 136, 78, 0.06) 0%, transparent 70%);
+  filter: blur(22px);
+}
+[data-theme="ios-rose"] .scene-lotus {
+  background:
+    radial-gradient(ellipse 240px 130px at 20% 78%, rgba(232, 121, 160, 0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 200px 110px at 68% 86%, rgba(245, 158, 11, 0.13) 0%, transparent 70%),
+    radial-gradient(ellipse 180px 100px at 44% 92%, rgba(250, 200, 225, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 160px  90px at 82% 74%, rgba(232, 180, 200, 0.10) 0%, transparent 70%);
+  filter: blur(18px);
+}
+[data-theme="ios-night"] .scene-lotus {
+  background:
+    radial-gradient(ellipse 240px 130px at 20% 78%, rgba(232, 80, 130, 0.30) 0%, transparent 70%),
+    radial-gradient(ellipse 200px 110px at 68% 86%, rgba(200, 30, 90, 0.24) 0%, transparent 70%),
+    radial-gradient(ellipse 180px 100px at 44% 92%, rgba(244, 114, 182, 0.20) 0%, transparent 70%),
+    radial-gradient(ellipse 160px  90px at 82% 74%, rgba(52, 211, 153, 0.14) 0%, transparent 70%);
   filter: blur(22px);
 }
 [data-theme="liquid"] .scene-lotus {
