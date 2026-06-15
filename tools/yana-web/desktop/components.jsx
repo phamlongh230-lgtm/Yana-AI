@@ -137,49 +137,70 @@ function Sidebar({ page, onNav }) {
 
       <div style={{ flex: 1 }}></div>
 
+      {/* ── Profile card ─────────────────────────── */}
       <div style={{
-        borderRadius: "var(--r-md)", padding: "11px 12px",
-        background: "var(--primary-soft)",
-        display: "flex", flexDirection: "column", gap: 7,
+        borderTop: "1px solid var(--border)",
+        marginTop: 4,
+        paddingTop: 10,
+        display: "flex", flexDirection: "column", gap: 8,
       }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ color: "var(--primary)" }}>{Icons.safety(16)}</span>
-          <span style={{ fontSize: 12.5, fontWeight: 500, color: "var(--primary)" }}>Yana AI Core</span>
+        {/* Status row */}
+        <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "0 2px" }}>
+          <span className="dot on" style={{ flexShrink: 0 }}></span>
+          <span style={{ fontSize: 11, color: "var(--ink-3)", flex: 1 }}>
+            {D.stats.agents} {L("agents", "tác nhân")} · {L("All gates on", "Mọi cổng bật")}
+          </span>
         </div>
-        <div style={{ fontSize: 12, color: "var(--ink-2)" }}>{D.stats.agents} {L("agents supervised", "tác nhân được giám sát")}</div>
-        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <span className="dot on"></span>
-          <span style={{ fontSize: 11.5, color: "var(--ink-3)" }}>{L("All gates active", "Mọi cổng an toàn đang bật")}</span>
-        </div>
-      </div>
 
-      <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 4px 2px" }}>
-        <button onClick={() => window.postMessage({ type: "__activate_edit_mode" }, "*")}
-          title={L("Customize UI", "Tuỳ biến giao diện")} style={{
-          width: 28, height: 28, borderRadius: "50%", flex: "none", border: "none", cursor: "pointer",
-          background: "linear-gradient(145deg, var(--gold), color-mix(in oklab, var(--gold) 55%, white))",
-          color: "white", display: "grid", placeItems: "center", fontSize: 12, fontWeight: 600,
-          transition: "opacity .15s, transform .15s",
-        }}
-          onMouseEnter={(e) => { e.currentTarget.style.opacity = ".8"; e.currentTarget.style.transform = "scale(1.08)"; }}
-          onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "scale(1)"; }}
-        >{(account || "Y").trim().charAt(0).toUpperCase()}</button>
-        <div style={{ lineHeight: 1.2, flex: 1, minWidth: 0 }}>
-          <div title={account || ""} style={{
-            fontSize: 12.5, fontWeight: 500,
-            overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
-          }}>{account || "Yana"}</div>
-          <div style={{ fontSize: 11, color: "var(--ink-3)" }}>{L("Account", "Tài khoản")} · Yana AI</div>
+        {/* Account row */}
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          {/* Avatar — click to open TweaksPanel */}
+          <button onClick={() => window.postMessage({ type: "__activate_edit_mode" }, "*")}
+            title={L("Customize UI", "Tuỳ biến giao diện")}
+            style={{
+              flexShrink: 0, width: 34, height: 34, borderRadius: "50%",
+              border: "1.5px solid rgba(var(--surface-rgb), 0.6)",
+              background: "linear-gradient(145deg, var(--primary), color-mix(in oklab, var(--primary) 60%, var(--gold)))",
+              color: "white", display: "grid", placeItems: "center",
+              fontSize: 13, fontWeight: 700, cursor: "pointer",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.18), 0 0 0 0 var(--primary)",
+              transition: "box-shadow .2s, transform .15s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "scale(1.06)";
+              e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.18), 0 0 0 3px var(--primary-soft)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "scale(1)";
+              e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.18), 0 0 0 0 var(--primary)";
+            }}
+          >{(account || "Y").trim().charAt(0).toUpperCase()}</button>
+
+          {/* Name + subtitle */}
+          <div style={{ flex: 1, minWidth: 0, lineHeight: 1.3 }}>
+            <div style={{
+              fontSize: 13, fontWeight: 600, color: "var(--ink)",
+              overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+            }}>{account || "Yana"}</div>
+            <div style={{ fontSize: 11, color: "var(--ink-3)" }}>Yana AI</div>
+          </div>
+
+          {/* Sign out */}
+          <button onClick={signOut} title={L("Sign out", "Đăng xuất")}
+            aria-label={L("Sign out", "Đăng xuất")} style={{
+              flexShrink: 0, background: "none", border: "none", cursor: "pointer",
+              padding: 5, color: "var(--ink-3)", display: "inline-flex",
+              borderRadius: 8, transition: "color .15s, background .15s",
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(var(--surface-rgb),.5)"; e.currentTarget.style.color = "var(--ink)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = "none"; e.currentTarget.style.color = "var(--ink-3)"; }}
+          >
+            <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor"
+              strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12.5 6.5V4.5a1.5 1.5 0 0 0-1.5-1.5H5A1.5 1.5 0 0 0 3.5 4.5v11A1.5 1.5 0 0 0 5 17h6a1.5 1.5 0 0 0 1.5-1.5v-2M8.5 10H17m0 0-2.5-2.5M17 10l-2.5 2.5" />
+            </svg>
+          </button>
         </div>
-        <button onClick={signOut} title={L("Sign out", "Đăng xuất")} aria-label={L("Sign out", "Đăng xuất")} style={{
-          background: "none", border: "none", cursor: "pointer", padding: 4,
-          color: "var(--ink-3)", display: "inline-flex", borderRadius: 8,
-        }}>
-          <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor"
-            strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12.5 6.5V4.5a1.5 1.5 0 0 0-1.5-1.5H5A1.5 1.5 0 0 0 3.5 4.5v11A1.5 1.5 0 0 0 5 17h6a1.5 1.5 0 0 0 1.5-1.5v-2M8.5 10H17m0 0-2.5-2.5M17 10l-2.5 2.5" />
-          </svg>
-        </button>
       </div>
     </nav>
     </>
