@@ -276,6 +276,92 @@ button { font-family: inherit; }
 html { overflow-x: hidden; }
 body { overflow-x: hidden; }
 
+/* ============ chat input bar — responsive ============ */
+.chat-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+/* wrapper around provider + model + sentinel chip */
+.chat-bar-selects {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 1;
+  min-width: 0;
+}
+.chat-bar-selects select {
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 5px 8px;
+  background: transparent;
+  color: var(--ink-2);
+  font-size: 11.5px;
+  font-family: inherit;
+  cursor: pointer;
+  min-width: 0;
+  max-width: 120px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+/* hide sentinel chip on very small screens to save space */
+@media (max-width: 560px) {
+  .chat-bar { flex-wrap: wrap; gap: 6px; }
+  /* controls row first, full width */
+  .chat-bar-selects {
+    order: -1;
+    flex: 1 0 100%;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px;
+  }
+  .chat-bar-selects select { max-width: none; flex: 1; }
+  .chat-bar-selects .chip.sentinel-chip { display: none; }
+}
+
+/* ============ micro-interactions ============ */
+
+/* message entrance animation */
+@keyframes yana-msg-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.msg-in {
+  animation: yana-msg-in .22s cubic-bezier(.4, 0, .2, 1) both;
+}
+
+/* button press micro-interaction */
+button:not([disabled]):active {
+  transform: scale(0.93);
+  transition: transform .07s ease;
+}
+button:not([disabled]) {
+  transition: transform .12s ease, opacity .12s ease;
+}
+
+/* send button glow pulse */
+@keyframes yana-send-glow {
+  0%, 100% { box-shadow: 0 4px 12px color-mix(in oklab, var(--primary) 30%, transparent); }
+  50%       { box-shadow: 0 4px 20px color-mix(in oklab, var(--primary) 50%, transparent); }
+}
+.send-btn-active {
+  animation: yana-send-glow 2s ease-in-out infinite;
+}
+
+/* thinking dots */
+@keyframes yana-think-dot {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.35; }
+  40%           { transform: scale(1);   opacity: 1; }
+}
+.think-dot {
+  display: inline-block;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: currentColor;
+  animation: yana-think-dot 1.2s ease-in-out infinite;
+}
+.think-dot:nth-child(2) { animation-delay: .2s; }
+.think-dot:nth-child(3) { animation-delay: .4s; }
+
 /* ============ responsive: sidebar becomes a drawer ≤ 860px ============ */
 .yana-app { padding: calc(16px * var(--sp)); }
 .yana-sidebar { width: 218px; flex: none; position: relative; z-index: 2; }
@@ -473,4 +559,83 @@ body { overflow-x: hidden; }
   10%  { opacity: var(--peak, 0.22); }
   90%  { opacity: var(--peak, 0.22); }
   100% { transform: translate(var(--dx, 40px), var(--dy, -60px)); opacity: 0; }
+}
+
+/* ============ extra water-surface layers ============ */
+
+/* Layer 3: horizontal shimmer — a thin band of light sliding across, like sun glinting on moving water */
+.scene-shimmer {
+  position: absolute;
+  left: -30%; right: -30%;
+  height: 40%;
+  top: 55%;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      105deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0) 38%,
+      rgba(255, 255, 255, 0.13) 48%,
+      rgba(255, 255, 255, 0.07) 52%,
+      transparent 62%,
+      transparent 100%
+    );
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.7) 40%, rgba(0,0,0,.7) 70%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.7) 40%, rgba(0,0,0,.7) 70%, transparent 100%);
+  opacity: 0.8;
+}
+
+[data-theme="mist"] .scene-shimmer { opacity: 0.45; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .scene-shimmer { animation: yana-shimmer 14s cubic-bezier(.45, 0, .55, 1) infinite; }
+}
+@keyframes yana-shimmer {
+  0%   { transform: translateX(-60%) skewX(-6deg); }
+  100% { transform: translateX(160%) skewX(-6deg); }
+}
+
+/* Layer 4: large blurred lotus blobs — lily pad / petal silhouettes deep in the water */
+.scene-lotus {
+  position: absolute; inset: 0;
+  pointer-events: none;
+}
+
+[data-theme="jade"] .scene-lotus {
+  background:
+    radial-gradient(ellipse 220px 120px at 22% 78%, rgba(47, 126, 110, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 180px 100px at 73% 85%, rgba(183, 143, 61, 0.09) 0%, transparent 70%),
+    radial-gradient(ellipse 160px  90px at 48% 92%, rgba(199, 123, 146, 0.08) 0%, transparent 70%);
+  filter: blur(18px);
+}
+[data-theme="dawn"] .scene-lotus {
+  background:
+    radial-gradient(ellipse 220px 120px at 22% 78%, rgba(185, 107, 128, 0.14) 0%, transparent 70%),
+    radial-gradient(ellipse 180px 100px at 73% 85%, rgba(183, 138, 63, 0.10) 0%, transparent 70%),
+    radial-gradient(ellipse 160px  90px at 48% 92%, rgba(168, 196, 186, 0.09) 0%, transparent 70%);
+  filter: blur(18px);
+}
+[data-theme="mist"] .scene-lotus {
+  background:
+    radial-gradient(ellipse 220px 120px at 22% 78%, rgba(74, 122, 106, 0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 180px 100px at 73% 85%, rgba(163, 136, 78, 0.06) 0%, transparent 70%);
+  filter: blur(22px);
+}
+[data-theme="silver"] .scene-lotus {
+  background:
+    radial-gradient(ellipse 220px 120px at 22% 78%, rgba(58, 124, 165, 0.13) 0%, transparent 70%),
+    radial-gradient(ellipse 180px 100px at 73% 85%, rgba(169, 142, 75, 0.09) 0%, transparent 70%),
+    radial-gradient(ellipse 160px  90px at 48% 92%, rgba(181, 133, 164, 0.08) 0%, transparent 70%);
+  filter: blur(18px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .scene-lotus { animation: yana-lotus 34s ease-in-out infinite; }
+}
+@keyframes yana-lotus {
+  0%   { transform: translate(  0%,  0%) scale(1.00); opacity: 0.70; }
+  28%  { transform: translate( 2.5%, 1.2%) scale(1.04); opacity: 0.90; }
+  55%  { transform: translate(-1.5%, 3.0%) scale(0.96); opacity: 0.75; }
+  80%  { transform: translate( 3.0%,-1.5%) scale(1.02); opacity: 0.85; }
+  100% { transform: translate(  0%,  0%) scale(1.00); opacity: 0.70; }
 }

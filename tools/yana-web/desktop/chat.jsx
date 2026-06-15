@@ -65,7 +65,7 @@ function RouteChip({ route }) {
 function Message({ msg }) {
   if (msg.who === "user") {
     return (
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+      <div className="msg-in" style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
         <div style={{
           maxWidth: "72%", padding: "10px 15px", borderRadius: "16px 16px 4px 16px",
           background: "var(--primary)", color: "rgba(255,255,255,.96)",
@@ -79,7 +79,7 @@ function Message({ msg }) {
   }
   if (msg.isHtml) {
     return (
-      <div style={{ display: "flex", justifyContent: "flex-start" }}>
+      <div className="msg-in" style={{ display: "flex", justifyContent: "flex-start" }}>
         <div style={{ maxWidth: "82%" }}>
           {msg.route && <RouteChip route={msg.route} />}
           <div className="glass" style={{ padding: "12px 16px", borderRadius: "4px 16px 16px 16px", display: "flex", alignItems: "center", gap: 12 }}>
@@ -94,7 +94,7 @@ function Message({ msg }) {
     );
   }
   return (
-    <div style={{ display: "flex", justifyContent: "flex-start" }}>
+    <div className="msg-in" style={{ display: "flex", justifyContent: "flex-start" }}>
       <div style={{ maxWidth: "82%" }}>
         {msg.route && <RouteChip route={msg.route} />}
         <div className="glass" style={{ padding: "12px 16px", borderRadius: "4px 16px 16px 16px", fontSize: 13.8, lineHeight: 1.6, color: "var(--ink)" }}>
@@ -695,7 +695,7 @@ function Chat({ t }) {
             </div>
           )}
         </div>
-        <div className="glass-strong" style={{ borderRadius: "var(--r-lg)", padding: "10px 10px 10px 16px", display: "flex", alignItems: "center", gap: 12 }}>
+        <div className="glass-strong chat-bar" style={{ borderRadius: "var(--r-lg)", padding: "10px 10px 10px 16px" }}>
           <input type="file" ref={fileRef} accept="image/*,.pdf" style={{ display: "none" }} onChange={handleOcr} />
           <input type="file" ref={visionRef} accept="image/*" style={{ display: "none" }} onChange={handleVisionAttach} />
           <button
@@ -777,36 +777,28 @@ function Chat({ t }) {
             }}>
             🔒{confMode ? " " + L("Confidential", "Mật") : ""}
           </button>
-          <select value={providerSel || getProviderConfig().provider}
-            onChange={(e) => setProviderSel(e.target.value)}
-            title={L("Provider for this conversation", "Nhà cung cấp cho cuộc trò chuyện")}
-            style={{
-              border: "1px solid var(--border)", borderRadius: 99, padding: "5px 9px",
-              background: "transparent", color: "var(--ink-2)", fontSize: 11.5,
-              fontFamily: "inherit", cursor: "pointer", maxWidth: 120,
-            }}>
-            {D.providers.map((p) => (
-              <option key={p.id} value={p.id} disabled={!providerAvailable(p.id)}>
-                {p.name}{providerAvailable(p.id) ? "" : " 🔒"}
-              </option>
-            ))}
-          </select>
-          <select value={activeModel} onChange={(e) => pickModel(e.target.value)}
-            title={L("Model for this provider — choice is remembered", "Model cho nhà cung cấp này — lựa chọn được ghi nhớ")}
-            style={{
-              border: "1px solid var(--border)", borderRadius: 99, padding: "5px 9px",
-              background: "transparent", color: "var(--ink-2)", fontSize: 11.5,
-              fontFamily: "inherit", cursor: "pointer", maxWidth: 150,
-            }}>
-            {(modelOptions.includes(activeModel) ? modelOptions : [activeModel, ...modelOptions]).map((m) => (
-              <option key={m} value={m}>{m}</option>
-            ))}
-          </select>
-          <span className="chip neutral" style={{ fontSize: 11.5 }}>{Icons.safety(12)} {L("Sentinel on", "Sentinel bật")}</span>
-          <button onClick={send} aria-label="Send" style={{
+          <div className="chat-bar-selects">
+            <select value={providerSel || getProviderConfig().provider}
+              onChange={(e) => setProviderSel(e.target.value)}
+              title={L("Provider for this conversation", "Nhà cung cấp cho cuộc trò chuyện")}>
+              {D.providers.map((p) => (
+                <option key={p.id} value={p.id} disabled={!providerAvailable(p.id)}>
+                  {p.name}{providerAvailable(p.id) ? "" : " 🔒"}
+                </option>
+              ))}
+            </select>
+            <select value={activeModel} onChange={(e) => pickModel(e.target.value)}
+              title={L("Model for this provider — choice is remembered", "Model cho nhà cung cấp này — lựa chọn được ghi nhớ")}>
+              {(modelOptions.includes(activeModel) ? modelOptions : [activeModel, ...modelOptions]).map((m) => (
+                <option key={m} value={m}>{m}</option>
+              ))}
+            </select>
+            <span className="chip neutral sentinel-chip" style={{ fontSize: 11.5, flexShrink: 0 }}>{Icons.safety(12)} {L("Sentinel on", "Sentinel bật")}</span>
+          </div>
+          <button onClick={send} aria-label="Send" className={draft.trim() ? "send-btn-active" : ""} style={{
             width: 36, height: 36, borderRadius: 11, border: "none", cursor: "pointer",
             background: "var(--primary)", color: "white", display: "grid", placeItems: "center",
-            boxShadow: "0 4px 12px color-mix(in oklab, var(--primary) 30%, transparent)",
+            flexShrink: 0,
           }}>{Icons.send(16)}</button>
         </div>
       </div>

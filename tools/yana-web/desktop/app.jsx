@@ -252,10 +252,14 @@ function Undercurrent() {
   };
   return (
     <div className="scene">
-      {/* breathing light swell */}
+      {/* layer 1: breathing light swell */}
       <div className="scene-swell" />
-      {/* caustic shimmer patches */}
+      {/* layer 2: caustic shimmer patches */}
       <div className="scene-caustics" />
+      {/* layer 3: horizontal sliding shimmer band */}
+      <div className="scene-shimmer" />
+      {/* layer 4: lotus / lily-pad blob shadows deep in the water */}
+      <div className="scene-lotus" />
       {/* motes — four varieties */}
       {MOTES.map((m, i)      => <span key={"m"+i}  className="mote"      style={css(m)} />)}
       {MOTES_LG.map((m, i)   => <span key={"lg"+i} className="mote-lg"   style={css(m)} />)}

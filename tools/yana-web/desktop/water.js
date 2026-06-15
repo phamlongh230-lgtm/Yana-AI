@@ -147,4 +147,36 @@
     card.appendChild(el);
     setTimeout(function () { el.remove(); }, 600);
   });
+
+  /* ── Message ripple: new message appears → ripple from message's position ── */
+  var msgObserver = new MutationObserver(function (mutations) {
+    mutations.forEach(function (mut) {
+      mut.addedNodes.forEach(function (node) {
+        if (node.nodeType !== 1) return;
+        var hasMsgIn = node.classList && node.classList.contains('msg-in');
+        var childMsgIn = !hasMsgIn && node.querySelector && node.querySelector('.msg-in');
+        var target = hasMsgIn ? node : childMsgIn;
+        if (!target) return;
+        var cr = target.getBoundingClientRect();
+        var scr = canvas.getBoundingClientRect();
+        // ripple from bottom-left of user bubble, bottom-right of assistant bubble
+        var isUser = target.style.alignItems === 'flex-end' || (target.querySelector && target.querySelector('[style*="flex-end"]'));
+        var rx = isUser ? cr.right - scr.left - 20 : cr.left - scr.left + 20;
+        var ry = cr.bottom - scr.top;
+        addRipple(rx, ry, 160, 0.18);
+      });
+    });
+  });
+
+  // Watch the chat message list — wait until it exists
+  function watchMsgList() {
+    var msgList = document.querySelector('[class*="chat"] [style*="overflow"]') ||
+                  document.querySelector('[style*="flex-direction: column"][style*="gap"]');
+    if (msgList) {
+      msgObserver.observe(msgList, { childList: true, subtree: true });
+    } else {
+      setTimeout(watchMsgList, 800);
+    }
+  }
+  setTimeout(watchMsgList, 1200);
 })();
