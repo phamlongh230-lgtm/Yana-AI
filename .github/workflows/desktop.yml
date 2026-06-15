@@ -37,6 +37,20 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Generate 512×512 icon from SVG (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get install -y imagemagick
+          convert -background none tools/yana-desktop/build/icon.svg \
+            -resize 512x512 tools/yana-desktop/build/icon.png
+
+      - name: Generate 512×512 icon from SVG (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          brew install imagemagick
+          magick -background none tools/yana-desktop/build/icon.svg \
+            -resize 512x512 tools/yana-desktop/build/icon.png
+
       - name: Install yana-desktop dependencies
         working-directory: tools/yana-desktop
         run: npm install

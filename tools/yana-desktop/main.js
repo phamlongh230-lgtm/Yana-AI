@@ -91,8 +91,8 @@ function createWindow() {
 /* ---------- Tray ---------- */
 
 function createTray() {
-  // Empty icon — replace with a real .png path for a visible tray icon
-  const icon = nativeImage.createEmpty();
+  const iconPath = path.join(__dirname, 'build', 'icon.png');
+  const icon = nativeImage.createFromPath(iconPath).resize({ width: 22, height: 22 });
   tray = new Tray(icon);
   tray.setToolTip('Yana AI');
   tray.setContextMenu(Menu.buildFromTemplate([
