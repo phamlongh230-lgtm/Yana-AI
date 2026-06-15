@@ -140,11 +140,11 @@ const PROVIDERS = {
     port:         20128,
     path:         '/v1/chat/completions',
     vision:       false,
-    keyless:      true,
+    keyless:      false,
     local:        true,
     defaultModel: 'kr/claude-sonnet-4.5',
     headers: key => ({
-      ...(key ? { 'Authorization': `Bearer ${key}` } : {}),
+      'Authorization': `Bearer ${key}`,
       'content-type':  'application/json',
     }),
     body: (model, system, task) => JSON.stringify({
