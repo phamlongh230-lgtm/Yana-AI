@@ -128,6 +128,60 @@
   --glass-blur-max: 32px;
 }
 
+/* ---------- Prism Glass (light liquid glass) ---------- */
+[data-theme="liquid"] {
+  --bg-base: #f5f5fc;
+  --bg-scene:
+    radial-gradient(1200px 600px at 20% -14%, rgba(200, 180, 255, 0.28), transparent 60%),
+    radial-gradient(1000px 540px at 86% -6%,  rgba(160, 210, 255, 0.30), transparent 58%),
+    radial-gradient(900px 500px at 50% 56%,   rgba(255, 200, 240, 0.14), transparent 60%),
+    radial-gradient(1400px 800px at 50% 118%, rgba(160, 240, 220, 0.22), transparent 65%),
+    linear-gradient(180deg, #f8f8ff 0%, #f0f0fa 100%);
+  --surface-rgb: 255, 255, 255;
+  --shadow-rgb: 10, 10, 40;
+  --ink: #18183c;
+  --ink-2: #484878;
+  --ink-3: #8888b0;
+  --primary: #6060ff;
+  --primary-soft: rgba(96, 96, 255, 0.09);
+  --pink: #d060c8;
+  --pink-soft: rgba(208, 96, 200, 0.10);
+  --gold: #9a70ff;
+  --gold-soft: rgba(154, 112, 255, 0.12);
+  --good: #28c0a8;
+  --warn: #c868a8;
+  --border: rgba(10, 10, 60, 0.07);
+  --border-strong: rgba(10, 10, 60, 0.13);
+  --glass-blur-max: 48px;
+}
+
+/* ---------- Obsidian (dark liquid glass) ---------- */
+[data-theme="obsidian"] {
+  --bg-base: #0c0c1a;
+  --bg-scene:
+    radial-gradient(1100px 580px at 22% -12%, rgba(80, 50, 200, 0.38), transparent 60%),
+    radial-gradient(900px 500px at 84% -4%,   rgba(40, 80, 200, 0.32), transparent 58%),
+    radial-gradient(700px 400px at 50% 55%,   rgba(140, 40, 180, 0.18), transparent 60%),
+    radial-gradient(1300px 780px at 50% 118%, rgba(40, 160, 140, 0.20), transparent 65%),
+    linear-gradient(180deg, #0e0e1e 0%, #080810 100%);
+  --surface-rgb: 30, 28, 60;
+  --shadow-rgb: 0, 0, 0;
+  --ink: #eeeeff;
+  --ink-2: #9898cc;
+  --ink-3: #5858a8;
+  --primary: #8080ff;
+  --primary-soft: rgba(128, 128, 255, 0.16);
+  --pink: #e060c0;
+  --pink-soft: rgba(224, 96, 192, 0.14);
+  --gold: #a880ff;
+  --gold-soft: rgba(168, 128, 255, 0.15);
+  --good: #40d8c0;
+  --warn: #e08090;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.15);
+  --glass-blur-max: 42px;
+}
+
 /* ============ base ============ */
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; height: 100%; }
@@ -442,6 +496,20 @@ button:not([disabled]) {
     radial-gradient(ellipse 55% 42% at 82% 72%, rgba(199, 214, 229, 0.28) 0%, transparent 60%),
     radial-gradient(ellipse 75% 55% at 48% 105%, rgba(58, 124, 165, 0.18) 0%, transparent 68%);
 }
+[data-theme="liquid"] .scene-swell {
+  background:
+    radial-gradient(ellipse 65% 50% at 18% 28%, rgba(160, 140, 255, 0.30) 0%, transparent 65%),
+    radial-gradient(ellipse 55% 42% at 82% 68%, rgba(120, 200, 255, 0.26) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 45% at 52% 80%, rgba(255, 170, 240, 0.20) 0%, transparent 65%),
+    radial-gradient(ellipse 75% 55% at 48% 108%, rgba(96, 200, 180, 0.18) 0%, transparent 68%);
+}
+[data-theme="obsidian"] .scene-swell {
+  background:
+    radial-gradient(ellipse 65% 50% at 18% 28%, rgba(100, 60, 220, 0.42) 0%, transparent 65%),
+    radial-gradient(ellipse 55% 42% at 82% 72%, rgba(60, 100, 220, 0.36) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 45% at 50% 75%, rgba(160, 50, 200, 0.22) 0%, transparent 65%),
+    radial-gradient(ellipse 75% 55% at 48% 108%, rgba(40, 180, 160, 0.20) 0%, transparent 68%);
+}
 
 /* Layer 2: light caustics — small bright shimmer patches, like sun through water */
 .scene-caustics {
@@ -473,6 +541,22 @@ button:not([disabled]) {
     radial-gradient(ellipse 110px 65px  at 67% 32%, rgba(220, 235, 255, 0.13) 0%, transparent 80%),
     radial-gradient(ellipse 140px 80px  at 83% 74%, rgba(220, 235, 255, 0.10) 0%, transparent 80%),
     radial-gradient(ellipse  90px 50px  at 44% 18%, rgba(220, 235, 255, 0.11) 0%, transparent 80%);
+}
+[data-theme="liquid"] .scene-caustics {
+  background:
+    radial-gradient(ellipse 160px 90px  at 27% 58%, rgba(200, 170, 255, 0.20) 0%, transparent 80%),
+    radial-gradient(ellipse 110px 65px  at 67% 32%, rgba(160, 210, 255, 0.17) 0%, transparent 80%),
+    radial-gradient(ellipse 140px 80px  at 83% 74%, rgba(255, 180, 240, 0.14) 0%, transparent 80%),
+    radial-gradient(ellipse  90px 50px  at 44% 18%, rgba(180, 240, 220, 0.15) 0%, transparent 80%),
+    radial-gradient(ellipse 120px 70px  at 14% 44%, rgba(220, 160, 255, 0.12) 0%, transparent 80%);
+}
+[data-theme="obsidian"] .scene-caustics {
+  background:
+    radial-gradient(ellipse 160px 90px  at 27% 58%, rgba(120, 80, 255, 0.22) 0%, transparent 80%),
+    radial-gradient(ellipse 110px 65px  at 67% 32%, rgba(60, 120, 255, 0.18) 0%, transparent 80%),
+    radial-gradient(ellipse 140px 80px  at 83% 74%, rgba(200, 60, 240, 0.14) 0%, transparent 80%),
+    radial-gradient(ellipse  90px 50px  at 44% 18%, rgba(40, 200, 180, 0.16) 0%, transparent 80%),
+    radial-gradient(ellipse 120px 70px  at 14% 44%, rgba(160, 80, 255, 0.12) 0%, transparent 80%);
 }
 
 /* Canvas ripple overlay — interactive + ambient */
@@ -586,6 +670,32 @@ button:not([disabled]) {
 }
 
 [data-theme="mist"] .scene-shimmer { opacity: 0.45; }
+[data-theme="liquid"] .scene-shimmer {
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(200, 180, 255, 0) 30%,
+    rgba(220, 200, 255, 0.22) 44%,
+    rgba(180, 220, 255, 0.18) 50%,
+    rgba(255, 200, 240, 0.14) 56%,
+    transparent 68%,
+    transparent 100%
+  );
+  opacity: 0.90;
+}
+[data-theme="obsidian"] .scene-shimmer {
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(100, 60, 255, 0) 34%,
+    rgba(120, 80, 255, 0.28) 46%,
+    rgba(60, 160, 255, 0.20) 52%,
+    rgba(200, 60, 240, 0.16) 58%,
+    transparent 70%,
+    transparent 100%
+  );
+  opacity: 0.75;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .scene-shimmer { animation: yana-shimmer 14s cubic-bezier(.45, 0, .55, 1) infinite; }
@@ -620,6 +730,22 @@ button:not([disabled]) {
     radial-gradient(ellipse 220px 120px at 22% 78%, rgba(74, 122, 106, 0.08) 0%, transparent 70%),
     radial-gradient(ellipse 180px 100px at 73% 85%, rgba(163, 136, 78, 0.06) 0%, transparent 70%);
   filter: blur(22px);
+}
+[data-theme="liquid"] .scene-lotus {
+  background:
+    radial-gradient(ellipse 240px 130px at 20% 78%, rgba(140, 100, 255, 0.16) 0%, transparent 70%),
+    radial-gradient(ellipse 200px 110px at 68% 86%, rgba(80, 180, 255, 0.13) 0%, transparent 70%),
+    radial-gradient(ellipse 180px 100px at 44% 92%, rgba(255, 130, 220, 0.11) 0%, transparent 70%),
+    radial-gradient(ellipse 160px  90px at 82% 74%, rgba(100, 230, 200, 0.10) 0%, transparent 70%);
+  filter: blur(20px);
+}
+[data-theme="obsidian"] .scene-lotus {
+  background:
+    radial-gradient(ellipse 240px 130px at 20% 78%, rgba(100, 60, 255, 0.28) 0%, transparent 70%),
+    radial-gradient(ellipse 200px 110px at 68% 86%, rgba(40, 120, 255, 0.22) 0%, transparent 70%),
+    radial-gradient(ellipse 180px 100px at 44% 92%, rgba(200, 40, 220, 0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 160px  90px at 82% 74%, rgba(30, 200, 180, 0.16) 0%, transparent 70%);
+  filter: blur(24px);
 }
 [data-theme="silver"] .scene-lotus {
   background:

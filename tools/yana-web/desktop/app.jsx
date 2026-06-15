@@ -123,6 +123,8 @@ const THEME_MAP = {
   "Jade Lake 🌿": "jade",
   "Morning Mist ☁️": "mist",
   "Glass Silver ✨": "silver",
+  "Prism Glass 🔮": "liquid",
+  "Obsidian 🌑": "obsidian",
 };
 const DENSITY = { "Compact": 0.85, "Regular": 1, "Spacious": 1.18 };
 
