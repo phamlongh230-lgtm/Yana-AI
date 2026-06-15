@@ -206,6 +206,12 @@ function App() {
           onChange={(v) => setTweak("accent", v)} />
         <TweakButton label="Use theme accent" onClick={() => setTweak("accent", "")} />
       </TweaksPanel>
+
+      <button
+        onClick={() => window.postMessage({ type: "__activate_edit_mode" }, "*")}
+        title={window.YANA_LANG === "vi" ? "Tuỳ biến giao diện" : "Customize UI"}
+        className="tweaks-fab"
+      >🎨</button>
     </div>
   );
 }
