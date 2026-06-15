@@ -230,13 +230,19 @@ function SettingRow({ label, desc, value }) {
 
 /* ---------- Settings: Appearance (Apple-style) ---------- */
 const THEME_PREVIEWS = [
-  { label: "Lotus Dawn 🌸",  accent: "#b96b80", sky: "linear-gradient(160deg, #faf5f3 30%, #f2dfdc 100%)", wash: "rgba(236,196,134,.45)" },
-  { label: "Jade Lake 🌿",   accent: "#2f7e6e", sky: "linear-gradient(160deg, #f6faf7 30%, #ddeee7 100%)", wash: "rgba(122,184,168,.40)" },
+  { label: "Lotus Dawn 🌸",   accent: "#b96b80", sky: "linear-gradient(160deg, #faf5f3 30%, #f2dfdc 100%)", wash: "rgba(236,196,134,.45)" },
+  { label: "Jade Lake 🌿",    accent: "#2f7e6e", sky: "linear-gradient(160deg, #f6faf7 30%, #ddeee7 100%)", wash: "rgba(122,184,168,.40)" },
   { label: "Morning Mist ☁️", accent: "#4a7a6a", sky: "linear-gradient(160deg, #f8f7f4 30%, #ecebe5 100%)", wash: "rgba(214,222,214,.55)" },
-  { label: "Glass Silver ✨", accent: "#3a7ca5", sky: "linear-gradient(160deg, #f3f6fa 30%, #dde6ef 100%)", wash: "rgba(168,199,224,.45)" },
+  { label: "Glass Silver ✨",  accent: "#3a7ca5", sky: "linear-gradient(160deg, #f3f6fa 30%, #dde6ef 100%)", wash: "rgba(168,199,224,.45)" },
+  { label: "iOS Rose 🌷",     accent: "#e879a0", sky: "linear-gradient(160deg, #fdf0f6 30%, #f5d0e8 100%)", wash: "rgba(232,121,160,.40)", dark: false },
+  { label: "iOS Night 🌙",    accent: "#e879a0", sky: "linear-gradient(160deg, #2a0818 30%, #14020a 100%)", wash: "rgba(232,121,160,.22)", dark: true },
+  { label: "Prism Glass 🔮",  accent: "#6060ff", sky: "linear-gradient(160deg, #f5f5fc 30%, #e0e0f8 100%)", wash: "rgba(96,96,255,.35)" },
+  { label: "Obsidian 🌑",     accent: "#8080ff", sky: "linear-gradient(160deg, #1a1a2e 30%, #0c0c1a 100%)", wash: "rgba(128,128,255,.22)", dark: true },
 ];
 
 function ThemeCard({ p, active, onPick }) {
+  const glass = p.dark ? "rgba(255,255,255,.12)" : "rgba(255,255,255,.65)";
+  const glass2 = p.dark ? "rgba(255,255,255,.09)" : "rgba(255,255,255,.6)";
   return (
     <button onClick={onPick} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", textAlign: "center", color: "inherit" }}>
       <div style={{
@@ -247,10 +253,10 @@ function ThemeCard({ p, active, onPick }) {
         transition: "box-shadow .15s",
       }}>
         <div style={{ position: "absolute", inset: 0, background: "radial-gradient(80px 40px at 80% 100%, " + p.wash + ", transparent 70%)" }}></div>
-        <div style={{ position: "absolute", left: 8, top: 8, bottom: 8, width: 26, borderRadius: 6, background: "rgba(255,255,255,.65)", boxShadow: "inset 0 0 0 .5px rgba(255,255,255,.8)" }}></div>
-        <div style={{ position: "absolute", left: 40, top: 8, right: 8, height: 22, borderRadius: 6, background: "rgba(255,255,255,.6)" }}></div>
-        <div style={{ position: "absolute", left: 40, top: 34, width: 34, height: 30, borderRadius: 6, background: "rgba(255,255,255,.5)" }}></div>
-        <div style={{ position: "absolute", left: 80, top: 34, right: 8, height: 30, borderRadius: 6, background: "rgba(255,255,255,.5)" }}></div>
+        <div style={{ position: "absolute", left: 8, top: 8, bottom: 8, width: 26, borderRadius: 6, background: glass, boxShadow: "inset 0 0 0 .5px rgba(255,255,255,.25)" }}></div>
+        <div style={{ position: "absolute", left: 40, top: 8, right: 8, height: 22, borderRadius: 6, background: glass2 }}></div>
+        <div style={{ position: "absolute", left: 40, top: 34, width: 34, height: 30, borderRadius: 6, background: glass2 }}></div>
+        <div style={{ position: "absolute", left: 80, top: 34, right: 8, height: 30, borderRadius: 6, background: glass2 }}></div>
         <div style={{ position: "absolute", left: 13, top: 13, width: 10, height: 10, borderRadius: 4, background: p.accent, opacity: .9 }}></div>
       </div>
       <div style={{ fontSize: 12, marginTop: 7, fontWeight: active ? 500 : 400, color: active ? "var(--ink)" : "var(--ink-2)" }}>{p.label}</div>
