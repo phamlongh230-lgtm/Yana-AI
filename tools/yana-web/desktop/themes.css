@@ -938,6 +938,33 @@ button:not([disabled]) {
   100% { transform: translate(  0%,  0%) scale(1.00); opacity: 0.70; }
 }
 
+/* ── Global click ripple ring (iOS-style expanding ring) ─────────────────── */
+@keyframes ripple-expand {
+  0%   { transform: scale(0);  opacity: 0.70; }
+  60%  { opacity: 0.28; }
+  100% { transform: scale(5);  opacity: 0; }
+}
+.ripple-ring {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  border: 1.5px solid rgba(255, 255, 255, 0.68);
+  background: rgba(255, 255, 255, 0.10);
+  animation: ripple-expand 0.55s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+[data-theme="obsidian"] .ripple-ring,
+[data-theme="ios-night"] .ripple-ring {
+  border-color: rgba(200, 160, 255, 0.50);
+  background: rgba(140, 100, 255, 0.08);
+}
+[data-theme="ios-rose"] .ripple-ring {
+  border-color: rgba(232, 121, 160, 0.55);
+  background: rgba(232, 121, 160, 0.08);
+}
+
 /* ── Tweaks FAB — floating palette button (bottom-left) ──────────────────── */
 .tweaks-fab {
   position: fixed;

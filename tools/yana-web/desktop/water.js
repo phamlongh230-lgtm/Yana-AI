@@ -148,6 +148,21 @@
     setTimeout(function () { el.remove(); }, 600);
   });
 
+  /* ── Global ripple ring: iOS-style expanding ring on every click ── */
+  document.addEventListener('click', function (e) {
+    var SIZE = 40;
+    var el = document.createElement('div');
+    el.className = 'ripple-ring';
+    el.style.cssText = [
+      'width:'  + SIZE + 'px',
+      'height:' + SIZE + 'px',
+      'left:'   + (e.clientX - SIZE / 2) + 'px',
+      'top:'    + (e.clientY - SIZE / 2) + 'px',
+    ].join(';');
+    document.body.appendChild(el);
+    setTimeout(function () { el.remove(); }, 600);
+  });
+
   /* ── Message ripple: new message appears → ripple from message's position ── */
   var msgObserver = new MutationObserver(function (mutations) {
     mutations.forEach(function (mut) {
