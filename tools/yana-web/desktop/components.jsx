@@ -47,8 +47,8 @@ function YanaMark({ size = 30 }) {
       boxShadow: "inset 0 1px 0 rgba(255,255,255,.4), 0 4px 12px color-mix(in oklab, var(--primary) 28%, transparent)",
       display: "grid", placeItems: "center",
     }}>
-      <img src="/logo.png" alt="" width={Math.round(size * 0.74)} height={Math.round(size * 0.74)}
-        style={{ display: "block" }} />
+      <img src="/logo.png" alt="" width={size} height={size}
+        style={{ display: "block", borderRadius: size * 0.32, objectFit: "cover" }} />
     </div>
   );
 }
