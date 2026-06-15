@@ -24,7 +24,15 @@ function CodemateTool() {
     check(safe);
   }
 
-  const url = "http://127.0.0.1:" + port;
+  // In Cloud Shell / remote proxy, hostname looks like "8081-abc.cloudshell.dev"
+  // — replace the leading port number to reach a different port through the proxy.
+  // Locally, fall back to direct 127.0.0.1:port.
+  function buildUrl(p) {
+    const m = window.location.hostname.match(/^(\d+)-(.+)$/);
+    if (m) return window.location.protocol + "//" + p + "-" + m[2];
+    return "http://127.0.0.1:" + p;
+  }
+  const url = buildUrl(port);
 
   return (
     <div data-screen-label="Codexmate" style={{ display: "flex", flexDirection: "column", gap: "var(--gap)" }}>
