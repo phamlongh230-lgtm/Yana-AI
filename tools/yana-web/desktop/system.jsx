@@ -471,16 +471,114 @@ function detectTimezone() {
   } catch (_) { return "UTC"; }
 }
 
-function Settings({ t, setTweak }) {
+/* ---------- Profile Hero ---------- */
+function ProfileHero({ t, dash }) {
   const D = window.YANA;
-  const langDisplay = t.language === "Tiếng Việt"
-    ? L("English / Tiếng Việt ✓", "Tiếng Việt ✓ / English")
-    : L("English ✓ / Tiếng Việt", "English ✓ / Tiếng Việt");
-  function toggleLang() {
-    setTweak("language", t.language === "Tiếng Việt" ? "English" : "Tiếng Việt");
+  const account = D.account || "";
+  const initial = account.trim().charAt(0).toUpperCase() || "Y";
+
+  const [dispName, setDispName] = React.useState(() =>
+    localStorage.getItem("yana.display-name") || account || "Yana AI"
+  );
+  function editName() {
+    const raw = window.prompt(L("Display name:", "Tên hiển thị:"), dispName);
+    if (raw === null) return;
+    const next = raw.trim() || account || "Yana AI";
+    setDispName(next);
+    localStorage.setItem("yana.display-name", next);
   }
 
-  // Live system state — same real sources the dashboard uses
+  const memberSince = React.useMemo(() => {
+    const key = "yana.member-since";
+    let s = localStorage.getItem(key);
+    if (!s) {
+      s = new Date().toLocaleDateString(
+        t.language === "Tiếng Việt" ? "vi-VN" : "en-US",
+        { year: "numeric", month: "long" }
+      );
+      localStorage.setItem(key, s);
+    }
+    return s;
+  }, []);
+
+  const connectedCount = D.providers.filter((p) => providerAvailable(p.id)).length;
+  const heroStats = [
+    { v: D.stats.agents,              lb: L("agents", "tác nhân") },
+    { v: dash ? dash.memories.total : "…", lb: L("memories", "ký ức") },
+    { v: connectedCount + "/" + D.providers.length, lb: L("providers", "kết nối") },
+    { v: L("Strict", "Nghiêm"),       lb: L("gate mode", "chế độ cổng") },
+  ];
+
+  return (
+    <div style={{
+      borderRadius: "var(--r-md)",
+      background: "rgba(var(--surface-rgb), 0.65)",
+      backdropFilter: "blur(20px) saturate(140%)",
+      border: "0.5px solid var(--border)",
+      boxShadow: "0 4px 28px rgba(var(--shadow-rgb), .1), 0 1px 0 rgba(255,255,255,.22) inset",
+      overflow: "hidden",
+      position: "relative",
+    }}>
+      {/* Ambient gradient overlay */}
+      <div style={{
+        position: "absolute", inset: 0, pointerEvents: "none",
+        background: "linear-gradient(135deg, color-mix(in oklab, var(--primary) 11%, transparent) 0%, transparent 52%, color-mix(in oklab, var(--gold, #c9a227) 6%, transparent) 100%)",
+      }} />
+
+      {/* Avatar + info row */}
+      <div style={{ display: "flex", alignItems: "center", gap: 18, padding: "22px 24px 20px", position: "relative" }}>
+        <div className="sidebar-avatar-wrap" style={{ width: 56, height: 56, flexShrink: 0 }}>
+          <div className="sidebar-avatar" style={{
+            fontSize: 21, fontWeight: 700,
+            background: "linear-gradient(145deg, var(--primary), color-mix(in oklab, var(--primary) 60%, var(--gold, #c9a227)))",
+            color: "white",
+            border: "2.5px solid rgba(var(--surface-rgb), 0.55)",
+          }}>{initial}</div>
+        </div>
+
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 7, flexWrap: "wrap" }}>
+            <span style={{ fontSize: 17, fontWeight: 700, color: "var(--ink)", lineHeight: 1.2 }}>{dispName}</span>
+            <button onClick={editName} title={L("Edit name", "Sửa tên")} style={{
+              background: "none", border: "none", padding: "2px 8px", borderRadius: 6, cursor: "pointer",
+              fontSize: 11, color: "var(--ink-3)",
+            }}>✎</button>
+          </div>
+          <div style={{ fontSize: 13, color: "var(--ink-2)", marginTop: 3 }}>{account}</div>
+          <div style={{ fontSize: 11.5, color: "var(--ink-3)", marginTop: 2 }}>
+            {L("Member since", "Thành viên từ")} {memberSince}
+          </div>
+        </div>
+
+        <span style={{
+          background: "color-mix(in oklab, var(--primary) 13%, transparent)",
+          color: "var(--primary)", border: "0.5px solid color-mix(in oklab, var(--primary) 28%, transparent)",
+          padding: "3px 11px", borderRadius: 99, fontSize: 11.5, fontWeight: 600,
+          flexShrink: 0, alignSelf: "flex-start",
+        }}>Sovereign</span>
+      </div>
+
+      {/* Stats strip */}
+      <div style={{ display: "flex", borderTop: "0.5px solid var(--border)", position: "relative" }}>
+        {heroStats.map((s, i) => (
+          <div key={i} style={{
+            flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+            padding: "11px 6px",
+            borderRight: i < heroStats.length - 1 ? "0.5px solid var(--border)" : "none",
+          }}>
+            <span style={{ fontSize: 14, fontWeight: 600, color: "var(--ink)" }}>{s.v}</span>
+            <span style={{ fontSize: 11, color: "var(--ink-3)", marginTop: 1, textAlign: "center" }}>{s.lb}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Settings main ---------- */
+function Settings({ t, setTweak }) {
+  const D = window.YANA;
+
   const [dash, setDash] = React.useState(null);
   React.useEffect(() => {
     fetch("/api/dashboard")
@@ -489,7 +587,6 @@ function Settings({ t, setTweak }) {
       .catch(() => {});
   }, []);
 
-  // Default chat provider — same key chat.jsx reads, so this is a real control
   const [defProvider, setDefProvider] = React.useState(() => localStorage.getItem("yana.chat.provider") || "");
   function pickProvider(v) {
     setDefProvider(v);
@@ -498,88 +595,109 @@ function Settings({ t, setTweak }) {
   const available = D.providers.filter((p) => providerAvailable(p.id));
   const chain = available.map((p) => p.name).join(" → ") || L("None — add a key in Providers", "Chưa có — thêm key ở Nhà cung cấp");
 
+  function toggleLang() {
+    setTweak("language", t.language === "Tiếng Việt" ? "English" : "Tiếng Việt");
+  }
+  const langDisplay = t.language === "Tiếng Việt"
+    ? L("English / Tiếng Việt ✓", "Tiếng Việt ✓ / English")
+    : L("English ✓ / Tiếng Việt", "English ✓ / Tiếng Việt");
+
+  const GAP = "var(--gap)";
   return (
     <div data-screen-label="Settings">
       <PageHeader
         title={L("Settings", "Cài đặt")}
         sub={L("Quiet defaults. Everything supervised by Yana AI Core.", "Cài đặt mặc định. Mọi thứ được Yana AI Core giám sát.")} />
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "var(--gap)", maxWidth: 900 }}>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: GAP, maxWidth: 900 }}>
+
+        {/* Profile hero */}
+        <ProfileHero t={t} dash={dash} />
+
+        {/* Appearance — full width */}
         <AppearanceCard t={t} setTweak={setTweak} />
+
+        {/* Workspace + Orchestration side by side */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: GAP }}>
+          <Card title={L("Workspace", "Không gian làm việc")}>
+            <EditableRow label={L("Workspace name", "Tên không gian")} storeKey="yana.workspace.name"
+              fallback={L("Yana's Lake", "Mặt hồ của Yana")} />
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, padding: "calc(11px * var(--sp)) 0", borderBottom: "1px solid var(--border)" }}>
+              <div style={{ lineHeight: 1.35 }}>
+                <div style={{ fontSize: 13.5, fontWeight: 500 }}>{L("Language", "Ngôn ngữ")}</div>
+              </div>
+              <button onClick={toggleLang} style={{
+                background: "none", border: "1px solid var(--border)", padding: "4px 12px",
+                borderRadius: 99, cursor: "pointer", fontSize: 12, color: "var(--primary)",
+                fontWeight: 500, fontFamily: "inherit",
+              }}>{langDisplay}</button>
+            </div>
+            <SettingRow label={L("Timezone", "Múi giờ")}
+              desc={L("Detected from this browser", "Phát hiện từ trình duyệt này")}
+              value={detectTimezone()} />
+          </Card>
+
+          <Card title={L("Orchestration", "Điều phối")}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, padding: "calc(11px * var(--sp)) 0", borderBottom: "1px solid var(--border)" }}>
+              <div style={{ lineHeight: 1.35 }}>
+                <div style={{ fontSize: 13.5, fontWeight: 500 }}>{L("Default provider", "Nhà cung cấp mặc định")}</div>
+                <div style={{ fontSize: 12, color: "var(--ink-3)" }}>{L("Used by Chat unless overridden", "Chat dùng mặc định này trừ khi chọn khác")}</div>
+              </div>
+              <select value={defProvider} onChange={(e) => pickProvider(e.target.value)} style={{
+                border: "1px solid var(--border)", borderRadius: 99, padding: "5px 10px",
+                background: "transparent", color: "var(--primary)", fontSize: 12,
+                fontWeight: 500, fontFamily: "inherit", cursor: "pointer", maxWidth: 150,
+              }}>
+                <option value="">{L("Auto (first connected)", "Tự động (kết nối đầu tiên)")}</option>
+                {D.providers.map((p) => (
+                  <option key={p.id} value={p.id} disabled={!providerAvailable(p.id)}>
+                    {p.name}{p.desktopOnly ? " 🖥" : ""}{providerAvailable(p.id) ? "" : " 🔒"}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <SettingRow
+              label={L("Task routing", "Định tuyến tác vụ")}
+              desc={L("yana-rt classifier — local, before any provider call", "yana-rt classifier — chạy local, trước mọi lệnh gọi provider")}
+              value={L("simple · complex · external", "simple · complex · external")} />
+            <SettingRow label={L("Fallback chain", "Chuỗi dự phòng")}
+              desc={L("Connected providers, in order", "Các nhà cung cấp đã kết nối, theo thứ tự")}
+              value={chain} />
+          </Card>
+        </div>
+
+        {/* About you — full width */}
         <AboutYouCard />
-        <Card title={L("Workspace", "Không gian làm việc")}>
-          <EditableRow label={L("Workspace name", "Tên không gian")} storeKey="yana.workspace.name"
-            fallback={L("Yana's Lake", "Mặt hồ của Yana")} />
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, padding: "calc(11px * var(--sp)) 0", borderBottom: "1px solid var(--border)" }}>
-            <div style={{ lineHeight: 1.35 }}>
-              <div style={{ fontSize: 13.5, fontWeight: 500 }}>{L("Language", "Ngôn ngữ")}</div>
-            </div>
-            <button onClick={toggleLang} style={{
-              background: "none", border: "1px solid var(--border)", padding: "4px 12px",
-              borderRadius: 99, cursor: "pointer", fontSize: 12, color: "var(--primary)",
-              fontWeight: 500, fontFamily: "inherit",
-            }}>{langDisplay}</button>
-          </div>
-          <SettingRow label={L("Timezone", "Múi giờ")}
-            desc={L("Detected from this browser", "Phát hiện từ trình duyệt này")}
-            value={detectTimezone()} />
-        </Card>
-        <Card title={L("Orchestration", "Điều phối")}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, padding: "calc(11px * var(--sp)) 0", borderBottom: "1px solid var(--border)" }}>
-            <div style={{ lineHeight: 1.35 }}>
-              <div style={{ fontSize: 13.5, fontWeight: 500 }}>{L("Default provider", "Nhà cung cấp mặc định")}</div>
-              <div style={{ fontSize: 12, color: "var(--ink-3)" }}>{L("Used by Chat unless overridden", "Chat dùng mặc định này trừ khi chọn khác")}</div>
-            </div>
-            <select value={defProvider} onChange={(e) => pickProvider(e.target.value)} style={{
-              border: "1px solid var(--border)", borderRadius: 99, padding: "5px 10px",
-              background: "transparent", color: "var(--primary)", fontSize: 12,
-              fontWeight: 500, fontFamily: "inherit", cursor: "pointer", maxWidth: 150,
-            }}>
-              <option value="">{L("Auto (first connected)", "Tự động (kết nối đầu tiên)")}</option>
-              {D.providers.map((p) => (
-                <option key={p.id} value={p.id} disabled={!providerAvailable(p.id)}>
-                  {p.name}
-                  {p.desktopOnly ? " 🖥" : ""}
-                  {providerAvailable(p.id) ? "" : " 🔒"}
-                </option>
-              ))}
-            </select>
-          </div>
-          <SettingRow
-            label={L("Task routing", "Định tuyến tác vụ")}
-            desc={L("yana-rt classifier — local, before any provider call", "yana-rt classifier — chạy local, trước mọi lệnh gọi provider")}
-            value={L("simple · complex · external", "simple · complex · external")} />
-          <SettingRow label={L("Fallback chain", "Chuỗi dự phòng")}
-            desc={L("Connected providers, in order", "Các nhà cung cấp đã kết nối, theo thứ tự")}
-            value={chain} />
-        </Card>
-        <Card title={L("Safety", "Bảo mật")}>
-          <SettingRow
-            label={L("Gate mode", "Chế độ cổng")}
-            desc={L("Every agent action is reviewed", "Mọi hành động của tác nhân đều được xem xét")}
-            value={L("Strict · deny by default", "Nghiêm ngặt · từ chối mặc định")} />
-          <SettingRow
-            label={L("Audit events today", "Sự kiện audit hôm nay")}
-            desc={L("From the L0 hash-chained audit log", "Từ audit log băm chuỗi L0")}
-            value={dash ? String(dash.safety.events_today) : "…"} />
-          <SettingRow
-            label={L("Blocked today", "Đã chặn hôm nay")}
-            desc={dash && dash.safety.last_incident
-              ? L("Last incident: ", "Sự cố gần nhất: ") + dash.safety.last_incident
-              : L("No incidents on record", "Chưa ghi nhận sự cố")}
-            value={dash ? String(dash.safety.blocked_today) : "…"} />
-        </Card>
-        <Card title={L("Memory", "Bộ nhớ")}>
-          <SettingRow
-            label={L("L1 atomic facts", "Fact L1")}
-            desc={L("Persisted in memory/L1_atomic", "Lưu tại memory/L1_atomic")}
-            value={dash ? String(dash.memories.total) : "…"} />
-          <SettingRow
-            label={L("Fresh today", "Mới hôm nay")}
-            value={dash ? String(dash.memories.today) : "…"} />
-          <SettingRow label={L("Storage", "Lưu trữ")}
-            desc={L("API keys AES-256-GCM encrypted at rest (rule 66)", "API key mã hóa AES-256-GCM khi lưu (rule 66)")}
-            value={L("Local · encrypted", "Cục bộ · mã hóa")} />
-        </Card>
+
+        {/* Safety + Memory side by side */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: GAP }}>
+          <Card title={L("Safety", "Bảo mật")}>
+            <SettingRow
+              label={L("Gate mode", "Chế độ cổng")}
+              desc={L("Every agent action is reviewed", "Mọi hành động của tác nhân đều được xem xét")}
+              value={L("Strict · deny by default", "Nghiêm ngặt · từ chối mặc định")} />
+            <SettingRow
+              label={L("Audit events today", "Sự kiện audit hôm nay")}
+              desc={L("From the L0 hash-chained audit log", "Từ audit log băm chuỗi L0")}
+              value={dash ? String(dash.safety.events_today) : "…"} />
+            <SettingRow
+              label={L("Blocked today", "Đã chặn hôm nay")}
+              desc={dash && dash.safety.last_incident
+                ? L("Last incident: ", "Sự cố gần nhất: ") + dash.safety.last_incident
+                : L("No incidents on record", "Chưa ghi nhận sự cố")}
+              value={dash ? String(dash.safety.blocked_today) : "…"} />
+          </Card>
+          <Card title={L("Memory", "Bộ nhớ")}>
+            <SettingRow
+              label={L("L1 atomic facts", "Fact L1")}
+              desc={L("Persisted in memory/L1_atomic", "Lưu tại memory/L1_atomic")}
+              value={dash ? String(dash.memories.total) : "…"} />
+            <SettingRow label={L("Fresh today", "Mới hôm nay")} value={dash ? String(dash.memories.today) : "…"} />
+            <SettingRow label={L("Storage", "Lưu trữ")}
+              desc={L("API keys AES-256-GCM encrypted at rest (rule 66)", "API key mã hóa AES-256-GCM khi lưu (rule 66)")}
+              value={L("Local · encrypted", "Cục bộ · mã hóa")} />
+          </Card>
+        </div>
       </div>
     </div>
   );
