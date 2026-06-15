@@ -84,8 +84,9 @@ const NAV = [
   { id: "cron",      label: "Cron",          vi: "Tự động",       icon: "missions" },
   { id: "memory",    label: "Memory Garden", vi: "Vườn ký ức",    icon: "memory" },
   { id: "skills",    label: "Skills",        vi: "Kỹ năng",       icon: "skills" },
-  { id: "providers", label: "Providers",     vi: "Nhà cung cấp",  icon: "providers" },
-  { id: "settings",  label: "Settings",      vi: "Cài đặt",       icon: "settings" },
+  { id: "providers",  label: "Providers",     vi: "Nhà cung cấp",  icon: "providers" },
+  { id: "settings",   label: "Settings",      vi: "Cài đặt",       icon: "settings" },
+  { id: "codexmate",  label: "Codexmate",     vi: "Codexmate",     icon: "code" },
 ];
 
 function Sidebar({ page, onNav }) {

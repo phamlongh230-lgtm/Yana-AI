@@ -65,6 +65,9 @@ function HtmlMaker() {
     const ctrl = new AbortController();
     abortRef.current = ctrl;
 
+    // Wait for vault to finish decrypting keys from IndexedDB before reading
+    if (typeof YanaVault !== "undefined") await YanaVault.ready;
+
     try {
       const res = await fetch('/api/html/convert', {
         method:  'POST',
@@ -192,8 +195,8 @@ function HtmlMaker() {
                         fontSize: 12.5, fontWeight: active ? 500 : 400,
                         color: active ? 'var(--primary)' : 'var(--ink)',
                         overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                      }}>{s.zhName}</div>
-                      <div style={{ fontSize: 11, color: 'var(--ink-3)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.enName}</div>
+                      }}>{s.enName}</div>
+                      <div style={{ fontSize: 11, color: 'var(--ink-3)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.zhName}</div>
                     </div>
                   </button>
                 );
@@ -211,8 +214,8 @@ function HtmlMaker() {
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, paddingBottom: 10, borderBottom: '1px solid var(--border)' }}>
                 <span style={{ fontSize: 22, lineHeight: 1 }}>{selectedSkill.emoji}</span>
                 <div>
-                  <div style={{ fontSize: 14, fontWeight: 500 }}>{selectedSkill.zhName}</div>
-                  <div style={{ fontSize: 12, color: 'var(--ink-3)' }}>{selectedSkill.enName}{selectedSkill.aspectHint ? ' · ' + selectedSkill.aspectHint : ''}</div>
+                  <div style={{ fontSize: 14, fontWeight: 500 }}>{selectedSkill.enName}{selectedSkill.aspectHint ? ' · ' + selectedSkill.aspectHint : ''}</div>
+                  <div style={{ fontSize: 12, color: 'var(--ink-3)' }}>{selectedSkill.zhName}</div>
                 </div>
               </div>
             ) : (

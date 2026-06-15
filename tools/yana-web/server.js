@@ -1475,6 +1475,26 @@ function buildHtmlRequestBody(p, modelId, prompt) {
 }
 
 // GET /api/html/skills
+// GET /api/codexmate/status?port=8080
+function handleApiCodexmateStatus(req, res) {
+  const urlObj = new url.URL(req.url, 'http://localhost');
+  const port = Math.min(65535, Math.max(1, parseInt(urlObj.searchParams.get('port') || '8080', 10)));
+  const probe = http.get({ hostname: '127.0.0.1', port, path: '/', timeout: 2000 }, (r) => {
+    r.resume();
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ up: true, port }));
+  });
+  probe.on('error', () => {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ up: false, port }));
+  });
+  probe.on('timeout', () => {
+    probe.destroy();
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ up: false, port }));
+  });
+}
+
 function handleApiHtmlSkills(req, res) {
   const skills = listHtmlSkills();
   res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -1639,6 +1659,7 @@ const server = http.createServer(async (req, res) => {
   if (method === 'POST' && pathname === '/api/route')   { await handleApiRoute(req, res); return; }
   if (method === 'POST' && pathname === '/api/ocr')          { await handleApiOcr(req, res);         return; }
   if (method === 'POST' && pathname === '/api/chat')         { await handleApiChat(req, res);        return; }
+  if (method === 'GET'  && pathname === '/api/codexmate/status') { handleApiCodexmateStatus(req, res); return; }
   if (method === 'GET'  && pathname === '/api/html/skills')  { handleApiHtmlSkills(req, res);        return; }
   if (method === 'POST' && pathname === '/api/html/convert') { await handleApiHtmlConvert(req, res); return; }
   if (method === 'GET' && pathname === '/m')            { res.writeHead(302, { Location: '/mobile/index.html' }); res.end(); return; }
