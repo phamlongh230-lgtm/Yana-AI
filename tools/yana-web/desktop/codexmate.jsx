@@ -2,9 +2,16 @@
 const { useState, useEffect, useRef } = React;
 
 function CodemateTool() {
-  const [port, setPort]     = useState(() => localStorage.getItem("yana.codexmate.port") || "8080");
-  const [status, setStatus] = useState(null); // null | "checking" | "up" | "down"
+  const [port, setPort]       = useState(() => localStorage.getItem("yana.codexmate.port") || "8080");
+  const [status, setStatus]   = useState(null); // null | "checking" | "up" | "down"
+  const [copiedIdx, setCopied] = useState(null);
   const inputRef = useRef(null);
+
+  function copyCmd(text, idx) {
+    navigator.clipboard.writeText(text).catch(() => {});
+    setCopied(idx);
+    setTimeout(() => setCopied(null), 1500);
+  }
 
   function check(p) {
     setStatus("checking");
@@ -97,20 +104,51 @@ function CodemateTool() {
             {L("Open Codexmate ↗", "Mở Codexmate ↗")}
           </a>
         ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            <div style={{ fontSize: 13.5, color: "var(--ink-2)", lineHeight: 1.6 }}>
-              {L(
-                "Start Codexmate first, then click Check above.",
-                "Khởi động Codexmate trước rồi bấm Kiểm tra.",
-              )}
-            </div>
-            <pre style={{
-              margin: 0, padding: "11px 14px", borderRadius: "var(--r-sm)",
-              background: "rgba(var(--shadow-rgb), .08)",
-              fontSize: 12.5,
-              fontFamily: "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
-              color: "var(--ink-2)",
-            }}>{"CODEXMATE_PORT=" + port + " codexmate run"}</pre>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {[
+              {
+                label: L("Start Codexmate", "Khởi động Codexmate"),
+                cmd: port === "8080" ? "codexmate run" : "CODEXMATE_PORT=" + port + " codexmate run",
+                idx: 0,
+              },
+              {
+                label: L("Install first (if not installed)", "Cài đặt trước (nếu chưa có)"),
+                cmd: "npm install -g codexmate",
+                idx: 1,
+              },
+            ].map(({ label, cmd, idx }) => (
+              <div key={idx} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <span style={{
+                  fontSize: 11.5, fontWeight: 600, color: "var(--ink-2)",
+                  textTransform: "uppercase", letterSpacing: ".06em",
+                }}>{label}</span>
+                <div style={{ position: "relative" }}>
+                  <pre style={{
+                    margin: 0, padding: "11px 48px 11px 14px",
+                    borderRadius: "var(--r-sm)",
+                    background: "rgba(var(--shadow-rgb), .08)",
+                    fontSize: 12.5,
+                    fontFamily: "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+                    color: "var(--ink-2)", whiteSpace: "pre-wrap", wordBreak: "break-all",
+                  }}>{cmd}</pre>
+                  <button
+                    onClick={() => copyCmd(cmd, idx)}
+                    title="Copy"
+                    style={{
+                      position: "absolute", top: 6, right: 8,
+                      padding: "3px 8px", borderRadius: 6,
+                      border: "1px solid var(--border)", background: "transparent",
+                      cursor: "pointer", fontSize: 11, color: "var(--ink-2)",
+                      fontFamily: "inherit", transition: "color .15s",
+                    }}>
+                    {copiedIdx === idx ? "✓" : "Copy"}
+                  </button>
+                </div>
+              </div>
+            ))}
+            <span style={{ fontSize: 13, color: "var(--ink-2)" }}>
+              {L("Then click Check above ↑", "Xong rồi bấm Kiểm tra ở trên ↑")}
+            </span>
           </div>
         )}
       </div>
