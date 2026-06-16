@@ -1084,6 +1084,7 @@ button:not([disabled]) {
 
 .sidebar-avatar-wrap:hover .sidebar-avatar {
   transform: scale(1.05);
+}
 
 /* ═══════════════════════════════════════════════════════════════
    NEW THEMES — added 2026-06-16
