@@ -556,9 +556,9 @@ Sample output:
 
 ---
 
-## License
-
-Apache 2.0 — free forever.
+97 specialist roles defined in repo config
+3,518 skill definitions discovered by repository scan
+1,034,519 lines across 5,762 files, measured on 2026-06-10
 
 ---
 
