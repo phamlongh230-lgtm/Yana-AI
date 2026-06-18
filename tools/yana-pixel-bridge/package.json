@@ -1,0 +1,13 @@
+{
+  "name": "yana-pixel-bridge",
+  "version": "1.0.0",
+  "description": "Bridge server: relays Claude Code agent-dispatch hook events to a Pixel Office frontend over WebSocket",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  }
+}
