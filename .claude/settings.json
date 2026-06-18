@@ -45,6 +45,10 @@
           {
             "type": "command",
             "command": "bash .claude/hooks/agent-budget-gate.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/agent-pixel-notify.sh start"
           }
         ]
       },
@@ -90,6 +94,15 @@
           {
             "type": "command",
             "command": "bash .claude/hooks/budget-sentinel.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Agent|Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/agent-pixel-notify.sh stop"
           }
         ]
       }
