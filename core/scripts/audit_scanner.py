@@ -396,7 +396,7 @@ def scan_file(file_path: str, target: str, rule_set: dict) -> list[dict]:
 
 def run_audit(target: str, scanner_dir: str, diff_files: set[str] | None = None) -> dict:
     rule_sets = load_scanner_rules(scanner_dir)
-    ignore_patterns = load_yana-aiignore_patterns(target)
+    ignore_patterns = load_yana_aiignore_patterns(target)
     if not rule_sets:
         print(f"[error] No scanner rules found in {scanner_dir}", file=sys.stderr)
         sys.exit(3)
@@ -594,7 +594,7 @@ def recompute_report_stats(report: dict) -> dict:
 
 # ── .yana-aiignore loader ──────────────────────────────────────────────────────
 
-def load_yana-aiignore_patterns(target: str) -> list[str]:
+def load_yana_aiignore_patterns(target: str) -> list[str]:
     """Load .yana-aiignore glob patterns from audit target root.
 
     Supports simple gitignore-style glob lines (comments with # are ignored), e.g.:

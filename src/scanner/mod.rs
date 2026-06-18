@@ -61,7 +61,7 @@ pub fn run_audit(
 ) -> ScanReport {
     let start = Instant::now();
     let rule_sets = rules::load_scanner_rules(scanner_dir);
-    let ignore_patterns = files::load_yana-aiignore(target);
+    let ignore_patterns = files::load_yana_aiignore(target);
 
     if rule_sets.is_empty() {
         eprintln!("[error] No scanner rules found in {scanner_dir}");

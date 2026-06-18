@@ -265,7 +265,7 @@ def check_node() -> Check:
     return Check("OK", "node.js", result.stdout.strip())
 
 
-def check_yana-ai_version() -> Check:
+def check_yana_ai_version() -> Check:
     """Check yana-ai CLI is accessible and report version."""
     script_dir = Path(__file__).resolve().parent
     bin_path   = script_dir.parent.parent / "bin" / "yana-ai"
@@ -278,7 +278,7 @@ def check_yana-ai_version() -> Check:
     return Check("OK", "yana-ai CLI", result.stdout.strip())
 
 
-def check_yana-ai_hooks_wired(target: str) -> Check:
+def check_yana_ai_hooks_wired(target: str) -> Check:
     """Check if any safety hooks are wired in .claude/settings.json."""
     import json as _json
     settings_path = Path(target) / ".claude" / "settings.json"
@@ -300,7 +300,7 @@ def check_yana-ai_hooks_wired(target: str) -> Check:
         return Check("WARN", "yana-ai hooks", "Could not parse .claude/settings.json")
 
 
-def check_yana-ai_scanners() -> Check:
+def check_yana_ai_scanners() -> Check:
     script_dir = Path(__file__).resolve().parent
     # scanners live two levels up from core/scripts/
     scanner_dir = script_dir.parent.parent / "scanner"
@@ -332,9 +332,9 @@ def run_doctor(target: str, no_color: bool = False, quiet: bool = False) -> dict
     checks.append(check_anthropic_key())
     checks.append(check_node())
     checks.append(check_ci_env())
-    checks.append(check_yana-ai_scanners())
-    checks.append(check_yana-ai_version())
-    checks.append(check_yana-ai_hooks_wired(target))
+    checks.append(check_yana_ai_scanners())
+    checks.append(check_yana_ai_version())
+    checks.append(check_yana_ai_hooks_wired(target))
 
     counts = {"OK": 0, "WARN": 0, "FAIL": 0, "INFO": 0}
     for ck in checks:
