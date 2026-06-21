@@ -20,6 +20,7 @@ mod vault;
 mod watch;
 mod init;
 mod provenance;
+mod guard;
 
 use clap::{Parser, Subcommand};
 
@@ -62,6 +63,9 @@ enum Commands {
     Score  { #[command(subcommand)] action: score::ScoreAction },
     /// Environment and dependency health checks
     Doctor { #[command(subcommand)] action: doctor::DoctorAction },
+    /// In-process PreToolUse hook ports (destructive-command guard, token
+    /// budget + circuit breaker) — no jq/Node subprocess spawn per call
+    Guard  { #[command(subcommand)] action: guard::GuardAction },
     /// Parallel mission orchestrator — create, dispatch, track agent tasks
     Mission { #[command(subcommand)] action: mission::MissionAction },
     /// Route a task description → simple / complex / external (yana-router)
@@ -330,6 +334,7 @@ fn main() {
         Commands::Fix    { action } => fix::dispatch(action),
         Commands::Score  { action } => score::dispatch(action),
         Commands::Doctor { action } => doctor::dispatch(action),
+        Commands::Guard  { action } => guard::dispatch(action),
         Commands::Spec   { action } => spec::dispatch(action),
         Commands::Design { action } => design::dispatch(action),
         Commands::Graph  { action } => graph::dispatch(action),

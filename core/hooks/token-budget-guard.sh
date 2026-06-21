@@ -13,6 +13,18 @@
 # Bypass: YANA_BUDGET_BYPASS=1 (sovereign only)
 set -euo pipefail
 
+# ── Native Rust fast path (audit 2026-06-21) ─────────────────────────────────
+# If yana-rt is installed and on PATH, delegate to the in-process Rust port:
+# no Node.js subprocess spawn (this script previously shelled out to `node
+# -e` up to 5 times per call just to read/write the two JSON state files
+# below). Same file paths, same field names, same circuit-breaker thresholds
+# — tested cross-compatible: a session can call this bash hook on some tool
+# calls and the Rust one on others without the state ever diverging (see
+# src/guard/token_budget.rs). Falls through unchanged if yana-rt isn't found.
+if command -v yana-rt >/dev/null 2>&1; then
+  exec yana-rt guard token-budget
+fi
+
 BUDGET_FILE="${YANA_TOKEN_BUDGET:-core/memory/L2_session/token-budget.json}"
 CIRCUIT_FILE="${YANA_CIRCUIT_STATE:-core/memory/L2_session/circuit-state.json}"
 MAX_LOOP_TOKENS="${YANA_MAX_LOOP_TOKENS:-50000}"

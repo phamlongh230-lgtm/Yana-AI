@@ -1,6 +1,6 @@
 {
   "algo": "sha256",
-  "generated": "2026-06-21T10:39:19+00:00",
+  "generated": "2026-06-21T11:05:21+00:00",
   "count": 220,
   "files": {
     "core/gates/anti-graffiti-guard.js": "09c6422e923ef6aa7f35381e73b98775788d872b68f15902102b9e2756aec40f",
@@ -31,7 +31,7 @@
     "core/hooks/deploy-gate.sh": "79322738dadb84ba82037ee9d663dde87f206750c3be7d7695574f0c344ddf67",
     "core/hooks/format-on-write.sh": "06d265ff1fa4fc7cb094d1a44af61ac63a4faa09ad410ebd401111a529eddc8e",
     "core/hooks/gitnexus-hook.js": "3b48d43eb5b5416a4b4d0dfbbd1d9ab5ac9960b9f0944269417800e098b489e3",
-    "core/hooks/guard-destructive.sh": "33e3800a0e7c66074fad20da75388dc91ca222404f83f6d8fc46d286126cffc0",
+    "core/hooks/guard-destructive.sh": "c66f86aed23bcaf0783ed4296cf5484cbb2f1f52e25d6f5446556a2dce6c5690",
     "core/hooks/hook-timeout-guard.sh": "0745a34a5e51423fc38a1401adc76b34669892a757c01587322845bcb04a9e12",
     "core/hooks/intent-inference.sh": "d40b207e4de02a08ad8bf3c1c6eb11e6c6a7ade234df9da17b6d0074fdff5225",
     "core/hooks/log-agent.sh": "eaba323aae01da7d73ff54696c4c71ed2ebb4e191e77e5178d6a3a71c348ed27",
@@ -50,7 +50,7 @@
     "core/hooks/supply-chain-guard.sh": "18fae460d295e6cdf52acbb64c532866524f33ae10d0b9e80744a31e29875e04",
     "core/hooks/telemetry-sender.sh": "b4402b0fe084d59643ccc7ff20ca9d329fe29be8cd0396801f5bdabe11b604c8",
     "core/hooks/test-runner-gate.sh": "8168ab44e8b4b0c2711de5524a65ebccf047e35b048c5934c587d6974e5c0b35",
-    "core/hooks/token-budget-guard.sh": "b863c14f5c928a8035dcf1e3eacaccfe21d5e392b1b3ec2bd8619fd917bcf218",
+    "core/hooks/token-budget-guard.sh": "2c937f38e1f7e9575147e173a578824df7e42163db164db2e37955b12d22ee41",
     "core/hooks/token-scope-guard.sh": "394140fae8b97e4852aa3e1f201b05a1c1d74370ea48ed9b53b5413fbd7adb27",
     "core/hooks/tool-attention.js": "79939c10f7e234327245a162c60a33ed56acd2009cb2beca5e0d13034a4496d0",
     "core/hooks/tool-proxy-enforcer.sh": "8a4005734815b4acda484784557b499f4999bc047042ea006028a623ddf5e6a4",

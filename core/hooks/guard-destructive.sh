@@ -14,6 +14,18 @@
 
 set -euo pipefail
 
+# ── Native Rust fast path (audit 2026-06-21) ─────────────────────────────────
+# If yana-rt is installed and on PATH, delegate to the in-process Rust port:
+# no jq dependency, no subprocess-per-call cost. `exec` hands stdin/stdout
+# straight through and the script's exit code becomes yana-rt's exit code —
+# tested byte-for-byte identical to the bash logic below (same 7 patterns,
+# same deny-reason text; see src/guard/mod.rs::cmd_destructive). Falls
+# through unchanged to the jq-based logic if yana-rt isn't found, so this
+# hook keeps working exactly as before on a machine without it installed.
+if command -v yana-rt >/dev/null 2>&1; then
+  exec yana-rt guard destructive
+fi
+
 # ── Dependency guard ─────────────────────────────────────────────────────────
 # This hook requires `jq` to parse the tool-input JSON. If jq is missing we
 # FAIL CLOSED: block the command so the user installs jq rather than silently
