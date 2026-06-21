@@ -39,13 +39,19 @@ else
   TRANSCRIPT_PATH=$(printf '%s' "$INPUT" | jq -r '.transcript_path // ""' 2>/dev/null || true)
 
   if [[ -n "$TRANSCRIPT_PATH" && -f "$TRANSCRIPT_PATH" ]]; then
-    LAST_TEXT=$(jq -r '
-      [ .[] | select(.role == "assistant") ] | last |
+    # Transcript is JSONL (one JSON object per line, NOT a single array) —
+    # must slurp with -s. Each line's real shape is
+    # {"type": "assistant"|"user"|..., "message": {"role": ..., "content": ...}, ...}
+    # — there is no top-level .role. Filtering on .role without -s silently
+    # matched nothing on every real transcript (verified against a live
+    # session file); .type + .message.content is the actual schema.
+    LAST_TEXT=$(jq -s -r '
+      [ .[] | select(.type == "assistant") | .message.content ] | last |
       if . == null then ""
-      elif (.content | type) == "array" then
-        [ .content[] | select(.type == "text") | .text ] | join("\n")
+      elif type == "array" then
+        [ .[] | select(.type == "text") | .text ] | join("\n")
       else
-        .content
+        .
       end
     ' "$TRANSCRIPT_PATH" 2>/dev/null || true)
   fi

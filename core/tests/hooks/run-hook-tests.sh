@@ -181,6 +181,60 @@ test_truth_gate "Qualifier phrasing — reportedly" \
   "Reportedly fixed, no commit found to confirm." \
   "allow"
 
+# Real transcript_path code path — the above tests all use TRUTH_GATE_TEST_TEXT,
+# which bypasses the jq parsing entirely. A real Claude Code transcript is
+# JSONL (one JSON object per line), each line shaped
+# {"type":"assistant"|"user", "message":{"role":..., "content":...}}, NOT a
+# single JSON array of {"role":..., "content":...} objects. These cases
+# exercise the actual jq filter against that real shape.
+test_truth_gate_transcript() {
+    local test_name=$1
+    local transcript_jsonl=$2
+    local expect_warn=$3   # "warn" or "allow"
+
+    TOTAL_COUNT=$((TOTAL_COUNT + 1))
+    echo -n "Testing truth-gate-guard.sh [transcript: $test_name]... "
+
+    local tmp_transcript
+    tmp_transcript=$(mktemp)
+    printf '%s\n' "$transcript_jsonl" > "$tmp_transcript"
+
+    local output
+    output=$(jq -n --arg p "$tmp_transcript" '{transcript_path: $p}' \
+        | bash "$HOOKS_DIR/truth-gate-guard.sh" 2>/dev/null || true)
+    rm -f "$tmp_transcript"
+
+    if [[ "$expect_warn" == "warn" ]]; then
+        if echo "$output" | grep -q "TRUTH GATE"; then
+            echo "PASS"
+        else
+            echo "FAIL (Expected TRUTH GATE warning, got: ${output:0:120})"
+            FAIL_COUNT=$((FAIL_COUNT + 1))
+        fi
+    else
+        if [[ -z "$output" ]]; then
+            echo "PASS"
+        else
+            echo "FAIL (Expected no output, got: ${output:0:120})"
+            FAIL_COUNT=$((FAIL_COUNT + 1))
+        fi
+    fi
+}
+
+test_truth_gate_transcript "Bare claim in real JSONL transcript, string content" \
+'{"type":"user","message":{"role":"user","content":"fix it"}}
+{"type":"assistant","message":{"role":"assistant","content":"The bug is fixed."}}' \
+  "warn"
+
+test_truth_gate_transcript "Claim with evidence in real JSONL transcript, array content" \
+'{"type":"user","message":{"role":"user","content":"run tests"}}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"text","text":"Build done. 42 tests passed, 0 failed."}]}}' \
+  "allow"
+
+test_truth_gate_transcript "No claim verbs in real JSONL transcript" \
+'{"type":"assistant","message":{"role":"assistant","content":"Here is what I found."}}' \
+  "allow"
+
 test_truth_gate "Qualifier phrasing — unverified" \
   "Build status unverified — no recent CI output seen." \
   "allow"
