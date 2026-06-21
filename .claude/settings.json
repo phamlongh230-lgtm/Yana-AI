@@ -58,6 +58,10 @@
           {
             "type": "command",
             "command": "bash .claude/hooks/token-budget-guard.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/per-tool-circuit-breaker.sh"
           }
         ]
       }
@@ -68,6 +72,10 @@
           {
             "type": "command",
             "command": "bash .claude/hooks/auto-decompose.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/session-bootstrap.sh"
           }
         ]
       }
