@@ -56,13 +56,13 @@ def main() -> int:
     if not _yana_ai_rt_available():
         print("SKIP: yana-rt not installed — skipping validate-spec regression tests")
         return 0
-    ok = run(["bash", "bin/yana-ai", "validate-spec", "examples/specs/valid-task-spec.json"])
+    ok = run(["bash", "bin/yana", "validate-spec", "examples/specs/valid-task-spec.json"])
     if ok.returncode != 0 or "Final result: VALID" not in ok.stdout:
         raise SystemExit(
             f"valid spec failed\ncode={ok.returncode}\nstdout={ok.stdout}\nstderr={ok.stderr}"
         )
 
-    bad = run(["bash", "bin/yana-ai", "validate-spec", "examples/specs/invalid-task-spec.json"])
+    bad = run(["bash", "bin/yana", "validate-spec", "examples/specs/invalid-task-spec.json"])
     if bad.returncode != 1 or "Final result: INVALID" not in bad.stdout:
         raise SystemExit(
             f"invalid spec did not fail as expected\ncode={bad.returncode}\nstdout={bad.stdout}\nstderr={bad.stderr}"
@@ -70,7 +70,7 @@ def main() -> int:
 
     ok_cp = run([
         "bash",
-        "bin/yana-ai",
+        "bin/yana",
         "validate-spec",
         "examples/specs/valid-task-spec.json",
         "--context-pack",
@@ -83,7 +83,7 @@ def main() -> int:
 
     bad_cp = run([
         "bash",
-        "bin/yana-ai",
+        "bin/yana",
         "validate-spec",
         "examples/specs/valid-task-spec.json",
         "--context-pack",
@@ -96,7 +96,7 @@ def main() -> int:
 
     miss_cp = run([
         "bash",
-        "bin/yana-ai",
+        "bin/yana",
         "validate-spec",
         "examples/specs/valid-task-spec.json",
         "--context-pack",
@@ -108,7 +108,7 @@ def main() -> int:
         )
 
     js_ok = _assert_json(
-        ["bash", "bin/yana-ai", "validate-spec", "examples/specs/valid-task-spec.json", "--json"],
+        ["bash", "bin/yana", "validate-spec", "examples/specs/valid-task-spec.json", "--json"],
         0,
         "valid",
     )
@@ -116,7 +116,7 @@ def main() -> int:
         raise SystemExit("json valid spec should mark context_pack.status=not_provided")
 
     js_bad = _assert_json(
-        ["bash", "bin/yana-ai", "validate-spec", "examples/specs/invalid-task-spec.json", "--json"],
+        ["bash", "bin/yana", "validate-spec", "examples/specs/invalid-task-spec.json", "--json"],
         1,
         "invalid",
     )
@@ -126,7 +126,7 @@ def main() -> int:
     js_ok_cp = _assert_json(
         [
             "bash",
-            "bin/yana-ai",
+            "bin/yana",
             "validate-spec",
             "examples/specs/valid-task-spec.json",
             "--context-pack",
@@ -142,7 +142,7 @@ def main() -> int:
     js_bad_cp = _assert_json(
         [
             "bash",
-            "bin/yana-ai",
+            "bin/yana",
             "validate-spec",
             "examples/specs/valid-task-spec.json",
             "--context-pack",
@@ -158,7 +158,7 @@ def main() -> int:
     js_miss_cp = _assert_json(
         [
             "bash",
-            "bin/yana-ai",
+            "bin/yana",
             "validate-spec",
             "examples/specs/valid-task-spec.json",
             "--context-pack",

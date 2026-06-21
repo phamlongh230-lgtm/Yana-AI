@@ -97,12 +97,12 @@ def main() -> int:
     schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
 
     payloads = [
-        _load_payload(["bash", "bin/yana-ai", "check-context", "examples/context-packs/valid-basic", "--json"], 0),
-        _load_payload(["bash", "bin/yana-ai", "check-context", "examples/context-packs/invalid-broad-scope", "--json"], 1),
-        _load_payload(["bash", "bin/yana-ai", "validate-spec", "examples/specs/valid-task-spec.json", "--json"], 0),
+        _load_payload(["bash", "bin/yana", "check-context", "examples/context-packs/valid-basic", "--json"], 0),
+        _load_payload(["bash", "bin/yana", "check-context", "examples/context-packs/invalid-broad-scope", "--json"], 1),
+        _load_payload(["bash", "bin/yana", "validate-spec", "examples/specs/valid-task-spec.json", "--json"], 0),
         _load_payload([
             "bash",
-            "bin/yana-ai",
+            "bin/yana",
             "validate-spec",
             "examples/specs/valid-task-spec.json",
             "--context-pack",

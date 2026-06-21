@@ -23,7 +23,7 @@ def _yana_ai_rt_available() -> bool:
 def test_audit_json_mvp_output_contract() -> None:
     if not _yana_ai_rt_available():
         pytest.skip("yana-rt not installed")
-    proc = run(["bash", "bin/yana-ai", "audit", ".", "--json"])
+    proc = run(["bash", "bin/yana", "audit", ".", "--json"])
 
     assert proc.returncode in (0, 1, 2), (
         f"unexpected exit code: {proc.returncode}\nstdout={proc.stdout}\nstderr={proc.stderr}"

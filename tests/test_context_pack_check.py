@@ -13,7 +13,7 @@ def run(args: list[str]):
 
 
 def _assert_ok(path: str) -> None:
-    p = run(["bash", "bin/yana-ai", "check-context", path])
+    p = run(["bash", "bin/yana", "check-context", path])
     if p.returncode != 0 or "Result: VALID" not in p.stdout:
         raise SystemExit(
             f"{path} should pass\ncode={p.returncode}\nstdout={p.stdout}\nstderr={p.stderr}"
@@ -21,7 +21,7 @@ def _assert_ok(path: str) -> None:
 
 
 def _assert_invalid(path: str) -> None:
-    p = run(["bash", "bin/yana-ai", "check-context", path])
+    p = run(["bash", "bin/yana", "check-context", path])
     if p.returncode != 1 or "Result: INVALID" not in p.stdout:
         raise SystemExit(
             f"{path} should fail\ncode={p.returncode}\nstdout={p.stdout}\nstderr={p.stderr}"
@@ -29,7 +29,7 @@ def _assert_invalid(path: str) -> None:
 
 
 def _assert_json(path: str, expected_code: int, expected_status: str) -> dict:
-    p = run(["bash", "bin/yana-ai", "check-context", path, "--json"])
+    p = run(["bash", "bin/yana", "check-context", path, "--json"])
     if p.returncode != expected_code:
         raise SystemExit(
             f"{path} json mode code mismatch\nexpected={expected_code}\ncode={p.returncode}\nstdout={p.stdout}\nstderr={p.stderr}"
@@ -78,7 +78,7 @@ def main() -> int:
     _assert_invalid("examples/context-packs/invalid-broad-scope")
     _assert_invalid("examples/context-packs/invalid-vague-content")
 
-    miss = run(["bash", "bin/yana-ai", "check-context", "examples/context-packs/not-found"])
+    miss = run(["bash", "bin/yana", "check-context", "examples/context-packs/not-found"])
     if miss.returncode != 2:
         raise SystemExit(
             f"missing dir should return code 2\ncode={miss.returncode}\nstdout={miss.stdout}\nstderr={miss.stderr}"

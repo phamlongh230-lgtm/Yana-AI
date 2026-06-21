@@ -33,7 +33,7 @@ def test_repo_root_audit_ignores_demo_fixture_findings() -> None:
     if not _yana_ai_rt_available():
         print("SKIP: yana-rt not installed — skipping audit regression tests")
         return
-    code, out, err = _run(["bash", "bin/yana-ai", "audit", "."])
+    code, out, err = _run(["bash", "bin/yana", "audit", "."])
     _assert(code in (0, 1, 2), f"audit . failed unexpectedly: code={code}\nSTDERR:\n{err}\nSTDOUT:\n{out[:1000]}")
 
     # should not report known demo fixture file in root audit output
@@ -47,7 +47,7 @@ def test_direct_demo_target_still_reports_expected_unsafe_findings() -> None:
     if not _yana_ai_rt_available():
         print("SKIP: yana-rt not installed — skipping audit regression tests")
         return
-    code, out, err = _run(["bash", "bin/yana-ai", "audit", "examples/unsafe-agent-repo"])
+    code, out, err = _run(["bash", "bin/yana", "audit", "examples/unsafe-agent-repo"])
     _assert(code in (0, 1, 2), f"audit examples target failed unexpectedly: code={code}\nSTDERR:\n{err}\nSTDOUT:\n{out[:1000]}")
 
     _assert(
