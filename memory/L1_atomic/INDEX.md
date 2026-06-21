@@ -13,6 +13,7 @@ Schema: `memory/L1_atomic/SCHEMA.md`
 |----|------|-------|------------|----------------------|------|
 | fact-scope-boundary | constraint | both | high | Yana AI-scoped tasks must not edit app/ components/ lib/ db/ migrations/… | [fact-scope-boundary.md](fact-scope-boundary.md) |
 | fact-truth-gate | fact | Yana AI | high | Truth Gate (L3) is enforced by AI prompt + runtime Stop hook truth-gate-guard.sh… | [fact-truth-gate.md](fact-truth-gate.md) |
+| fact-hermes-integration-paused | decision | Yana AI | high | hermes_adapted integration: Phase 0 done, Phases 1-5 designed but not started… | [fact-hermes-integration-paused.md](fact-hermes-integration-paused.md) |
 | fact-hook-exit-codes | fact | Yana AI | high | Hooks use exit 0 to allow, exit 0 + stdout to warn, JSON + exit 2 to block… | [fact-hook-exit-codes.md](fact-hook-exit-codes.md) |
 | fact-confidence-rule | constraint | Yana AI | high | L1 fact confidence must be promoted manually only — never auto-promoted… | [fact-confidence-rule.md](fact-confidence-rule.md) |
 
