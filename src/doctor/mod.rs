@@ -1,3 +1,5 @@
+mod dispatch_check;
+
 use clap::Subcommand;
 use std::path::Path;
 
@@ -8,11 +10,18 @@ pub enum DoctorAction {
         #[arg(default_value = ".")] target: String,
         #[arg(long)] json: bool,
     },
+    /// Cross-check src/main.rs's Commands enum against bin/yana's dispatch
+    /// table — catches commands that look ported but aren't wired up
+    Dispatch {
+        #[arg(default_value = ".")] target: String,
+        #[arg(long)] json: bool,
+    },
 }
 
 pub fn dispatch(action: DoctorAction) {
     match action {
         DoctorAction::Run { target, json } => cmd_doctor(&target, json),
+        DoctorAction::Dispatch { target, json } => dispatch_check::cmd_doctor_dispatch(&target, json),
     }
 }
 

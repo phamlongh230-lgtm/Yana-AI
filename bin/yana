@@ -274,6 +274,7 @@ Usage: yana-ai <command> [target] [flags]
 
 Commands:
   doctor [target]         Check environment health before starting an agent session
+  doctor dispatch [target] Cross-check src/main.rs Commands enum vs bin/yana dispatch table
   audit  [target]         Scan AI agent setup for risk patterns (default target: .)
   policy <subcommand>     Policy Kit — safe config templates for audit findings
   guard  <subcommand>     Control Layer — install runtime enforcement hooks
@@ -390,9 +391,18 @@ cmd_version() {
 }
 
 # ── doctor ────────────────────────────────────────────────────────────────────
+# `doctor` has no explicit subcommand in the public CLI — `yana doctor .`
+# always meant `doctor run .`, so that's the default. `dispatch` is the one
+# named exception (cross-checks this dispatch table itself against
+# src/main.rs) and must pass through as its own DoctorAction subcommand
+# instead of being swallowed as a positional arg to `run`.
 
 cmd_doctor() {
-  rt doctor run "$@"
+  local first="${1:-}"
+  case "$first" in
+    dispatch) rt doctor "$@" ;;
+    *)        rt doctor run "$@" ;;
+  esac
 }
 
 # ── router ────────────────────────────────────────────────────────────────────
