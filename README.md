@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <em>Built by Vũ Văn Tâm · 17 · Vietnam · 1,848,363 lines</em>
+  <em>Built by Vũ Văn Tâm · 17 · Vietnam</em>
 </p>
 
 <p align="center">
@@ -95,7 +95,7 @@ Built by one 17-year-old in Vietnam — which means real-world feedback is the m
 │      "The orchestration layer between humans and AI —            │
 │        routing, safety, and context for every domain."           │
 │                                                                  │
-│        Built by Vũ Văn Tâm · 17 · Vietnam · 1.8M+ lines          │
+│        Built by Vũ Văn Tâm · 17 · Vietnam                       │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
@@ -232,7 +232,7 @@ Execute (or block + log)
 | 🔌 Harness adapters | **15** (Claude Code, Cursor, Windsurf, Antigravity, Kiro, OpenCode, Zed, Gemini, Copilot, Aider...) |
 | 🦀 Rust subcommands | **23** (`scan`, `graph`, `vault`, `route`, `mission`, `hunt`, `fix`, `doctor`...) |
 | ✅ Rule checks in CI | **826** |
-| 📦 Total codebase | **1,848,363 lines · 10,331 files** |
+| 📦 Total codebase | **10,331 files** |
 
 ---
 
@@ -560,7 +560,7 @@ Sample output:
 
 97 specialist roles defined in repo config
 1,980 skill definitions discovered by repository scan
-1,848,363 lines across 10,331 files, measured on 2026-06-21
+10,331 files, measured on 2026-06-21
 
 ---
 
