@@ -360,7 +360,7 @@
     },
     "hooks": {
       "status": "imported",
-      "count": 47,
+      "count": 48,
       "actual_present": [
         "core/hooks/agent-arbitration.sh",
         "core/hooks/api-destruct-guard.sh",
@@ -381,6 +381,7 @@
         "core/hooks/deploy-gate.sh",
         "core/hooks/format-on-write.sh",
         "core/hooks/gitnexus-hook.js",
+        "core/hooks/guard-blast-radius.sh",
         "core/hooks/guard-destructive.sh",
         "core/hooks/hook-timeout-guard.sh",
         "core/hooks/tool-proxy-enforcer.sh",
