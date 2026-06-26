@@ -1,21 +1,21 @@
-```
+```ansi
 $ yana-ai
-╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+[38;5;213m╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮[0m
 │                                                                                                                                            │
-│   ██╗   ██╗ █████╗ ███╗   ██╗ █████╗     █████╗ ██╗                                                                                       │
-│   ╚██╗ ██╔╝██╔══██╗████╗  ██║██╔══██╗   ██╔══██╗██║                                                                                       │
-│    ╚████╔╝ ███████║██╔██╗ ██║███████║   ███████║██║                                                                                       │
-│     ╚██╔╝  ██╔══██║██║╚██╗██║██╔══██║   ██╔══██║██║                                                                                       │
-│      ██║   ██║  ██║██║ ╚████║██║  ██║   ██║  ██║██║                                                                                       │
-│      ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝   ╚═╝  ╚═╝╚═╝                                                                                       │
+│   [1;38;5;213m██╗   ██╗ █████╗ ███╗   ██╗ █████╗     █████╗ ██╗[0m                                                                                       │
+│   [1;38;5;207m╚██╗ ██╔╝██╔══██╗████╗  ██║██╔══██╗   ██╔══██╗██║[0m                                                                                       │
+│   [1;38;5;171m ╚████╔╝ ███████║██╔██╗ ██║███████║   ███████║██║[0m                                                                                       │
+│   [1;38;5;135m  ╚██╔╝  ██╔══██║██║╚██╗██║██╔══██║   ██╔══██║██║[0m                                                                                       │
+│   [1;38;5;99m   ██║   ██║  ██║██║ ╚████║██║  ██║   ██║  ██║██║[0m                                                                                       │
+│   [1;38;5;75m   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝   ╚═╝  ╚═╝╚═╝[0m                                                                                       │
 │                                                                                                                                            │
-│ v0.42.0 · Personal Agent OS                │ Tips for getting started                                                                      │
-│ 101 agents · 1980 skills                   │ yana-ai doctor                                                                               │
-│ 61 rules · 47 hooks · 101 scripts          │ yana-ai init                                                                                  │
-│ 826 checks · 9 gate layers                 │                                                                                               │
+│ [38;5;75mv0.42.1[0m · [38;5;225mPersonal Agent OS[0m                │ Tips for getting started                                                                      │
+│ [38;5;75m101[0m agents · [38;5;75m1980[0m skills                   │ yana-ai doctor                                                                               │
+│ [38;5;75m61[0m rules · [38;5;75m48[0m hooks · [38;5;75m101[0m scripts          │ yana-ai init                                                                                  │
+│ [38;5;75m826[0m checks · [38;5;75m9[0m gate layers                 │                                                                                               │
 │                                            │ What's new                                                                                    │
-│                                            │ v0.42.0 — Mobile parity + Pixel Office + theming                                             │
-╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+│                                            │ [38;5;75mv0.42.1[0m — Mobile parity + Pixel Office + theming                                             │
+[38;5;213m╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯[0m
 ```
 
 <h1 align="center">Yana AI</h1>
@@ -38,7 +38,7 @@ $ yana-ai
   <a href="https://github.com/yanacuti1121/yana-ai/actions/workflows/ci.yml">
     <img src="https://github.com/yanacuti1121/yana-ai/actions/workflows/ci.yml/badge.svg" alt="CI" />
   </a>
-  <img src="https://img.shields.io/badge/version-v0.42.0-orange?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/version-v0.42.1-orange?style=for-the-badge" />
   <img src="https://img.shields.io/badge/license-Apache_2.0-blue?style=for-the-badge" />
   <a href="https://www.npmjs.com/package/yana-ai">
     <img src="https://img.shields.io/npm/v/yana-ai?style=for-the-badge&logo=npm&color=cb3837" />
