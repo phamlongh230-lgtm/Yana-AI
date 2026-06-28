@@ -23,12 +23,56 @@ core/skills/<skill-name>/
 - Triggers must be specific enough that they don't fire on unrelated prompts.
 - If a skill overlaps heavily with another, prefer extending the existing one.
 
+## Output Contract (required for skills with outputs)
+
+Skills that produce analysis, recommendations, or data-based conclusions MUST include an explicit `## Output Contract` section specifying:
+
+- **Forced conclusion** — a definitive answer, not hedged language. No "may", "might", "seems", "consider". If uncertain, state confidence % and reason, not vagueness.
+- **Output shape** — exact fields the skill will always produce (e.g. verdict, confidence, evidence, next-action).
+- **Ambiguity ban** — phrases like "it depends", "you should evaluate", "there are pros and cons" are banned as the final output. They may appear in reasoning, never in the conclusion.
+
+```markdown
+## Output Contract
+
+Verdict:     [SPECIFIC DECISION — not "it depends"]
+Confidence:  [0–100%]
+Evidence:    [what was checked, with sources]
+Next action: [one concrete step]
+```
+
+## In-Skill Verification (required for skills using numbers or external data)
+
+Skills that process numeric data, metrics, or external facts MUST embed a verification step — not just recommend one. The skill must specify:
+
+- What to cross-check (which fields, which sources)
+- Acceptable deviation threshold (e.g. ≤1% for financial figures)
+- What to do on mismatch (flag, reject, or note discrepancy)
+
+```markdown
+## Verification Step
+
+Before finalizing output:
+1. Re-check [specific field] against [source B]
+2. Deviation > [threshold] → flag and note in output, do not silently correct
+3. If cross-check unavailable → label output as "unverified" with confidence ≤ 60%
+```
+
+## Adversarial team pattern (for complex analysis skills)
+
+When a skill requires balanced, high-stakes analysis, use opposing roles rather than a single perspective. Spawn subagents with explicitly conflicting mandates — do not aim for consensus, aim for productive tension.
+
+See `core/skills/adversarial-team-pattern/SKILL.md` for the full template.
+
+Rule: if you spawn 2+ subagents to analyze the same question, at least one must have a "challenge / find flaws" role. Consensus-only multi-agent = single agent with extra steps.
+
 ## Anti-patterns to avoid
 
 - Skills that claim facts without verification steps.
 - Skills that instruct Claude to take destructive actions without a gate.
 - Skills that reference external URLs or credentials directly.
 - Placeholder skills with empty or lorem-ipsum content.
+- Skills producing vague conclusions ("it depends", "consider your needs") as final output.
+- Multi-agent skills where all agents are instructed to agree.
 
 ## When adding a new skill
 
