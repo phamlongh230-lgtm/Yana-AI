@@ -10,7 +10,7 @@ $ yana-ai
 │      ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝   ╚═╝  ╚═╝╚═╝                                                                                       │
 │                                                                                                                                            │
 │ v0.42.1 · Personal Agent OS                │ Tips for getting started                                                                      │
-│ 101 agents · 1,983 skills                   │ yana-ai doctor                                                                               │
+│ 162 agents · 1,983 skills                   │ yana-ai doctor                                                                               │
 │ 66 rules · 49 hooks · 101 scripts          │ yana-ai init                                                                                  │
 │ 826 checks · 9 gate layers                 │                                                                                               │
 │                                            │ What's new                                                                                    │
@@ -54,7 +54,7 @@ $ yana-ai
 
 <p align="center">
   <img src="https://img.shields.io/badge/🧩_skills-1,983-2f7e6e?style=flat-square" />
-  <img src="https://img.shields.io/badge/🤖_agents-101-7d6aa8?style=flat-square" />
+  <img src="https://img.shields.io/badge/🤖_agents-162-7d6aa8?style=flat-square" />
   <img src="https://img.shields.io/badge/📜_rules-66-b96b80?style=flat-square" />
   <img src="https://img.shields.io/badge/🪝_hooks-49-b78f3d?style=flat-square" />
   <img src="https://img.shields.io/badge/⚡_commands-164-3a7ca5?style=flat-square" />
@@ -64,7 +64,7 @@ $ yana-ai
 
 ---
 
-**Yana AI** is a personal agent operating system for AI coding tools — runtime safety hooks, memory tiers, 101 specialist agents, 1,983 skills, and a Rust runtime that intercepts dangerous AI actions before they execute.
+**Yana AI** is a personal agent operating system for AI coding tools — runtime safety hooks, memory tiers, 162 specialist agents, 1,983 skills, and a Rust runtime that intercepts dangerous AI actions before they execute.
 
 Works with **Claude Code**, **Cursor**, **Windsurf**, **Antigravity**, **Kiro**, **OpenCode**, **Zed**, **Gemini**, **GitHub Copilot**, **Aider**, and more.
 
@@ -75,7 +75,7 @@ Works with **Claude Code**, **Cursor**, **Windsurf**, **Antigravity**, **Kiro**,
 
 → [VISION.md](VISION.md) · [ARCHITECTURE.md](ARCHITECTURE.md) · [ROADMAP.md](ROADMAP.md)
 
-> **What are the 97 agents?** They are not 97 AI models running at the same time — they're predefined specialist roles (security, frontend, backend, testing, learning, daily assistant…) used for routing and task organization. In normal usage, only the agent required for the current task is activated; most requests use a single model and a single agent route.
+> **What are the 162 agents?** They are not 162 AI models running at the same time — they're predefined specialist roles (security, frontend, backend, testing, learning, daily assistant…) used for routing and task organization. In normal usage, only the agent required for the current task is activated; most requests use a single model and a single agent route.
 >Generated from repository metrics
 Last updated: 2026-06-21
 ---
@@ -177,7 +177,7 @@ graph TB
     subgraph CORE["⚙️ Core Engine"]
         direction TB
         SKILLS["📚 1,983 skills\nSKILL.md workflow defs\n(frontend, backend, AI, K8s, sec...)"]
-        AGENTS["🤖 97 specialist agents\n(planner, security-auditor,\nhoc-tap, daily-assistant...)"]
+        AGENTS["🤖 162 specialist agents\n(planner, security-auditor,\nhoc-tap, daily-assistant...)"]
         RULES["📜 65 enforced rules\n(security, git, UI, TypeScript,\nAPI security, core-lock...)"]
         HOOKS["🪝 46 hooks\nPreToolUse · PostToolUse · Stop\n(guard-destructive, truth-gate...)"]
         CMDS["⚡ 164 slash commands\n/audit · /scan · /route\n/tdd-cycle · /simplify..."]
@@ -224,7 +224,7 @@ graph TB
         direction LR
         F1["① yana-ai audit .\n30s · no learning needed\nScan any repo for AI agent risks"]
         F2["② Policy Kit\nAdopt safe configs piece by piece\n(CLAUDE.md · .mcp.json · CI gates)"]
-        F3["③ Full Control Layer\nAll 9 gates · 97 agents\nMerkle log · Sovereign veto"]
+        F3["③ Full Control Layer\nAll 9 gates · 162 agents\nMerkle log · Sovereign veto"]
         F1 --> F2 --> F3
     end
 
@@ -273,7 +273,7 @@ Execute (or block + log)
 | | |
 |---|---|
 | 🧩 Skills | **1,983** workflow skill definitions |
-| 🤖 Agents | **97** specialist agents |
+| 🤖 Agents | **162** specialist agents |
 | 📜 Safety rules | **65** enforced rules |
 | 🪝 Hooks | **46** pre/post-execution hooks |
 | ⚡ Slash commands | **164** |
@@ -380,7 +380,7 @@ core/
 ├── rules/          # 65 enforced rules (security, correctness, UI, git)
 ├── scripts/        # safe-run.sh, verify-core-lock.sh, secure-logger.sh
 ├── gates/          # truth_gate.md, action_gate.md
-├── agents/         # 97 specialist agent definitions
+├── agents/         # 162 specialist agent definitions
 ├── skills/         # 1,983 SKILL.md files
 ├── config/
 │   ├── core-lock.json    # SHA-256 manifest — 220 core files pinned
@@ -394,7 +394,7 @@ Key properties:
 - **Merkle audit chain** — every action logged, tamper-detected
 - **Core-lock integrity** — SHA-256 manifest detects drift, deletion, and rule injection in core/
 - **BFT consensus** — 3-of-N vote required for core infrastructure writes
-- **Sovereign overlord** — human can freeze all 97 agents instantly
+- **Sovereign overlord** — human can freeze all 162 agents instantly
 - **Honeypot layer** — decoy files/env vars catch compromised agents
 
 ---
@@ -463,7 +463,7 @@ If Yana AI is the power grid, Yana is the first building plugged into it.
 One person. No team. No funding.
 
 - Hook architecture, safety gates, Python CLI
-- Rust runtime (`yana-rt`), 97 agents, 1,983 skills, multi-harness support
+- Rust runtime (`yana-rt`), 162 agents, 1,983 skills, multi-harness support
 - 15 harness adapters (Claude Code, Cursor, Windsurf, Antigravity, Kiro, Zed, Gemini, Copilot, Aider…)
 
 The 1,983 skills cover: frontend, backend, AI/LLM, security, Kubernetes, WebAssembly, DevOps, databases, testing, and more. Two new agent personas cover non-coding use cases: learning (`hoc-tap`) and daily productivity (`daily-assistant`).
@@ -606,7 +606,7 @@ Sample output:
 
 ---
 
-97 specialist roles defined in repo config
+162 specialist roles defined in repo config
 1,983 skill definitions discovered by repository scan
 10,331 files, measured on 2026-06-21
 

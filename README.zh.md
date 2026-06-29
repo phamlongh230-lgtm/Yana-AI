@@ -10,7 +10,7 @@ $ yana-ai
 │      ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝   ╚═╝  ╚═╝╚═╝                                                                                       │
 │                                                                                                                                            │
 │ v0.42.1 · Personal Agent OS                │ Tips for getting started                                                                      │
-│ 101 agents · 1,983 skills                   │ yana-ai doctor                                                                               │
+│ 162 agents · 1,983 skills                   │ yana-ai doctor                                                                               │
 │ 66 rules · 49 hooks · 101 scripts          │ yana-ai init                                                                                  │
 │ 826 checks · 9 gate layers                 │                                                                                               │
 │                                            │ What's new                                                                                    │
@@ -70,7 +70,7 @@ $ yana-ai
 
 ---
 
-**Yana AI** 是面向 AI 编程工具的个人智能体操作系统 — 包含运行时安全钩子、分层记忆系统、97 个专家智能体、1,983 个技能,以及一个在危险 AI 操作执行前进行拦截的 Rust 运行时。
+**Yana AI** 是面向 AI 编程工具的个人智能体操作系统 — 包含运行时安全钩子、分层记忆系统、162 个专家智能体、1,983 个技能,以及一个在危险 AI 操作执行前进行拦截的 Rust 运行时。
 
 可与 **Claude Code**、**Cursor**、**Windsurf**、**Antigravity**、**Kiro**、**OpenCode**、**Zed**、**Gemini**、**GitHub Copilot**、**Aider** 等工具配合使用。
 
@@ -143,7 +143,7 @@ graph TB
     subgraph CORE["⚙️ 核心引擎"]
         direction TB
         SKILLS["📚 1,983 个技能\nSKILL.md 工作流定义\n（前端、后端、AI、K8s、安全...）"]
-        AGENTS["🤖 97 个专家智能体\n（planner、security-auditor、\nhoc-tap、daily-assistant...）"]
+        AGENTS["🤖 162 个专家智能体\n（planner、security-auditor、\nhoc-tap、daily-assistant...）"]
         RULES["📜 65 条强制规则\n（安全、git、UI、TypeScript、\nAPI 安全、core-lock...）"]
         HOOKS["🪝 46 个钩子\nPreToolUse · PostToolUse · Stop\n（guard-destructive、truth-gate...）"]
         CMDS["⚡ 164 条斜杠命令\n/audit · /scan · /route\n/tdd-cycle · /simplify..."]
@@ -346,7 +346,7 @@ core/
 ├── rules/          # 65 条强制规则（安全、正确性、UI、git）
 ├── scripts/        # safe-run.sh、verify-core-lock.sh、secure-logger.sh
 ├── gates/          # truth_gate.md、action_gate.md
-├── agents/         # 97 个专家智能体定义
+├── agents/         # 162 个专家智能体定义
 ├── skills/         # 1,983 个 SKILL.md 文件
 ├── config/
 │   ├── core-lock.json    # SHA-256 清单 — 锁定 220 个核心文件

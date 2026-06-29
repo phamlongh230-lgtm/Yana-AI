@@ -10,7 +10,7 @@ $ yana-ai
 │      ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝   ╚═╝  ╚═╝╚═╝                                                                                       │
 │                                                                                                                                            │
 │ v0.42.1 · Personal Agent OS                │ Tips for getting started                                                                      │
-│ 101 agents · 1,983 skills                   │ yana-ai doctor                                                                               │
+│ 162 agents · 1,983 skills                   │ yana-ai doctor                                                                               │
 │ 66 rules · 49 hooks · 101 scripts          │ yana-ai init                                                                                  │
 │ 826 checks · 9 gate layers                 │                                                                                               │
 │                                            │ What's new                                                                                    │
@@ -60,7 +60,7 @@ $ yana-ai
 
 <p align="center">
   <img src="https://img.shields.io/badge/🧩_스킬-1,983-2f7e6e?style=flat-square" />
-  <img src="https://img.shields.io/badge/🤖_에이전트-97-7d6aa8?style=flat-square" />
+  <img src="https://img.shields.io/badge/🤖_에이전트-162-7d6aa8?style=flat-square" />
   <img src="https://img.shields.io/badge/📜_규칙-65-b96b80?style=flat-square" />
   <img src="https://img.shields.io/badge/🪝_훅-46-b78f3d?style=flat-square" />
   <img src="https://img.shields.io/badge/⚡_명령어-164-3a7ca5?style=flat-square" />
@@ -70,7 +70,7 @@ $ yana-ai
 
 ---
 
-**Yana AI**는 AI 코딩 도구를 위한 개인용 에이전트 운영체제입니다 — 런타임 보안 후크, 메모리 계층, 97개의 전문 에이전트, 1,983개의 스킬, 그리고 위험한 AI 행동을 실행 전에 가로채는 Rust 런타임으로 구성됩니다.
+**Yana AI**는 AI 코딩 도구를 위한 개인용 에이전트 운영체제입니다 — 런타임 보안 후크, 메모리 계층, 162개의 전문 에이전트, 1,983개의 스킬, 그리고 위험한 AI 행동을 실행 전에 가로채는 Rust 런타임으로 구성됩니다.
 
 **Claude Code**, **Cursor**, **Windsurf**, **Antigravity**, **Kiro**, **OpenCode**, **Zed**, **Gemini**, **GitHub Copilot**, **Aider** 등 다양한 도구와 함께 동작합니다.
 
@@ -81,7 +81,7 @@ $ yana-ai
 
 → [VISION.md](VISION.md) · [ARCHITECTURE.md](ARCHITECTURE.md) · [ROADMAP.md](ROADMAP.md)
 
-> **97개의 에이전트란?** 동시에 실행되는 97개의 AI 모델이 아닙니다 — 라우팅과 작업 조직을 위해 미리 정의된 전문 역할(보안, 프론트엔드, 백엔드, 테스트, 학습, 일상 비서…)입니다. 평상시 사용에서는 현재 작업에 필요한 에이전트만 활성화되며, 대부분의 요청은 단일 모델과 단일 에이전트 경로만 사용합니다.
+> **162개의 에이전트란?** 동시에 실행되는 162개의 AI 모델이 아닙니다 — 라우팅과 작업 조직을 위해 미리 정의된 전문 역할(보안, 프론트엔드, 백엔드, 테스트, 학습, 일상 비서…)입니다. 평상시 사용에서는 현재 작업에 필요한 에이전트만 활성화되며, 대부분의 요청은 단일 모델과 단일 에이전트 경로만 사용합니다.
 >저장소 메트릭으로부터 생성됨
 마지막 업데이트: 2026-06-21
 ---
@@ -346,7 +346,7 @@ core/
 ├── rules/          # 65개의 강제 규칙 (보안, 정확성, UI, git)
 ├── scripts/        # safe-run.sh, verify-core-lock.sh, secure-logger.sh
 ├── gates/          # truth_gate.md, action_gate.md
-├── agents/         # 97개의 전문 에이전트 정의
+├── agents/         # 162개의 전문 에이전트 정의
 ├── skills/         # 1,983개의 SKILL.md 파일
 ├── config/
 │   ├── core-lock.json    # SHA-256 매니페스트 — 220개 핵심 파일 고정
