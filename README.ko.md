@@ -14,7 +14,7 @@ $ yana-ai
 │ 66 rules · 49 hooks · 101 scripts          │ yana-ai init                                                                                  │
 │ 826 checks · 9 gate layers                 │                                                                                               │
 │                                            │ What's new                                                                                    │
-│                                            │ v0.42.2 — Mobile parity + Pixel Office + theming                                             │
+│                                            │ v0.42.2 — WASM guard + automated publish pipeline                                           │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
@@ -75,7 +75,7 @@ $ yana-ai
 **Claude Code**, **Cursor**, **Windsurf**, **Antigravity**, **Kiro**, **OpenCode**, **Zed**, **Gemini**, **GitHub Copilot**, **Aider** 등 다양한 도구와 함께 동작합니다.
 
 
-> **v0.42.0의 새 기능:** 모바일 기능 동기화 — Sessions, Analytics, Cron, HTML Maker가 데스크톱에서 모바일 앱으로 포팅되었습니다. **yana-pixel-bridge** — Claude Code의 Agent/Task 디스패치 이벤트를 `agent-office` 인스턴스로 중계하여 책상으로 걸어가기/작업/대기 애니메이션을 실시간으로 재생합니다. 새 테마 6종 + 이중 언어 환경설정 패널. 41개 스킬에 존재하던 curl\|bash 공급망 취약점을 패치했고, 3개의 규칙 공백을 닫았습니다. **Core-lock** — 220개 핵심 파일을 변조로부터 보호하는 SHA-256 정합성 매니페스트 (규칙 67).
+> **v0.42.2의 새 기능:** **yana-rt가 이제 브라우저에서 실행됩니다** — wasm-bindgen을 통한 WebAssembly 빌드로 브라우저 확장, VS Code, Node.js(`npm install yana-rt`)에 위험 명령어 가드를 제공합니다. 퍼블리시 파이프라인 완전 자동화 — 태그 푸시 시 npm, PyPI, crates.io 모두 자동 배포됩니다. 에이전트 수가 162개로 정확히 조정되었습니다. Rule 70 추가: 컨텍스트 충실성 법칙 — 제공된 데이터를 학습 데이터보다 우선시합니다.
 
 **→ [전체 문서 & 데모](https://yanacuti1121.github.io/Yana-AI/)** · **[GitHub Marketplace](https://github.com/marketplace/yana-ai)**
 

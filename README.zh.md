@@ -14,7 +14,7 @@ $ yana-ai
 │ 66 rules · 49 hooks · 101 scripts          │ yana-ai init                                                                                  │
 │ 826 checks · 9 gate layers                 │                                                                                               │
 │                                            │ What's new                                                                                    │
-│                                            │ v0.42.2 — Mobile parity + Pixel Office + theming                                             │
+│                                            │ v0.42.2 — WASM guard + automated publish pipeline                                           │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
@@ -75,7 +75,7 @@ $ yana-ai
 可与 **Claude Code**、**Cursor**、**Windsurf**、**Antigravity**、**Kiro**、**OpenCode**、**Zed**、**Gemini**、**GitHub Copilot**、**Aider** 等工具配合使用。
 
 
-> **v0.42.0 新功能：** 移动端功能对齐 — Sessions、Analytics、Cron 和 HTML Maker 已从桌面端移植到移动应用。**yana-pixel-bridge** — 将 Claude Code 的 Agent/Task 调度事件转发给同伴 `agent-office` 实例,实时呈现走向工位/工作/空闲的像素动画。新增 6 套主题 + 双语调优面板。修补了 41 个技能中存在的 curl\|bash 供应链风险,关闭了 3 个规则缺口。**Core-lock** — SHA-256 完整性清单,锁定 220 个核心文件以防篡改(规则 67)。
+> **v0.42.2 新功能：** **yana-rt 现在可在浏览器中运行** — 通过 wasm-bindgen 构建的 WebAssembly 将危险命令拦截守卫带到浏览器扩展、VS Code 和 Node.js（`npm install yana-rt`）。发布流水线已全面自动化 — 推送 tag 时自动发布至 npm、PyPI 和 crates.io。智能体数量已核准为 162 个。新增规则 70：上下文忠实法则 — 用户提供的数据优先于模型训练数据。
 
 **→ [完整文档与演示](https://yanacuti1121.github.io/Yana-AI/)** · **[GitHub Marketplace](https://github.com/marketplace/yana-ai)**
 

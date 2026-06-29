@@ -14,7 +14,7 @@ $ yana-ai
 │ 66 rules · 49 hooks · 101 scripts          │ yana-ai init                                                                                  │
 │ 826 checks · 9 gate layers                 │                                                                                               │
 │                                            │ What's new                                                                                    │
-│                                            │ v0.42.2 — Mobile parity + Pixel Office + theming                                             │
+│                                            │ v0.42.2 — WASM guard + automated publish pipeline                                           │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
@@ -71,7 +71,7 @@ $ yana-ai
 Hoạt động với **Claude Code**, **Cursor**, **Windsurf**, **Antigravity**, **Kiro**, **OpenCode**, **Zed**, **Gemini**, **GitHub Copilot**, **Aider**, và nhiều công cụ khác.
 
 
-> **Mới trong v0.42.0:** Đồng bộ tính năng mobile — Sessions, Analytics, Cron, HTML Maker được port từ desktop lên app di động. **yana-pixel-bridge** — chuyển tiếp sự kiện Agent/Task của Claude Code sang `agent-office` để hoạt ảnh đi-tới-bàn/làm-việc/rảnh chạy thời gian thực. 6 theme mới + panel tinh chỉnh song ngữ. Đã vá lỗ hổng chuỗi cung ứng curl\|bash trên 41 skill, vá 3 lỗ hổng quy tắc. **Core-lock** — manifest SHA-256 ghim 220 tệp cốt lõi chống can thiệp trái phép (quy tắc 67).
+> **Mới trong v0.42.2:** **yana-rt nay chạy được trên trình duyệt** — build WebAssembly qua wasm-bindgen đưa guard chặn lệnh nguy hiểm tới extension trình duyệt, VS Code và Node.js (`npm install yana-rt`). Pipeline publish hoàn toàn tự động — npm, PyPI và crates.io đều publish khi push tag. Số lượng agent đã được đối soát về đúng 162. Rule 70 được bổ sung: luật context-faithfulness — dữ liệu người dùng cung cấp ưu tiên hơn dữ liệu training.
 
 **→ [Tài liệu đầy đủ & demo](https://yanacuti1121.github.io/Yana-AI/)** · **[GitHub Marketplace](https://github.com/marketplace/yana-ai)**
 
