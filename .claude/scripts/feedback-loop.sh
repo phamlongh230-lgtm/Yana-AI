@@ -25,7 +25,10 @@ while [[ $attempt -le $MAX_ATTEMPTS ]]; do
   echo "--- Attempt $attempt / $MAX_ATTEMPTS ---"
 
   set +e
-  OUTPUT=$(eval "$TEST_CMD" 2>&1)
+  # shell-sanitize-law.md §eval exception: TEST_CMD is a user-supplied test command string;
+  # array form cannot be reconstructed from a single positional arg. bash -c spawns a
+  # subshell (safer than eval — does not modify current shell env/functions).
+  OUTPUT=$(bash -c -- "$TEST_CMD" 2>&1)
   EXIT_CODE=$?
   set -e
 

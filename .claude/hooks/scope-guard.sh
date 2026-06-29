@@ -62,8 +62,7 @@ case "$TARGET_NORM" in
   db/*|db)                 VIOLATION="db/ (product database schema)" ;;
   migrations/*|migrate/*)  VIOLATION="migrations/ (database migrations — irreversible risk)" ;;
   public/*|public)         VIOLATION="public/ (product static assets)" ;;
-  # src/ is yana-rt Rust runtime — part of Yana AI, not a separate product
-  # src/*) VIOLATION="src/ ..." ;;  ← intentionally disabled
+  src/*)                   VIOLATION="src/ (product source — confirm this is not a Yana AI-only task)" ;;
 esac
 
 if [[ -z "$VIOLATION" ]]; then

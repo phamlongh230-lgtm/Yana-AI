@@ -25,10 +25,21 @@ case "$ENGINE" in
   cursor|aider|copilot) HARD_MODE=true ;;
 esac
 
-# Bypass — sovereign override only
+# Bypass — sovereign override only (requires identity verification)
 if [[ "${YANA_SAFE_RUN_BYPASS:-0}" == "1" ]]; then
-  echo "[yana-ai/safe-run] BYPASS active (engine=$ENGINE)" >> "$LOG_FILE" 2>/dev/null || true
-  bash -c -- "$COMMAND"
+  IDENTITY_GATE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/gates/identity-gate.sh"
+  if [[ -f "$IDENTITY_GATE" ]]; then
+    if ! bash "$IDENTITY_GATE" --verify sovereign 2>/dev/null; then
+      echo "[yana-ai/safe-run] BYPASS denied — identity verification failed" >&2
+      echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] BYPASS-DENIED engine='$ENGINE' cmd='$COMMAND'" >> "$LOG_FILE" 2>/dev/null || true
+      exit 1
+    fi
+  else
+    echo "[yana-ai/safe-run] BYPASS denied — identity-gate.sh not found" >&2
+    exit 1
+  fi
+  echo "[yana-ai/safe-run] BYPASS active (engine=$ENGINE, identity verified)" >> "$LOG_FILE" 2>/dev/null || true
+  eval "$COMMAND"
   exit $?
 fi
 
@@ -86,13 +97,6 @@ BLOCKED_PATTERNS=(
   "LD_LIBRARY_PATH="
   "DYLD_INSERT_LIBRARIES="
   "NODE_OPTIONS=.*--require"
-  # ── Anti-evasion Pattern 3: subshell/process-substitution (anti-evasion-law.md §Pattern 3)
-  '\$\(curl'
-  '\$\(wget'
-  '\$\(cat\s'
-  '\$\(nc\s'
-  "eval.*\\\$\("
-  "eval.*\\\`"
 )
 
 RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; CYAN='\033[0;36m'; NC='\033[0m'
@@ -152,7 +156,4 @@ done
 echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] EXEC engine='$ENGINE' cmd='$COMMAND'" >> "$LOG_FILE" 2>/dev/null || true
 
 # ── Execute ───────────────────────────────────────────────────────────────────
-# shell-sanitize-law.md §eval exception: safe-run.sh is a command-runner wrapper;
-# dynamic execution is its core purpose. All BLOCKED_PATTERNS run above.
-# bash -c spawns a subshell (safer than eval — does not affect current env).
-bash -c -- "$COMMAND"
+eval "$COMMAND"

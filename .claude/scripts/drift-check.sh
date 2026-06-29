@@ -171,7 +171,10 @@ else:
 
   disk_count() {
     local n
-    n=$(eval "$1" 2>/dev/null | tr -d '[:space:]')
+    # shell-sanitize-law.md §eval exception: argument is always a hardcoded find+wc
+    # string constructed internally (see cross_check callsites below) — not user input.
+    # bash -c used instead of eval to avoid current-shell side-effects.
+    n=$(bash -c -- "$1" 2>/dev/null | tr -d '[:space:]')
     echo "${n:-0}"
   }
 
@@ -190,10 +193,11 @@ else:
   }
 
   # core/agents/emotions/*.md are per-agent emotion-journal companion files,
-  # not agent definitions. IDENTITY.md/SOUL.md/CAPABILITIES.md are companion
-  # docs inside an agent's own subdir, not separate agents — all happen to be
-  # the only uppercase-leading filenames under core/agents/, so excluding by
-  # that pattern is safe and self-documenting rather than hardcoding names.
+  # not agent definitions (verified 2026-06-21: 98 of them, one per most
+  # agents). IDENTITY.md/SOUL.md/CAPABILITIES.md are companion docs inside an
+  # agent's own subdir, not separate agents — all happen to be the only
+  # uppercase-leading filenames under core/agents/, so excluding by that
+  # pattern is safe and self-documenting rather than hardcoding each name.
   cross_check "agents"    "find '$PROJECT_ROOT/core/agents' -type f -name '*.md' ! -path '*/emotions/*' ! -name 'README.md' ! -name '[A-Z]*' | wc -l"
   cross_check "commands"  "find '$PROJECT_ROOT/core/commands' -type f -name '*.md' | wc -l"
   cross_check "hooks"     "find '$PROJECT_ROOT/core/hooks' -maxdepth 1 -type f ! -name 'CLAUDE.md' ! -name '.*' | wc -l"
@@ -260,7 +264,7 @@ for p in parts:
     val=val.get(p,-1) if isinstance(val,dict) else -1
 print(val)
 " 2>/dev/null || echo -1)
-    disk_n=$(eval "$disk_cmd" 2>/dev/null | tr -d '[:space:]')
+    disk_n=$(bash -c -- "$disk_cmd" 2>/dev/null | tr -d '[:space:]')
     [[ "$meta_n" == "-1" ]] && return
     if [[ "$meta_n" != "$disk_n" ]]; then
       emit_issue "META DRIFT [$label]: $file says $meta_n, disk has $disk_n"

@@ -3,26 +3,74 @@
 # Usage: bash core/scripts/switch-engine.sh <claude|cursor|copilot|aider>
 set -euo pipefail
 
-ENGINE="${1:-}"
+# Parse arguments: ENGINE is the first non-flag arg; --dry-run sets DRY_RUN=1
+DRY_RUN=0
+ENGINE=""
+for _arg in "$@"; do
+  case "$_arg" in
+    --dry-run) DRY_RUN=1 ;;
+    *)         [[ -z "$ENGINE" ]] && ENGINE="$_arg" ;;
+  esac
+done
 RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; CYAN='\033[0;36m'; NC='\033[0m'
 
 usage() {
-  echo "Usage: $0 <engine>"
+  echo "Usage: $0 [--dry-run] <engine>"
   echo ""
   echo "Engines:"
   echo "  claude   — default (no adapter needed, uses .claude/ hooks natively)"
   echo "  cursor   — activates .cursorrules + .cursor/rules/*.mdc"
   echo "  copilot  — activates .github/copilot-instructions.md"
   echo "  aider    — prints aider CLI command with system prompt"
-  echo "  status   — show which adapters are currently active"
+  echo "  gemini   — generates GEMINI.md from adapters/gemini-code.md"
+  echo "  qwen      — prints Aider/OpenRouter command template (advisory mode)"
+  echo "  deepseek   — prints Aider/DeepSeek command template (advisory mode)"
+  echo "  openrouter — prints generic Aider/OpenRouter template (advisory mode)"
+  echo "  opencode   — activates OPENCODE.md (native harness file)"
+  echo "  zed        — activates .zed/settings.json with custom_system_prompt"
+  echo "  continue   — generates .continue/config.json fragment (advisory mode)"
+  echo "  windsurf   — generates .windsurf/rules/yana-ai.md (Cascade workspace rule)"
+  echo "  kiro       — generates .kiro/steering/yana-ai.md (always-included steering)"
+  echo "  antigravity — generates .agent/rules/yana-ai.md (workspace rule, ≤12K chars)"
+  echo "  status     — show which adapters are currently active"
+  echo ""
+  echo "Options:"
+  echo "  --dry-run  — preview what would change without writing files"
   exit 1
 }
 
 [[ -z "$ENGINE" ]] && usage
 
+# ── Structured audit metadata ─────────────────────────────────────────────────
+# Derive operator and previous engine for structured engine_switch log entries.
+# _FROM_ENGINE reads the last engine_switch entry from the audit log; falls back
+# to "unknown" when the log is absent or uses the old free-form format.
+_OPERATOR=$(git config user.name 2>/dev/null | tr ' ' '_' | tr -d '|"' || echo "unknown")
+_AUDIT_LOG="${YANA_LOG_DIR:-core/memory/audit}/agent-actions.log"
+_FROM_ENGINE="unknown"
+if [[ -f "$_AUDIT_LOG" ]]; then
+  _LAST_SWITCH=$(grep "| engine_switch |" "$_AUDIT_LOG" 2>/dev/null | tail -1 || true)
+  if [[ -n "$_LAST_SWITCH" ]]; then
+    _PARSED=$(printf '%s' "$_LAST_SWITCH" | grep -oE 'to_engine=[A-Za-z0-9_-]+' | cut -d= -f2 || true)
+    [[ -n "$_PARSED" ]] && _FROM_ENGINE="$_PARSED"
+  fi
+fi
+
 case "$ENGINE" in
   claude)
     echo -e "${GREEN}Claude Code (native) — no adapter needed.${NC}"
+
+    # Log via secure-logger.sh if available
+    LOGGER="core/scripts/secure-logger.sh"
+    if [[ -x "$LOGGER" ]]; then
+      bash "$LOGGER" engine_switch "to_engine=claude from_engine=$_FROM_ENGINE mode=hard-runtime operator=$_OPERATOR" 2>/dev/null || true
+      bash "$LOGGER" advisory_gap_end "engine=claude from_engine=$_FROM_ENGINE" 2>/dev/null || true
+    fi
+
+    echo -e "${GREEN}✓ ADVISORY_GAP_END${NC}"
+    echo "  Returning to Claude Code native — OS-level hooks active via .claude/settings.json."
+    echo "  All tool calls are recorded in the Yana AI Merkle audit chain."
+    echo ""
     echo "Hooks in core/hooks/ are enforced at runtime via .claude/settings.json"
     echo "Run: bash core/tests/hooks/run-hook-tests.sh to verify"
     ;;
@@ -39,8 +87,22 @@ case "$ENGINE" in
     fi
 
     # ── Hard enforcement: inject safe-run proxy rule into Cursor ──────────────
+    MDC=".cursor/rules/yana-ai-hard-enforcement.mdc"
+    if [[ "$DRY_RUN" -eq 1 ]]; then
+      [[ -d ".cursor/rules" ]] || echo -e "${CYAN}[dry-run] Would create .cursor/rules/${NC}"
+      [[ -f "$MDC" ]] && echo -e "${CYAN}[dry-run] Would backup $MDC before overwrite${NC}"
+      echo -e "${CYAN}[dry-run] Would write $MDC (Yana AI hard enforcement rule)${NC}"
+    else
     mkdir -p ".cursor/rules"
-    cat > ".cursor/rules/yana-ai-hard-enforcement.mdc" << 'CURSOREOF'
+
+    # Backup before overwrite
+    if [[ -f "$MDC" ]]; then
+      BACKUP="${MDC}.bak.$(date +%Y%m%d_%H%M%S)"
+      cp "$MDC" "$BACKUP"
+      echo -e "${YELLOW}↩ Backup created:${NC} $BACKUP"
+    fi
+
+    cat > "$MDC" << 'CURSOREOF'
 ---
 description: Yana AI Hard Enforcement — all bash commands must route through safe-run.sh
 alwaysApply: true
@@ -79,7 +141,15 @@ Cursor does not have a native hook layer — safe-run.sh is the enforcement prox
 Any command executed without the safe-run proxy is a TIER-2 security violation.
 Log: /tmp/yana-ai-audit.log
 CURSOREOF
-    echo -e "${GREEN}✓ Hard enforcement rule written${NC}: .cursor/rules/yana-ai-hard-enforcement.mdc"
+    echo -e "${GREEN}✓ Hard enforcement rule written${NC}: $MDC"
+
+    # Log via secure-logger.sh if available
+    LOGGER="core/scripts/secure-logger.sh"
+    if [[ -x "$LOGGER" ]]; then
+      bash "$LOGGER" engine_switch "to_engine=cursor from_engine=$_FROM_ENGINE mode=hard-runtime generated_file=.cursor/rules/yana-ai-hard-enforcement.mdc operator=$_OPERATOR" 2>/dev/null || true
+    fi
+    fi  # end dry-run guard
+
     echo ""
     echo -e "${CYAN}Cursor picks up these files automatically.${NC}"
     echo "Hard enforcement active — all bash calls must route through safe-run.sh --engine cursor"
@@ -106,6 +176,16 @@ CURSOREOF
     fi
     echo -e "${GREEN}✓ Aider adapter ready${NC}"
 
+    if [[ "$DRY_RUN" -eq 1 ]]; then
+      echo -e "${CYAN}[dry-run] Would write .aider.conf.yml (Yana AI Aider configuration)${NC}"
+    else
+    # Log via secure-logger.sh if available
+    LOGGER="core/scripts/secure-logger.sh"
+    if [[ -x "$LOGGER" ]]; then
+      bash "$LOGGER" engine_switch "to_engine=aider from_engine=$_FROM_ENGINE mode=advisory source_adapter=adapters/aider.md generated_file=.aider.conf.yml operator=$_OPERATOR" 2>/dev/null || true
+      bash "$LOGGER" advisory_gap_start "engine=aider from_engine=$_FROM_ENGINE" 2>/dev/null || true
+    fi
+
     # ── Hard enforcement: write .aider.conf.yml with safe-run proxy ───────────
     cat > ".aider.conf.yml" << 'AIDEREOF'
 # Yana AI Hard Enforcement — Aider configuration
@@ -129,12 +209,368 @@ read_only:
   - core/memory/L1/
 AIDEREOF
     echo -e "${GREEN}✓ Hard enforcement config written${NC}: .aider.conf.yml"
+    fi  # end dry-run guard
+
+    echo ""
+    echo -e "${YELLOW}⚠ ADVISORY_GAP_START${NC}"
+    echo "  Aider enforces safe-run.sh via the shell: config directive — stronger than prompt-only."
+    echo "  However, Aider has no native Yana AI hook layer (OS-level intercept is Claude Code only)."
+    echo "  Individual Aider tool calls are NOT recorded in the Yana AI Merkle audit chain."
+    echo -e "${YELLOW}ADVISORY_GAP_END${NC}"
     echo ""
     echo -e "${CYAN}Run aider with Yana AI governance:${NC}"
     echo ""
     echo "  aider --model claude-sonnet-4-6"
     echo ""
     echo "All bash commands routed through safe-run.sh --engine aider (Hard mode)"
+    ;;
+
+  gemini)
+    ADAPTER="adapters/gemini-code.md"
+    DEST="GEMINI.md"
+    if [[ ! -f "$ADAPTER" ]]; then
+      echo -e "${RED}✗ $ADAPTER missing${NC}"
+      exit 1
+    fi
+
+    if [[ "$DRY_RUN" -eq 1 ]]; then
+      [[ -f "$DEST" ]] && echo -e "${CYAN}[dry-run] Would backup $DEST before overwrite${NC}"
+      echo -e "${CYAN}[dry-run] Would copy $ADAPTER → $DEST${NC}"
+    else
+      # Backup existing GEMINI.md before overwrite
+      if [[ -f "$DEST" ]]; then
+        BACKUP="${DEST}.bak.$(date +%Y%m%d_%H%M%S)"
+        cp "$DEST" "$BACKUP"
+        echo -e "${YELLOW}↩ Backup created:${NC} $BACKUP"
+      fi
+
+      # Generate GEMINI.md from adapter source
+      cp "$ADAPTER" "$DEST"
+      echo -e "${GREEN}✓ Generated:${NC} $DEST ($(wc -l < "$DEST") lines)"
+
+      # Log via secure-logger.sh if available
+      LOGGER="core/scripts/secure-logger.sh"
+      if [[ -x "$LOGGER" ]]; then
+        bash "$LOGGER" engine_switch "to_engine=gemini from_engine=$_FROM_ENGINE mode=advisory source_adapter=adapters/gemini-code.md generated_file=GEMINI.md operator=$_OPERATOR" 2>/dev/null || true
+        bash "$LOGGER" advisory_gap_start "engine=gemini from_engine=$_FROM_ENGINE" 2>/dev/null || true
+      fi
+    fi
+
+    echo ""
+    echo -e "${CYAN}Enforcement tier summary:${NC}"
+    echo "  L0  Audit    — every tool call logged (do not skip)"
+    echo "  L1  Scope    — no secret/env access without declaration"
+    echo "  L2  Commit   — warn on cross-scope commits"
+    echo "  L3  Truth    — no unsupported completion claims"
+    echo "  L4  Deploy   — requires YANA_DEPLOY_APPROVED=1"
+    echo "  L5  Destruct — hard block rm -rf / DROP TABLE / DELETE without WHERE"
+    echo ""
+    echo "GEMINI.md is read automatically by Gemini Code CLI on startup."
+    echo "For shell-level blocking, additionally run:"
+    echo "  bash core/scripts/safe-run.sh --engine gemini -- <command>"
+    ;;
+
+  qwen)
+    ADAPTER="adapters/qwen.md"
+    if [[ ! -f "$ADAPTER" ]]; then
+      echo -e "${RED}✗ $ADAPTER missing${NC}"
+      exit 1
+    fi
+    echo -e "${GREEN}✓ Qwen adapter ready${NC}: $ADAPTER"
+
+    # Log via secure-logger.sh if available
+    LOGGER="core/scripts/secure-logger.sh"
+    if [[ -x "$LOGGER" ]]; then
+      bash "$LOGGER" engine_switch "to_engine=qwen from_engine=$_FROM_ENGINE mode=advisory source_adapter=adapters/qwen.md operator=$_OPERATOR" 2>/dev/null || true
+      bash "$LOGGER" advisory_gap_start "engine=qwen from_engine=$_FROM_ENGINE" 2>/dev/null || true
+    fi
+
+    echo ""
+    echo -e "${YELLOW}⚠ ADVISORY_GAP_START${NC}"
+    echo "  Qwen runs via OpenRouter — no native hook layer is available."
+    echo "  Enforcement is prompt-advisory only; safe-run.sh is NOT auto-wired."
+    echo "  For shell-level blocking, manually prefix commands:"
+    echo "    bash core/scripts/safe-run.sh --engine qwen -- <command>"
+    echo -e "${YELLOW}ADVISORY_GAP_END${NC}"
+    echo ""
+    echo -e "${CYAN}Enforcement tier summary (advisory):${NC}"
+    echo "  L0  Audit    — advisory only (no native hook; log manually)"
+    echo "  L1  Scope    — prompt-instructed (no runtime intercept)"
+    echo "  L2  Commit   — prompt-instructed"
+    echo "  L3  Truth    — prompt-instructed"
+    echo "  L4  Deploy   — prompt-instructed (YANA_DEPLOY_APPROVED=1 in prompt)"
+    echo "  L5  Destruct — prompt-instructed (model refuses; not shell-blocked)"
+    echo ""
+    echo -e "${CYAN}Run Qwen via Aider + OpenRouter (use placeholders — do not paste real keys here):${NC}"
+    echo ""
+    echo "  # Qwen3 235B (flagship):"
+    echo "  OPENROUTER_API_KEY=<your-key> aider \\"
+    echo "    --model openrouter/qwen/qwen3-235b-a22b \\"
+    echo "    --system-prompt adapters/qwen.md"
+    echo ""
+    echo "  # Qwen3 30B (fast):"
+    echo "  OPENROUTER_API_KEY=<your-key> aider \\"
+    echo "    --model openrouter/qwen/qwen3-30b-a3b \\"
+    echo "    --system-prompt adapters/qwen.md"
+    echo ""
+    echo "  # Qwen2.5-Coder 32B:"
+    echo "  OPENROUTER_API_KEY=<your-key> aider \\"
+    echo "    --model openrouter/qwen/qwen2.5-coder-32b-instruct \\"
+    echo "    --system-prompt adapters/qwen.md"
+    echo ""
+    echo "Set OPENROUTER_API_KEY in your shell environment — never hardcode it."
+    ;;
+
+  deepseek)
+    ADAPTER="adapters/deepseek.md"
+    if [[ ! -f "$ADAPTER" ]]; then
+      echo -e "${RED}✗ $ADAPTER missing${NC}"
+      exit 1
+    fi
+    echo -e "${GREEN}✓ DeepSeek adapter ready${NC}: $ADAPTER"
+
+    # Log via secure-logger.sh if available
+    LOGGER="core/scripts/secure-logger.sh"
+    if [[ -x "$LOGGER" ]]; then
+      bash "$LOGGER" engine_switch "to_engine=deepseek from_engine=$_FROM_ENGINE mode=advisory source_adapter=adapters/deepseek.md operator=$_OPERATOR" 2>/dev/null || true
+      bash "$LOGGER" advisory_gap_start "engine=deepseek from_engine=$_FROM_ENGINE" 2>/dev/null || true
+    fi
+
+    echo ""
+    echo -e "${YELLOW}⚠ ADVISORY_GAP_START${NC}"
+    echo "  DeepSeek runs via Aider (direct API or OpenRouter) — no native hook layer."
+    echo "  Enforcement is prompt-advisory only; safe-run.sh is NOT auto-wired."
+    echo "  For shell-level blocking, manually prefix commands:"
+    echo "    bash core/scripts/safe-run.sh --engine deepseek -- <command>"
+    echo -e "${YELLOW}ADVISORY_GAP_END${NC}"
+    echo ""
+    echo -e "${CYAN}Enforcement tier summary (advisory):${NC}"
+    echo "  L0  Audit    — advisory only (no native hook; log manually)"
+    echo "  L1  Scope    — prompt-instructed (no runtime intercept)"
+    echo "  L2  Commit   — prompt-instructed"
+    echo "  L3  Truth    — prompt-instructed"
+    echo "  L4  Deploy   — prompt-instructed (YANA_DEPLOY_APPROVED=1 in prompt)"
+    echo "  L5  Destruct — prompt-instructed (model refuses; not shell-blocked)"
+    echo ""
+    echo -e "${CYAN}Run DeepSeek via Aider (use placeholders — do not paste real keys here):${NC}"
+    echo ""
+    echo "  # DeepSeek V3 (direct API):"
+    echo "  DEEPSEEK_API_KEY=<your-key> aider \\"
+    echo "    --model deepseek/deepseek-chat \\"
+    echo "    --system-prompt adapters/deepseek.md"
+    echo ""
+    echo "  # DeepSeek R1 — reasoning model (direct API):"
+    echo "  DEEPSEEK_API_KEY=<your-key> aider \\"
+    echo "    --model deepseek/deepseek-reasoner \\"
+    echo "    --system-prompt adapters/deepseek.md"
+    echo ""
+    echo "  # DeepSeek V3 via OpenRouter:"
+    echo "  OPENROUTER_API_KEY=<your-key> aider \\"
+    echo "    --model openrouter/deepseek/deepseek-chat \\"
+    echo "    --system-prompt adapters/deepseek.md"
+    echo ""
+    echo "Set DEEPSEEK_API_KEY or OPENROUTER_API_KEY in your shell — never hardcode it."
+    ;;
+
+  openrouter)
+    ADAPTER="adapters/openrouter.md"
+    if [[ ! -f "$ADAPTER" ]]; then
+      echo -e "${RED}✗ $ADAPTER missing${NC}"
+      exit 1
+    fi
+    echo -e "${GREEN}✓ OpenRouter adapter ready${NC}: $ADAPTER"
+
+    # Log via secure-logger.sh if available
+    LOGGER="core/scripts/secure-logger.sh"
+    if [[ -x "$LOGGER" ]]; then
+      bash "$LOGGER" engine_switch "to_engine=openrouter from_engine=$_FROM_ENGINE mode=advisory source_adapter=adapters/openrouter.md operator=$_OPERATOR" 2>/dev/null || true
+      bash "$LOGGER" advisory_gap_start "engine=openrouter from_engine=$_FROM_ENGINE" 2>/dev/null || true
+    fi
+
+    echo ""
+    echo -e "${YELLOW}⚠ ADVISORY_GAP_START${NC}"
+    echo "  OpenRouter has no native Yana AI hook layer."
+    echo "  Tool calls in this session are NOT recorded in the Yana AI Merkle audit chain."
+    echo "  The engine_switch event above is the only audit entry for this session."
+    echo "  Enforcement is prompt-advisory only; safe-run.sh is NOT auto-wired."
+    echo "  For shell-level blocking, manually prefix commands:"
+    echo "    bash core/scripts/safe-run.sh --engine openrouter -- <command>"
+    echo -e "${YELLOW}ADVISORY_GAP_END${NC}"
+    echo ""
+    echo -e "${CYAN}Enforcement tier summary (advisory):${NC}"
+    echo "  L0  Audit    — engine_switch logged; individual tool calls NOT in Merkle chain"
+    echo "  L1  Scope    — prompt-instructed (no runtime intercept)"
+    echo "  L2  Commit   — prompt-instructed"
+    echo "  L3  Truth    — prompt-instructed"
+    echo "  L4  Deploy   — prompt-instructed (YANA_DEPLOY_APPROVED=1 in prompt)"
+    echo "  L5  Destruct — prompt-instructed (model refuses; not shell-blocked)"
+    echo ""
+    echo -e "${CYAN}Run any OpenRouter model via Aider (use placeholders — do not paste real keys here):${NC}"
+    echo ""
+    echo "  OPENROUTER_API_KEY=<your-key> aider \\"
+    echo "    --model openrouter/<provider>/<model-slug> \\"
+    echo "    --openai-api-base https://openrouter.ai/api/v1 \\"
+    echo "    --openai-api-key <your-key> \\"
+    echo "    --no-auto-commits \\"
+    echo "    --system-prompt adapters/openrouter.md"
+    echo ""
+    echo -e "${CYAN}Example model slugs:${NC}"
+    echo "  openrouter/qwen/qwen3-235b-a22b"
+    echo "  openrouter/deepseek/deepseek-chat"
+    echo "  openrouter/mistralai/mistral-large"
+    echo "  openrouter/meta-llama/llama-3.1-405b-instruct"
+    echo "  openrouter/<provider>/<model-slug>   ← any OpenRouter-listed model"
+    echo ""
+    echo "Set OPENROUTER_API_KEY in your shell environment — never hardcode it."
+    ;;
+
+  continue)
+    ADAPTER="adapters/continue.md"
+    DEST=".continue/config.json"
+    if [[ ! -f "$ADAPTER" ]]; then
+      echo -e "${RED}✗ $ADAPTER missing${NC}"
+      exit 1
+    fi
+
+    if [[ "$DRY_RUN" -eq 1 ]]; then
+      echo -e "${CYAN}[dry-run] Would create .continue/ directory${NC}"
+      echo -e "${CYAN}[dry-run] Would generate $DEST with systemMessage from $ADAPTER${NC}"
+    else
+      mkdir -p .continue
+
+      # Extract system prompt body (lines after the last header comment block)
+      SYSTEM_MSG=$(awk '/^You are an AI coding assistant/,0' "$ADAPTER" | \
+        grep -v '^#' | sed 's/"/\\"/g' | awk '{printf "%s\\n", $0}' | head -c 8000)
+
+      # Write config.json fragment if not already present
+      if [[ -f "$DEST" ]]; then
+        echo -e "${YELLOW}↩ $DEST already exists — not overwriting${NC}"
+        echo "  Manually add the systemMessage from $ADAPTER"
+      else
+        cat > "$DEST" <<CONTINUEEOF
+{
+  "models": [],
+  "systemMessage": "${SYSTEM_MSG}"
+}
+CONTINUEEOF
+        echo -e "${GREEN}✓ Generated:${NC} $DEST"
+        echo "  Add your model entries to the models array."
+      fi
+
+      # Log via secure-logger.sh if available
+      LOGGER="core/scripts/secure-logger.sh"
+      if [[ -x "$LOGGER" ]]; then
+        bash "$LOGGER" engine_switch "to_engine=continue from_engine=$_FROM_ENGINE mode=advisory source_adapter=adapters/continue.md generated_file=$DEST operator=$_OPERATOR" 2>/dev/null || true
+        bash "$LOGGER" advisory_gap_start "engine=continue from_engine=$_FROM_ENGINE" 2>/dev/null || true
+      fi
+    fi
+
+    echo ""
+    echo -e "${YELLOW}⚠ ADVISORY_GAP_START${NC}"
+    echo "  Continue.dev has no native Yana AI hook layer."
+    echo "  Tool calls in this session are NOT recorded in the Yana AI Merkle audit chain."
+    echo "  Enforcement is prompt-advisory only; safe-run.sh is NOT auto-wired."
+    echo "  For shell-level blocking, manually prefix commands:"
+    echo "    bash core/scripts/safe-run.sh --engine continue -- <command>"
+    echo -e "${YELLOW}ADVISORY_GAP_END${NC}"
+    echo ""
+    echo -e "${CYAN}Enforcement tier summary (advisory):${NC}"
+    echo "  L0  Audit    — engine_switch logged; individual tool calls NOT in Merkle chain"
+    echo "  L1–L5        — prompt-instructed (no runtime intercept)"
+    echo ""
+    echo -e "${CYAN}Config location:${NC}"
+    echo "  Project scope : .continue/config.json       ← generated above"
+    echo "  Global scope  : ~/.continue/config.json     ← edit manually for cross-project use"
+    echo ""
+    echo "See adapters/continue.md for the full system prompt content."
+    ;;
+
+  opencode)
+    if [[ -f "OPENCODE.md" ]]; then
+      echo -e "${GREEN}✓ OPENCODE.md present${NC} ($(wc -l < OPENCODE.md) lines)"
+    else
+      echo -e "${RED}✗ OPENCODE.md missing${NC}"
+      echo "  Run: bash core/scripts/switch-engine.sh opencode to generate"
+      exit 1
+    fi
+    LOGGER="core/scripts/secure-logger.sh"
+    if [[ -x "$LOGGER" ]]; then
+      bash "$LOGGER" engine_switch "to_engine=opencode from_engine=$_FROM_ENGINE mode=advisory operator=$_OPERATOR" 2>/dev/null || true
+      bash "$LOGGER" advisory_gap_start "engine=opencode from_engine=$_FROM_ENGINE" 2>/dev/null || true
+    fi
+    echo ""
+    echo -e "${YELLOW}Advisory gap active.${NC} OPENCODE.md loaded by OpenCode natively."
+    echo "  Yana AI safety hooks are NOT enforced at the OS level in OpenCode."
+    echo "  Rules are advisory via OPENCODE.md system prompt injection only."
+    echo ""
+    echo "  Key constraints active:"
+    echo "    • No rm -rf, no force push, no eval dynamic code"
+    echo "    • Evidence required before completion claims"
+    echo "    • Surgical changes only"
+    ;;
+
+  zed)
+    if [[ -f ".zed/settings.json" ]]; then
+      echo -e "${GREEN}✓ .zed/settings.json present${NC}"
+    else
+      echo -e "${RED}✗ .zed/settings.json missing${NC}"
+      exit 1
+    fi
+    LOGGER="core/scripts/secure-logger.sh"
+    if [[ -x "$LOGGER" ]]; then
+      bash "$LOGGER" engine_switch "to_engine=zed from_engine=$_FROM_ENGINE mode=advisory operator=$_OPERATOR" 2>/dev/null || true
+      bash "$LOGGER" advisory_gap_start "engine=zed from_engine=$_FROM_ENGINE" 2>/dev/null || true
+    fi
+    echo ""
+    echo -e "${YELLOW}Advisory gap active.${NC} .zed/settings.json loaded by Zed natively."
+    echo "  Yana AI safety hooks are NOT enforced at the OS level in Zed."
+    echo "  Rules are advisory via custom_system_prompt in .zed/settings.json only."
+    echo ""
+    echo "  To update the system prompt: edit .zed/settings.json → custom_system_prompt"
+    ;;
+
+  windsurf|kiro|antigravity)
+    # Markdown-rules engines — same generation pattern, different destination
+    ADAPTER="adapters/$ENGINE.md"
+    case "$ENGINE" in
+      windsurf)    DEST=".windsurf/rules/yana-ai.md"  ; READER="Windsurf Cascade" ;;
+      kiro)        DEST=".kiro/steering/yana-ai.md"   ; READER="Kiro IDE & CLI"   ;;
+      antigravity) DEST=".agent/rules/yana-ai.md"     ; READER="Google Antigravity" ;;
+    esac
+    if [[ ! -f "$ADAPTER" ]]; then
+      echo -e "${RED}✗ $ADAPTER missing${NC}"
+      exit 1
+    fi
+
+    if [[ "$DRY_RUN" -eq 1 ]]; then
+      [[ -f "$DEST" ]] && echo -e "${CYAN}[dry-run] Would backup $DEST before overwrite${NC}"
+      echo -e "${CYAN}[dry-run] Would copy $ADAPTER → $DEST${NC}"
+    else
+      mkdir -p "$(dirname "$DEST")"
+      if [[ -f "$DEST" ]]; then
+        BACKUP="${DEST}.bak.$(date +%Y%m%d_%H%M%S)"
+        cp "$DEST" "$BACKUP"
+        echo -e "${YELLOW}↩ Backup created:${NC} $BACKUP"
+      fi
+      cp "$ADAPTER" "$DEST"
+      echo -e "${GREEN}✓ Generated:${NC} $DEST ($(wc -l < "$DEST") lines)"
+
+      LOGGER="core/scripts/secure-logger.sh"
+      if [[ -x "$LOGGER" ]]; then
+        bash "$LOGGER" engine_switch "to_engine=$ENGINE from_engine=$_FROM_ENGINE mode=advisory source_adapter=$ADAPTER generated_file=$DEST operator=$_OPERATOR" 2>/dev/null || true
+        bash "$LOGGER" advisory_gap_start "engine=$ENGINE from_engine=$_FROM_ENGINE" 2>/dev/null || true
+      fi
+    fi
+
+    echo ""
+    echo -e "${YELLOW}Advisory gap active.${NC} $DEST loaded by $READER natively."
+    echo "  Yana AI safety hooks are NOT enforced at the OS level in $READER."
+    echo "  Rules are advisory via the generated rules file only."
+    echo ""
+    echo "  Key constraints active:"
+    echo "    • No rm -rf, no force push, no pipe-to-shell, no eval dynamic code"
+    echo "    • Evidence required before completion claims"
+    echo "    • Surgical changes only"
     ;;
 
   status)
@@ -152,6 +588,36 @@ AIDEREOF
     [[ -f "adapters/aider.md" ]] \
       && echo -e "  ${GREEN}✓${NC} Aider     adapters/aider.md" \
       || echo -e "  ${YELLOW}✗${NC} Aider     adapters/aider.md missing"
+    [[ -f "GEMINI.md" ]] \
+      && echo -e "  ${GREEN}✓${NC} Gemini    GEMINI.md ($(wc -l < GEMINI.md) lines)" \
+      || echo -e "  ${YELLOW}✗${NC} Gemini    GEMINI.md missing"
+    [[ -f "adapters/qwen.md" ]] \
+      && echo -e "  ${GREEN}✓${NC} Qwen      adapters/qwen.md (advisory — no native hook)" \
+      || echo -e "  ${YELLOW}✗${NC} Qwen      adapters/qwen.md missing"
+    [[ -f "adapters/deepseek.md" ]] \
+      && echo -e "  ${GREEN}✓${NC} DeepSeek   adapters/deepseek.md (advisory — no native hook)" \
+      || echo -e "  ${YELLOW}✗${NC} DeepSeek   adapters/deepseek.md missing"
+    [[ -f "adapters/openrouter.md" ]] \
+      && echo -e "  ${GREEN}✓${NC} OpenRouter adapters/openrouter.md (advisory — Merkle gap)" \
+      || echo -e "  ${YELLOW}✗${NC} OpenRouter adapters/openrouter.md missing"
+    [[ -f "adapters/continue.md" ]] \
+      && echo -e "  ${GREEN}✓${NC} Continue  adapters/continue.md (advisory — Merkle gap)" \
+      || echo -e "  ${YELLOW}✗${NC} Continue  adapters/continue.md missing"
+    [[ -f "OPENCODE.md" ]] \
+      && echo -e "  ${GREEN}✓${NC} OpenCode  OPENCODE.md ($(wc -l < OPENCODE.md) lines)" \
+      || echo -e "  ${YELLOW}✗${NC} OpenCode  OPENCODE.md missing"
+    [[ -f ".zed/settings.json" ]] \
+      && echo -e "  ${GREEN}✓${NC} Zed       .zed/settings.json" \
+      || echo -e "  ${YELLOW}✗${NC} Zed       .zed/settings.json missing"
+    [[ -f ".windsurf/rules/yana-ai.md" ]] \
+      && echo -e "  ${GREEN}✓${NC} Windsurf  .windsurf/rules/yana-ai.md" \
+      || echo -e "  ${YELLOW}✗${NC} Windsurf  .windsurf/rules/yana-ai.md missing"
+    [[ -f ".kiro/steering/yana-ai.md" ]] \
+      && echo -e "  ${GREEN}✓${NC} Kiro      .kiro/steering/yana-ai.md" \
+      || echo -e "  ${YELLOW}✗${NC} Kiro      .kiro/steering/yana-ai.md missing"
+    [[ -f ".agent/rules/yana-ai.md" ]] \
+      && echo -e "  ${GREEN}✓${NC} Antigrav  .agent/rules/yana-ai.md" \
+      || echo -e "  ${YELLOW}✗${NC} Antigrav  .agent/rules/yana-ai.md missing"
     echo ""
     echo -e "  ${GREEN}✓${NC} Claude    native (hooks in core/hooks/)"
     ;;

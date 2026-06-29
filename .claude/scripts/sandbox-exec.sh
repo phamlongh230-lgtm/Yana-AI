@@ -17,6 +17,7 @@
 #   2  — command failed inside sandbox (propagated exit code)
 #   3  — resource limit exceeded (OOM, timeout, disk cap)
 #   4  — requested sandbox mode not available on this host
+#   7  — REJECTED: ulimit fallback is forbidden when YANA_ENV=prod
 #
 # Env overrides:
 #   YANA_SANDBOX_MODE     — docker | nsjail | ulimit
@@ -25,10 +26,22 @@
 #   YANA_SANDBOX_MEM_MB   — container memory cap in MB (default: 128)
 #   YANA_SANDBOX_CPU      — Docker --cpus value (default: 0.5)
 #   YANA_SANDBOX_LOG      — audit log path (default: releases/logs/sandbox.log)
+#   YANA_ENV              — prod | dev | ci (default: dev)
+#                            prod HARD-REJECTS the ulimit fallback (CORE_AUDIT
+#                            2026-06-08, gap #6) — ulimit gives no filesystem
+#                            or network isolation, only resource caps. A repo
+#                            running in prod without docker/nsjail available
+#                            must fail loudly, not silently downgrade.
+#   YANA_SANDBOX_PROD_OVERRIDE=1 — explicit, logged escape hatch for prod boxes
+#                            that genuinely cannot install docker/nsjail.
+#                            Requires identity-gate verification, same as the
+#                            safe-run.sh BYPASS contract.
 #
 # Gate: L3 (runtime isolation)
 # Sources: moby/moby, google/nsjail, firecracker-microvm/firecracker
 set -uo pipefail
+
+YANA_ENV="${YANA_ENV:-dev}"
 
 # ─── Config ──────────────────────────────────────────────────────────────────
 MODE="${YANA_SANDBOX_MODE:-auto}"
@@ -38,7 +51,21 @@ MEM_MB="${YANA_SANDBOX_MEM_MB:-128}"
 CPU="${YANA_SANDBOX_CPU:-0.5}"
 LOG_FILE="${YANA_SANDBOX_LOG:-releases/logs/sandbox.log}"
 SESSION_ID="${YANA_SESSION_ID:-unknown}"
-SANDBOX_ID="sb-$(date +%s%N | md5sum | head -c 8)"
+
+# Portable short ID — `date +%N` (nanoseconds) and `md5sum` are both GNU-only;
+# macOS `date` ignores %N literally and ships `md5`/`shasum`, not `md5sum`.
+_seed="$$-${RANDOM:-0}-$(date +%s)"
+if command -v sha256sum >/dev/null 2>&1; then
+  SANDBOX_ID="sb-$(printf '%s' "$_seed" | sha256sum | head -c 8)"
+elif command -v shasum >/dev/null 2>&1; then
+  SANDBOX_ID="sb-$(printf '%s' "$_seed" | shasum -a 256 | head -c 8)"
+elif command -v md5 >/dev/null 2>&1; then
+  SANDBOX_ID="sb-$(printf '%s' "$_seed" | md5 | head -c 8)"
+elif command -v md5sum >/dev/null 2>&1; then
+  SANDBOX_ID="sb-$(printf '%s' "$_seed" | md5sum | head -c 8)"
+else
+  SANDBOX_ID="sb-$(printf '%s' "$_seed" | tr -dc 'a-z0-9' | head -c 8)"
+fi
 
 # ─── Helpers ─────────────────────────────────────────────────────────────────
 log_sandbox() {
@@ -71,7 +98,16 @@ if [[ "$MODE" == "auto" ]]; then
     RESOLVED_MODE="nsjail"
   else
     RESOLVED_MODE="ulimit"
+    if [[ "$YANA_ENV" == "prod" && "${YANA_SANDBOX_PROD_OVERRIDE:-0}" != "1" ]]; then
+      log_sandbox "BLOCK" "ulimit fallback rejected — YANA_ENV=prod requires docker or nsjail"
+      echo "[sandbox-exec] REJECT: no docker/nsjail found and YANA_ENV=prod." >&2
+      echo "  ulimit gives resource caps only — no filesystem/network isolation." >&2
+      echo "  Install docker or nsjail, or set YANA_SANDBOX_PROD_OVERRIDE=1 to" >&2
+      echo "  acknowledge the reduced isolation (logged, requires identity-gate)." >&2
+      exit 7
+    fi
     echo "[sandbox-exec] WARN: no container runtime — using ulimit fallback (no filesystem isolation)" >&2
+    [[ "$YANA_ENV" == "prod" ]] && log_sandbox "WARN" "prod override active — ulimit fallback (reduced isolation)"
   fi
 fi
 
@@ -159,6 +195,12 @@ fi
 
 # ─── MODE: ULIMIT FALLBACK ────────────────────────────────────────────────────
 if [[ "$RESOLVED_MODE" == "ulimit" ]]; then
+  if [[ "$YANA_ENV" == "prod" && "${YANA_SANDBOX_PROD_OVERRIDE:-0}" != "1" ]]; then
+    log_sandbox "BLOCK" "ulimit fallback rejected — YANA_ENV=prod requires docker or nsjail"
+    echo "[sandbox-exec] REJECT: --mode ulimit requested but YANA_ENV=prod." >&2
+    echo "  Set YANA_SANDBOX_PROD_OVERRIDE=1 to override (logged, reduced isolation)." >&2
+    exit 7
+  fi
   log_sandbox "WARN" "ulimit-fallback — no filesystem isolation"
 
   MEM_KB=$(( MEM_MB * 1024 ))
