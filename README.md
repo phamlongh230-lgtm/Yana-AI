@@ -41,6 +41,9 @@ $ yana-ai
   <a href="https://www.npmjs.com/package/yana-ai">
     <img src="https://img.shields.io/npm/v/yana-ai?style=for-the-badge&logo=npm&color=cb3837" />
   </a>
+  <a href="https://crates.io/crates/yana-rt">
+    <img src="https://img.shields.io/crates/v/yana-rt?style=for-the-badge&logo=rust&color=ce422b" />
+  </a>
   <a href="https://github.com/yanacuti1121/yana-ai">
     <img src="https://img.shields.io/badge/protected%20by-Yana AI%20ENGINE-ff6b35?style=for-the-badge" />
   </a>
