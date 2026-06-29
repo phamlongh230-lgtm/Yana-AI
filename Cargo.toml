@@ -15,22 +15,43 @@ include = ["src/**", "Cargo.toml", "README.md", "LICENSE"]
 [[bin]]
 name = "yana-rt"
 path = "src/main.rs"
+required-features = ["cli"]
+
+[lib]
+name = "yana_rt"
+path = "src/lib.rs"
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = ["cli"]
+cli = [
+  "clap", "uuid", "chrono", "shell-words", "glob", "walkdir",
+  "anyhow", "unicode-normalization", "liteparse", "ureq", "serde_yml",
+]
+wasm = ["wasm-bindgen", "js-sys"]
 
 [dependencies]
-clap = { version = "4", features = ["derive"] }
-serde = { version = "1", features = ["derive"] }
+# Always available (WASM-safe)
+serde      = { version = "1", features = ["derive"] }
 serde_json = "1"
-uuid = { version = "1", features = ["v4"] }
-chrono = { version = "0.4", features = ["serde"] }
-shell-words = "1"
 regex      = "1"
-glob       = "0.3"
-walkdir    = "2"
-anyhow     = "1"
-unicode-normalization = "0.1"
-liteparse = { version = "2", default-features = false }
-ureq      = "3"
-serde_yml = "0.0.13"
+
+# CLI-only — pulled in by the `cli` feature
+clap       = { version = "4", features = ["derive"], optional = true }
+uuid       = { version = "1", features = ["v4"],     optional = true }
+chrono     = { version = "0.4", features = ["serde"], optional = true }
+shell-words          = { version = "1",              optional = true }
+glob                 = { version = "0.3",            optional = true }
+walkdir              = { version = "2",              optional = true }
+anyhow               = { version = "1",              optional = true }
+unicode-normalization = { version = "0.1",           optional = true }
+liteparse  = { version = "2", default-features = false, optional = true }
+ureq       = { version = "3",                        optional = true }
+serde_yml  = { version = "0.0.13",                   optional = true }
+
+# WASM
+wasm-bindgen = { version = "0.2", optional = true }
+js-sys       = { version = "0.3", optional = true }
 
 [dev-dependencies]
 tempfile = "3"

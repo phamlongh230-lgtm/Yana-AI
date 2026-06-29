@@ -2434,6 +2434,7 @@ dependencies = [
  "chrono",
  "clap",
  "glob",
+ "js-sys",
  "liteparse",
  "regex",
  "serde",
@@ -2445,6 +2446,7 @@ dependencies = [
  "ureq",
  "uuid",
  "walkdir",
+ "wasm-bindgen",
 ]
 
 [[package]]
