@@ -52,7 +52,7 @@
       "target": [
         {
           "target": "nsis",
-          "arch": ["x64"]
+          "arch": ["x64", "arm64"]
         }
       ],
       "icon": "assets/icon.ico"
