@@ -19,12 +19,25 @@ const PROVIDER_SETUP = {
   lmstudio:   { url: "https://lmstudio.ai/download", cmd: "Open LM Studio → Developer tab", cmd2: "Start server (port 1234), load a model", label: "On-device — lmstudio.ai/download" },
 };
 
-function ProviderCard({ p, usage, onKeyChange }) {
+function ProviderCard({ p, usage, onKeyChange, forceOpen }) {
   const keyless = KEYLESS_PROVIDERS.has(p.id);
   const [hasKey, setHasKey] = React.useState(() => YanaVault.hasKey(p.id));
-  const connected = hasKey || keyless; // a stored API key — or an on-device provider
+  const connected = hasKey || keyless;
   const [liveModels, setLiveModels] = React.useState(null);
   const [checking, setChecking] = React.useState(false);
+  const [editing, setEditing]   = React.useState(false);
+  const [draft, setDraft]       = React.useState("");
+  const [saved, setSaved]       = React.useState(false);
+  const inputRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (forceOpen && !keyless) {
+      setDraft(YanaVault.getKey(p.id) || "");
+      setEditing(true);
+      setSaved(false);
+      setTimeout(() => inputRef.current && inputRef.current.focus(), 30);
+    }
+  }, [forceOpen]);
 
   async function fetchLiveModels(key) {
     if (!LIVE_MODEL_PROVIDERS.has(p.id)) return;
@@ -43,14 +56,17 @@ function ProviderCard({ p, usage, onKeyChange }) {
     setChecking(false);
   }
 
-  // On-device providers answer /api/models without a key — probe on mount
   React.useEffect(() => { if (keyless) fetchLiveModels(""); }, []);
 
-  async function promptKey() {
-    const current = YanaVault.getKey(p.id) || "";
-    const raw = window.prompt(L("API key for ", "API key cho ") + p.name + L(" (leave blank to clear):", " (để trống để xóa):"), current);
-    if (raw === null) return;
-    const trimmed = raw.trim();
+  function openEdit() {
+    setDraft(YanaVault.getKey(p.id) || "");
+    setEditing(true);
+    setSaved(false);
+    setTimeout(() => inputRef.current && inputRef.current.focus(), 30);
+  }
+
+  async function saveKey() {
+    const trimmed = draft.trim();
     if (trimmed) {
       await YanaVault.setKey(p.id, trimmed);
       setHasKey(true);
@@ -60,12 +76,17 @@ function ProviderCard({ p, usage, onKeyChange }) {
       setHasKey(false);
       setLiveModels(null);
     }
+    setSaved(true);
+    setTimeout(() => { setEditing(false); setSaved(false); }, 800);
     if (onKeyChange) onKeyChange();
   }
 
-  const keyDisplay = hasKey
-    ? YanaVault.getKey(p.id).slice(0, 8) + "····"
-    : "—";
+  function handleKeyDown(e) {
+    if (e.key === "Enter")  { e.preventDefault(); saveKey(); }
+    if (e.key === "Escape") { setEditing(false); }
+  }
+
+  const keyDisplay = hasKey ? YanaVault.getKey(p.id).slice(0, 10) + "····" : "—";
 
   const u = usage && usage[p.id];
   const usageDisplay   = u ? "~" + fmtTokens(u.est_tokens) + L(" tokens", " tokens") : L("Not used yet", "Chưa dùng");
@@ -77,7 +98,7 @@ function ProviderCard({ p, usage, onKeyChange }) {
     : L("Models", "Mô hình");
 
   return (
-    <div className="glass" style={{ borderRadius: "var(--r-lg)", padding: "var(--pad-card)", display: "flex", flexDirection: "column", gap: 11 }}>
+    <div id={"provider-card-" + p.id} className="glass" style={{ borderRadius: "var(--r-lg)", padding: "var(--pad-card)", display: "flex", flexDirection: "column", gap: 11 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 11 }}>
         <div style={{
           width: 38, height: 38, borderRadius: 13, flex: "none", display: "grid", placeItems: "center",
@@ -155,19 +176,49 @@ function ProviderCard({ p, usage, onKeyChange }) {
               {L("keyless", "không cần")}
             </span>
           ) : (
-          <button onClick={promptKey} title={L("Click to set API key", "Nhấn để đặt API key")} style={{
-            background: "none", border: "none", padding: 0, cursor: "pointer",
-            fontSize: 12, fontWeight: 500, color: hasKey ? "var(--good)" : "var(--primary)",
-            display: "flex", alignItems: "center", gap: 5, fontFamily: "inherit",
-          }}>
-            <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: 90 }}>
-              {keyDisplay}
-            </span>
-            <span style={{ fontSize: 10, opacity: .6 }}>✎</span>
-          </button>
+            <button onClick={openEdit} title={L("Click to set API key", "Nhấn để đặt API key")} style={{
+              background: "none", border: "none", padding: 0, cursor: "pointer",
+              fontSize: 12, fontWeight: 500, color: hasKey ? "var(--good)" : "var(--primary)",
+              display: "flex", alignItems: "center", gap: 5, fontFamily: "inherit",
+            }}>
+              <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: 90 }}>
+                {keyDisplay}
+              </span>
+              <span style={{ fontSize: 10, opacity: .6 }}>✎</span>
+            </button>
           )}
         </div>
       </div>
+
+      {/* Inline key editor — replaces window.prompt() */}
+      {editing && (
+        <div style={{ display: "flex", gap: 6, alignItems: "center", paddingTop: 4 }}>
+          <input
+            ref={inputRef}
+            type="password"
+            value={draft}
+            onChange={e => setDraft(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder={L("Paste API key here…", "Dán API key vào đây…")}
+            style={{
+              flex: 1, fontSize: 13, padding: "6px 10px", borderRadius: 8,
+              border: "1px solid var(--border)", background: "var(--surface)",
+              color: "var(--ink)", outline: "none", fontFamily: "monospace",
+            }}
+          />
+          <button onClick={saveKey} style={{
+            padding: "6px 12px", borderRadius: 8, border: "none",
+            background: saved ? "var(--good)" : "var(--primary)", color: "#fff",
+            cursor: "pointer", fontSize: 12, fontWeight: 500, flex: "none",
+          }}>
+            {saved ? "✓" : L("Save", "Lưu")}
+          </button>
+          <button onClick={() => setEditing(false)} style={{
+            padding: "6px 8px", borderRadius: 8, border: "1px solid var(--border)",
+            background: "transparent", color: "var(--ink-3)", cursor: "pointer", fontSize: 12,
+          }}>✕</button>
+        </div>
+      )}
     </div>
   );
 }
@@ -176,6 +227,7 @@ function Providers() {
   const D = window.YANA;
   const [usage, setUsage] = React.useState(null);
   const [, bump] = React.useReducer((x) => x + 1, 0);
+  const [openId, setOpenId] = React.useState(null);
 
   React.useEffect(() => {
     fetch("/api/usage")
@@ -186,14 +238,14 @@ function Providers() {
 
   const connected = D.providers.filter((p) => providerAvailable(p.id)).length;
 
-  // Connect provider: open the key prompt for the first provider without a key
-  async function connectNext() {
+  function connectNext() {
     const next = D.providers.find((p) => !KEYLESS_PROVIDERS.has(p.id) && !YanaVault.hasKey(p.id));
     if (!next) { alert(L("All providers are connected.", "Tất cả nhà cung cấp đã kết nối.")); return; }
-    const raw = window.prompt(L("API key for ", "API key cho ") + next.name + ":");
-    if (raw === null || !raw.trim()) return;
-    await YanaVault.setKey(next.id, raw.trim());
-    bump();
+    setOpenId(next.id);
+    setTimeout(() => {
+      const el = document.getElementById("provider-card-" + next.id);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 50);
   }
 
   return (
@@ -209,7 +261,13 @@ function Providers() {
       </PageHeader>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "var(--gap)" }}>
         {D.providers.map((p) => (
-          <ProviderCard key={p.id + (YanaVault.hasKey(p.id) ? ":on" : ":off")} p={p} usage={usage} onKeyChange={bump} />
+          <ProviderCard
+            key={p.id + (YanaVault.hasKey(p.id) ? ":on" : ":off")}
+            p={p}
+            usage={usage}
+            forceOpen={openId === p.id}
+            onKeyChange={() => { bump(); setOpenId(null); }}
+          />
         ))}
       </div>
     </div>
