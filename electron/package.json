@@ -26,6 +26,7 @@
           "missions.js",
           "embeddings.js",
           "qdrant-client.js",
+          "logo.png",
           "lib/**",
           "html-skills/**",
           "desktop/**",
