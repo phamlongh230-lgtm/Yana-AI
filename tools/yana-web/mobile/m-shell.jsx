@@ -67,25 +67,25 @@ function YanaMark({ size = 30 }) {
 /* ---------- Mobile navigation model ---------- */
 // Primary tabs live in the thumb zone; the rest fold into More.
 const TABS = [
-  { id: "dashboard", label: "Lake",         vi: "Mặt hồ",      icon: "dashboard" },
-  { id: "missions",  label: "Missions",     vi: "Nhiệm vụ",    icon: "missions" },
-  { id: "chat",      label: "Chat",         vi: "Trò chuyện",  icon: "chat" },
-  { id: "agents",    label: "Agents",       vi: "Tác nhân",    icon: "agents" },
+  { id: "dashboard", label: "Lake",         vi: "Mặt hồ",      ko: "호수",     zh: "湖面",   icon: "dashboard" },
+  { id: "missions",  label: "Missions",     vi: "Nhiệm vụ",    ko: "미션",     zh: "任务",   icon: "missions" },
+  { id: "chat",      label: "Chat",         vi: "Trò chuyện",  ko: "채팅",     zh: "聊天",   icon: "chat" },
+  { id: "agents",    label: "Agents",       vi: "Tác nhân",    ko: "에이전트",  zh: "智能体", icon: "agents" },
 ];
 const MORE_ITEMS = [
-  { id: "memory",     label: "Memory Garden", vi: "Vườn ký ức",    icon: "memory" },
-  { id: "skills",     label: "Skills",        vi: "Kỹ năng",       icon: "skills" },
-  { id: "providers",  label: "Providers",     vi: "Nhà cung cấp",  icon: "providers" },
-  { id: "sessions",   label: "Sessions",      vi: "Lịch sử",       icon: "memory" },
-  { id: "analytics",  label: "Analytics",     vi: "Thống kê",      icon: "dashboard" },
-  { id: "cron",       label: "Cron",          vi: "Tự động",       icon: "missions" },
-  { id: "html-maker", label: "HTML Maker",    vi: "Tạo HTML",      icon: "spark" },
-  { id: "settings",   label: "Settings",      vi: "Cài đặt",       icon: "settings" },
+  { id: "memory",     label: "Memory Garden", vi: "Vườn ký ức",    ko: "메모리 가든",  zh: "记忆花园", icon: "memory" },
+  { id: "skills",     label: "Skills",        vi: "Kỹ năng",       ko: "스킬",        zh: "技能",     icon: "skills" },
+  { id: "providers",  label: "Providers",     vi: "Nhà cung cấp",  ko: "프로바이더",   zh: "提供商",   icon: "providers" },
+  { id: "sessions",   label: "Sessions",      vi: "Lịch sử",       ko: "세션",        zh: "会话",     icon: "memory" },
+  { id: "analytics",  label: "Analytics",     vi: "Thống kê",      ko: "분석",        zh: "分析",     icon: "dashboard" },
+  { id: "cron",       label: "Cron",          vi: "Tự động",       ko: "자동화",       zh: "自动化",   icon: "missions" },
+  { id: "html-maker", label: "HTML Maker",    vi: "Tạo HTML",      ko: "HTML 메이커",  zh: "HTML 制作", icon: "spark" },
+  { id: "settings",   label: "Settings",      vi: "Cài đặt",       ko: "설정",        zh: "设置",     icon: "settings" },
 ];
 const ALL_PAGES = [...TABS, ...MORE_ITEMS];
 const PAGE_TITLE = (id) => {
   const p = ALL_PAGES.find((x) => x.id === id);
-  return p ? L(p.label, p.vi) : "Yana";
+  return p ? L(p.label, p.vi, p.ko, p.zh) : "Yana";
 };
 
 /* ---------- Top bar ---------- */
@@ -106,7 +106,7 @@ function TopBar({ page, lang, onLang, onMore }) {
       </div>
       <div className="mtopbar-r">
         {onChat && (
-          <button className="icon-btn" onClick={newChat} aria-label={L("New conversation", "Cuộc trò chuyện mới")}>
+          <button className="icon-btn" onClick={newChat} aria-label={L("New conversation", "Cuộc trò chuyện mới", "새 대화", "新建对话")}>
             {Icons.pencil(18)}
           </button>
         )}
@@ -128,12 +128,12 @@ function TabBar({ page, onNav, onMore }) {
       {TABS.map((tb) => (
         <button key={tb.id} className="mtab" data-on={page === tb.id ? "1" : "0"} onClick={() => onNav(tb.id)}>
           <span className="tab-ic">{Icons[tb.icon](22)}</span>
-          <span>{L(tb.label, tb.vi)}</span>
+          <span>{L(tb.label, tb.vi, tb.ko, tb.zh)}</span>
         </button>
       ))}
       <button className="mtab" data-on={moreActive ? "1" : "0"} onClick={onMore}>
         <span className="tab-ic">{Icons.more(22)}</span>
-        <span>{L("More", "Thêm")}</span>
+        <span>{L("More", "Thêm", "더보기", "更多")}</span>
       </button>
     </nav>
   );
@@ -162,12 +162,12 @@ function Sheet({ open, title, onClose, children }) {
 /* ---------- More sheet (secondary nav) ---------- */
 function MoreSheet({ open, page, onNav, onClose }) {
   const D = window.YANA;
-  const username = D.username || L("My account", "Tài khoản");
+  const username = D.username || L("My account", "Tài khoản", "내 계정", "我的账户");
   function logout() {
     fetch("/api/auth/logout", { method: "POST" }).finally(() => location.replace("/"));
   }
   return (
-    <Sheet open={open} title={L("All sections", "Tất cả mục")} onClose={onClose}>
+    <Sheet open={open} title={L("All sections", "Tất cả mục", "전체 메뉴", "全部功能")} onClose={onClose}>
       {/* User identity card */}
       <div className="glass" style={{ borderRadius: "var(--r-md)", padding: "11px 13px", display: "flex", alignItems: "center", gap: 11, marginBottom: 8 }}>
         <div style={{ width: 36, height: 36, borderRadius: 11, background: "var(--primary)", color: "#fff", display: "grid", placeItems: "center", fontSize: 15, fontWeight: 600, flex: "none" }}>
@@ -175,10 +175,10 @@ function MoreSheet({ open, page, onNav, onClose }) {
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontSize: 14, fontWeight: 500 }}>{username}</div>
-          <div style={{ fontSize: 11.5, color: "var(--ink-3)" }}>{L("Sovereign account", "Tài khoản chủ sở hữu")}</div>
+          <div style={{ fontSize: 11.5, color: "var(--ink-3)" }}>{L("Sovereign account", "Tài khoản chủ sở hữu", "소버린 계정", "所有者账户")}</div>
         </div>
         <button onClick={logout} style={{ fontSize: 12, color: "var(--ink-3)", background: "none", border: "none", cursor: "pointer", padding: "6px 8px", borderRadius: 8, flex: "none" }}>
-          {L("Sign out", "Đăng xuất")}
+          {L("Sign out", "Đăng xuất", "로그아웃", "退出登录")}
         </button>
       </div>
       <div className="more-grid">
@@ -186,7 +186,7 @@ function MoreSheet({ open, page, onNav, onClose }) {
           <button key={m.id} className="more-item" onClick={() => { onNav(m.id); onClose(); }}
             style={page === m.id ? { background: "var(--primary-soft)" } : null}>
             <span className="more-ic">{Icons[m.icon](19)}</span>
-            <span className="more-lbl">{L(m.label, m.vi)}</span>
+            <span className="more-lbl">{L(m.label, m.vi, m.ko, m.zh)}</span>
             <span className="more-chev">{Icons.chevron(16)}</span>
           </button>
         ))}
@@ -199,10 +199,10 @@ function MoreSheet({ open, page, onNav, onClose }) {
           <span style={{ color: "var(--primary)" }}>{Icons.safety(16)}</span>
           <span style={{ fontSize: 13, fontWeight: 500, color: "var(--primary)" }}>Yana AI Core</span>
         </div>
-        <div style={{ fontSize: 12.5, color: "var(--ink-2)" }}>{D.stats.agents} {L("agents supervised", "tác nhân được giám sát")}</div>
+        <div style={{ fontSize: 12.5, color: "var(--ink-2)" }}>{D.stats.agents} {L("agents supervised", "tác nhân được giám sát", "개 에이전트 감독 중", "个智能体受监督")}</div>
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
           <span className="dot on"></span>
-          <span style={{ fontSize: 12, color: "var(--ink-3)" }}>{L("All gates active", "Mọi cổng an toàn đang bật")}</span>
+          <span style={{ fontSize: 12, color: "var(--ink-3)" }}>{L("All gates active", "Mọi cổng an toàn đang bật", "모든 게이트 활성화됨", "所有门控已启用")}</span>
         </div>
       </div>
     </Sheet>

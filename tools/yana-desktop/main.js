@@ -1,6 +1,7 @@
 'use strict';
 const { app, BrowserWindow, ipcMain, shell, dialog } = require('electron');
 const path  = require('path');
+const fs    = require('fs');
 const { fork } = require('child_process');
 const http  = require('http');
 
@@ -9,6 +10,11 @@ const SERVER_URL = `http://127.0.0.1:${PORT}`;
 
 let mainWindow    = null;
 let serverProcess = null;
+
+// Same layout auth.js uses under the hood — kept in one place so the reveal-
+// in-Finder button and the server's YANA_DATA_DIR can never drift apart.
+function dataDir()      { return path.join(app.getPath('userData'), '.yana'); }
+function authFilePath() { return path.join(dataDir(), 'auth.json'); }
 
 // ── Server ────────────────────────────────────────────────────────────────────
 
@@ -26,7 +32,7 @@ function startServer() {
       PORT:          String(PORT),
       HOST:          '127.0.0.1',
       NODE_ENV:      'production',
-      YANA_DATA_DIR: path.join(app.getPath('userData'), '.yana'),
+      YANA_DATA_DIR: dataDir(),
       YANA_ROOT_DIR: app.isPackaged
         ? process.resourcesPath
         : path.join(__dirname, '..'),
@@ -98,6 +104,16 @@ function createWindow() {
 
 ipcMain.handle('yana:version',    () => app.getVersion());
 ipcMain.handle('yana:server-url', () => SERVER_URL);
+
+// Locked-out recovery: the login screen's "forgot password" panel offers a
+// button that reveals this file in Finder/Explorer instead of asking the
+// user to type a hidden per-OS path (userData) they have no reason to know.
+ipcMain.handle('yana:auth-file-path', () => authFilePath());
+ipcMain.handle('yana:reveal-auth-file', () => {
+  const target = authFilePath();
+  if (fs.existsSync(target)) shell.showItemInFolder(target);
+  else shell.openPath(path.dirname(target));
+});
 
 // ── Lifecycle ─────────────────────────────────────────────────────────────────
 

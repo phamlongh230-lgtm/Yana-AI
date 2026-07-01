@@ -221,11 +221,11 @@ function MModelPickerSheet({ open, onClose, activeProvider, activeModel, onModel
   };
 
   return (
-    <Sheet open={open} title={L("Chọn model", "Chọn model")} onClose={onClose}>
+    <Sheet open={open} title={L("Chọn model", "Chọn model", "모델 선택", "选择模型")} onClose={onClose}>
       <div style={{ display: "flex", flexDirection: "column", gap: 8, paddingBottom: 12 }}>
         {models.length === 0 && (
           <div style={{ fontSize: 13, color: "var(--ink-3)", textAlign: "center", padding: "16px 0" }}>
-            {L("No models listed for this provider", "Chưa có model nào cho provider này")}
+            {L("No models listed for this provider", "Chưa có model nào cho provider này", "이 프로바이더에 등록된 모델이 없습니다", "此提供商暂无模型列表")}
           </div>
         )}
         {models.map(m => {
@@ -279,17 +279,17 @@ function MContextSheet({ open, onClose, overrideProvider, overrideModel, onProvi
   };
 
   return (
-    <Sheet open={open} title={L("Routing & context", "Định tuyến & ngữ cảnh")} onClose={onClose}>
-      <MCard title={L("Routing", "Định tuyến")}>
+    <Sheet open={open} title={L("Routing & context", "Định tuyến & ngữ cảnh", "라우팅 및 컨텍스트", "路由与上下文")} onClose={onClose}>
+      <MCard title={L("Routing", "Định tuyến", "라우팅", "路由")}>
         <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 13 }}>
-            <span style={{ color: "var(--ink-3)" }}>{L("Provider", "Nhà cung cấp")}</span>
+            <span style={{ color: "var(--ink-3)" }}>{L("Provider", "Nhà cung cấp", "프로바이더", "提供商")}</span>
             <select value={_p} onChange={handleProviderSelect} style={selectStyle}>
               {M_ALL_PROVIDERS.map(id => <option key={id} value={id}>{id}</option>)}
             </select>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 13 }}>
-            <span style={{ color: "var(--ink-3)" }}>{L("Model", "Mô hình")}</span>
+            <span style={{ color: "var(--ink-3)" }}>{L("Model", "Mô hình", "모델", "模型")}</span>
             <input
               value={_m}
               onChange={e => onModelChange(e.target.value)}
@@ -298,12 +298,12 @@ function MContextSheet({ open, onClose, overrideProvider, overrideModel, onProvi
             />
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13 }}>
-            <span style={{ color: "var(--ink-3)" }}>{L("Orchestrator", "Điều phối")}</span>
+            <span style={{ color: "var(--ink-3)" }}>{L("Orchestrator", "Điều phối", "오케스트레이터", "编排器")}</span>
             <span style={{ fontWeight: 500 }}>Navigator</span>
           </div>
         </div>
       </MCard>
-      <MCard title={L("Context in use", "Ngữ cảnh đang dùng")}>
+      <MCard title={L("Context in use", "Ngữ cảnh đang dùng", "사용 중인 컨텍스트", "正在使用的上下文")}>
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           {D.memories.filter((m) => m.pinned || m.fresh).slice(0, 3).map((m) => (
             <div key={m.id} style={{ fontSize: 12.5, color: "var(--ink-2)", lineHeight: 1.45, display: "flex", gap: 8 }}>
@@ -315,10 +315,10 @@ function MContextSheet({ open, onClose, overrideProvider, overrideModel, onProvi
           ))}
         </div>
       </MCard>
-      <MCard title={L("Safety", "An toàn")}>
+      <MCard title={L("Safety", "An toàn", "안전", "安全")}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <span className="dot on"></span>
-          <span style={{ fontSize: 12.5, color: "var(--ink-2)" }}>{L("Sentinel reviewing all actions", "Sentinel đang giám sát mọi hành động")}</span>
+          <span style={{ fontSize: 12.5, color: "var(--ink-2)" }}>{L("Sentinel reviewing all actions", "Sentinel đang giám sát mọi hành động", "Sentinel이 모든 작업을 검토 중", "Sentinel 正在审查所有操作")}</span>
         </div>
       </MCard>
     </Sheet>
@@ -582,7 +582,7 @@ function MChat() {
           const shown = accumulated.slice(0, mm.index).trimEnd();
           setMsgs((m) => m.map((msg) =>
             msg._id === msgId
-              ? { ...msg, text: shown || msg.text, refs: [...(msg.refs || []), L("🌱 Remembered: ", "🌱 Đã nhớ: ") + fact] }
+              ? { ...msg, text: shown || msg.text, refs: [...(msg.refs || []), L("🌱 Remembered: ", "🌱 Đã nhớ: ", "🌱 기억함: ", "🌱 已记住：") + fact] }
               : msg
           ));
           fetch("/api/memory", {
@@ -602,9 +602,13 @@ function MChat() {
         confidential: !!tier, tier,
         text: tier === "sovereign"
           ? L("Cannot reach local model. SOVEREIGN content only goes to Ollama (127.0.0.1:11434) — run `ollama serve`.",
-              "Không kết nối được model local. Nội dung SOVEREIGN chỉ đến Ollama (127.0.0.1:11434) — chạy `ollama serve`.")
+              "Không kết nối được model local. Nội dung SOVEREIGN chỉ đến Ollama (127.0.0.1:11434) — chạy `ollama serve`.",
+              "로컬 모델에 연결할 수 없습니다. SOVEREIGN 콘텐츠는 Ollama (127.0.0.1:11434)로만 전송됩니다 — `ollama serve`를 실행하세요.",
+              "无法连接本地模型。SOVEREIGN 内容仅发送至 Ollama（127.0.0.1:11434）— 请运行 `ollama serve`。")
           : L("Server error (" + err.message + "). Check Yana is running and an API key is set in Providers.",
-              "Lỗi kết nối (" + err.message + "). Kiểm tra Yana đang chạy và đã thêm API key trong Providers."),
+              "Lỗi kết nối (" + err.message + "). Kiểm tra Yana đang chạy và đã thêm API key trong Providers.",
+              "서버 오류 (" + err.message + "). Yana가 실행 중인지, Providers에 API 키가 설정되었는지 확인하세요.",
+              "服务器错误（" + err.message + "）。请检查 Yana 是否正在运行，以及提供商中是否已设置 API 密钥。"),
       }]);
     }
   }
@@ -619,7 +623,7 @@ function MChat() {
       {/* slim context bar — compact routing icon + model picker chip */}
       <div style={{ flex: "none", display: "flex", gap: 8, margin: "12px 16px 8px" }}>
         {/* Routing / context trigger — compact icon, expands the routing+context Sheet on tap */}
-        <button onClick={() => setCtx(true)} aria-label={L("Routing & context", "Định tuyến & ngữ cảnh")} title={_activeProvider} style={{
+        <button onClick={() => setCtx(true)} aria-label={L("Routing & context", "Định tuyến & ngữ cảnh", "라우팅 및 컨텍스트", "路由与上下文")} title={_activeProvider} style={{
           width: 40, height: 40, flex: "none", borderRadius: "var(--r-md)",
           border: "1px solid var(--border)", background: "rgba(var(--surface-rgb), .5)", cursor: "pointer",
           display: "grid", placeItems: "center", color: "var(--primary)",
@@ -650,7 +654,7 @@ function MChat() {
         ))}
         {thinking && (
           <div style={{ display: "flex", alignItems: "center", gap: 9, color: "var(--ink-3)", fontSize: 12.5 }}>
-            <YanaMark size={18} /> {L("Navigator is thinking…", "Navigator đang suy nghĩ…")}
+            <YanaMark size={18} /> {L("Navigator is thinking…", "Navigator đang suy nghĩ…", "Navigator가 생각 중…", "Navigator 正在思考…")}
           </div>
         )}
       </div>
@@ -677,7 +681,7 @@ function MChat() {
             value={draft}
             onChange={(e) => { setDraft(e.target.value); autoResize(); }}
             onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }}
-            placeholder={L("Give Yana a direction… (Shift+Enter for new line)", "Giao cho Yana một hướng đi… (Shift+Enter xuống dòng)")}
+            placeholder={L("Give Yana a direction… (Shift+Enter for new line)", "Giao cho Yana một hướng đi… (Shift+Enter xuống dòng)", "Yana에게 방향을 알려주세요… (Shift+Enter로 줄바꿈)", "给 Yana 一个方向…（Shift+Enter 换行）")}
             className="chat-input"
             style={{ flex: 1, minWidth: 0, border: "none", outline: "none", background: "transparent", fontSize: 14.5, fontFamily: "inherit", color: "var(--ink)", lineHeight: 1.5, maxHeight: 140, overflowY: "auto" }}
           />
@@ -698,7 +702,7 @@ function MChat() {
           )}
           <button
             onClick={() => fileRef.current && fileRef.current.click()}
-            aria-label={L("Attach file", "Đính kèm file")}
+            aria-label={L("Attach file", "Đính kèm file", "파일 첨부", "附加文件")}
             disabled={ocrBusy}
             style={{
               width: 36, height: 36, borderRadius: 11, border: "1px solid var(--border)", cursor: ocrBusy ? "not-allowed" : "pointer", flex: "none",

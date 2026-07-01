@@ -90,10 +90,12 @@ function ConfidentialBadge({ tier }) {
   return (
     <span className="chip neutral" style={{ fontSize: 10.5, marginTop: 5, display: "inline-flex", alignItems: "center", gap: 4 }}
       title={L("Rule 68 — this message is never saved to history, memory, or missions.",
-               "Rule 68 — tin nhắn này không bao giờ được lưu vào lịch sử, ký ức hay mission.")}>
+               "Rule 68 — tin nhắn này không bao giờ được lưu vào lịch sử, ký ức hay mission.",
+               "Rule 68 — 이 메시지는 기록, 메모리, 미션에 저장되지 않습니다.",
+               "规则 68 — 此消息永远不会被保存到历史记录、记忆或任务中。")}>
       🔒 {tier === "sovereign"
-        ? L("Sovereign · local only · not saved", "Sovereign · chỉ local · không lưu")
-        : L("Confidential · not saved", "Mật · không lưu")}
+        ? L("Sovereign · local only · not saved", "Sovereign · chỉ local · không lưu", "Sovereign · 로컬 전용 · 저장 안 함", "Sovereign · 仅本地 · 不保存")
+        : L("Confidential · not saved", "Mật · không lưu", "기밀 · 저장 안 함", "机密 · 不保存")}
     </span>
   );
 }
@@ -121,7 +123,7 @@ function RouteChip({ route }) {
 
   const costStr = meta
     ? (pricePer1k === 0
-        ? L("$0.00 · free", "$0.00 · miễn phí")
+        ? L("$0.00 · free", "$0.00 · miễn phí", "$0.00 · 무료", "$0.00 · 免费")
         : "$" + ((meta.chars / 4 / 1000) * pricePer1k).toFixed(4))
     : null;
   const speedStr = meta ? (meta.secs < 60 ? meta.secs.toFixed(1) + "s" : Math.round(meta.secs) + "s") : null;
@@ -189,7 +191,7 @@ function OllamaManager() {
           if (!data) continue;
           try {
             const j = JSON.parse(data);
-            if (j.status === "done") { setPullLog("✓ " + L("Done", "Xong")); reload(); setPullName(""); }
+            if (j.status === "done") { setPullLog("✓ " + L("Done", "Xong", "완료", "完成")); reload(); setPullName(""); }
             else if (j.error)        { setPullLog("✗ " + j.error); }
             else if (j.status)       { setPullLog(j.status + (j.completed && j.total ? ` ${Math.round(j.completed/j.total*100)}%` : "")); }
           } catch (_) {}
@@ -200,7 +202,7 @@ function OllamaManager() {
   }
 
   async function doDelete(name) {
-    if (!confirm(L("Delete " + name + "?", "Xoá " + name + "?"))) return;
+    if (!confirm(L("Delete " + name + "?", "Xoá " + name + "?", name + " 삭제할까요?", "删除 " + name + "？"))) return;
     setDeleting(name);
     try {
       await fetch("/api/ollama/models", {
@@ -218,16 +220,16 @@ function OllamaManager() {
         fontSize: 12, color: "var(--ink-3)", background: "transparent", border: "1px solid var(--border)",
         borderRadius: 8, padding: "4px 10px", cursor: "pointer",
       }}>
-        {open ? "▾" : "▸"} {L("Ollama models", "Quản lý model Ollama")}
+        {open ? "▾" : "▸"} {L("Ollama models", "Quản lý model Ollama", "Ollama 모델", "Ollama 模型")}
       </button>
 
       {open && (
         <div style={{ marginTop: 8, padding: "10px 12px", borderRadius: 10, background: "color-mix(in srgb, var(--ink) 4%, transparent)", border: "1px solid var(--border)", fontSize: 12 }}>
           {/* installed models list */}
           {models === null
-            ? <div style={{ color: "var(--ink-3)" }}>{L("Loading…", "Đang tải…")}</div>
+            ? <div style={{ color: "var(--ink-3)" }}>{L("Loading…", "Đang tải…", "불러오는 중…", "加载中…")}</div>
             : models.length === 0
-              ? <div style={{ color: "var(--ink-3)" }}>{L("No models installed yet.", "Chưa cài model nào.")}</div>
+              ? <div style={{ color: "var(--ink-3)" }}>{L("No models installed yet.", "Chưa cài model nào.", "설치된 모델이 없습니다.", "尚未安装任何模型。")}</div>
               : (
                 <div style={{ display: "flex", flexDirection: "column", gap: 4, marginBottom: 10 }}>
                   {models.map(m => (
@@ -253,14 +255,14 @@ function OllamaManager() {
           <div style={{ display: "flex", gap: 6, alignItems: "center", marginTop: 4 }}>
             <input value={pullName} onChange={e => setPullName(e.target.value)}
               onKeyDown={e => e.key === "Enter" && doPull()}
-              placeholder={L("e.g. qwen2.5-coder:7b", "vd. qwen2.5-coder:7b")}
+              placeholder={L("e.g. qwen2.5-coder:7b", "vd. qwen2.5-coder:7b", "예: qwen2.5-coder:7b", "例：qwen2.5-coder:7b")}
               style={{ flex: 1, fontSize: 12, padding: "4px 8px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--surface)", color: "var(--ink)", outline: "none" }}
             />
             <button onClick={doPull} disabled={pulling || !pullName.trim()} style={{
               fontSize: 12, padding: "4px 10px", borderRadius: 6, border: "none",
               background: "var(--primary)", color: "#fff", cursor: pulling ? "default" : "pointer", opacity: pulling ? 0.6 : 1,
             }}>
-              {pulling ? L("Pulling…", "Đang tải…") : L("Pull", "Tải")}
+              {pulling ? L("Pulling…", "Đang tải…", "다운로드 중…", "拉取中…") : L("Pull", "Tải", "다운로드", "拉取")}
             </button>
           </div>
           {pullLog && <div style={{ marginTop: 5, fontSize: 11.5, color: pullLog.startsWith("✓") ? "#16a34a" : pullLog.startsWith("✗") ? "#dc2626" : "var(--ink-3)", fontFamily: "monospace" }}>{pullLog}</div>}
@@ -296,7 +298,7 @@ function ThinkToggle({ reasoning }) {
         fontFamily: "inherit",
       }}>
         <span style={{ fontSize: 13 }}>🧠</span>
-        {open ? L("Hide reasoning", "Ẩn suy nghĩ") : L("Show reasoning", "Xem suy nghĩ")}
+        {open ? L("Hide reasoning", "Ẩn suy nghĩ", "추론 숨기기", "隐藏推理过程") : L("Show reasoning", "Xem suy nghĩ", "추론 보기", "显示推理过程")}
         <span style={{ transform: open ? "rotate(180deg)" : "none", transition: "transform .15s", display: "inline-block" }}>▾</span>
       </button>
       {open && (
@@ -344,7 +346,7 @@ function CopyBtn({ text }) {
     }).catch(() => {});
   }
   return (
-    <button onClick={doCopy} className="copy-btn" title={L("Copy", "Sao chép")} style={{
+    <button onClick={doCopy} className="copy-btn" title={L("Copy", "Sao chép", "복사", "复制")} style={{
       width: 24, height: 24, borderRadius: 6,
       border: "1px solid var(--border)", background: "rgba(var(--surface-rgb,255,255,255),.7)",
       cursor: "pointer", fontSize: 11, display: "grid", placeItems: "center",
@@ -388,8 +390,8 @@ function Message({ msg, isLastYana, onRegenerate }) {
           <div className="glass" style={{ padding: "12px 16px", borderRadius: "4px 16px 16px 16px", display: "flex", alignItems: "center", gap: 12 }}>
             <span style={{ fontSize: 20, flex: "none" }}>🎨</span>
             <div>
-              <div style={{ fontSize: 13.5, fontWeight: 500, color: "var(--ink)" }}>{L("HTML generated", "Đã tạo HTML")}</div>
-              <div style={{ fontSize: 12, color: "var(--ink-3)", marginTop: 2 }}>{L("Preview visible on the right →", "Xem preview bên phải →")}</div>
+              <div style={{ fontSize: 13.5, fontWeight: 500, color: "var(--ink)" }}>{L("HTML generated", "Đã tạo HTML", "HTML 생성됨", "已生成 HTML")}</div>
+              <div style={{ fontSize: 12, color: "var(--ink-3)", marginTop: 2 }}>{L("Preview visible on the right →", "Xem preview bên phải →", "오른쪽에서 미리보기 →", "预览显示在右侧 →")}</div>
             </div>
           </div>
         </div>
@@ -407,7 +409,7 @@ function Message({ msg, isLastYana, onRegenerate }) {
           {displayText
             ? <MarkdownBubble text={displayText} />
             : parsed.reasoning
-              ? <span style={{ color: "var(--ink-3)", fontStyle: "italic" }}>{L("Reasoning…", "Đang suy nghĩ…")}</span>
+              ? <span style={{ color: "var(--ink-3)", fontStyle: "italic" }}>{L("Reasoning…", "Đang suy nghĩ…", "추론 중…", "推理中…")}</span>
               : ""}
           {msg.action && (
             <div style={{
@@ -431,12 +433,12 @@ function Message({ msg, isLastYana, onRegenerate }) {
         <div style={{ display: "flex", alignItems: "center", gap: 5, marginTop: 4 }}>
           {displayText && <CopyBtn text={displayText} />}
           {isLastYana && onRegenerate && (
-            <button onClick={onRegenerate} className="copy-btn" title={L("Regenerate", "Thử lại")} style={{
+            <button onClick={onRegenerate} className="copy-btn" title={L("Regenerate", "Thử lại", "다시 생성", "重新生成")} style={{
               height: 24, padding: "0 8px", borderRadius: 6,
               border: "1px solid var(--border)", background: "rgba(var(--surface-rgb,255,255,255),.7)",
               cursor: "pointer", fontSize: 11, display: "flex", alignItems: "center", gap: 4,
               color: "var(--ink-3)", flexShrink: 0,
-            }}>↺ {L("Retry", "Thử lại")}</button>
+            }}>↺ {L("Retry", "Thử lại", "재시도", "重试")}</button>
           )}
         </div>
         {/* dev stats bar — visible only in Developer Mode */}
@@ -447,11 +449,11 @@ function Message({ msg, isLastYana, onRegenerate }) {
               display: "flex", alignItems: "center", gap: 7, marginTop: 4,
               fontSize: 10.5, color: "var(--ink-3)", fontFamily: "ui-monospace,'SF Mono',Menlo,monospace",
             }}>
-              <span title={L("Response time", "Thời gian phản hồi")}>⏱ {secs.toFixed(1)}s</span>
+              <span title={L("Response time", "Thời gian phản hồi", "응답 시간", "响应时间")}>⏱ {secs.toFixed(1)}s</span>
               <span style={{ opacity: .4 }}>·</span>
-              <span title={L("Estimated tokens (1 tok ≈ 4 chars)", "Ước lượng token (1 tok ≈ 4 ký tự)")}>~{Math.round(chars / 4)} tok</span>
+              <span title={L("Estimated tokens (1 tok ≈ 4 chars)", "Ước lượng token (1 tok ≈ 4 ký tự)", "예상 토큰 수 (1 tok ≈ 4자)", "预估 token 数（1 tok ≈ 4 字符）")}>~{Math.round(chars / 4)} tok</span>
               <span style={{ opacity: .4 }}>·</span>
-              <span title={L("Characters per second", "Ký tự/giây")}>{Math.round(chars / Math.max(secs, 0.1))} ch/s</span>
+              <span title={L("Characters per second", "Ký tự/giây", "초당 문자 수", "每秒字符数")}>{Math.round(chars / Math.max(secs, 0.1))} ch/s</span>
               {msg.route.agent && (
                 <>
                   <span style={{ opacity: .4 }}>·</span>
@@ -591,13 +593,13 @@ function ContextPanel() {
 
   return (
     <aside className="yana-chat-aside" style={{ display: "flex", flexDirection: "column", gap: "var(--gap)", overflowY: "auto" }}>
-      <Card title={L("Routing", "Định tuyến")}>
+      <Card title={L("Routing", "Định tuyến", "라우팅", "路由")}>
         <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
           {[
-            [L("Provider", "Nhà cung cấp"), primary ? primary.name : L("None — add a key", "Chưa có key")],
-            [L("Model", "Mô hình"), primary ? (loadModelChoices()[primary.id] || CHAT_MODELS[primary.id] || "—") : "—"],
-            [L("Fallback", "Dự phòng"), fallback ? fallback.name : "—"],
-            [L("Connected", "Đã kết nối"), keyed.length + " / " + D.providers.length],
+            [L("Provider", "Nhà cung cấp", "프로바이더", "提供商"), primary ? primary.name : L("None — add a key", "Chưa có key", "없음 — 키 추가", "无 — 请添加密钥")],
+            [L("Model", "Mô hình", "모델", "模型"), primary ? (loadModelChoices()[primary.id] || CHAT_MODELS[primary.id] || "—") : "—"],
+            [L("Fallback", "Dự phòng", "폴백", "回退"), fallback ? fallback.name : "—"],
+            [L("Connected", "Đã kết nối", "연결됨", "已连接"), keyed.length + " / " + D.providers.length],
           ].map(([k, v]) => (
             <div key={k} style={{ display: "flex", justifyContent: "space-between", gap: 8, fontSize: 12.5 }}>
               <span style={{ color: "var(--ink-3)", flex: "none" }}>{k}</span>
@@ -606,7 +608,7 @@ function ContextPanel() {
           ))}
         </div>
       </Card>
-      <Card title={L("Context in use", "Ngữ cảnh đang dùng")}>
+      <Card title={L("Context in use", "Ngữ cảnh đang dùng", "사용 중인 컨텍스트", "正在使用的上下文")}>
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {facts && facts.length
             ? facts.map((m, i) => (
@@ -615,13 +617,13 @@ function ContextPanel() {
                   {m.text}
                 </div>
               ))
-            : <span style={{ fontSize: 12, color: "var(--ink-3)" }}>{L("No memories yet.", "Chưa có ký ức nào.")}</span>}
+            : <span style={{ fontSize: 12, color: "var(--ink-3)" }}>{L("No memories yet.", "Chưa có ký ức nào.", "아직 메모리가 없습니다.", "暂无记忆。")}</span>}
         </div>
       </Card>
-      <Card title={L("Safety", "An toàn")}>
+      <Card title={L("Safety", "An toàn", "안전", "安全")}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <span className="dot on"></span>
-          <span style={{ fontSize: 12.5, color: "var(--ink-2)" }}>{L("Sentinel reviewing all actions", "Sentinel đang giám sát mọi hành động")}</span>
+          <span style={{ fontSize: 12.5, color: "var(--ink-2)" }}>{L("Sentinel reviewing all actions", "Sentinel đang giám sát mọi hành động", "Sentinel이 모든 작업을 검토 중", "Sentinel 正在审查所有操作")}</span>
         </div>
       </Card>
     </aside>
@@ -672,9 +674,9 @@ function ArtifactPanel({ artifact, onClose }) {
       <div style={{ display: "flex", alignItems: "center", gap: 5, flex: "none" }}>
         <span style={{ color: "var(--ink-3)", display: "flex", alignItems: "center" }}>{Icons.code(14)}</span>
         <span style={{ flex: 1, fontSize: 13, fontWeight: 500, color: "var(--ink-2)" }}>HTML</span>
-        <button style={tabStyle(tab === "preview")} onClick={() => setTab("preview")}>{L("Preview", "Xem trước")}</button>
-        <button style={tabStyle(tab === "code")} onClick={() => setTab("code")}>{L("Code", "Code")}</button>
-        <button style={btnStyle} onClick={copyHtml}>{copied ? L("Copied!", "Đã chép!") : L("Copy", "Chép")}</button>
+        <button style={tabStyle(tab === "preview")} onClick={() => setTab("preview")}>{L("Preview", "Xem trước", "미리보기", "预览")}</button>
+        <button style={tabStyle(tab === "code")} onClick={() => setTab("code")}>{L("Code", "Code", "코드", "代码")}</button>
+        <button style={btnStyle} onClick={copyHtml}>{copied ? L("Copied!", "Đã chép!", "복사됨!", "已复制！") : L("Copy", "Chép", "복사", "复制")}</button>
         <button style={btnStyle} onClick={downloadHtml}>↓</button>
         <button style={{ ...btnStyle, borderColor: "transparent" }} onClick={onClose}>✕</button>
       </div>
@@ -737,7 +739,7 @@ function convFromMsgs(msgs) {
   const firstUser = msgs.find(m => m.role === "user");
   const title = firstUser
     ? firstUser.text.slice(0, 60).replace(/\n/g, " ")
-    : L("Chat", "Trò chuyện");
+    : L("Chat", "Trò chuyện", "채팅", "聊天");
   return {
     id: Date.now().toString(36) + Math.random().toString(36).slice(2),
     title,
@@ -762,12 +764,12 @@ function ConvSidebar({ list, onLoad, onDelete, onClose }) {
         padding: "4px 7px 8px",
         display: "flex", justifyContent: "space-between", alignItems: "center",
       }}>
-        {L("History", "Lịch sử")}
+        {L("History", "Lịch sử", "기록", "历史记录")}
         <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--ink-3)", fontSize: 17, lineHeight: 1, padding: "0 3px" }}>×</button>
       </div>
       {list.length === 0 && (
         <div style={{ fontSize: 12, color: "var(--ink-3)", textAlign: "center", padding: "20px 8px", lineHeight: 1.6 }}>
-          {L("Past conversations appear here after you start a new chat.", "Các cuộc trò chuyện cũ xuất hiện ở đây sau khi bạn tạo chat mới.")}
+          {L("Past conversations appear here after you start a new chat.", "Các cuộc trò chuyện cũ xuất hiện ở đây sau khi bạn tạo chat mới.", "새 채팅을 시작하면 지난 대화가 여기에 표시됩니다.", "开始新对话后，历史对话会显示在这里。")}
         </div>
       )}
       {list.map(conv => (
@@ -783,11 +785,11 @@ function ConvSidebar({ list, onLoad, onDelete, onClose }) {
               {conv.title}
             </div>
             <div style={{ fontSize: 10.5, color: "var(--ink-3)", marginTop: 2 }}>
-              {new Date(conv.ts).toLocaleDateString()} · {conv.msgs.length} {L("msgs", "tin")}
+              {new Date(conv.ts).toLocaleDateString()} · {conv.msgs.length} {L("msgs", "tin", "개 메시지", "条消息")}
             </div>
           </button>
           <button onClick={e => { e.stopPropagation(); onDelete(conv.id); }}
-            title={L("Delete", "Xóa")}
+            title={L("Delete", "Xóa", "삭제", "删除")}
             style={{
               position: "absolute", right: 5, top: "50%", transform: "translateY(-50%)",
               background: "none", border: "none", cursor: "pointer", color: "var(--ink-3)",
@@ -824,35 +826,35 @@ function OnboardingOverlay({ onDone }) {
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
             <YanaMark size={38} />
             <div>
-              <div style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-.025em" }}>{L("Welcome to Yana AI", "Chào mừng đến Yana AI")}</div>
-              <div style={{ fontSize: 12, color: "var(--ink-3)", marginTop: 3 }}>{L("Smart chat · Local & Cloud AI", "Chat thông minh · AI Local & Cloud")}</div>
+              <div style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-.025em" }}>{L("Welcome to Yana AI", "Chào mừng đến Yana AI", "Yana AI에 오신 것을 환영합니다", "欢迎使用 Yana AI")}</div>
+              <div style={{ fontSize: 12, color: "var(--ink-3)", marginTop: 3 }}>{L("Smart chat · Local & Cloud AI", "Chat thông minh · AI Local & Cloud", "스마트 채팅 · 로컬 & 클라우드 AI", "智能聊天 · 本地与云端 AI")}</div>
             </div>
           </div>
           <div style={{ fontSize: 13.5, color: "var(--ink-2)", lineHeight: 1.65 }}>
-            {L("To start chatting, connect a provider. Takes about 30 seconds.", "Để bắt đầu chat, kết nối một nhà cung cấp. Chỉ mất khoảng 30 giây.")}
+            {L("To start chatting, connect a provider. Takes about 30 seconds.", "Để bắt đầu chat, kết nối một nhà cung cấp. Chỉ mất khoảng 30 giây.", "채팅을 시작하려면 프로바이더를 연결하세요. 약 30초 소요됩니다.", "开始聊天前，请先连接一个提供商，大约需要 30 秒。")}
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
             <button onClick={() => setStep(1)} style={{ padding: "12px 16px", borderRadius: 12, border: "none", background: "var(--primary)", color: "#fff", fontSize: 13.5, fontWeight: 500, cursor: "pointer", textAlign: "left", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <span>🖥 {L("Local AI — free & private (Ollama)", "Local AI — miễn phí & riêng tư (Ollama)")}</span>
+              <span>🖥 {L("Local AI — free & private (Ollama)", "Local AI — miễn phí & riêng tư (Ollama)", "로컬 AI — 무료 & 프라이빗 (Ollama)", "本地 AI — 免费且私密（Ollama）")}</span>
               <span style={{ opacity: .7 }}>→</span>
             </button>
             <button onClick={() => setStep(2)} style={{ padding: "12px 16px", borderRadius: 12, border: "1px solid var(--border)", background: "transparent", color: "var(--ink)", fontSize: 13.5, fontWeight: 500, cursor: "pointer", textAlign: "left", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <span>☁ {L("Cloud provider — API key required", "Cloud provider — cần API key")}</span>
+              <span>☁ {L("Cloud provider — API key required", "Cloud provider — cần API key", "클라우드 프로바이더 — API 키 필요", "云端提供商 — 需要 API 密钥")}</span>
               <span style={{ opacity: .4 }}>→</span>
             </button>
           </div>
           <button onClick={onDone} style={{ fontSize: 12, color: "var(--ink-3)", background: "none", border: "none", cursor: "pointer", alignSelf: "flex-end" }}>
-            {L("Skip for now", "Bỏ qua")}
+            {L("Skip for now", "Bỏ qua", "나중에 하기", "暂时跳过")}
           </button>
         </>}
         {step === 1 && <>
-          <div style={{ fontSize: 18, fontWeight: 700 }}>🖥 {L("Run AI locally — Ollama", "Chạy AI local — Ollama")}</div>
+          <div style={{ fontSize: 18, fontWeight: 700 }}>🖥 {L("Run AI locally — Ollama", "Chạy AI local — Ollama", "로컬에서 AI 실행 — Ollama", "本地运行 AI — Ollama")}</div>
           <div style={{ fontSize: 13, color: "var(--ink-2)", lineHeight: 1.65 }}>
-            {L("No API key needed. Model runs entirely on your machine — data never leaves.", "Không cần API key. Model chạy hoàn toàn trên máy của bạn — dữ liệu không rời đi.")}
+            {L("No API key needed. Model runs entirely on your machine — data never leaves.", "Không cần API key. Model chạy hoàn toàn trên máy của bạn — dữ liệu không rời đi.", "API 키가 필요 없습니다. 모델이 이 기기에서만 실행되어 데이터가 외부로 나가지 않습니다.", "无需 API 密钥。模型完全在本机运行 — 数据永不外传。")}
           </div>
           {[
-            { n: "1", cmd: "ollama pull qwen2.5-coder:7b", note: L("download a model (~4 GB)", "tải model (~4 GB)") },
-            { n: "2", cmd: "ollama serve",                  note: L("start the local server", "khởi động server local") },
+            { n: "1", cmd: "ollama pull qwen2.5-coder:7b", note: L("download a model (~4 GB)", "tải model (~4 GB)", "모델 다운로드 (~4 GB)", "下载模型（约 4 GB）") },
+            { n: "2", cmd: "ollama serve",                  note: L("start the local server", "khởi động server local", "로컬 서버 시작", "启动本地服务器") },
           ].map(({ n, cmd, note }) => (
             <div key={n} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
               <span style={{ fontSize: 10, fontWeight: 700, background: "var(--primary)", color: "#fff", borderRadius: 99, width: 18, height: 18, display: "grid", placeItems: "center", flex: "none", marginTop: 3 }}>{n}</span>
@@ -862,22 +864,22 @@ function OnboardingOverlay({ onDone }) {
               </div>
             </div>
           ))}
-          <div style={{ display: "flex", gap: 8 }}>{doneBtn(L("Done — I'll start Ollama", "Xong — tôi sẽ khởi động Ollama"))}{back}</div>
+          <div style={{ display: "flex", gap: 8 }}>{doneBtn(L("Done — I'll start Ollama", "Xong — tôi sẽ khởi động Ollama", "완료 — Ollama를 실행하겠습니다", "完成 — 我会启动 Ollama"))}{back}</div>
         </>}
         {step === 2 && <>
-          <div style={{ fontSize: 18, fontWeight: 700 }}>☁ {L("Cloud Providers", "Cloud Providers")}</div>
+          <div style={{ fontSize: 18, fontWeight: 700 }}>☁ {L("Cloud Providers", "Cloud Providers", "클라우드 프로바이더", "云端提供商")}</div>
           <div style={{ fontSize: 13, color: "var(--ink-2)", lineHeight: 1.65 }}>
-            {L("Add an API key in the Providers page. Groq has a generous free tier.", "Thêm API key ở trang Providers. Groq có free tier rộng rãi.")}
+            {L("Add an API key in the Providers page. Groq has a generous free tier.", "Thêm API key ở trang Providers. Groq có free tier rộng rãi.", "Providers 페이지에서 API 키를 추가하세요. Groq는 넉넉한 무료 티어를 제공합니다.", "在提供商页面添加 API 密钥。Groq 提供慷慨的免费额度。")}
           </div>
           <div style={{ display: "flex", gap: 7, flexWrap: "wrap" }}>
-            {[["Groq", L("free tier", "miễn phí")], ["Claude", "Anthropic"], ["OpenAI", "GPT-4o"], ["Gemini", "Google"]].map(([n, note]) => (
+            {[["Groq", L("free tier", "miễn phí", "무료 티어", "免费额度")], ["Claude", "Anthropic"], ["OpenAI", "GPT-4o"], ["Gemini", "Google"]].map(([n, note]) => (
               <div key={n} className="chip neutral" style={{ fontSize: 12 }}>{n} <span style={{ opacity: .55 }}>· {note}</span></div>
             ))}
           </div>
           <div style={{ fontSize: 12.5, color: "var(--ink-2)", background: "var(--primary-soft)", borderRadius: 9, padding: "9px 12px", lineHeight: 1.6 }}>
-            💡 {L("Providers page → click the ✎ icon on any provider card to paste your key.", "Trang Providers → nhấn biểu tượng ✎ trên thẻ nhà cung cấp để dán key.")}
+            💡 {L("Providers page → click the ✎ icon on any provider card to paste your key.", "Trang Providers → nhấn biểu tượng ✎ trên thẻ nhà cung cấp để dán key.", "Providers 페이지 → 프로바이더 카드의 ✎ 아이콘을 눌러 키를 붙여넣으세요.", "提供商页面 → 点击提供商卡片上的 ✎ 图标粘贴密钥。")}
           </div>
-          <div style={{ display: "flex", gap: 8 }}>{doneBtn(L("Got it — go to Providers", "Hiểu rồi — vào Providers"))}{back}</div>
+          <div style={{ display: "flex", gap: 8 }}>{doneBtn(L("Got it — go to Providers", "Hiểu rồi — vào Providers", "알겠습니다 — Providers로 이동", "明白了 — 前往提供商"))}{back}</div>
         </>}
       </div>
     </div>
@@ -1281,7 +1283,7 @@ function Chat({ t }) {
           const shown = accumulated.slice(0, mm.index).trimEnd();
           setMsgs((m) => m.map((msg) =>
             msg._id === msgId
-              ? { ...msg, text: shown || msg.text, refs: [...(msg.refs || []), L("🌱 Remembered: ", "🌱 Đã nhớ: ") + fact] }
+              ? { ...msg, text: shown || msg.text, refs: [...(msg.refs || []), L("🌱 Remembered: ", "🌱 Đã nhớ: ", "🌱 기억함: ", "🌱 已记住：") + fact] }
               : msg
           ));
           fetch("/api/memory", {
@@ -1315,9 +1317,13 @@ function Chat({ t }) {
         tier,
         text: tier === "sovereign"
           ? L("Could not reach the local model. SOVEREIGN content only goes to Ollama (127.0.0.1:11434) — start it with `ollama serve`.",
-              "Không kết nối được model local. Nội dung SOVEREIGN chỉ đi đến Ollama (127.0.0.1:11434) — chạy `ollama serve` trước.")
+              "Không kết nối được model local. Nội dung SOVEREIGN chỉ đi đến Ollama (127.0.0.1:11434) — chạy `ollama serve` trước.",
+              "로컬 모델에 연결할 수 없습니다. SOVEREIGN 콘텐츠는 Ollama (127.0.0.1:11434)로만 전송됩니다 — `ollama serve`로 먼저 실행하세요.",
+              "无法连接本地模型。SOVEREIGN 内容仅发送至 Ollama（127.0.0.1:11434）— 请先运行 `ollama serve`。")
           : L("Could not reach the server (" + err.message + "). Check that Yana is running and a provider key is set.",
-              "Không kết nối được máy chủ (" + err.message + "). Kiểm tra Yana đang chạy và đã đặt API key."),
+              "Không kết nối được máy chủ (" + err.message + "). Kiểm tra Yana đang chạy và đã đặt API key.",
+              "서버에 연결할 수 없습니다 (" + err.message + "). Yana가 실행 중인지, 프로바이더 키가 설정되었는지 확인하세요.",
+              "无法连接服务器（" + err.message + "）。请检查 Yana 是否正在运行，以及是否已设置提供商密钥。"),
       }]);
       setStreaming(false);
     }
@@ -1345,31 +1351,31 @@ function Chat({ t }) {
         />
       )}
       <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", minHeight: 0, position: "relative" }}>
-        <PageHeader title={L("Conversation", "Trò chuyện")} sub={L("One conversation, many hands — Yana routes each request to the right agent.", "Một cuộc trò chuyện, nhiều bàn tay — Yana chuyển mỗi yêu cầu đến đúng tác nhân.")}>
+        <PageHeader title={L("Conversation", "Trò chuyện", "대화", "对话")} sub={L("One conversation, many hands — Yana routes each request to the right agent.", "Một cuộc trò chuyện, nhiều bàn tay — Yana chuyển mỗi yêu cầu đến đúng tác nhân.", "하나의 대화, 여러 손 — Yana가 각 요청을 알맞은 에이전트로 전달합니다.", "一场对话，多方协作 — Yana 将每个请求路由给合适的智能体。")}>
           <button
             onClick={toggleSidebar}
-            title={L("Conversation history", "Lịch sử trò chuyện")}
+            title={L("Conversation history", "Lịch sử trò chuyện", "대화 기록", "对话历史")}
             style={{ display: "flex", alignItems: "center", gap: 5, padding: "7px 10px", borderRadius: 10, border: "1px solid var(--border)", background: sidebarOpen ? "var(--primary-soft)" : "transparent", color: sidebarOpen ? "var(--primary)" : "var(--ink-3)", cursor: "pointer", fontSize: 14, fontFamily: "inherit", flex: "none" }}>
             ☰
           </button>
           <button
             onClick={() => setMsgSearch(s => s === null ? "" : null)}
-            title={L("Search conversation", "Tìm trong cuộc trò chuyện")}
+            title={L("Search conversation", "Tìm trong cuộc trò chuyện", "대화 검색", "搜索对话")}
             style={{ display: "flex", alignItems: "center", gap: 5, padding: "7px 10px", borderRadius: 10, border: "1px solid var(--border)", background: msgSearch !== null ? "var(--primary-soft)" : "transparent", color: msgSearch !== null ? "var(--primary)" : "var(--ink-3)", cursor: "pointer", fontSize: 13, fontFamily: "inherit", flex: "none" }}>
             🔍
           </button>
           <button
             onClick={newConversation}
-            title={L("New conversation", "Cuộc trò chuyện mới")}
+            title={L("New conversation", "Cuộc trò chuyện mới", "새 대화", "新建对话")}
             style={{ display: "flex", alignItems: "center", gap: 7, padding: "7px 13px", borderRadius: 10, border: "1px solid var(--border)", background: "transparent", color: "var(--ink-2)", cursor: "pointer", fontSize: 13, fontFamily: "inherit", flex: "none" }}>
-            {Icons.pencil(14)} {L("New", "Mới")}
+            {Icons.pencil(14)} {L("New", "Mới", "새로 만들기", "新建")}
           </button>
         </PageHeader>
         {msgSearch !== null && (
           <div style={{ padding: "0 0 8px 0", flex: "none" }}>
             <input autoFocus value={msgSearch} onChange={e => setMsgSearch(e.target.value)}
               onKeyDown={e => e.key === "Escape" && setMsgSearch(null)}
-              placeholder={L("Search messages…", "Tìm tin nhắn…")}
+              placeholder={L("Search messages…", "Tìm tin nhắn…", "메시지 검색…", "搜索消息…")}
               style={{ width: "100%", boxSizing: "border-box", border: "1px solid var(--border)", borderRadius: 9, padding: "7px 12px", fontSize: 13, fontFamily: "inherit", background: "var(--surface)", color: "var(--ink)", outline: "none" }}
             />
           </div>
@@ -1381,12 +1387,12 @@ function Chat({ t }) {
               value={htmlSearch}
               onChange={(e) => setHtmlSearch(e.target.value)}
               onKeyDown={(e) => { if (e.key === "Escape") { setHtmlPicker(false); setHtmlSearch(""); } }}
-              placeholder={L("Search templates…", "Tìm template…")}
+              placeholder={L("Search templates…", "Tìm template…", "템플릿 검색…", "搜索模板…")}
               style={{ border: "1px solid var(--border)", borderRadius: 8, padding: "6px 10px", fontSize: 12.5, fontFamily: "inherit", background: "transparent", color: "var(--ink)", outline: "none", flex: "none" }}
             />
             <div style={{ overflowY: "auto", display: "flex", flexWrap: "wrap", gap: 5 }}>
               {htmlSkills.length === 0
-                ? <span style={{ fontSize: 12, color: "var(--ink-3)" }}>{L("Loading…", "Đang tải…")}</span>
+                ? <span style={{ fontSize: 12, color: "var(--ink-3)" }}>{L("Loading…", "Đang tải…", "불러오는 중…", "加载中…")}</span>
                 : htmlSkills
                     .filter((s) => {
                       if (!htmlSearch) return true;
@@ -1413,7 +1419,7 @@ function Chat({ t }) {
             <div style={{ margin: "auto", textAlign: "center", color: "var(--ink-3)", maxWidth: 400 }}>
               <YanaMark size={34} />
               <div style={{ fontSize: 14, fontWeight: 500, color: "var(--ink-2)", marginTop: 12 }}>
-                {L("Start a conversation", "Bắt đầu trò chuyện")}
+                {L("Start a conversation", "Bắt đầu trò chuyện", "대화 시작하기", "开始对话")}
               </div>
 
               {/* Local AI status banner */}
@@ -1425,10 +1431,10 @@ function Chat({ t }) {
                   return (
                     <div style={{ marginTop: 14, padding: "10px 14px", borderRadius: 10, background: "color-mix(in srgb, var(--accent) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)", fontSize: 12.5, lineHeight: 1.6, textAlign: "left" }}>
                       <div style={{ fontWeight: 600, color: "var(--accent)", marginBottom: 4 }}>
-                        🖥 {L("Run AI locally for free", "Chạy AI miễn phí trên máy")}
+                        🖥 {L("Run AI locally for free", "Chạy AI miễn phí trên máy", "무료로 로컬에서 AI 실행", "免费在本地运行 AI")}
                       </div>
                       <div style={{ color: "var(--ink-2)" }}>
-                        {L("No API key needed. Install Ollama then:", "Không cần API key. Cài Ollama rồi:")}
+                        {L("No API key needed. Install Ollama then:", "Không cần API key. Cài Ollama rồi:", "API 키가 필요 없습니다. Ollama 설치 후:", "无需 API 密钥。安装 Ollama 后：")}
                       </div>
                       <code style={{ display: "block", marginTop: 6, padding: "4px 8px", borderRadius: 6, background: "color-mix(in srgb, var(--ink) 8%, transparent)", fontSize: 12, color: "var(--ink-2)", fontFamily: "monospace" }}>
                         ollama pull qwen2.5-coder:7b
@@ -1446,10 +1452,10 @@ function Chat({ t }) {
                     <div style={{ marginTop: 14, display: "inline-flex", alignItems: "center", gap: 7, padding: "6px 12px", borderRadius: 99, background: "color-mix(in srgb, #22c55e 10%, transparent)", border: "1px solid color-mix(in srgb, #22c55e 25%, transparent)", fontSize: 12 }}>
                       <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e", flex: "none" }} />
                       <span style={{ color: "var(--ink-2)", fontWeight: 500 }}>
-                        {running.map(id => names[id]).join(" · ")} {L("ready", "sẵn sàng")}
+                        {running.map(id => names[id]).join(" · ")} {L("ready", "sẵn sàng", "준비됨", "已就绪")}
                         {modelList.length > 0 && <span style={{ color: "var(--ink-3)", fontWeight: 400 }}> · {modelList[0]}</span>}
                       </span>
-                      <span style={{ color: "var(--ink-3)" }}>{L("· free · private", "· miễn phí · riêng tư")}</span>
+                      <span style={{ color: "var(--ink-3)" }}>{L("· free · private", "· miễn phí · riêng tư", "· 무료 · 프라이빗", "· 免费 · 私密")}</span>
                     </div>
                   );
                 }
@@ -1464,12 +1470,18 @@ function Chat({ t }) {
               <div style={{ fontSize: 12.5, lineHeight: 1.55, marginTop: 10 }}>
                 {getProviderConfig().apiKey
                   ? L("Yana routes your request to the connected provider and streams the answer here.",
-                      "Yana chuyển yêu cầu của bạn đến nhà cung cấp đã kết nối và trả lời tại đây.")
+                      "Yana chuyển yêu cầu của bạn đến nhà cung cấp đã kết nối và trả lời tại đây.",
+                      "Yana가 요청을 연결된 프로바이더로 전달하고 여기에 답변을 스트리밍합니다.",
+                      "Yana 会将你的请求路由到已连接的提供商，并在此处流式显示回答。")
                   : localStatus && ["ollama","9router","lmstudio"].some(id => localStatus[id]?.running)
                     ? L("Local AI detected — select it in the provider bar below to start chatting for free.",
-                        "Đã phát hiện Local AI — chọn nó ở thanh bên dưới để chat miễn phí.")
+                        "Đã phát hiện Local AI — chọn nó ở thanh bên dưới để chat miễn phí.",
+                        "로컬 AI가 감지되었습니다 — 아래 프로바이더 바에서 선택하면 무료로 채팅을 시작할 수 있습니다.",
+                        "检测到本地 AI — 在下方提供商栏选择即可免费开始聊天。")
                     : L("No provider key set — add one in Providers, or run Ollama locally for free.",
-                        "Chưa có API key — thêm key ở mục Nhà cung cấp, hoặc chạy Ollama miễn phí.")}
+                        "Chưa có API key — thêm key ở mục Nhà cung cấp, hoặc chạy Ollama miễn phí.",
+                        "설정된 프로바이더 키가 없습니다 — Providers에서 추가하거나 Ollama를 무료로 로컬 실행하세요.",
+                        "尚未设置提供商密钥 — 请在提供商中添加，或免费在本地运行 Ollama。")}
               </div>
             </div>
           )}
@@ -1484,12 +1496,12 @@ function Chat({ t }) {
           ))}
           {msgSearch !== null && msgSearch && msgs.filter(m => m.text && m.text.toLowerCase().includes(msgSearch.toLowerCase())).length === 0 && (
             <div style={{ textAlign: "center", color: "var(--ink-3)", fontSize: 12.5, marginTop: 20 }}>
-              {L("No messages match your search.", "Không tìm thấy tin nhắn.")}
+              {L("No messages match your search.", "Không tìm thấy tin nhắn.", "검색과 일치하는 메시지가 없습니다.", "没有匹配的消息。")}
             </div>
           )}
           {thinking && (
             <div style={{ display: "flex", alignItems: "center", gap: 9, color: "var(--ink-3)", fontSize: 12.5 }}>
-              <YanaMark size={20} /> {L("Navigator is thinking…", "Navigator đang suy nghĩ…")}
+              <YanaMark size={20} /> {L("Navigator is thinking…", "Navigator đang suy nghĩ…", "Navigator가 생각 중…", "Navigator 正在思考…")}
             </div>
           )}
         </div>
@@ -1516,7 +1528,7 @@ function Chat({ t }) {
               setHtmlSearch("");
             }}
             aria-pressed={htmlPicker}
-            title={L("HTML templates", "Template HTML")}
+            title={L("HTML templates", "Template HTML", "HTML 템플릿", "HTML 模板")}
             style={{
               width: 32, height: 32, borderRadius: 9, flex: "none",
               border: "1px solid " + (htmlPicker ? "var(--primary)" : "var(--border)"),
@@ -1533,14 +1545,14 @@ function Chat({ t }) {
             value={draft}
             onChange={(e) => { setDraft(e.target.value); autoResize(); }}
             onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }}
-            placeholder={L("Ask Yana… (Shift+Enter for new line)", "Hỏi Yana… (Shift+Enter xuống dòng)")}
+            placeholder={L("Ask Yana… (Shift+Enter for new line)", "Hỏi Yana… (Shift+Enter xuống dòng)", "Yana에게 물어보기… (Shift+Enter로 줄바꿈)", "问 Yana…（Shift+Enter 换行）")}
             className="chat-input"
             style={{ flex: 1, border: "none", outline: "none", background: "transparent", fontSize: 14, fontFamily: "inherit", color: "var(--ink)", lineHeight: 1.5, maxHeight: 180, overflowY: "auto" }}
           />
           <button
             onClick={() => fileRef.current && fileRef.current.click()}
-            aria-label={L("Attach file for OCR", "Đính kèm file để nhận dạng văn bản")}
-            title={L("Attach image or PDF — extract text with Surya OCR", "Đính kèm ảnh hoặc PDF — trích xuất văn bản bằng Surya OCR")}
+            aria-label={L("Attach file for OCR", "Đính kèm file để nhận dạng văn bản", "OCR용 파일 첨부", "附加文件以进行 OCR 识别")}
+            title={L("Attach image or PDF — extract text with Surya OCR", "Đính kèm ảnh hoặc PDF — trích xuất văn bản bằng Surya OCR", "이미지 또는 PDF 첨부 — Surya OCR로 텍스트 추출", "附加图片或 PDF — 使用 Surya OCR 提取文字")}
             disabled={ocrBusy}
             style={{
               width: 32, height: 32, borderRadius: 9, border: "1px solid var(--border)", cursor: ocrBusy ? "not-allowed" : "pointer",
@@ -1552,8 +1564,8 @@ function Chat({ t }) {
           {isVisionModel(activeModel) && (
             <button
               onClick={() => visionRef.current && visionRef.current.click()}
-              aria-label={L("Attach image for vision", "Đính kèm ảnh để nhận dạng")}
-              title={L("Send image to Llama Vision", "Gửi ảnh tới Llama Vision")}
+              aria-label={L("Attach image for vision", "Đính kèm ảnh để nhận dạng", "비전용 이미지 첨부", "附加图片以进行视觉识别")}
+              title={L("Send image to Llama Vision", "Gửi ảnh tới Llama Vision", "Llama Vision으로 이미지 전송", "将图片发送给 Llama Vision")}
               style={{
                 width: 32, height: 32, borderRadius: 9, border: "1px solid var(--border)", cursor: "pointer",
                 background: visionImage ? "var(--primary-soft)" : "transparent",
@@ -1568,7 +1580,7 @@ function Chat({ t }) {
             <span
               style={{ fontSize: 11, color: "var(--ink-2)", cursor: "pointer", flex: "none", maxWidth: 100, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
               onClick={() => setVisionImage(null)}
-              title={L("Remove image", "Xóa ảnh")}>
+              title={L("Remove image", "Xóa ảnh", "이미지 제거", "移除图片")}>
               {visionImage.name} ✕
             </span>
           )}
@@ -1577,9 +1589,13 @@ function Chat({ t }) {
             aria-pressed={confMode}
             title={confMode
               ? L("Confidential Mode ON — messages are not saved and carry no personal context (rule 68). Click to turn off.",
-                  "Chế độ Mật BẬT — tin nhắn không được lưu, không kèm ngữ cảnh cá nhân (rule 68). Bấm để tắt.")
+                  "Chế độ Mật BẬT — tin nhắn không được lưu, không kèm ngữ cảnh cá nhân (rule 68). Bấm để tắt.",
+                  "기밀 모드 켜짐 — 메시지가 저장되지 않고 개인 컨텍스트도 포함되지 않습니다 (rule 68). 클릭하여 끄기.",
+                  "机密模式已开启 — 消息不会被保存，也不携带个人上下文（规则 68）。点击关闭。")
               : L("Turn on Confidential Mode — nothing you send is saved to history, memory, or missions.",
-                  "Bật chế độ Mật — mọi thứ anh gửi sẽ không được lưu vào lịch sử, ký ức hay mission.")}
+                  "Bật chế độ Mật — mọi thứ anh gửi sẽ không được lưu vào lịch sử, ký ức hay mission.",
+                  "기밀 모드 켜기 — 보내는 내용이 기록, 메모리, 미션에 저장되지 않습니다.",
+                  "开启机密模式 — 你发送的内容不会被保存到历史记录、记忆或任务中。")}
             style={{
               border: "1px solid " + (confMode ? "var(--primary)" : "var(--border)"),
               borderRadius: 99, padding: "5px 10px", cursor: "pointer", fontSize: 11.5,
@@ -1587,12 +1603,12 @@ function Chat({ t }) {
               background: confMode ? "var(--primary-soft)" : "transparent",
               color: confMode ? "var(--primary)" : "var(--ink-3)",
             }}>
-            🔒{confMode ? " " + L("Confidential", "Mật") : ""}
+            🔒{confMode ? " " + L("Confidential", "Mật", "기밀", "机密") : ""}
           </button>
           <div className="chat-bar-selects">
             <select value={providerSel || getProviderConfig().provider}
               onChange={(e) => setProviderSel(e.target.value)}
-              title={L("Provider for this conversation", "Nhà cung cấp cho cuộc trò chuyện")}>
+              title={L("Provider for this conversation", "Nhà cung cấp cho cuộc trò chuyện", "이 대화의 프로바이더", "此对话使用的提供商")}>
               {D.providers
                 .filter((p) => !p.desktopOnly || window.innerWidth >= 860)
                 .map((p) => (
@@ -1605,7 +1621,7 @@ function Chat({ t }) {
             </select>
             {activeProvider !== "auto" && (
               <select value={activeModel} onChange={(e) => pickModel(e.target.value)}
-                title={L("Model for this provider — choice is remembered", "Model cho nhà cung cấp này — lựa chọn được ghi nhớ")}>
+                title={L("Model for this provider — choice is remembered", "Model cho nhà cung cấp này — lựa chọn được ghi nhớ", "이 프로바이더의 모델 — 선택이 기억됩니다", "此提供商使用的模型 — 会记住你的选择")}>
                 {(modelOptions.includes(activeModel) ? modelOptions : [activeModel, ...modelOptions]).map((m) => (
                   <option key={m} value={m}>{m}{capsLabel(m)}</option>
                 ))}
@@ -1613,18 +1629,18 @@ function Chat({ t }) {
             )}
             {localStatus && activeProvider === "auto" && ["ollama", "lmstudio", "9router"].some(id => localStatus[id]?.running) && (
               <span style={{ fontSize: 11, color: "#7c3aed", background: "color-mix(in srgb,#7c3aed 12%,transparent)", border: "1px solid color-mix(in srgb,#7c3aed 22%,transparent)", borderRadius: 99, padding: "3px 8px", flexShrink: 0, fontWeight: 500 }}>
-                🤖 {L("Smart route", "Định tuyến thông minh")}
+                🤖 {L("Smart route", "Định tuyến thông minh", "스마트 라우팅", "智能路由")}
               </span>
             )}
             {localStatus && KEYLESS_PROVIDERS.has(activeProvider) && localStatus[activeProvider]?.running && (
               <span style={{ fontSize: 11, color: "#16a34a", background: "color-mix(in srgb,#22c55e 12%,transparent)", border: "1px solid color-mix(in srgb,#22c55e 22%,transparent)", borderRadius: 99, padding: "3px 8px", flexShrink: 0, fontWeight: 500 }}>
-                ● {L("Local · free", "Local · miễn phí")}
+                ● {L("Local · free", "Local · miễn phí", "로컬 · 무료", "本地 · 免费")}
               </span>
             )}
-            <span className="chip neutral sentinel-chip" style={{ fontSize: 11.5, flexShrink: 0 }}>{Icons.safety(12)} {L("Sentinel on", "Sentinel bật")}</span>
+            <span className="chip neutral sentinel-chip" style={{ fontSize: 11.5, flexShrink: 0 }}>{Icons.safety(12)} {L("Sentinel on", "Sentinel bật", "Sentinel 활성", "Sentinel 已启用")}</span>
           </div>
           {streaming || thinking
-            ? <button onClick={stopStream} aria-label="Stop" title={L("Stop generation", "Dừng phản hồi")} style={{
+            ? <button onClick={stopStream} aria-label="Stop" title={L("Stop generation", "Dừng phản hồi", "생성 중지", "停止生成")} style={{
                 width: 36, height: 36, borderRadius: 11, border: "none", cursor: "pointer",
                 background: "var(--primary)", color: "white", display: "grid", placeItems: "center",
                 flexShrink: 0, fontSize: 14,
@@ -1640,9 +1656,9 @@ function Chat({ t }) {
         {(() => {
           const caps = modelCaps(activeModel);
           const hints = [];
-          if (caps.v) hints.push({ label: L("Vision ✓", "Nhận ảnh ✓"), ok: true });
-          else hints.push({ label: L("No vision", "Không nhận ảnh"), ok: false });
-          if (caps.r) hints.push({ label: L("Reasoning", "Suy luận"), ok: true });
+          if (caps.v) hints.push({ label: L("Vision ✓", "Nhận ảnh ✓", "비전 ✓", "视觉 ✓"), ok: true });
+          else hints.push({ label: L("No vision", "Không nhận ảnh", "비전 미지원", "不支持视觉"), ok: false });
+          if (caps.r) hints.push({ label: L("Reasoning", "Suy luận", "추론", "推理"), ok: true });
           return (
             <div style={{ display: "flex", gap: 6, paddingTop: 5, paddingLeft: 4 }}>
               {hints.map((h) => (

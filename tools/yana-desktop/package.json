@@ -37,8 +37,22 @@
     "extraFiles": [
       {
         "from": "../yana-web",
-        "to": "server",
-        "filter": ["**/*", "!node_modules/**", "!dist/**"]
+        "to": "Resources/server",
+        "filter": ["**/*", "!node_modules/**", "!dist/**", "!.yana/**"]
+      },
+      {
+        "from": "../../MANIFEST.json",
+        "to": "Resources/MANIFEST.json"
+      },
+      {
+        "from": "../../core",
+        "to": "Resources/core",
+        "filter": ["agents/**", "skills/**", "config/**", "memory/**"]
+      },
+      {
+        "from": "../../memory",
+        "to": "Resources/memory",
+        "filter": ["L1_atomic/**"]
       }
     ],
     "linux": {

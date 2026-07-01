@@ -81,18 +81,18 @@ async function signOut() {
 
 /* ---------- Sidebar ---------- */
 const NAV = [
-  { id: "dashboard", label: "Lake",          vi: "Mặt hồ",        icon: "dashboard" },
-  { id: "missions",  label: "Missions",      vi: "Nhiệm vụ",      icon: "missions" },
-  { id: "chat",      label: "Conversation",  vi: "Trò chuyện",    icon: "chat" },
-  { id: "agents",    label: "Agents",        vi: "Tác nhân",      icon: "agents" },
-  { id: "sessions",  label: "Sessions",      vi: "Lịch sử",       icon: "memory" },
-  { id: "analytics", label: "Analytics",     vi: "Thống kê",      icon: "dashboard" },
-  { id: "cron",      label: "Cron",          vi: "Tự động",       icon: "missions" },
-  { id: "memory",    label: "Memory Garden", vi: "Vườn ký ức",    icon: "memory" },
-  { id: "skills",    label: "Skills",        vi: "Kỹ năng",       icon: "skills" },
-  { id: "providers",  label: "Providers",     vi: "Nhà cung cấp",  icon: "providers" },
-  { id: "html-maker", label: "HTML Maker",    vi: "Tạo HTML",      icon: "spark" },
-  { id: "codexmate",  label: "Codexmate",     vi: "Codexmate",     icon: "code" },
+  { id: "dashboard", label: "Lake",          vi: "Mặt hồ",        ko: "호수",         zh: "湖面",     icon: "dashboard" },
+  { id: "missions",  label: "Missions",      vi: "Nhiệm vụ",      ko: "미션",         zh: "任务",     icon: "missions" },
+  { id: "chat",      label: "Conversation",  vi: "Trò chuyện",    ko: "대화",         zh: "对话",     icon: "chat" },
+  { id: "agents",    label: "Agents",        vi: "Tác nhân",      ko: "에이전트",      zh: "智能体",   icon: "agents" },
+  { id: "sessions",  label: "Sessions",      vi: "Lịch sử",       ko: "세션",         zh: "会话",     icon: "memory" },
+  { id: "analytics", label: "Analytics",     vi: "Thống kê",      ko: "분석",         zh: "分析",     icon: "dashboard" },
+  { id: "cron",      label: "Cron",          vi: "Tự động",       ko: "자동화",        zh: "自动化",   icon: "missions" },
+  { id: "memory",    label: "Memory Garden", vi: "Vườn ký ức",    ko: "메모리 가든",    zh: "记忆花园", icon: "memory" },
+  { id: "skills",    label: "Skills",        vi: "Kỹ năng",       ko: "스킬",         zh: "技能",     icon: "skills" },
+  { id: "providers",  label: "Providers",     vi: "Nhà cung cấp",  ko: "프로바이더",    zh: "提供商",   icon: "providers" },
+  { id: "html-maker", label: "HTML Maker",    vi: "Tạo HTML",      ko: "HTML 메이커",   zh: "HTML 制作", icon: "spark" },
+  { id: "codexmate",  label: "Codexmate",     vi: "Codexmate",     ko: "Codexmate",    zh: "Codexmate", icon: "code" },
 ];
 
 function Sidebar({ page, onNav }) {
@@ -128,18 +128,18 @@ function Sidebar({ page, onNav }) {
   const MENU = [
     {
       icon: <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="10" cy="10" r="2.6"/><path d="M10 2.8v2.4m0 9.6v2.4M2.8 10h2.4m9.6 0h2.4M4.9 4.9l1.7 1.7m6.8 6.8 1.7 1.7m0-10.2-1.7 1.7M6.6 13.4l-1.7 1.7"/></svg>,
-      label: L("Settings", "Cài đặt"),
+      label: L("Settings", "Cài đặt", "설정", "设置"),
       action: () => nav("settings"),
     },
     {
       icon: <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="10" cy="10" r="7"/><path d="M10 6v4l2.5 2.5"/></svg>,
-      label: L("Customize UI", "Tuỳ biến giao diện"),
+      label: L("Customize UI", "Tuỳ biến giao diện", "UI 커스터마이즈", "自定义界面"),
       action: () => { window.postMessage({ type: "__activate_edit_mode" }, "*"); setProfileOpen(false); },
     },
     { divider: true },
     {
       icon: <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12.5 6.5V4.5a1.5 1.5 0 0 0-1.5-1.5H5A1.5 1.5 0 0 0 3.5 4.5v11A1.5 1.5 0 0 0 5 17h6a1.5 1.5 0 0 0 1.5-1.5v-2M8.5 10H17m0 0-2.5-2.5M17 10l-2.5 2.5"/></svg>,
-      label: L("Sign out", "Đăng xuất"),
+      label: L("Sign out", "Đăng xuất", "로그아웃", "退出登录"),
       danger: true,
       action: signOut,
     },
@@ -147,7 +147,7 @@ function Sidebar({ page, onNav }) {
 
   return (
     <>
-      <button className="glass-strong yana-menu-btn" aria-label={L("Open menu", "Mở menu")}
+      <button className="glass-strong yana-menu-btn" aria-label={L("Open menu", "Mở menu", "메뉴 열기", "打开菜单")}
         aria-expanded={open} onClick={() => setOpen(true)}>
         {Icons.menu(18)}
       </button>
@@ -174,7 +174,7 @@ function Sidebar({ page, onNav }) {
               onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = "rgba(var(--surface-rgb), .5)"; }}
               onMouseLeave={(e) => { if (!active) e.currentTarget.style.background = "transparent"; }}>
               {Icons[n.icon](17)}
-              <span>{L(n.label, n.vi)}</span>
+              <span>{L(n.label, n.vi, n.ko, n.zh)}</span>
             </button>
           );
         })}
@@ -225,7 +225,7 @@ function Sidebar({ page, onNav }) {
               <div style={{ display: "flex", alignItems: "center", gap: 5, marginTop: 1 }}>
                 <span className="dot on"></span>
                 <span style={{ fontSize: 11, color: "var(--ink-3)" }}>
-                  {D.stats.agents} {L("agents", "tác nhân")} · {L("All gates on", "Mọi cổng bật")}
+                  {D.stats.agents} {L("agents", "tác nhân", "에이전트", "智能体")} · {L("All gates on", "Mọi cổng bật", "모든 게이트 활성", "所有门控已启用")}
                 </span>
               </div>
             </div>

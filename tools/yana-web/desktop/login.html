@@ -233,12 +233,16 @@
           <input type="checkbox" id="remember" />
           <span id="remember-text">Ghi nhớ 30 ngày</span>
         </label>
-        <button type="button" class="link" id="forgot">Quên mật khẩu?</button>
+        <span style="display:flex;gap:10px">
+          <button type="button" class="link" id="forgot">Quên mật khẩu?</button>
+          <button type="button" class="link" id="new-account">Tạo tài khoản mới?</button>
+        </span>
       </div>
 
       <div class="help" id="help">
-        <span id="help-text">Yana chạy hoàn toàn trên máy bạn — không có email khôi phục.
-        Để đặt lại: xóa file <code>tools/yana-web/.yana/auth.json</code> trên máy chủ rồi tải lại trang này.</span>
+        <span id="help-pre"></span><code id="help-path">tools/yana-web/.yana/auth.json</code><span id="help-post"></span>
+        <button type="button" class="link" id="reveal-btn" style="display:none;margin-top:8px"></button>
+        <button type="button" class="link" id="reload-btn" style="display:block;margin-top:8px"></button>
       </div>
 
       <button type="submit" class="cta" id="submit">
@@ -273,8 +277,10 @@
         ctaLogin: 'Tiếp tục', ctaSetup: 'Tạo tài khoản',
         username: 'Tên tài khoản',
         password: 'Mật khẩu', confirm: 'Nhập lại mật khẩu',
-        remember: 'Ghi nhớ 30 ngày', forgot: 'Quên mật khẩu?',
-        help: 'Yana chạy hoàn toàn trên máy bạn — không có email khôi phục. Để đặt lại: xóa file tools/yana-web/.yana/auth.json trên máy chủ rồi tải lại trang này.',
+        remember: 'Ghi nhớ 30 ngày', forgot: 'Quên mật khẩu?', newAccount: 'Tạo tài khoản mới?',
+        helpPre: 'Yana chạy hoàn toàn trên máy bạn — không có email khôi phục. Để đặt lại hoặc tạo tài khoản mới: xóa file ',
+        helpPost: ' rồi tải lại trang này. Lưu ý: thao tác này xóa luôn tài khoản hiện tại.',
+        revealBtn: 'Mở thư mục chứa file', reloadBtn: 'Tôi đã xóa — Tải lại trang',
         caps: 'Caps Lock đang bật',
         match: 'Khớp ✓', noMatch: 'Chưa khớp',
         mismatch: 'Mật khẩu nhập lại không khớp.',
@@ -294,8 +300,10 @@
         ctaLogin: 'Continue', ctaSetup: 'Create account',
         username: 'Account name',
         password: 'Password', confirm: 'Confirm password',
-        remember: 'Remember for 30 days', forgot: 'Forgot password?',
-        help: 'Yana runs entirely on your machine — there is no recovery email. To reset: delete tools/yana-web/.yana/auth.json on the server, then reload this page.',
+        remember: 'Remember for 30 days', forgot: 'Forgot password?', newAccount: 'Create new account?',
+        helpPre: 'Yana runs entirely on your machine — there is no recovery email. To reset or create a new account: delete ',
+        helpPost: ', then reload this page. Note: this also deletes your current account.',
+        revealBtn: 'Open containing folder', reloadBtn: "I've deleted it — Reload page",
         caps: 'Caps Lock is on',
         match: 'Match ✓', noMatch: 'No match',
         mismatch: 'Passwords do not match.',
@@ -335,7 +343,11 @@
       $('confirm').placeholder  = t('confirm');
       $('remember-text').textContent = t('remember');
       $('forgot').textContent   = t('forgot');
-      $('help-text').textContent = t('help');
+      $('new-account').textContent = t('newAccount');
+      $('help-pre').textContent  = t('helpPre');
+      $('help-post').textContent = t('helpPost');
+      $('reveal-btn').textContent = t('revealBtn');
+      $('reload-btn').textContent = t('reloadBtn');
       $('caps-text').textContent = t('caps');
       $('about-link').textContent = t('about');
       $('back-btn').textContent = '← ' + t('back');
@@ -438,10 +450,33 @@
     $('password').addEventListener('input', function () { updateStrength(); updateMatch(); });
     $('confirm').addEventListener('input', updateMatch);
 
-    // Forgot password — local recovery instructions
+    // Forgot password / create new account — both point at the same local
+    // recovery instructions: delete auth.json, reload. Deleting it wipes the
+    // current account, so a fresh setup screen is the natural next step —
+    // that's why "create new account" doesn't need its own server logic.
     $('forgot').addEventListener('click', function () {
       $('help').classList.toggle('show');
     });
+    $('new-account').addEventListener('click', function () {
+      $('help').classList.toggle('show');
+    });
+    $('reload-btn').addEventListener('click', function () { location.reload(); });
+
+    // Desktop (Electron) only: window.yana is injected by preload.js and is
+    // never present in a plain browser tab. The packaged app's auth.json
+    // lives inside Electron's per-OS userData dir, not the dev-relative path
+    // shown by default above — ask the main process for the real path and
+    // offer to reveal it in Finder/Explorer instead of making the owner
+    // guess a hidden directory.
+    if (window.yana && window.yana.getAuthFilePath) {
+      $('reveal-btn').style.display = 'block';
+      window.yana.getAuthFilePath()
+        .then(function (p) { $('help-path').textContent = p; })
+        .catch(function () {});
+      $('reveal-btn').addEventListener('click', function () {
+        window.yana.revealAuthFile().catch(function () {});
+      });
+    }
 
     // Disable submit until status is known — prevents submitting with empty
     // username before the prefill arrives from /api/auth/status.

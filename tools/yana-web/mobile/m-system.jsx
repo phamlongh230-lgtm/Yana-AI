@@ -32,13 +32,13 @@ function MAgentCard({ a }) {
 function MAgents() {
   const D = window.YANA;
   const [filter, setFilter] = React.useState("all");
-  const filters = [["all", L("All", "Tất cả")], ["active", L("Active", "Đang chạy")], ["idle", L("Idle", "Nghỉ")]];
+  const filters = [["all", L("All", "Tất cả", "전체", "全部")], ["active", L("Active", "Đang chạy", "진행 중", "进行中")], ["idle", L("Idle", "Nghỉ", "대기", "空闲")]];
   const list = filter === "all" ? D.agents : D.agents.filter((a) => a.status === filter);
   const rest = Math.max(0, D.stats.agents - D.agents.length);
   return (
     <div data-screen-label="Agent Space" style={{ display: "flex", flexDirection: "column", gap: "var(--gap)" }}>
-      <MHead title={L("Agents", "Tác nhân")} sub={D.stats.agentsActive + L(" of ", " / ") + D.stats.agents + L(" active · Navigator orchestrates, Sentinel reviews", " hoạt động · Navigator điều phối, Sentinel giám sát")}>
-        <button className="pill-primary" style={{ padding: "8px 13px" }}>{Icons.plus(15)} {L("New", "Mới")}</button>
+      <MHead title={L("Agents", "Tác nhân", "에이전트", "智能体")} sub={D.stats.agentsActive + L(" of ", " / ", " / ", " / ") + D.stats.agents + L(" active · Navigator orchestrates, Sentinel reviews", " hoạt động · Navigator điều phối, Sentinel giám sát", " 활성 · Navigator가 조율, Sentinel이 검토", " 活跃 · Navigator 编排，Sentinel 审查")}>
+        <button className="pill-primary" style={{ padding: "8px 13px" }}>{Icons.plus(15)} {L("New", "Mới", "새로 만들기", "新建")}</button>
       </MHead>
       <div className="hscroll">
         {filters.map(([id, lbl]) => (
@@ -50,7 +50,7 @@ function MAgents() {
         {rest > 0 && <div style={{
           borderRadius: "var(--r-lg)", border: "1.5px dashed var(--border-strong)",
           display: "grid", placeItems: "center", minHeight: 64, color: "var(--ink-3)", fontSize: 12.5, textAlign: "center", padding: 14,
-        }}>+ {rest} {L("more specialist agents", "tác nhân chuyên môn khác")}</div>}
+        }}>+ {rest} {L("more specialist agents", "tác nhân chuyên môn khác", "개 전문 에이전트 더보기", "个更多专业智能体")}</div>}
       </div>
     </div>
   );
@@ -64,10 +64,10 @@ function MProviderCard({ p }) {
   const connected = hasKey;
 
   async function promptKey() {
-    if (!vault) { window.alert(L("Vault not available.", "Vault chưa sẵn sàng.")); return; }
+    if (!vault) { window.alert(L("Vault not available.", "Vault chưa sẵn sàng.", "Vault를 사용할 수 없습니다.", "Vault 尚不可用。")); return; }
     const current = vault.getKey(p.id) || "";
     const raw = window.prompt(
-      L("API key for ", "API key cho ") + p.name + L(" (leave blank to clear):", " (để trống để xóa):"),
+      L("API key for ", "API key cho ", "API 키 대상: ", "API 密钥用于：") + p.name + L(" (leave blank to clear):", " (để trống để xóa):", " (지우려면 비워두세요):", "（留空以清除）："),
       current
     );
     if (raw === null) return;
@@ -77,10 +77,10 @@ function MProviderCard({ p }) {
   }
 
   const keyDisplay = keyless
-    ? L("Keyless", "Không cần key")
+    ? L("Keyless", "Không cần key", "키 불필요", "无需密钥")
     : hasKey
       ? (vault && vault.getKey(p.id) || "").slice(0, 8) + "····"
-      : L("Not set", "Chưa đặt");
+      : L("Not set", "Chưa đặt", "미설정", "未设置");
 
   return (
     <div className="glass" style={{ borderRadius: "var(--r-lg)", padding: "15px 16px", display: "flex", flexDirection: "column", gap: 11 }}>
@@ -96,7 +96,7 @@ function MProviderCard({ p }) {
         </div>
         <span className={"chip " + (connected ? "" : "gold")} style={{ fontSize: 11, flex: "none" }}>
           <span className={"dot " + (connected ? "on" : "idle")} style={{ width: 6, height: 6, boxShadow: "none" }}></span>
-          {connected ? L("Connected", "Đã nối") : L("Standby", "Chờ")}
+          {connected ? L("Connected", "Đã nối", "연결됨", "已连接") : L("Standby", "Chờ", "대기", "待机")}
         </span>
       </div>
       <div style={{ fontSize: 12.5, color: "var(--ink-2)", lineHeight: 1.5 }}>{p.role}</div>
@@ -105,12 +105,12 @@ function MProviderCard({ p }) {
       </div>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, paddingTop: 10, borderTop: "1px solid var(--border)" }}>
         <div style={{ lineHeight: 1.35, minWidth: 0 }}>
-          <div style={{ fontSize: 10.5, color: "var(--ink-3)" }}>{L("Key", "Khoá")}</div>
+          <div style={{ fontSize: 10.5, color: "var(--ink-3)" }}>{L("Key", "Khoá", "키", "密钥")}</div>
           <div style={{ fontSize: 11.5, fontWeight: 500, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: 160 }}>{keyDisplay}</div>
         </div>
         {!keyless && (
           <button onClick={promptKey} className={"pill-" + (hasKey ? "neutral" : "primary")} style={{ padding: "6px 13px", fontSize: 12 }}>
-            {hasKey ? L("Change", "Đổi") : L("Set key", "Thêm key")}
+            {hasKey ? L("Change", "Đổi", "변경", "更改") : L("Set key", "Thêm key", "키 설정", "设置密钥")}
           </button>
         )}
       </div>
@@ -124,7 +124,7 @@ function MProviders() {
   const connected = vault ? D.providers.filter((p) => p.id === "ollama" || p.id === "lmstudio" || p.id === "9router" || vault.getKey(p.id)).length : 0;
   return (
     <div data-screen-label="Providers" style={{ display: "flex", flexDirection: "column", gap: "var(--gap)" }}>
-      <MHead title={L("Providers", "Nhà cung cấp")} sub={connected + " / " + D.providers.length + L(" connected", " đã nối")} />
+      <MHead title={L("Providers", "Nhà cung cấp", "프로바이더", "提供商")} sub={connected + " / " + D.providers.length + L(" connected", " đã nối", " 연결됨", " 已连接")} />
       <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
         {D.providers.map((p) => <MProviderCard key={p.id} p={p} />)}
       </div>
@@ -229,7 +229,7 @@ function MAboutField({ id, label, hint, placeholder }) {
       <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 10 }}>
         <label style={{ fontSize: 13, fontWeight: 500 }}>{label}</label>
         <span style={{ fontSize: 10.5, color: "var(--good)", opacity: saved ? 1 : 0, transition: "opacity .3s", display: "inline-flex", alignItems: "center", gap: 4, flex: "none" }}>
-          {Icons.check(11)} {L("Planted", "Đã trồng")}
+          {Icons.check(11)} {L("Planted", "Đã trồng", "저장됨", "已存入")}
         </span>
       </div>
       {hint && <div style={{ fontSize: 12, color: "var(--ink-3)", marginTop: -3 }}>{hint}</div>}
@@ -315,18 +315,18 @@ function MProfileHero({ t, setTweak }) {
   }
 
   const MODES = [
-    { key: "light", icon: "☀️", label: L("Light", "Sáng") },
-    { key: "dark",  icon: "🌙", label: L("Dark", "Tối") },
-    { key: "auto",  icon: "✦",  label: L("Auto", "Tự") },
+    { key: "light", icon: "☀️", label: L("Light", "Sáng", "라이트", "浅色") },
+    { key: "dark",  icon: "🌙", label: L("Dark", "Tối", "다크", "深色") },
+    { key: "auto",  icon: "✦",  label: L("Auto", "Tự", "자동", "自动") },
   ];
 
   const D2 = window.YANA || {};
   const stats = D2.stats || {};
   const statsRow = [
-    { v: stats.agents || "—",   l: L("Agents", "Tác nhân") },
-    { v: stats.memories || "—", l: L("Memories", "Ký ức") },
-    { v: stats.providers || "—", l: L("Providers", "Providers") },
-    { v: stats.gateMode || "Strict", l: L("Gate", "Cổng") },
+    { v: stats.agents || "—",   l: L("Agents", "Tác nhân", "에이전트", "智能体") },
+    { v: stats.memories || "—", l: L("Memories", "Ký ức", "메모리", "记忆") },
+    { v: stats.providers || "—", l: L("Providers", "Providers", "프로바이더", "提供商") },
+    { v: stats.gateMode || "Strict", l: L("Gate", "Cổng", "게이트", "门控") },
   ];
 
   return (
@@ -340,8 +340,8 @@ function MProfileHero({ t, setTweak }) {
         }}>{initial}</div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontSize: 15.5, fontWeight: 600, lineHeight: 1.25 }}>{dispName}</div>
-          <div style={{ fontSize: 12, color: "var(--ink-3)" }}>{account || L("Yana AI", "Yana AI")}</div>
-          <div style={{ fontSize: 11, color: "var(--ink-3)", marginTop: 2 }}>{L("Since", "Từ")} {memberSince}</div>
+          <div style={{ fontSize: 12, color: "var(--ink-3)" }}>{account || L("Yana AI", "Yana AI", "Yana AI", "Yana AI")}</div>
+          <div style={{ fontSize: 11, color: "var(--ink-3)", marginTop: 2 }}>{L("Since", "Từ", "가입일", "加入于")} {memberSince}</div>
         </div>
         <span className="chip gold" style={{ fontSize: 10.5, flex: "none" }}>Sovereign</span>
       </div>
@@ -375,20 +375,20 @@ function MSettings({ t, setTweak }) {
   const _p = mGetProviderConfig().provider;
   const _orchModel = M_CHAT_MODELS[_p] || _p;
   const _wname = localStorage.getItem("yana.workspace.name") ||
-    ((window.YANA.username ? window.YANA.username + "'s Lake" : L("Yana's Lake", "Mặt hồ của Yana")));
+    ((window.YANA.username ? window.YANA.username + "'s Lake" : L("Yana's Lake", "Mặt hồ của Yana", "Yana의 호수", "Yana 的湖")));
   const _chain = (() => {
     const order = ["claude", "openai", "gemini", "groq", "deepseek", "openrouter", "9router"];
     if (typeof YanaVault === "undefined") return "—";
     const found = order.filter((id) => YanaVault.getKey(id));
-    return found.map((id) => M_PROVIDER_NAMES[id] || id).join(" → ") || L("None — add key in Providers", "Chưa có — thêm key ở Providers");
+    return found.map((id) => M_PROVIDER_NAMES[id] || id).join(" → ") || L("None — add key in Providers", "Chưa có — thêm key ở Providers", "없음 — Providers에서 키 추가", "无 — 请在提供商中添加密钥");
   })();
   return (
     <div data-screen-label="Settings" style={{ display: "flex", flexDirection: "column", gap: "var(--gap)" }}>
-      <MHead title={L("Settings", "Cài đặt")} sub={L("Quiet defaults. Everything supervised by Yana AI Core.", "Mặc định tĩnh lặng. Mọi thứ do Yana AI Core giám sát.")} />
+      <MHead title={L("Settings", "Cài đặt", "설정", "设置")} sub={L("Quiet defaults. Everything supervised by Yana AI Core.", "Mặc định tĩnh lặng. Mọi thứ do Yana AI Core giám sát.", "조용한 기본값. 모든 것이 Yana AI Core의 감독 아래 있습니다.", "低调的默认设置。一切均由 Yana AI Core 监督。")} />
 
       <MProfileHero t={t} setTweak={setTweak} />
 
-      <MCard title={L("Appearance", "Giao diện")}>
+      <MCard title={L("Appearance", "Giao diện", "외관", "外观")}>
         <div className="hscroll" style={{ marginBottom: 6 }}>
           {M_THEME_PREVIEWS.map((p) => (
             <MThemeCard key={p.label} p={p} active={t.theme === p.label} onPick={() => setTweak("theme", p.label)} />
@@ -396,7 +396,7 @@ function MSettings({ t, setTweak }) {
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "13px 0", borderTop: "1px solid var(--border)", flexWrap: "wrap" }}>
-          <span style={{ fontSize: 13, fontWeight: 500 }}>{L("Accent", "Màu nhấn")}</span>
+          <span style={{ fontSize: 13, fontWeight: 500 }}>{L("Accent", "Màu nhấn", "강조 색상", "强调色")}</span>
           <div style={{ display: "flex", gap: 9, alignItems: "center", flexWrap: "wrap" }}>
             <button onClick={() => setTweak("accent", "")} title="Theme default" style={{
               width: 24, height: 24, borderRadius: "50%", cursor: "pointer", padding: 0, border: "none",
@@ -413,19 +413,19 @@ function MSettings({ t, setTweak }) {
         </div>
 
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, padding: "13px 0", borderTop: "1px solid var(--border)" }}>
-          <span style={{ fontSize: 13, fontWeight: 500 }}>{L("Density", "Mật độ")}</span>
+          <span style={{ fontSize: 13, fontWeight: 500 }}>{L("Density", "Mật độ", "밀도", "密度")}</span>
           <MSeg options={["Compact", "Regular", "Spacious"]} value={t.layout} onChange={(v) => setTweak("layout", v)} />
         </div>
 
         <div style={{ padding: "8px 0 4px", borderTop: "1px solid var(--border)" }}>
-          <MSliderRow label={L("Blur", "Mờ")} value={t.blur} onChange={(v) => setTweak("blur", v)} />
-          <MSliderRow label={L("Transparency", "Trong suốt")} value={t.transparency} onChange={(v) => setTweak("transparency", v)} />
-          <MSliderRow label={L("Reflection", "Phản chiếu")} value={t.reflection} onChange={(v) => setTweak("reflection", v)} />
-          <MSliderRow label={L("Depth", "Chiều sâu")} value={t.depth} onChange={(v) => setTweak("depth", v)} />
+          <MSliderRow label={L("Blur", "Mờ", "블러", "模糊")} value={t.blur} onChange={(v) => setTweak("blur", v)} />
+          <MSliderRow label={L("Transparency", "Trong suốt", "투명도", "透明度")} value={t.transparency} onChange={(v) => setTweak("transparency", v)} />
+          <MSliderRow label={L("Reflection", "Phản chiếu", "반사", "反光")} value={t.reflection} onChange={(v) => setTweak("reflection", v)} />
+          <MSliderRow label={L("Depth", "Chiều sâu", "깊이", "深度")} value={t.depth} onChange={(v) => setTweak("depth", v)} />
         </div>
 
         <div style={{ paddingTop: 8, borderTop: "1px solid var(--border)" }}>
-          {[[L("Show agents on Lake", "Tác nhân trên Mặt hồ"), "showAgents"], [L("Show missions on Lake", "Nhiệm vụ trên Mặt hồ"), "showMissions"], [L("Show Memory Garden", "Vườn ký ức"), "showMemory"], [L("Show system status", "Trạng thái hệ thống"), "showSystem"]].map(([label, key]) => (
+          {[[L("Show agents on Lake", "Tác nhân trên Mặt hồ", "호수에 에이전트 표시", "在湖面显示智能体"), "showAgents"], [L("Show missions on Lake", "Nhiệm vụ trên Mặt hồ", "호수에 미션 표시", "在湖面显示任务"), "showMissions"], [L("Show Memory Garden", "Vườn ký ức", "메모리 가든 표시", "显示记忆花园"), "showMemory"], [L("Show system status", "Trạng thái hệ thống", "시스템 상태 표시", "显示系统状态"), "showSystem"]].map(([label, key]) => (
             <div key={key} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, padding: "9px 0" }}>
               <span style={{ fontSize: 13 }}>{label}</span>
               <MSwitch value={t[key]} onChange={(v) => setTweak(key, v)} />
@@ -434,30 +434,30 @@ function MSettings({ t, setTweak }) {
         </div>
       </MCard>
 
-      <MCard title={L("About you", "Về bạn")} aside={<span className="chip pink" style={{ fontSize: 10.5 }}>{Icons.memory(12)} {L("Pinned", "Đã ghim")}</span>}>
+      <MCard title={L("About you", "Về bạn", "당신에 대하여", "关于你")} aside={<span className="chip pink" style={{ fontSize: 10.5 }}>{Icons.memory(12)} {L("Pinned", "Đã ghim", "고정됨", "已固定")}</span>}>
         <p style={{ margin: "0 0 14px", fontSize: 12.5, color: "var(--ink-2)", lineHeight: 1.55 }}>
-          {L("Yana reads this before every mission. The more honestly you describe yourself, the better she routes and plans for you.", "Yana đọc phần này trước mỗi nhiệm vụ. Bạn mô tả càng thật, Yana càng định tuyến và lập kế hoạch tốt hơn.")}
+          {L("Yana reads this before every mission. The more honestly you describe yourself, the better she routes and plans for you.", "Yana đọc phần này trước mỗi nhiệm vụ. Bạn mô tả càng thật, Yana càng định tuyến và lập kế hoạch tốt hơn.", "Yana는 모든 미션 전에 이 내용을 읽습니다. 자신을 솔직하게 설명할수록 라우팅과 계획이 더 잘 맞춰집니다.", "Yana 会在每次任务前阅读这些内容。你的描述越真实，她的路由和规划就越贴合你。")}
         </p>
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          <MAboutField id="who" label={L("Who you are", "Bạn là ai")} hint={L("Role, what you're building, how you work", "Vai trò, đang xây gì, cách làm việc")} placeholder={L("e.g. I'm a system builder. I think in workflows, not code.", "vd: Tôi là người dựng hệ thống. Tôi nghĩ theo quy trình, không phải code.")} />
-          <MAboutField id="strengths" label={L("Strengths", "Điểm mạnh")} hint={L("What Yana should lean on", "Điều Yana nên dựa vào")} placeholder={L("e.g. Big-picture architecture, fast decisions.", "vd: Kiến trúc tổng thể, quyết định nhanh.")} />
-          <MAboutField id="style" label={L("How Yana should respond", "Cách Yana trả lời")} hint={L("Tone, length, language", "Giọng, độ dài, ngôn ngữ")} placeholder={L("e.g. Calm and brief. No hype.", "vd: Bình tĩnh, ngắn gọn. Không hô hào.")} />
+          <MAboutField id="who" label={L("Who you are", "Bạn là ai", "당신은 누구인가요", "你是谁")} hint={L("Role, what you're building, how you work", "Vai trò, đang xây gì, cách làm việc", "역할, 만들고 있는 것, 일하는 방식", "角色、你在构建什么、你的工作方式")} placeholder={L("e.g. I'm a system builder. I think in workflows, not code.", "vd: Tôi là người dựng hệ thống. Tôi nghĩ theo quy trình, không phải code.", "예: 저는 시스템을 만듭니다. 코드보다 워크플로우로 생각해요.", "例：我是系统构建者，习惯以工作流而非代码来思考。")} />
+          <MAboutField id="strengths" label={L("Strengths", "Điểm mạnh", "강점", "优势")} hint={L("What Yana should lean on", "Điều Yana nên dựa vào", "Yana가 의지해야 할 부분", "Yana 应该依靠的方面")} placeholder={L("e.g. Big-picture architecture, fast decisions.", "vd: Kiến trúc tổng thể, quyết định nhanh.", "예: 큰 그림의 아키텍처, 빠른 의사결정.", "例：把握整体架构，决策迅速。")} />
+          <MAboutField id="style" label={L("How Yana should respond", "Cách Yana trả lời", "Yana가 응답하는 방식", "Yana 应如何回应")} hint={L("Tone, length, language", "Giọng, độ dài, ngôn ngữ", "어조, 길이, 언어", "语气、长度、语言")} placeholder={L("e.g. Calm and brief. No hype.", "vd: Bình tĩnh, ngắn gọn. Không hô hào.", "예: 차분하고 간결하게. 과장 없이.", "例：冷静简短，不夸张。")} />
         </div>
       </MCard>
 
-      <MCard title={L("Workspace", "Không gian")}>
-        <MSettingRow label={L("Workspace name", "Tên không gian")} value={_wname} />
-        <MSettingRow label={L("Timezone", "Múi giờ")} desc={L("Detected from device", "Phát hiện từ thiết bị")} value={_mDetectTz()} />
+      <MCard title={L("Workspace", "Không gian", "워크스페이스", "工作区")}>
+        <MSettingRow label={L("Workspace name", "Tên không gian", "워크스페이스 이름", "工作区名称")} value={_wname} />
+        <MSettingRow label={L("Timezone", "Múi giờ", "시간대", "时区")} desc={L("Detected from device", "Phát hiện từ thiết bị", "기기에서 감지됨", "从设备检测")} value={_mDetectTz()} />
       </MCard>
-      <MCard title={L("Orchestration", "Điều phối")}>
-        <MSettingRow label={L("Default orchestrator", "Điều phối mặc định")} desc={L("Plans and delegates missions", "Lập kế hoạch & giao việc")} value={"Navigator · " + _orchModel} />
-        <MSettingRow label={L("Active provider", "Nhà cung cấp hiện dùng")} desc={L("First key you have set", "Key đầu tiên đã cài")} value={M_PROVIDER_NAMES[_p] || _p} />
-        <MSettingRow label={L("Fallback chain", "Chuỗi dự phòng")} value={_chain} />
+      <MCard title={L("Orchestration", "Điều phối", "오케스트레이션", "编排")}>
+        <MSettingRow label={L("Default orchestrator", "Điều phối mặc định", "기본 오케스트레이터", "默认编排器")} desc={L("Plans and delegates missions", "Lập kế hoạch & giao việc", "미션을 계획하고 위임", "规划并分派任务")} value={"Navigator · " + _orchModel} />
+        <MSettingRow label={L("Active provider", "Nhà cung cấp hiện dùng", "활성 프로바이더", "当前提供商")} desc={L("First key you have set", "Key đầu tiên đã cài", "설정한 첫 번째 키", "你设置的第一个密钥")} value={M_PROVIDER_NAMES[_p] || _p} />
+        <MSettingRow label={L("Fallback chain", "Chuỗi dự phòng", "폴백 체인", "回退链")} value={_chain} />
       </MCard>
-      <MCard title={L("Safety", "An toàn")}>
-        <MSettingRow label={L("Gate mode", "Chế độ cổng")} desc={L("Every action is reviewed", "Mọi hành động được duyệt")} value={L("Strict", "Nghiêm ngặt")} />
-        <MSettingRow label={L("Merge protection", "Bảo vệ merge")} desc={L("Sentinel sign-off before main", "Sentinel duyệt trước main")} value={L("On", "Bật")} />
-        <MSettingRow label={L("Incident retention", "Lưu sự cố")} value={L("90 days", "90 ngày")} />
+      <MCard title={L("Safety", "An toàn", "안전", "安全")}>
+        <MSettingRow label={L("Gate mode", "Chế độ cổng", "게이트 모드", "门控模式")} desc={L("Every action is reviewed", "Mọi hành động được duyệt", "모든 작업이 검토됨", "所有操作均经过审查")} value={L("Strict", "Nghiêm ngặt", "엄격", "严格")} />
+        <MSettingRow label={L("Merge protection", "Bảo vệ merge", "머지 보호", "合并保护")} desc={L("Sentinel sign-off before main", "Sentinel duyệt trước main", "main 반영 전 Sentinel 승인", "合并到 main 前需 Sentinel 批准")} value={L("On", "Bật", "켜짐", "已启用")} />
+        <MSettingRow label={L("Incident retention", "Lưu sự cố", "사건 보관 기간", "事件保留期")} value={L("90 days", "90 ngày", "90일", "90 天")} />
       </MCard>
     </div>
   );

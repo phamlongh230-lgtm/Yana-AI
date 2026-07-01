@@ -15,7 +15,7 @@ function AgentCard({ a }) {
         </div>
       </div>
       <div style={{ fontSize: 12.5, color: "var(--ink-2)", lineHeight: 1.5 }}>
-        {a.description || L("No description.", "Chưa có mô tả.")}
+        {a.description || L("No description.", "Chưa có mô tả.", "설명이 없습니다.", "暂无描述。")}
       </div>
     </div>
   );
@@ -39,15 +39,15 @@ function AgentSpace() {
   return (
     <div data-screen-label="Agent Space">
       <PageHeader
-        title={L("Agent Space", "Không gian tác nhân")}
+        title={L("Agent Space", "Không gian tác nhân", "에이전트 공간", "智能体空间")}
         sub={data
-          ? data.total + L(" agents in catalog · none running — agents start when a mission dispatches", " tác nhân trong danh mục · chưa có tác nhân nào chạy — khởi động khi nhiệm vụ được giao")
-          : L("Loading agent catalog…", "Đang tải danh mục tác nhân…")}>
+          ? data.total + L(" agents in catalog · none running — agents start when a mission dispatches", " tác nhân trong danh mục · chưa có tác nhân nào chạy — khởi động khi nhiệm vụ được giao", "개 에이전트 등록됨 · 실행 중인 에이전트 없음 — 미션이 배정되면 시작됩니다", " 个智能体已收录 · 暂无运行中 — 任务分派后启动")
+          : L("Loading agent catalog…", "Đang tải danh mục tác nhân…", "에이전트 카탈로그 불러오는 중…", "正在加载智能体目录…")}>
         <select value={filter} onChange={(e) => setFilter(e.target.value)} style={{
           padding: "7px 12px", borderRadius: 99, border: "1px solid var(--border-strong)",
           background: "transparent", color: "var(--ink-2)", fontSize: 12.5, fontFamily: "inherit", cursor: "pointer",
         }}>
-          {categories.map((c) => <option key={c} value={c}>{c === "all" ? L("All categories", "Tất cả danh mục") : c}</option>)}
+          {categories.map((c) => <option key={c} value={c}>{c === "all" ? L("All categories", "Tất cả danh mục", "모든 카테고리", "所有分类") : c}</option>)}
         </select>
       </PageHeader>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", gap: "var(--gap)" }}>
@@ -59,9 +59,9 @@ function AgentSpace() {
 
 /* ---------- Mission Center ---------- */
 const TASK_STATE = {
-  done:   { label: () => L("Done", "Xong"),       color: "var(--good)" },
-  active: { label: () => L("Active", "Đang chạy"), color: "var(--primary)" },
-  queued: { label: () => L("Queued", "Đang chờ"),  color: "var(--ink-3)" },
+  done:   { label: () => L("Done", "Xong", "완료", "已完成"),       color: "var(--good)" },
+  active: { label: () => L("Active", "Đang chạy", "진행 중", "进行中"), color: "var(--primary)" },
+  queued: { label: () => L("Queued", "Đang chờ", "대기 중", "排队中"),  color: "var(--ink-3)" },
 };
 
 // Clicking a task cycles its state: queued → active → done → queued
@@ -83,7 +83,7 @@ function MissionCard({ m, open, onToggle, onUpdate, onDelete, onPlan, planning }
           <div style={{ fontSize: 14.5, fontWeight: 500 }}>{m.name}</div>
           <div style={{ fontSize: 12, color: "var(--ink-3)" }}>
             {m.owner} · <span style={{ color: statusColor }}>{m.status}</span>
-            {m.route && <span> · {L("route:", "tuyến:")} {m.route}</span>}
+            {m.route && <span> · {L("route:", "tuyến:", "경로:", "路由：")} {m.route}</span>}
             {m.skill && <span> · {m.skill}</span>}
           </div>
         </div>
@@ -97,7 +97,7 @@ function MissionCard({ m, open, onToggle, onUpdate, onDelete, onPlan, planning }
             const st = TASK_STATE[tk.state];
             return (
               <button key={i} onClick={() => cycleTask(i)}
-                title={L("Click to advance state", "Nhấn để chuyển trạng thái")}
+                title={L("Click to advance state", "Nhấn để chuyển trạng thái", "클릭하여 상태 변경", "点击切换状态")}
                 style={{
                   display: "grid", gridTemplateColumns: "16px 1fr 110px 64px", alignItems: "center", gap: 11,
                   padding: "6px 0", fontSize: 13, background: "none", border: "none",
@@ -117,11 +117,11 @@ function MissionCard({ m, open, onToggle, onUpdate, onDelete, onPlan, planning }
               display: "flex", alignItems: "center", gap: 6, padding: "6px 13px", borderRadius: 99,
               border: "none", cursor: planning ? "wait" : "pointer", fontSize: 12, fontWeight: 500,
               background: "var(--primary-soft)", color: "var(--primary)",
-            }}>{Icons.spark(13)} {planning ? L("Planning…", "Đang lập kế hoạch…") : L("Plan with Yana", "Yana lập kế hoạch")}</button>
+            }}>{Icons.spark(13)} {planning ? L("Planning…", "Đang lập kế hoạch…", "계획 수립 중…", "规划中…") : L("Plan with Yana", "Yana lập kế hoạch", "Yana와 계획하기", "由 Yana 规划")}</button>
             <button onClick={() => onDelete(m)} style={{
               padding: "6px 13px", borderRadius: 99, border: "none", cursor: "pointer", fontSize: 12,
               background: "rgba(var(--shadow-rgb), .07)", color: "var(--ink-3)",
-            }}>{L("Delete", "Xóa")}</button>
+            }}>{L("Delete", "Xóa", "삭제", "删除")}</button>
           </div>
         </div>
       )}
@@ -133,7 +133,7 @@ function MissionCard({ m, open, onToggle, onUpdate, onDelete, onPlan, planning }
 // (JSON), then PATCH the mission. Reuses the /api/chat streaming pipeline.
 async function planMission(m) {
   const cfg = window.getProviderConfig();
-  if (!cfg.apiKey) { alert(L("Add a provider API key first (Providers page).", "Thêm API key ở mục Nhà cung cấp trước.")); return null; }
+  if (!cfg.apiKey) { alert(L("Add a provider API key first (Providers page).", "Thêm API key ở mục Nhà cung cấp trước.", "먼저 프로바이더 API 키를 추가하세요 (Providers 페이지).", "请先在提供商页面添加 API 密钥。")); return null; }
 
   const prompt =
     `Break this mission into 3-7 concrete tasks: "${m.name}".\n` +
@@ -191,7 +191,7 @@ function MissionCenter() {
   }
 
   async function create() {
-    const name = window.prompt(L("What should this mission accomplish?", "Nhiệm vụ này cần hoàn thành điều gì?"));
+    const name = window.prompt(L("What should this mission accomplish?", "Nhiệm vụ này cần hoàn thành điều gì?", "이 미션은 무엇을 달성해야 하나요?", "此任务需要完成什么？"));
     if (!name || !name.trim()) return;
     const r = await fetch("/api/missions", {
       method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: name.trim() }),
@@ -200,7 +200,7 @@ function MissionCenter() {
   }
 
   async function remove(m) {
-    if (!window.confirm(L("Delete mission “" + m.name + "”?", "Xóa nhiệm vụ “" + m.name + "”?"))) return;
+    if (!window.confirm(L("Delete mission “" + m.name + "”?", "Xóa nhiệm vụ “" + m.name + "”?", "미션 “" + m.name + "”을(를) 삭제할까요?", "删除任务 “" + m.name + "”？"))) return;
     await fetch("/api/missions/delete", {
       method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: m.id }),
     });
@@ -212,23 +212,23 @@ function MissionCenter() {
     try {
       const tasks = await planMission(m);
       if (tasks && tasks.length) await update({ id: m.id, tasks, status: "active" });
-      else alert(L("Could not get a plan — check the provider key.", "Không lấy được kế hoạch — kiểm tra API key."));
+      else alert(L("Could not get a plan — check the provider key.", "Không lấy được kế hoạch — kiểm tra API key.", "계획을 가져오지 못했습니다 — 프로바이더 키를 확인하세요.", "无法获取计划 — 请检查提供商密钥。"));
     } finally { setPlanningId(null); }
   }
 
   return (
     <div data-screen-label="Mission Center">
-      <PageHeader title={L("Mission Center", "Trung tâm nhiệm vụ")} sub={L("Multi-agent work, visible end to end — progress, owners, dependencies.", "Công việc đa tác nhân, nhìn thấy từ đầu đến cuối — tiến độ, người phụ trách, phụ thuộc.")}>
+      <PageHeader title={L("Mission Center", "Trung tâm nhiệm vụ", "미션 센터", "任务中心")} sub={L("Multi-agent work, visible end to end — progress, owners, dependencies.", "Công việc đa tác nhân, nhìn thấy từ đầu đến cuối — tiến độ, người phụ trách, phụ thuộc.", "멀티 에이전트 작업을 처음부터 끝까지 확인 — 진행률, 담당자, 의존성.", "多智能体协作，全程可见 — 进度、负责人、依赖关系。")}>
         <button onClick={create} style={{
           display: "flex", alignItems: "center", gap: 7, padding: "8px 15px", borderRadius: 99,
           border: "none", cursor: "pointer", background: "var(--primary)", color: "white",
           fontSize: 13, fontWeight: 500, boxShadow: "0 4px 12px color-mix(in oklab, var(--primary) 30%, transparent)",
-        }}>{Icons.plus(15)} {L("New mission", "Nhiệm vụ mới")}</button>
+        }}>{Icons.plus(15)} {L("New mission", "Nhiệm vụ mới", "새 미션", "新任务")}</button>
       </PageHeader>
       <div style={{ display: "flex", flexDirection: "column", gap: "var(--gap)", maxWidth: 860 }}>
         {missions && missions.length === 0 && (
           <div style={{ color: "var(--ink-3)", fontSize: 13 }}>
-            {L("No missions yet — create one above or from the Lake.", "Chưa có nhiệm vụ — tạo ở trên hoặc từ Mặt hồ.")}
+            {L("No missions yet — create one above or from the Lake.", "Chưa có nhiệm vụ — tạo ở trên hoặc từ Mặt hồ.", "아직 미션이 없습니다 — 위에서 만들거나 호수에서 시작하세요.", "尚无任务 — 请在上方或从湖面创建。")}
           </div>
         )}
         {(missions || []).map((m) => (

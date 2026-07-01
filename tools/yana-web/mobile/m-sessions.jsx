@@ -43,7 +43,7 @@ function MSessionMessages({ id, onClose }) {
 
   if (!data) return (
     <div style={{ padding: 24, color: "var(--ink-3)", fontSize: 13 }}>
-      {L("Loading…", "Đang tải…")}
+      {L("Loading…", "Đang tải…", "불러오는 중…", "加载中…")}
     </div>
   );
 
@@ -60,7 +60,7 @@ function MSessionMessages({ id, onClose }) {
         <button onClick={() => msExportSession(data)} style={{
           padding: "5px 12px", borderRadius: 99, border: "none", cursor: "pointer", fontSize: 12, flex: "none",
           background: "rgba(var(--shadow-rgb),.08)", color: "var(--ink-2)",
-        }}>{L("Export", "Xuất")}</button>
+        }}>{L("Export", "Xuất", "내보내기", "导出")}</button>
       </div>
       <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 12 }}>
         {(data.messages || []).map((m, i) => (
@@ -77,7 +77,7 @@ function MSessionMessages({ id, onClose }) {
           </div>
         ))}
         {(!data.messages || data.messages.length === 0) && (
-          <div style={{ color: "var(--ink-3)", fontSize: 13 }}>{L("No messages.", "Không có tin nhắn.")}</div>
+          <div style={{ color: "var(--ink-3)", fontSize: 13 }}>{L("No messages.", "Không có tin nhắn.", "메시지가 없습니다.", "暂无消息。")}</div>
         )}
       </div>
     </div>
@@ -122,12 +122,12 @@ function MSessions() {
 
   return (
     <div data-screen-label="Sessions" style={{ display: "flex", flexDirection: "column", gap: "var(--gap)" }}>
-      <MHead title={L("Sessions", "Lịch sử trò chuyện")}
-        sub={sessions ? sessions.length + L(" conversations saved", " cuộc trò chuyện đã lưu") : L("Loading…", "Đang tải…")} />
+      <MHead title={L("Sessions", "Lịch sử trò chuyện", "세션", "会话")}
+        sub={sessions ? sessions.length + L(" conversations saved", " cuộc trò chuyện đã lưu", "개 대화 저장됨", " 个对话已保存") : L("Loading…", "Đang tải…", "불러오는 중…", "加载中…")} />
 
       <div style={{ position: "relative" }}>
         <input value={search} onChange={e => setSearch(e.target.value)}
-          placeholder={L("Search…", "Tìm kiếm…")}
+          placeholder={L("Search…", "Tìm kiếm…", "검색…", "搜索…")}
           style={{
             width: "100%", boxSizing: "border-box", padding: "9px 14px 9px 36px", borderRadius: 99,
             border: "1px solid var(--glass-border)", background: "rgba(var(--shadow-rgb),.05)",
@@ -140,11 +140,11 @@ function MSessions() {
 
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         {sessions === null && (
-          <div style={{ color: "var(--ink-3)", fontSize: 13 }}>{L("Loading sessions…", "Đang tải…")}</div>
+          <div style={{ color: "var(--ink-3)", fontSize: 13 }}>{L("Loading sessions…", "Đang tải…", "세션 불러오는 중…", "加载会话中…")}</div>
         )}
         {sessions !== null && visible.length === 0 && (
           <div style={{ color: "var(--ink-3)", fontSize: 13 }}>
-            {search ? L("No results.", "Không tìm thấy.") : L("No sessions yet. Conversations saved from Chat appear here.", "Chưa có lịch sử. Hội thoại lưu từ Chat sẽ hiện ở đây.")}
+            {search ? L("No results.", "Không tìm thấy.", "결과가 없습니다.", "没有结果。") : L("No sessions yet. Conversations saved from Chat appear here.", "Chưa có lịch sử. Hội thoại lưu từ Chat sẽ hiện ở đây.", "아직 세션이 없습니다. Chat에서 저장된 대화가 여기에 표시됩니다.", "暂无会话。从聊天保存的对话会显示在这里。")}
           </div>
         )}
         {visible.map(s => (
@@ -155,7 +155,7 @@ function MSessions() {
             }}>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ fontWeight: 500, fontSize: 13.5, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginBottom: 4 }}>
-                {s.title || L("Untitled", "Chưa đặt tên")}
+                {s.title || L("Untitled", "Chưa đặt tên", "제목 없음", "无标题")}
               </div>
               <div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap" }}>
                 <span className="chip" style={{

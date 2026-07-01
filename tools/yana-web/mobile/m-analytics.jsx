@@ -24,7 +24,7 @@ function MABarChart({ daily, providers }) {
   return (
     <div className="glass" style={{ borderRadius: "var(--r-lg)", padding: "var(--pad-card)" }}>
       <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 14, color: "var(--ink)" }}>
-        {L("Daily Token Usage", "Sử dụng token theo ngày")}
+        {L("Daily Token Usage", "Sử dụng token theo ngày", "일별 토큰 사용량", "每日 Token 使用量")}
       </div>
       <div style={{ display: "flex", alignItems: "flex-end", gap: 3, height: 110, overflowX: "auto" }}>
         {daily.map(d => {
@@ -85,7 +85,7 @@ function MAProviderTable({ daily, providers }) {
   return (
     <div className="glass" style={{ borderRadius: "var(--r-lg)", padding: "var(--pad-card)" }}>
       <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 12, color: "var(--ink)" }}>
-        {L("Provider Breakdown", "Chi tiết nhà cung cấp")}
+        {L("Provider Breakdown", "Chi tiết nhà cung cấp", "프로바이더별 상세", "提供商明细")}
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         {rows.map(r => (
@@ -123,7 +123,7 @@ function MAnalytics() {
 
   return (
     <div data-screen-label="Analytics" style={{ display: "flex", flexDirection: "column", gap: "var(--gap)" }}>
-      <MHead title={L("Analytics", "Thống kê")} sub={L("Token usage and provider activity", "Sử dụng token và hoạt động theo nhà cung cấp")}>
+      <MHead title={L("Analytics", "Thống kê", "분석", "分析")} sub={L("Token usage and provider activity", "Sử dụng token và hoạt động theo nhà cung cấp", "토큰 사용량 및 프로바이더 활동", "Token 使用情况与提供商活动")}>
         <div style={{ display: "flex", gap: 6 }}>
           {[7, 30, 90].map(d => (
             <button key={d} onClick={() => setDays(d)} style={{
@@ -137,26 +137,26 @@ function MAnalytics() {
       </MHead>
 
       {loading && !data && (
-        <div style={{ color: "var(--ink-3)", fontSize: 13 }}>{L("Loading…", "Đang tải…")}</div>
+        <div style={{ color: "var(--ink-3)", fontSize: 13 }}>{L("Loading…", "Đang tải…", "불러오는 중…", "加载中…")}</div>
       )}
 
       {data && (
         <>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "var(--gap)" }}>
             <MAStatTile
-              label={L("Total tokens", "Tổng token")}
+              label={L("Total tokens", "Tổng token", "총 토큰", "总 Token 数")}
               value={data.total_tokens > 999 ? (data.total_tokens / 1000).toFixed(1) + "K" : data.total_tokens}
-              sub={L("est. (chars ÷ 4)", "ước tính (ký tự ÷ 4)")} />
+              sub={L("est. (chars ÷ 4)", "ước tính (ký tự ÷ 4)", "추정치 (문자 ÷ 4)", "估算值（字符 ÷ 4）")} />
             <MAStatTile
-              label={L("Requests", "Yêu cầu")}
+              label={L("Requests", "Yêu cầu", "요청", "请求")}
               value={data.total_requests.toLocaleString()}
-              sub={days + L("-day window", " ngày qua")} />
+              sub={days + L("-day window", " ngày qua", "일 기간", " 天窗口期")} />
             <MAStatTile
-              label={L("Avg / day", "Trung bình / ngày")}
+              label={L("Avg / day", "Trung bình / ngày", "일 평균", "日均")}
               value={avgPerDay > 999 ? (avgPerDay / 1000).toFixed(1) + "K" : avgPerDay}
-              sub={L("tokens per day", "token mỗi ngày")} />
+              sub={L("tokens per day", "token mỗi ngày", "일일 토큰", "每日 Token 数")} />
             <MAStatTile
-              label={L("Providers", "Nhà cung cấp")}
+              label={L("Providers", "Nhà cung cấp", "프로바이더", "提供商")}
               value={data.providers.length}
               sub={data.providers.slice(0, 2).join(", ") || "—"} />
           </div>
@@ -171,7 +171,7 @@ function MAnalytics() {
 
           {data.total_tokens === 0 && (
             <div style={{ color: "var(--ink-3)", fontSize: 13 }}>
-              {L("No usage data yet. Data is recorded automatically when you use Chat.", "Chưa có dữ liệu. Dữ liệu được ghi tự động khi bạn dùng Chat.")}
+              {L("No usage data yet. Data is recorded automatically when you use Chat.", "Chưa có dữ liệu. Dữ liệu được ghi tự động khi bạn dùng Chat.", "아직 사용 데이터가 없습니다. Chat을 사용하면 자동으로 기록됩니다.", "暂无使用数据。使用聊天功能时会自动记录数据。")}
             </div>
           )}
         </>

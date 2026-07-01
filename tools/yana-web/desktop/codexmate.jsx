@@ -50,10 +50,10 @@ function CodemateTool() {
           <span className={"dot " + (status === "up" ? "on" : "off")} style={{ flex: "none" }} />
           <span style={{ fontSize: 13, fontWeight: 500, color: "var(--ink-2)", flex: 1 }}>
             {status === "checking"
-              ? L("Checking…", "Đang kiểm tra…")
+              ? L("Checking…", "Đang kiểm tra…", "확인 중…", "检查中…")
               : status === "up"
                 ? "Codexmate · " + url
-                : L("Codexmate is not running", "Codexmate chưa chạy")}
+                : L("Codexmate is not running", "Codexmate chưa chạy", "Codexmate가 실행 중이 아닙니다", "Codexmate 未运行")}
           </span>
           <input
             ref={inputRef}
@@ -74,7 +74,7 @@ function CodemateTool() {
               border: "1px solid var(--border)", background: "transparent",
               color: "var(--ink-2)", cursor: "pointer", fontSize: 12, fontFamily: "inherit",
             }}>
-            {L("Check", "Kiểm tra")}
+            {L("Check", "Kiểm tra", "확인", "检查")}
           </button>
         </div>
 
@@ -92,12 +92,12 @@ function CodemateTool() {
             <div style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 480 }}>
               {[
                 {
-                  label: L("Start Codexmate", "Khởi động Codexmate"),
+                  label: L("Start Codexmate", "Khởi động Codexmate", "Codexmate 시작", "启动 Codexmate"),
                   cmd: port === "8080" ? "codexmate run" : "CODEXMATE_PORT=" + port + " codexmate run",
                   idx: 0,
                 },
                 {
-                  label: L("Install first (if not installed)", "Cài đặt trước (nếu chưa có)"),
+                  label: L("Install first (if not installed)", "Cài đặt trước (nếu chưa có)", "먼저 설치 (설치되지 않은 경우)", "先安装（如尚未安装）"),
                   cmd: "npm install -g codexmate",
                   idx: 1,
                 },
@@ -132,7 +132,7 @@ function CodemateTool() {
                 </div>
               ))}
               <span style={{ fontSize: 13, color: "var(--ink-2)" }}>
-                {L("Then click Check above ↑", "Xong rồi bấm Kiểm tra ở trên ↑")}
+                {L("Then click Check above ↑", "Xong rồi bấm Kiểm tra ở trên ↑", "완료 후 위의 확인을 클릭하세요 ↑", "然后点击上方的检查 ↑")}
               </span>
             </div>
           </div>
@@ -149,6 +149,8 @@ function CodemateTool() {
         sub={L(
           "Claude Code session manager · agent tasks · config health",
           "Quản lý phiên Claude Code · nhiệm vụ agent · kiểm tra cấu hình",
+          "Claude Code 세션 관리 · 에이전트 작업 · 설정 상태",
+          "Claude Code 会话管理 · 智能体任务 · 配置健康检查",
         )} />
 
       <div className="glass" style={{
@@ -159,15 +161,15 @@ function CodemateTool() {
           <span className={"dot " + (status === "up" ? "on" : "off")} style={{ flex: "none" }} />
           <span style={{ fontSize: 14, fontWeight: 500 }}>
             {status === "checking"
-              ? L("Checking…", "Đang kiểm tra…")
+              ? L("Checking…", "Đang kiểm tra…", "확인 중…", "检查中…")
               : status === "up"
-                ? L("Codexmate is running", "Codexmate đang chạy")
-                : L("Codexmate is not running", "Codexmate chưa chạy")}
+                ? L("Codexmate is running", "Codexmate đang chạy", "Codexmate가 실행 중입니다", "Codexmate 正在运行")
+                : L("Codexmate is not running", "Codexmate chưa chạy", "Codexmate가 실행 중이 아닙니다", "Codexmate 未运行")}
           </span>
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ fontSize: 13, color: "var(--ink-2)" }}>{L("Port", "Cổng")}</span>
+          <span style={{ fontSize: 13, color: "var(--ink-2)" }}>{L("Port", "Cổng", "포트", "端口")}</span>
           <input
             ref={inputRef}
             defaultValue={port}
@@ -188,7 +190,7 @@ function CodemateTool() {
               color: "var(--ink-2)", cursor: "pointer",
               fontSize: 13, fontFamily: "inherit",
             }}>
-            {L("Check", "Kiểm tra")}
+            {L("Check", "Kiểm tra", "확인", "检查")}
           </button>
         </div>
 
@@ -207,18 +209,18 @@ function CodemateTool() {
             onMouseEnter={e => e.currentTarget.style.opacity = ".85"}
             onMouseLeave={e => e.currentTarget.style.opacity = "1"}>
             {Icons.code(15)}
-            {L("Open Codexmate ↗", "Mở Codexmate ↗")}
+            {L("Open Codexmate ↗", "Mở Codexmate ↗", "Codexmate 열기 ↗", "打开 Codexmate ↗")}
           </a>
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {[
               {
-                label: L("Start Codexmate", "Khởi động Codexmate"),
+                label: L("Start Codexmate", "Khởi động Codexmate", "Codexmate 시작", "启动 Codexmate"),
                 cmd: port === "8080" ? "codexmate run" : "CODEXMATE_PORT=" + port + " codexmate run",
                 idx: 0,
               },
               {
-                label: L("Install first (if not installed)", "Cài đặt trước (nếu chưa có)"),
+                label: L("Install first (if not installed)", "Cài đặt trước (nếu chưa có)", "먼저 설치 (설치되지 않은 경우)", "先安装（如尚未安装）"),
                 cmd: "npm install -g codexmate",
                 idx: 1,
               },
@@ -253,7 +255,7 @@ function CodemateTool() {
               </div>
             ))}
             <span style={{ fontSize: 13, color: "var(--ink-2)" }}>
-              {L("Then click Check above ↑", "Xong rồi bấm Kiểm tra ở trên ↑")}
+              {L("Then click Check above ↑", "Xong rồi bấm Kiểm tra ở trên ↑", "완료 후 위의 확인을 클릭하세요 ↑", "然后点击上方的检查 ↑")}
             </span>
           </div>
         )}
