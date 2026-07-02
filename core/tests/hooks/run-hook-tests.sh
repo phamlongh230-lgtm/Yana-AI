@@ -244,6 +244,125 @@ test_truth_gate "Bypass env var suppresses warn" \
   "allow" \
   "bypass"
 
+# 5b. truth-gate-guard.sh — verification ledger cross-check (Yana AI-native,
+# concept inspired by NousResearch/hermes-agent's verification_evidence.py).
+# TRUTH_GATE_TEST_LEDGER injects a ledger state so this exercises the jq
+# lookup + warn-escalation logic without touching the real ledger file.
+test_truth_gate_ledger() {
+    local test_name=$1
+    local text_input=$2
+    local ledger_json=$3
+    local expect_warn=$4   # "warn" or "allow"
+
+    TOTAL_COUNT=$((TOTAL_COUNT + 1))
+    echo -n "Testing truth-gate-guard.sh [ledger: $test_name]... "
+
+    local output
+    output=$(TRUTH_GATE_TEST_TEXT="$text_input" TRUTH_GATE_TEST_SESSION_ID="s1" \
+        TRUTH_GATE_TEST_LEDGER="$ledger_json" \
+        bash "$HOOKS_DIR/truth-gate-guard.sh" <<< '{}' 2>/dev/null || true)
+
+    if [[ "$expect_warn" == "warn" ]]; then
+        if echo "$output" | grep -q "TRUTH GATE"; then
+            echo "PASS"
+        else
+            echo "FAIL (Expected TRUTH GATE warning, got: ${output:0:120})"
+            FAIL_COUNT=$((FAIL_COUNT + 1))
+        fi
+    else
+        if [[ -z "$output" ]]; then
+            echo "PASS"
+        else
+            echo "FAIL (Expected no output, got: ${output:0:120})"
+            FAIL_COUNT=$((FAIL_COUNT + 1))
+        fi
+    fi
+}
+
+test_truth_gate_ledger "Text evidence present but ledger says edited-since-verify" \
+  "All tests passed, 12 tests passed. Done." \
+  '{"sessions":{"s1":{"edited_since_last_verify":true,"changed_paths":["a.js"]}}}' \
+  "warn"
+
+test_truth_gate_ledger "Text evidence present and ledger says not stale" \
+  "All tests passed, 12 tests passed. Done." \
+  '{"sessions":{"s1":{"edited_since_last_verify":false,"changed_paths":[]}}}' \
+  "allow"
+
+test_truth_gate_ledger "No ledger entry for this session behaves like no ledger" \
+  "All tests passed, 12 tests passed. Done." \
+  '{"sessions":{"other-session":{"edited_since_last_verify":true,"changed_paths":["a.js"]}}}' \
+  "allow"
+
+test_truth_gate_ledger "Qualifier phrasing wins even if ledger stale" \
+  "Reportedly fixed but unverified." \
+  '{"sessions":{"s1":{"edited_since_last_verify":true,"changed_paths":["a.js"]}}}' \
+  "allow"
+
+# 5c. verify-evidence-track.sh — PostToolUse ledger writer. Runs against a
+# throwaway CLAUDE_PROJECT_DIR so it never touches the real ledger file.
+echo ""
+echo "--- verify-evidence-track.sh ---"
+
+test_verify_track() {
+    local test_name=$1
+    local input_json=$2
+    local jq_check=$3   # jq boolean expression against the resulting ledger
+    local bypass=${4:-""}   # "bypass" to set YANA_VERIFY_TRACK_BYPASS=1
+
+    TOTAL_COUNT=$((TOTAL_COUNT + 1))
+    echo -n "Testing verify-evidence-track.sh [$test_name]... "
+
+    if [[ ! -f "$HOOKS_DIR/verify-evidence-track.sh" ]]; then
+        echo "FAIL: Hook file not found: $HOOKS_DIR/verify-evidence-track.sh"
+        FAIL_COUNT=$((FAIL_COUNT + 1))
+        return 1
+    fi
+
+    local tmp_project
+    tmp_project=$(mktemp -d)
+    local ledger_file="$tmp_project/.claude/state/verification-ledger.json"
+
+    if [[ "$bypass" == "bypass" ]]; then
+        echo "$input_json" | CLAUDE_PROJECT_DIR="$tmp_project" YANA_VERIFY_TRACK_BYPASS=1 \
+            bash "$HOOKS_DIR/verify-evidence-track.sh" >/dev/null 2>&1
+    else
+        echo "$input_json" | CLAUDE_PROJECT_DIR="$tmp_project" bash "$HOOKS_DIR/verify-evidence-track.sh" >/dev/null 2>&1
+    fi
+
+    local ledger_content="{}"
+    [[ -f "$ledger_file" ]] && ledger_content=$(cat "$ledger_file")
+    rm -rf "$tmp_project"
+
+    if echo "$ledger_content" | jq -e "$jq_check" >/dev/null 2>&1; then
+        echo "PASS"
+    else
+        echo "FAIL (ledger did not satisfy: $jq_check — got: $ledger_content)"
+        FAIL_COUNT=$((FAIL_COUNT + 1))
+    fi
+}
+
+test_verify_track "Passing test command records passed + clears stale flag" \
+  '{"session_id":"t1","tool_name":"Bash","tool_input":{"command":"npm test"},"tool_response":{"exit_code":0}}' \
+  '.sessions.t1.last_verify.status == "passed" and .sessions.t1.edited_since_last_verify == false'
+
+test_verify_track "Failing test command records failed status" \
+  '{"session_id":"t1","tool_name":"Bash","tool_input":{"command":"pytest"},"tool_response":{"exit_code":1}}' \
+  '.sessions.t1.last_verify.status == "failed"'
+
+test_verify_track "Unrelated Bash command is ignored (no ledger written)" \
+  '{"session_id":"t1","tool_name":"Bash","tool_input":{"command":"ls -la"},"tool_response":{"exit_code":0}}' \
+  '. == {}'
+
+test_verify_track "Edit sets edited_since_last_verify + logs path" \
+  '{"session_id":"t1","tool_name":"Edit","tool_input":{"file_path":"core/hooks/foo.sh"}}' \
+  '.sessions.t1.edited_since_last_verify == true and (.sessions.t1.changed_paths | index("core/hooks/foo.sh")) != null'
+
+test_verify_track "Bypass flag suppresses tracking" \
+  '{"session_id":"t1","tool_name":"Bash","tool_input":{"command":"npm test"},"tool_response":{"exit_code":0}}' \
+  '. == {}' \
+  "bypass"
+
 # 6. cost-guard.sh
 echo ""
 echo "--- cost-guard.sh ---"
