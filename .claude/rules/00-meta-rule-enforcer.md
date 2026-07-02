@@ -86,6 +86,7 @@ core/rules/
   anti-evasion-law.md         ← lynis subshell/base64/pipe-to-interpreter block (Gate L1)
   env-integrity-policy.md     ← defsec LD_PRELOAD/$PATH injection defense (Gate L2)
   fuzz-testing-constraints.md ← oss-fuzz boundary test coverage (Tier A: 3 edge cases min)
+  frontend-production-checklist.md ← interaction states, forms, a11y, i18n, perf (Gate L5, companion to color/typography-rules)
   prompt-jailbreak-guard.md   ← garak prompt injection filter for external content
   shell-sanitize-law.md       ← shellcheck quoting + sanitize_arg() + eval ban (Gate L2)
   owasp-llm-output-law.md     ← OWASP LLM02: output sanitize + agent-to-agent wrap (Gate L2)

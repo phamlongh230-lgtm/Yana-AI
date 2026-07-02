@@ -4,8 +4,10 @@
 **Status:** Active  
 **Enforced by:** UI Quality Gate L5, frontend agents  
 **Companion skills:** `typography-system`, `baseline-ui`, `design-system-gen`
-**Companion rule:** `anti-ai-slop-design-law.md` — heading/type clichés (gradient
-text, tiny uppercase eyebrows) this file's token rules don't catch
+**Companion rules:** `anti-ai-slop-design-law.md` — heading/type clichés (gradient
+text, tiny uppercase eyebrows) this file's token rules don't catch;
+`frontend-production-checklist.md` — measure width, all-caps tracking, and
+other practical type extensions
 
 ---
 

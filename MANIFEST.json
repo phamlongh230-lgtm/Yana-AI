@@ -537,7 +537,7 @@
     },
     "rules": {
       "status": "imported",
-      "count": 67,
+      "count": 68,
       "actual_present": [
         "core/rules/00-meta-rule-enforcer.md",
         "core/rules/02-terminal-validator.md",
@@ -579,6 +579,7 @@
         "core/rules/dependency-vetting-law.md",
         "core/rules/env-integrity-policy.md",
         "core/rules/execution-environment.md",
+        "core/rules/frontend-production-checklist.md",
         "core/rules/fuzz-testing-constraints.md",
         "core/rules/git-push-enforcement.md",
         "core/rules/git-workflow-v2.md",
@@ -2688,5 +2689,5 @@
   "hooks_count": 50,
   "scripts_count": 102,
   "commands_count": 164,
-  "rules_count": 67
+  "rules_count": 68
 }

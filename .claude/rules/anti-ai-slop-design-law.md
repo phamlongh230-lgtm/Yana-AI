@@ -5,7 +5,9 @@
 
 **Status:** Active
 **Enforced by:** UI Quality Gate L5, frontend agents
-**Companion rules:** `color-rules.md`, `typography-rules.md`
+**Companion rules:** `color-rules.md`, `typography-rules.md`,
+`frontend-production-checklist.md` — interaction states, forms, a11y,
+i18n, and performance rules that go beyond visual-cliché avoidance
 **Companion skills:** `design-system-gen`, `accessibility-audit`, `aesthetic-anchor`
 
 ---
