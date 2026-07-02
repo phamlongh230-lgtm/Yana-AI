@@ -14,7 +14,7 @@ compatibility: "Any CSS/JS frontend. Outputs CSS variables + cubic-bezier values
 
 <!-- Adapted from phazurlabs/ux-ui-mastery (MIT) — Interaction & Motion Design skill.
      Duration table, easing curves, micro-interaction patterns, reduced-motion section.
-     Yana AI structure, Anti-Fake-Pass section, and CSS output format are original. -->
+     YAMTAM structure, Anti-Fake-Pass section, and CSS output format are original. -->
 
 ## When to Use
 

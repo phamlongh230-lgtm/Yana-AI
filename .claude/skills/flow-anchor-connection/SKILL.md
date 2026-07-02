@@ -11,7 +11,7 @@ compatibility: yana-ai >= 1.3.48
 
 ## When to Use
 
-- Build interactive workflow editor for yana-ai agent pipeline configuration
+- Build interactive workflow editor for yamtam agent pipeline configuration
 - Render agent-to-agent connections with drag-and-drop in a web UI
 - Visualize live data flow between skills in a browser-based dashboard
 - Generate connection diagrams from agent state JSON

@@ -152,7 +152,7 @@ Start with "I failed because..."."""
 ```
 CLAUDE.md / "save memory"   → failure captured as rule, prepended to next session
 Letta sleep-time compute    → async agent reflects on past conversations → writes to memory blocks
-Yana AI /learn-rule          → corrections captured as explicit rules
+YAMTAM /learn-rule          → corrections captured as explicit rules
 LangGraph reflection node   → routes to refine sub-graph when evaluator fails
 pro-workflow                → per-task reflections accumulate into agent CLAUDE.md
 ```

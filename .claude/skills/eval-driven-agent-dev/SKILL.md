@@ -200,7 +200,7 @@ jobs:
 ## Every rule/guardrail maps to an eval case
 
 ```python
-# 2026 best practice: every Yana AI rule has a corresponding eval case
+# 2026 best practice: every YAMTAM rule has a corresponding eval case
 eval_cases_from_rules = [
     EvalCase(
         id="truth-gate-no-unsupported-done",

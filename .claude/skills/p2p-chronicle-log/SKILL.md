@@ -11,7 +11,7 @@ compatibility: yana-ai >= 1.3.50
 
 ## When to Use
 
-- Distribute the yana-ai audit log across multiple agent nodes without a central server
+- Distribute the yamtam audit log across multiple agent nodes without a central server
 - Causal ordering: agent B sees agent A's action before acting on it
 - Tamper-evident: Merkle-backed log where any edit breaks all downstream hashes
 - Offline-first: agents append locally, sync when peers reconnect

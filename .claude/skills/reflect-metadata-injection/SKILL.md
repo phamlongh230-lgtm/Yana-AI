@@ -149,7 +149,7 @@ class SandboxAgent {
 
 const caps = Reflect.getMetadata('capabilities', SandboxAgent.prototype)
 // → ['file-read', 'network-fetch']
-// yana-ai can gate these against the agent's declared capability set
+// yamtam can gate these against the agent's declared capability set
 ```
 
 ---

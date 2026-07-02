@@ -78,7 +78,7 @@ function deriveKey(passphrase: string, saltHex: string, iterations = 100_000): s
 
 // One-time: generate salt
 const salt = forge.util.bytesToHex(forge.random.getBytesSync(16))
-const key  = deriveKey(process.env.YANA_PASSPHRASE!, salt)
+const key  = deriveKey(process.env.YAMTAM_PASSPHRASE!, salt)
 ```
 
 ---

@@ -15,7 +15,7 @@ Agents never see raw secrets. They receive one-time tokens that expire in 5 seco
 
 - Multi-agent systems where any single agent could be compromised
 - Environments where secrets must not appear in logs, env vars, or CLI args
-- Implementing the Yana AI secrets-vault-law (rule 52)
+- Implementing the YAMTAM secrets-vault-law (rule 52)
 - Rotating API keys without restarting agents
 
 ## Do NOT use for
@@ -96,7 +96,7 @@ function deriveKey(masterPassword, salt) {
 }
 
 const salt = randomBytes(16);
-const key  = deriveKey(process.env.YANA_MASTER_PASSWORD, salt);
+const key  = deriveKey(process.env.YAMTAM_MASTER_PASSWORD, salt);
 // Store salt alongside encrypted data, never store derived key
 ```
 

@@ -44,19 +44,19 @@ const batchApi = kc.makeApiClient(k8s.BatchV1Api)
 
 ```javascript
 async function spawnAgentPod(agentId: string, tier: string): Promise<string> {
-  const pod = await coreApi.createNamespacedPod('yana-ai', {
+  const pod = await coreApi.createNamespacedPod('yamtam', {
     metadata: {
       name:   `agent-${agentId}`,
-      labels: { app: 'yana-ai-agent', tier, agentId },
+      labels: { app: 'yamtam-agent', tier, agentId },
     },
     spec: {
       restartPolicy: 'Never',
       containers: [{
         name:  'agent',
-        image: `ghcr.io/yana-ai/agent:latest`,
+        image: `ghcr.io/yamtam/agent:latest`,
         env:   [
-          { name: 'YANA_AGENT_ID',   value: agentId },
-          { name: 'YANA_AGENT_TIER', value: tier },
+          { name: 'YAMTAM_AGENT_ID',   value: agentId },
+          { name: 'YAMTAM_AGENT_TIER', value: tier },
         ],
         resources: {
           requests: { memory: '256Mi', cpu: '100m' },
@@ -94,7 +94,7 @@ async function scaleDeployment(name: string, namespace: string, replicas: number
 ## Stream pod logs
 
 ```javascript
-async function streamPodLogs(podName: string, namespace = 'yana-ai') {
+async function streamPodLogs(podName: string, namespace = 'yamtam') {
   const logStream = await new k8s.Log(kc).log(
     namespace,
     podName,
@@ -115,7 +115,7 @@ async function streamPodLogs(podName: string, namespace = 'yana-ai') {
 ## Wait for Pod to be Running
 
 ```javascript
-async function waitForPod(podName: string, namespace = 'yana-ai', timeoutMs = 60_000) {
+async function waitForPod(podName: string, namespace = 'yamtam', timeoutMs = 60_000) {
   const start = Date.now()
 
   while (Date.now() - start < timeoutMs) {

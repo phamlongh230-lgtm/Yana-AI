@@ -72,5 +72,5 @@ exit 2  → block (JSON reason on stdout)
 
 ## Reference
 
-Yana AI hook: `core/hooks/guard-destructive.sh`
+YAMTAM hook: `core/hooks/guard-destructive.sh`
 Tests: `core/tests/hooks/run-hook-tests.sh`

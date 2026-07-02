@@ -27,7 +27,9 @@ compatibility: yana-ai >= 1.3.52
 
 ```bash
 # Install CLI
-curl --proto '=https' --tlsv1.2 -sSfL https://run.linkerd.io/install | sh
+curl --proto '=https' --tlsv1.2 -sSfL https://run.linkerd.io/install -o /tmp/linkerd-install.sh
+# Inspect first: head -40 /tmp/linkerd-install.sh — then run if safe:
+sh /tmp/linkerd-install.sh
 
 # Pre-flight check
 linkerd check --pre
@@ -47,8 +49,8 @@ linkerd check
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name:      yana-ai-agent
-  namespace: yana-ai
+  name:      yamtam-agent
+  namespace: yamtam
   annotations:
     linkerd.io/inject: enabled   # sidecar injected on pod creation
 spec:
@@ -60,12 +62,12 @@ spec:
 
 ```bash
 # Or inject all deployments in namespace
-kubectl get deploy -n yana-ai -o yaml \
+kubectl get deploy -n yamtam -o yaml \
   | linkerd inject - \
   | kubectl apply -f -
 
 # Verify injection
-linkerd check --proxy -n yana-ai
+linkerd check --proxy -n yamtam
 ```
 
 ---
@@ -74,7 +76,7 @@ linkerd check --proxy -n yana-ai
 
 ```bash
 # Check that mTLS is active between agent-a and agent-b
-linkerd viz edges pod -n yana-ai
+linkerd viz edges pod -n yamtam
 
 # Output:
 # SRC                  DST                  SECURED
@@ -90,14 +92,14 @@ linkerd viz edges pod -n yana-ai
 apiVersion: split.smi-spec.io/v1alpha2
 kind: TrafficSplit
 metadata:
-  name:      yana-ai-canary
-  namespace: yana-ai
+  name:      yamtam-canary
+  namespace: yamtam
 spec:
-  service: yana-ai-agent
+  service: yamtam-agent
   backends:
-    - service: yana-ai-agent-stable
+    - service: yamtam-agent-stable
       weight: "900m"   # 90%
-    - service: yana-ai-agent-canary
+    - service: yamtam-agent-canary
       weight: "100m"   # 10%
 ```
 
@@ -109,8 +111,8 @@ spec:
 apiVersion: linkerd.io/v1alpha2
 kind: ServiceProfile
 metadata:
-  name:      yana-ai-agent.yana-ai.svc.cluster.local
-  namespace: yana-ai
+  name:      yamtam-agent.yamtam.svc.cluster.local
+  namespace: yamtam
 spec:
   routes:
     - name: POST /api/task
@@ -133,15 +135,15 @@ spec:
 
 ```bash
 # Real-time success rate per route
-linkerd viz routes -n yana-ai deploy/yana-ai-agent
+linkerd viz routes -n yamtam deploy/yamtam-agent
 
 # OUTPUT:
 # ROUTE                    SERVICE          EFFECTIVE_RPS   EFFECTIVE_SUCCESS
-# POST /api/task           yana-ai-agent     42.3            98.7%
-# GET  /health             yana-ai-agent     10.1            100.0%
+# POST /api/task           yamtam-agent     42.3            98.7%
+# GET  /health             yamtam-agent     10.1            100.0%
 
 # Top sources of traffic to a pod
-linkerd viz top deploy/yana-ai-agent -n yana-ai
+linkerd viz top deploy/yamtam-agent -n yamtam
 ```
 
 ---

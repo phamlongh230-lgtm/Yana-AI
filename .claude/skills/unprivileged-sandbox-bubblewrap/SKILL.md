@@ -73,7 +73,7 @@ bwrap \
   --seccomp 10 \
   --new-session \
   -- /bin/bash -c "echo safe" \
-  10< /etc/yana-ai/seccomp-agent.json
+  10< /etc/yamtam/seccomp-agent.json
 # fd 10 passes the seccomp BPF profile
 ```
 
@@ -105,7 +105,7 @@ bwrap_exec_isolated() {
 
 ```bash
 # In tool-proxy.sh mutate phase — upgrade L2 sandbox to bwrap if available
-if command -v bwrap &>/dev/null && [[ "${YANA_BWRAP_SANDBOX:-0}" == "1" ]]; then
+if command -v bwrap &>/dev/null && [[ "${YAMTAM_BWRAP_SANDBOX:-0}" == "1" ]]; then
   BWRAP_ARGS=(
     bwrap
     --ro-bind /usr /usr --ro-bind /lib /lib --ro-bind /lib64 /lib64

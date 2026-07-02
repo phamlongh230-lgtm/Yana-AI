@@ -34,7 +34,7 @@ Output a plan with this structure:
 - `path/to/other.ts` — [why it changes]
 
 **Files NOT to touch:**
-- `app/` — product code, out of Yana AI scope
+- `app/` — product code, out of YAMTAM scope
 - [any other explicit boundary]
 
 **Steps:**

@@ -113,7 +113,7 @@ worker.on('failed', async (job, err) => {
 ```typescript
 import { Inngest } from 'inngest'
 
-const inngest = new Inngest({ id: 'yana-ai-agent' })
+const inngest = new Inngest({ id: 'yamtam-agent' })
 
 // Define a durable function — survives cold starts, serverless-compatible
 export const processAgentTask = inngest.createFunction(

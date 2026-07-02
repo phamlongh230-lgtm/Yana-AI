@@ -192,7 +192,7 @@ registry.registerPath({
 const generator = new OpenApiGeneratorV3(registry.definitions)
 const spec      = generator.generateDocument({
   openapi: '3.0.0',
-  info:    { title: 'Yana AI Agent API', version: '1.3.44' },
+  info:    { title: 'YAMTAM Agent API', version: '1.3.44' },
   servers: [{ url: '/api' }],
 })
 

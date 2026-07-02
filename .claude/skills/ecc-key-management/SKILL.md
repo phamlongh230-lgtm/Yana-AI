@@ -103,12 +103,12 @@ const aesKey = createHash('sha256').update(Buffer.from(sharedA, 'hex')).digest()
 node -e "
 const { ec: EC } = require('elliptic')
 const kp = new EC('p256').genKeyPair()
-console.log('YANA_AGENT_PRIV=' + kp.getPrivate('hex'))
-console.log('YANA_AGENT_PUB='  + kp.getPublic('hex'))
+console.log('YAMTAM_AGENT_PRIV=' + kp.getPrivate('hex'))
+console.log('YAMTAM_AGENT_PUB='  + kp.getPublic('hex'))
 "
 
 # Load in agent session
-export YANA_AGENT_PRIV="$(cat /run/secrets/agent-priv-key)"
+export YAMTAM_AGENT_PRIV="$(cat /run/secrets/agent-priv-key)"
 ```
 
 ---

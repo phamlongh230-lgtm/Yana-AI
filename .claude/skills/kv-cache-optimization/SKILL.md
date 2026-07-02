@@ -84,7 +84,7 @@ def chat_turn(user_msg: str) -> str:
 from transformers import StaticCache
 
 # Pre-compute system prompt KV once
-system_prompt = tokenizer('You are a yana-ai security agent.', return_tensors='pt').to('cuda')
+system_prompt = tokenizer('You are a yamtam security agent.', return_tensors='pt').to('cuda')
 
 static_cache = StaticCache(
   config           = model.config,

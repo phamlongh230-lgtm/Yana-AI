@@ -7,6 +7,23 @@ version: 1.0.0
 compatibility: yana-ai >= 1.3.54
 ---
 
+## Implementation (real, runnable — added 2026-06-19)
+
+The original `agent/tool_guardrails.py` was already pure/side-effect-free
+("the controller is intentionally side-effect free" — its own docstring),
+so this is a near-verbatim port; only the two external imports
+(`utils.safe_json_loads`, `agent.tool_result_classification`) were inlined.
+
+- Module: `core/lib/hermes_adapted/tool_guardrails.py`
+- Tests:  `tests/test_hermes_tool_guardrails.py` (6 passing)
+
+Note: `core/skills/hermes-tool-guardrails/SKILL.md` (a separate skill) is
+NOT this — that skill describes a command-allowlist/approval-gate pattern
+that doesn't match what's actually in hermes-agent's real
+`tool_guardrails.py`. Fixed 2026-06-20: false `source`/`license` attribution
+removed from that file (the pattern doesn't exist anywhere in the vendored
+upstream source — verified by grep), content kept as Yana AI-native.
+
 # /hermes-tool-loop-guard
 
 ## When to Use

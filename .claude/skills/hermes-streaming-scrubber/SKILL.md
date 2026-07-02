@@ -7,6 +7,16 @@ version: 1.0.0
 compatibility: yana-ai >= 1.3.54
 ---
 
+## Implementation (real, runnable — added 2026-06-19)
+
+`StreamingContextScrubber` was already pure and self-contained in the
+original — ported close to verbatim, no hermes-specific dependencies to
+strip.
+
+- Module: `core/lib/hermes_adapted/context_scrubber.py` (`StreamingContextScrubber`,
+  split out from memory_manager.py to make room for its lifecycle hooks)
+- Tests:  `tests/test_hermes_context_scrubber.py` (5 passing, incl. 2 for this class)
+
 # /hermes-streaming-scrubber
 
 ## When to Use

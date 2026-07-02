@@ -179,8 +179,8 @@ def extract_function_name(code: str) -> str | None:
 Voyager skill        → Claude Agent SDK skill file (SKILL.md)
 Library registration → /plugin install or skills/ directory scan
 Retrieval            → agent reads SKILL.md trigger patterns → loads matching skill
-Refinement           → /improve-skill command (human-gated in Yana AI)
-Reliability score    → Yana AI skill confidence / review_status field
+Refinement           → /improve-skill command (human-gated in YAMTAM)
+Reliability score    → YAMTAM skill confidence / review_status field
 ```
 
 ---

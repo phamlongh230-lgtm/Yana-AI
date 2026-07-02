@@ -88,7 +88,7 @@ Score each agent action from 0–5 before execution:
 
 Score 0–1 = proceed
 Score 2–3 = log + surface to human
-Score 4–5 = block, require YANA_IRREVERSIBLE_OK=1 + human acknowledgement
+Score 4–5 = block, require YAMTAM_IRREVERSIBLE_OK=1 + human acknowledgement
 ```
 
 ---

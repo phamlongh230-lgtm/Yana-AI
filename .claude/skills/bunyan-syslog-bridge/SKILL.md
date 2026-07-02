@@ -11,7 +11,7 @@ compatibility: yana-ai >= 1.3.48
 
 ## When to Use
 
-- Forward yana-ai structured JSON audit logs to centralized syslog/SIEM
+- Forward yamtam structured JSON audit logs to centralized syslog/SIEM
 - Dual-write: local JSON file + syslog for redundant audit trail
 - Map bunyan log levels (10-60) to syslog severity (0-7)
 - Integrate with journald/rsyslog on Linux Codespaces hosts
@@ -30,7 +30,7 @@ import bunyan      from 'bunyan'
 import bsyslog     from 'bunyan-syslog'
 
 const log = bunyan.createLogger({
-  name:     'yana-ai-agent',
+  name:     'yamtam-agent',
   hostname: 'codespaces',
   streams: [
     // Stream 1: structured JSON file (append-only audit)
@@ -76,7 +76,7 @@ FATAL  (60)  → CRIT    (2)
 ```javascript
 // Child logger with persistent context
 const sessionLog = log.child({
-  sessionId: process.env.YANA_SESSION_ID,
+  sessionId: process.env.YAMTAM_SESSION_ID,
   version:   '1.3.48',
 })
 

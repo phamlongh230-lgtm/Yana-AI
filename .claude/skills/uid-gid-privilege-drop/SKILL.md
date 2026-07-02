@@ -95,7 +95,7 @@ runuser -u agent-sandbox -- /bin/bash agent-script.sh
 
 # sudo nopasswd for specific commands only
 # /etc/sudoers.d/agent:
-# yana-ai-runner ALL=(nobody) NOPASSWD: /usr/local/bin/agent-runner
+# yamtam-runner ALL=(nobody) NOPASSWD: /usr/local/bin/agent-runner
 ```
 
 ---

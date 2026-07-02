@@ -36,7 +36,7 @@ Model-graded (LLM-as-judge):
   MT-Bench     — 80 multi-turn questions, GPT-4 grades on 1–10 scale
   Custom eval  — reference answer + judge prompt → pass/fail/score
 
-Agent-specific (yana-ai):
+Agent-specific (yamtam):
   Tool-call accuracy  — did agent call the right tool?
   Instruction follow  — did agent obey the constraint?
   Hallucination rate  — did agent cite non-existent files/functions?
@@ -113,7 +113,7 @@ def llm_judge(client, question: str, reference: str, response: str) -> int:
 
 ---
 
-## Regression test suite for yana-ai agents
+## Regression test suite for yamtam agents
 
 ```javascript
 // eval-suite.ts — run before every agent deployment

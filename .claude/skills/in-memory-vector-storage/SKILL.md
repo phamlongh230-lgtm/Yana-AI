@@ -12,7 +12,7 @@ compatibility: yana-ai >= 1.3.48
 ## When to Use
 
 - Agent L1 memory needs sub-5k vector search without external DB
-- Local RAG over yana-ai skills/rules with JSON persistence
+- Local RAG over yamtam skills/rules with JSON persistence
 - Prototype semantic search before migrating to pgvector or Pinecone
 - Offline/air-gapped environments with no DB infrastructure
 
@@ -82,7 +82,7 @@ export const vectorStore = new InMemoryVectorStore()
 
 ---
 
-## Index yana-ai skills for semantic search
+## Index yamtam skills for semantic search
 
 ```typescript
 import { vectorStore } from './vector-store.js'

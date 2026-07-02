@@ -7,7 +7,7 @@ description: >
   "Prometheus", "OpenTelemetry", "why can't I debug production issues", or
   "correlate logs across services". Do NOT use for: SLO/alerting design —
   use `slo-design`. Do NOT use for: log storage/infrastructure provisioning.
-origin: yana-ai-original
+origin: yamtam-original
 license: MIT © 2025 Vũ Văn Tâm
 version: 1.0.0
 compatibility: "Any backend service. Examples use OpenTelemetry + Prometheus notation."

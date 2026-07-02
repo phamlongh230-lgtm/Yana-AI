@@ -4,7 +4,7 @@ description: "Use when asked to scrape a bot-protected website, bypass anti-bot 
 ---
 
 # Stealth Browser Automation Skill
-# Source: CloakHQ/CloakBrowser (MIT) — stealth Chromium pattern adapted for Yana AI
+# Source: CloakHQ/CloakBrowser (MIT) — stealth Chromium pattern adapted for YAMTAM
 # Tier: TIER 3 — PRODUCTIVITY
 
 Hướng dẫn automation trên các website có anti-bot protection.

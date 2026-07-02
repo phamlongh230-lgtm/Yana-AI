@@ -31,7 +31,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name:      deny-all
-  namespace: yana-ai
+  namespace: yamtam
 spec:
   podSelector: {}       # applies to all pods in namespace
   policyTypes:
@@ -49,7 +49,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name:      allow-agent-a-to-b
-  namespace: yana-ai
+  namespace: yamtam
 spec:
   podSelector:
     matchLabels: { app: agent-b }
@@ -73,7 +73,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name:      allow-dns
-  namespace: yana-ai
+  namespace: yamtam
 spec:
   podSelector: {}
   policyTypes: [Egress]
@@ -95,7 +95,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name:      sandbox-egress
-  namespace: yana-ai-sandbox
+  namespace: yamtam-sandbox
 spec:
   podSelector:
     matchLabels: { tier: sandbox }
@@ -120,7 +120,7 @@ spec:
 ```json
 {
   "cniVersion": "1.0.0",
-  "name":       "yana-ai-net",
+  "name":       "yamtam-net",
   "type":       "bridge",
   "bridge":     "cni0",
   "isGateway":  true,

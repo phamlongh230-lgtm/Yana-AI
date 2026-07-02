@@ -66,7 +66,7 @@ function issueCredential(params: {
 
   const credential = {
     '@context':       ['https://www.w3.org/2018/credentials/v1'],
-    id:               `urn:yana-ai:vc:${Date.now()}`,
+    id:               `urn:yamtam:vc:${Date.now()}`,
     type:             ['VerifiableCredential'],
     issuer:           issuerDid,
     issuanceDate:     now.toISOString(),

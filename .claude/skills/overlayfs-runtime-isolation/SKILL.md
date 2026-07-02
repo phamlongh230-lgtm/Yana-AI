@@ -1,7 +1,7 @@
 ---
 name: overlayfs-runtime-isolation
 description: Isolate agent file-system writes using OverlayFS and bubblewrap (bwrap). Core directories mounted read-only; all agent writes go to RAM-backed tmpfs. Zero persistence on session end. Anti-graffiti immutable surface pattern.
-origin: Linux OverlayFS docs, containers/bubblewrap (LGPL-2.0), Yana AI Engine sandbox design
+origin: Linux OverlayFS docs, containers/bubblewrap (LGPL-2.0), YAMTAM Engine sandbox design
 license: Apache-2.0
 version: 1.0.0
 compatibility: claude-sonnet-4-6, claude-opus-4-7
@@ -61,13 +61,13 @@ umount /mnt/agent-view
 rm -rf /tmp/overlay
 ```
 
-## Yana AI Integration
+## YAMTAM Integration
 
 ```bash
 # Enable via tool-proxy.sh
-export YANA_SANDBOX_MODE=1
-export YANA_SANDBOX_ROOTDIR=/workspaces/yana-ai
-export YANA_SANDBOX_WRITEDIR=releases/logs
+export YAMTAM_SANDBOX_MODE=1
+export YAMTAM_SANDBOX_ROOTDIR=/workspaces/yana-ai
+export YAMTAM_SANDBOX_WRITEDIR=releases/logs
 
 bash core/scripts/tool-proxy.sh node agent-task.js
 # → Phase 3.5 wraps command in bwrap automatically

@@ -14,7 +14,7 @@ compatibility: yana-ai >= 1.3.54
 - Agent is about to mark a task as "done" — gate must confirm before close-out
 - CI pipeline needs a machine-readable verdict on whether an agentic change is complete
 - Preventing self-certification: agent cannot judge its own work as complete
-- Implementing Yana AI Truth Gate evidence requirement in a structured pipeline
+- Implementing YAMTAM Truth Gate evidence requirement in a structured pipeline
 
 ## Do NOT use for
 

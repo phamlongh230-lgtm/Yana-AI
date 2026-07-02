@@ -30,7 +30,7 @@ import winston from 'winston'
 
 // Routing: DEBUG→file, WARN+→file+stderr, ERROR→file+stderr+alert
 const logger = winston.createLogger({
-  defaultMeta: { service: 'yana-ai-agent', version: process.env.YANA_VERSION },
+  defaultMeta: { service: 'yamtam-agent', version: process.env.YAMTAM_VERSION },
   format: winston.format.combine(
     winston.format.timestamp(),
     winston.format.errors({ stack: true }),
@@ -61,7 +61,7 @@ async function tracedToolCall(tool: string, args: unknown, execute: () => Promis
   return tracer.startActiveSpan(`tool.${tool}`, async (span) => {
     span.setAttributes({
       'agent.tool':     tool,
-      'agent.session':  process.env.YANA_SESSION_ID ?? 'unknown',
+      'agent.session':  process.env.YAMTAM_SESSION_ID ?? 'unknown',
       'gate.blast':     computeBlastRadius({ tool, args }),
     })
 
@@ -136,7 +136,7 @@ const log = pino({
 })
 
 // Child logger per agent session — zero-overhead context inheritance
-const agentLog = log.child({ sessionId: process.env.YANA_SESSION_ID })
+const agentLog = log.child({ sessionId: process.env.YAMTAM_SESSION_ID })
 agentLog.info({ tool: 'Bash', cmd }, 'tool_exec')
 // Rule: use pino for tool middleware (hot path), winston for alert routing
 ```

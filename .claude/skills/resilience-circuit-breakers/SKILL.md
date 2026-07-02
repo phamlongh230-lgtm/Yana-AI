@@ -119,7 +119,7 @@ import fs from 'fs'
 // Primary: structured JSON log file
 // Fallback: stderr + memory ring buffer when disk full/locked
 const log = bunyan.createLogger({
-  name: 'yana-ai-agent',
+  name: 'yamtam-agent',
   streams: [
     {
       type:   'rotating-file',

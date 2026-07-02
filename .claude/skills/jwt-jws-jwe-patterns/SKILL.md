@@ -89,7 +89,7 @@ verify_agent_token() {
   local result
   result=$(node -e "
 const { jwtVerify, importSPKI } = require('jose')
-const pub = process.env.YANA_AGENT_PUBKEY
+const pub = process.env.YAMTAM_AGENT_PUBKEY
 importSPKI(pub, 'ES256').then(key =>
   jwtVerify('$token', key, { issuer: 'yana-ai', audience: 'swarm-bus' })
 ).then(r => console.log('OK:' + r.payload.sub))

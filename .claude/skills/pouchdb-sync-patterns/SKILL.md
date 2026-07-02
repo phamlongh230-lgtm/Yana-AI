@@ -28,7 +28,7 @@ compatibility: yana-ai >= 1.3.48
 ```javascript
 import PouchDB from 'pouchdb'
 
-const db = new PouchDB('yana-ai-memory')
+const db = new PouchDB('yamtam-memory')
 
 // Create/update
 async function upsertFact(id: string, data: object): Promise<void> {
@@ -54,7 +54,7 @@ await db.remove(fact._id, fact._rev)
 ## Bidirectional sync with CouchDB
 
 ```javascript
-const remote = new PouchDB('https://couchdb.internal/yana-ai-memory', {
+const remote = new PouchDB('https://couchdb.internal/yamtam-memory', {
   auth: { username: 'agent', password: process.env.COUCHDB_PASS },
 })
 

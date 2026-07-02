@@ -1,11 +1,11 @@
 ---
 name: writing-skills
-description: "Use when creating a new Yana AI skill. Triggers on: 'add a skill', 'create a skill', 'write a skill', 'new skill for X', 'make a skill that'. Enforces frontmatter shape, trigger-phrase quality, and lockfile registration."
+description: "Use when creating a new YAMTAM skill. Triggers on: 'add a skill', 'create a skill', 'write a skill', 'new skill for X', 'make a skill that'. Enforces frontmatter shape, trigger-phrase quality, and lockfile registration."
 ---
 
 # Writing Skills Skill
 
-A Yana AI skill is a reusable behaviour rule. Writing a bad skill wastes everyone's time.
+A YAMTAM skill is a reusable behaviour rule. Writing a bad skill wastes everyone's time.
 This skill enforces the standard that makes skills discoverable and triggerable.
 
 ## Anatomy of a skill file

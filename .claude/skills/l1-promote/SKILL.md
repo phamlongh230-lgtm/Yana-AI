@@ -48,7 +48,7 @@ bash .claude/scripts/add-fact.sh
 `add-fact.sh` is interactive — guide the user through:
 - `name`: short slug (kebab-case)
 - `type`: decision | constraint | pattern | reference | warning
-- `scope`: yana-ai | project | global
+- `scope`: yamtam | project | global
 - `value`: the fact content
 - `confidence`: verified | likely | unverified
 - `tags`: comma-separated

@@ -13,7 +13,7 @@ compatibility: yana-ai >= 1.3.49
 
 - Write custom ESLint rules for project-specific code patterns
 - Add auto-fix capability to enforce naming conventions, remove deprecated APIs
-- Extend ESLint for yana-ai security rules (e.g., block `eval`, unsafe assignments)
+- Extend ESLint for yamtam security rules (e.g., block `eval`, unsafe assignments)
 - RuleTester: unit-test rules with valid/invalid fixtures without running the full linter
 
 ## Do NOT use for
@@ -129,8 +129,8 @@ import noUnsafeEval from './rules/no-unsafe-eval.js'
 
 export default [
   {
-    plugins: { yana-ai: { rules: { 'no-unsafe-eval': noUnsafeEval } } },
-    rules:   { 'yana-ai/no-unsafe-eval': 'error' },
+    plugins: { yamtam: { rules: { 'no-unsafe-eval': noUnsafeEval } } },
+    rules:   { 'yamtam/no-unsafe-eval': 'error' },
     files:   ['src/**/*.{js,ts,tsx}'],
     ignores: ['node_modules', 'dist'],
   },

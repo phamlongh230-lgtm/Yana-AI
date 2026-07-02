@@ -91,7 +91,7 @@ gitleaks detect --source . --report-format sarif --report-path gitleaks-report.s
 ```bash
 # .git/hooks/pre-push (make executable: chmod +x .git/hooks/pre-push)
 #!/usr/bin/env bash
-echo "[yana-ai/leak-check] Scanning for secrets before push..."
+echo "[yamtam/leak-check] Scanning for secrets before push..."
 
 # Quick regex scan
 FOUND=0

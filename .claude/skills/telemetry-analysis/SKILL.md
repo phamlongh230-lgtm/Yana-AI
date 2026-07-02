@@ -5,7 +5,7 @@ description: "Use when asked to analyze hook activity, token usage, audit logs, 
 
 # Telemetry Analysis Skill
 
-Đọc và phân tích dữ liệu telemetry local của Yana AI để hiểu sức khỏe hệ thống,
+Đọc và phân tích dữ liệu telemetry local của YAMTAM để hiểu sức khỏe hệ thống,
 pattern hook, và chi phí token — không cần network, không cần external service.
 
 ## Nguồn dữ liệu
@@ -22,7 +22,7 @@ pattern hook, và chi phí token — không cần network, không cần external
 ### Step 1 — Kiểm tra file tồn tại
 
 ```bash
-ls -la .claude/state/ 2>/dev/null || echo "No state dir — Yana AI not applied yet"
+ls -la .claude/state/ 2>/dev/null || echo "No state dir — YAMTAM not applied yet"
 wc -l .claude/state/audit-chain.log 2>/dev/null || echo "No audit log"
 wc -l .claude/state/telemetry.jsonl 2>/dev/null || echo "No telemetry"
 ```
@@ -75,7 +75,7 @@ jq -r 'select(.duration_ms != null) | [.duration_ms, .hook] | @tsv' \
 
 ```bash
 # Có env var bypass nào được dùng không
-jq -r 'select(.input | strings | contains("YANA_BYPASS") or contains("APPROVED")) | .input' .claude/state/audit-chain.log 2>/dev/null | sort | uniq -c
+jq -r 'select(.input | strings | contains("YAMTAM_BYPASS") or contains("APPROVED")) | .input' .claude/state/audit-chain.log 2>/dev/null | sort | uniq -c
 ```
 
 ## Report format
@@ -109,6 +109,6 @@ Recommendations:
 ## Khi không có dữ liệu
 
 Nếu `.claude/state/` không tồn tại:
-1. Yana AI chưa được apply vào project này
+1. YAMTAM chưa được apply vào project này
 2. Hoặc agent đang chạy từ engine repo, không phải target project
 3. Hướng dẫn: `unzip releases/yana-ai-latest.zip -d .claude/`

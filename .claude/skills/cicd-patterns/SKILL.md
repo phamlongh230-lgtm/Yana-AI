@@ -6,8 +6,8 @@ description: >
   deployment strategies, and pipeline failure triage. Use when asked to "set up
   CI", "write a Dockerfile", "GitHub Actions pipeline", "deployment strategy",
   "blue-green deploy", "canary release", or "why is CI slow/failing".
-  Do NOT use for: deploy gate authorization — that is Yana AI's `deploy-gate.sh`.
-origin: yana-ai-original
+  Do NOT use for: deploy gate authorization — that is YAMTAM's `deploy-gate.sh`.
+origin: yamtam-original
 license: MIT © 2025 Vũ Văn Tâm
 version: 1.0.0
 compatibility: "GitHub Actions + Docker. Patterns apply to GitLab CI, CircleCI."

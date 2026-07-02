@@ -29,7 +29,7 @@ compatibility: yana-ai >= 1.3.52
 helm repo add traefik https://traefik.github.io/charts
 helm install traefik traefik/traefik \
   --namespace traefik --create-namespace \
-  --set certificatesResolvers.letsencrypt.acme.email=admin@yana-ai.io \
+  --set certificatesResolvers.letsencrypt.acme.email=admin@yamtam.io \
   --set certificatesResolvers.letsencrypt.acme.storage=/data/acme.json \
   --set certificatesResolvers.letsencrypt.acme.httpChallenge.entryPoint=web \
   --set persistence.enabled=true
@@ -40,19 +40,19 @@ helm install traefik traefik/traefik \
 ## IngressRoute (Traefik CRD)
 
 ```yaml
-# Route yana-ai.example.com → yana-ai-agent service with TLS
+# Route yamtam.example.com → yamtam-agent service with TLS
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name:      yana-ai-agent-ingress
-  namespace: yana-ai
+  name:      yamtam-agent-ingress
+  namespace: yamtam
 spec:
   entryPoints: [websecure]   # HTTPS
   routes:
-    - match: Host(`yana-ai.example.com`) && PathPrefix(`/api`)
+    - match: Host(`yamtam.example.com`) && PathPrefix(`/api`)
       kind:     Rule
       services:
-        - name: yana-ai-agent
+        - name: yamtam-agent
           port: 3000
       middlewares:
         - name: rate-limit
@@ -111,17 +111,17 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: yana-ai-canary
+  name: yamtam-canary
 spec:
   entryPoints: [websecure]
   routes:
-    - match: Host(`yana-ai.example.com`)
+    - match: Host(`yamtam.example.com`)
       kind: Rule
       services:
-        - name: yana-ai-agent-stable
+        - name: yamtam-agent-stable
           port:   3000
           weight: 9
-        - name: yana-ai-agent-canary
+        - name: yamtam-agent-canary
           port:   3000
           weight: 1
 ```
@@ -135,20 +135,20 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: yana-ai-agent
+  name: yamtam-agent
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls.certresolver: letsencrypt
-    traefik.ingress.kubernetes.io/router.middlewares: yana-ai-rate-limit@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: yamtam-rate-limit@kubernetescrd
 spec:
   rules:
-    - host: yana-ai.example.com
+    - host: yamtam.example.com
       http:
         paths:
           - path: /api
             pathType: Prefix
             backend:
-              service: { name: yana-ai-agent, port: { number: 3000 } }
+              service: { name: yamtam-agent, port: { number: 3000 } }
 ```
 
 ---

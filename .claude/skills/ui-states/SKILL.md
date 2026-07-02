@@ -14,7 +14,7 @@ compatibility: "Any frontend stack. Framework-agnostic patterns."
 
 <!-- Adapted from phazurlabs/ux-ui-mastery (MIT) — Performance States Patterns skill.
      7-state lifecycle, perceived performance pillars, audit checklist.
-     Yana AI structure, Anti-Fake-Pass gate, and condensed format are original. -->
+     YAMTAM structure, Anti-Fake-Pass gate, and condensed format are original. -->
 
 ## When to Use
 

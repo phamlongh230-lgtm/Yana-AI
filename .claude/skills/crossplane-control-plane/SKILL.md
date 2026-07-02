@@ -67,15 +67,15 @@ EOF
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  name: xamtamdatabases.yana-ai.io
+  name: xamtamdatabases.yamtam.io
 spec:
-  group: yana-ai.io
+  group: yamtam.io
   names:
     kind:   XYamtamDatabase
     plural: xamtamdatabases
   claimNames:
     kind:   YamtamDatabase    # namespace-scoped claim
-    plural: yana-aidatabases
+    plural: yamtamdatabases
   versions:
     - name: v1alpha1
       served: true
@@ -101,10 +101,10 @@ spec:
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: yana-ai-rds-postgres
+  name: yamtam-rds-postgres
 spec:
   compositeTypeRef:
-    apiVersion: yana-ai.io/v1alpha1
+    apiVersion: yamtam.io/v1alpha1
     kind:       XYamtamDatabase
   resources:
     - name: rds-instance
@@ -133,11 +133,11 @@ spec:
 
 ```yaml
 # agent requests a database — no AWS console needed
-apiVersion: yana-ai.io/v1alpha1
+apiVersion: yamtam.io/v1alpha1
 kind: YamtamDatabase
 metadata:
   name:      agent-db
-  namespace: yana-ai
+  namespace: yamtam
 spec:
   tier:      prod
   region:    us-east-1
@@ -146,7 +146,7 @@ spec:
 
 ```bash
 kubectl apply -f agent-db.yaml
-kubectl get yana-aidatabases agent-db -o wide
+kubectl get yamtamdatabases agent-db -o wide
 # NAME        SYNCED   READY   CONNECTION-SECRET   AGE
 # agent-db    True     True    agent-db-creds      3m
 ```

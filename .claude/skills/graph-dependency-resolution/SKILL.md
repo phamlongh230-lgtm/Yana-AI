@@ -29,7 +29,7 @@ compatibility: yana-ai >= 1.3.46
 ```typescript
 import { Graph, alg } from '@dagrejs/graphlib'
 
-// Build the Yana AI gate dependency graph
+// Build the YAMTAM gate dependency graph
 const gateGraph = new Graph({ directed: true, multigraph: false, compound: false })
 
 // Nodes = gates/skills/rules
@@ -259,7 +259,7 @@ function pageRank(
   return new Map([...ranks.entries()].sort((a, b) => b[1] - a[1]))
 }
 
-// Example: rank Yana AI rules by cross-reference frequency
+// Example: rank YAMTAM rules by cross-reference frequency
 const ruleRefs = new Map([
   ['00-meta-rule-enforcer', ['agent-middleware-law', 'verification']],
   ['agent-middleware-law',  ['shell-sanitize-law', 'network-egress-law']],

@@ -48,7 +48,7 @@ function createAgentIdentity(privKeyHex?: string): {
   const hash      = createHash('sha256').update(pubBytes).digest()
   const address   = '0x' + hash.slice(-20).toString('hex')
 
-  const did = `did:yana-ai:${address}`
+  const did = `did:yamtam:${address}`
 
   return {
     did,
@@ -139,7 +139,7 @@ const kp   = new (new EC('secp256k1')).constructor('secp256k1').genKeyPair()
 const pub  = kp.getPublic('hex')
 const priv = kp.getPrivate('hex')
 const addr = '0x' + createHash('sha256').update(Buffer.from(pub,'hex').slice(1)).digest().slice(-20).toString('hex')
-console.log('DID:       did:yana-ai:' + addr)
+console.log('DID:       did:yamtam:' + addr)
 console.log('PRIV_KEY:  ' + priv)
 console.log('PUB_KEY:   ' + pub)
 "

@@ -6,7 +6,7 @@ description: >
   has a security finding list (from red-team-check or a manual audit) and wants
   to fix the vulnerabilities. Produces: root cause analysis, code fix, and test.
   Does not auto-apply fixes — proposes and waits for user approval per fix.
-origin: yana-ai
+origin: yamtam
 version: 1.0.0
 compatibility: >
   Expects input in red-team-check finding format. Works on local codebase.
@@ -14,7 +14,7 @@ compatibility: >
 ---
 
 <!-- Concept inspired by Strix (Apache 2.0) — defensive security framing.
-     All content written original for Yana AI. No code ported. -->
+     All content written original for YAMTAM. No code ported. -->
 
 ## When to Use
 

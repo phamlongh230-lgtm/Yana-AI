@@ -82,7 +82,7 @@ service:
 {
   "service_strategies": [
     {
-      "service": "yana-ai-agent",
+      "service": "yamtam-agent",
       "type":    "adaptive",
       "max_traces_per_second": 50,
       "operation_strategies": [

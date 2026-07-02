@@ -66,7 +66,7 @@ const vllm = new OpenAI({
 const stream = await vllm.chat.completions.create({
   model:      'meta-llama/Llama-3-8B-Instruct',
   messages:   [
-    { role: 'system',  content: 'You are a yana-ai agent.' },
+    { role: 'system',  content: 'You are a yamtam agent.' },
     { role: 'user',    content: 'Analyze this code for security issues.' },
   ],
   max_tokens: 1024,

@@ -116,9 +116,9 @@ http_filters:
       inline_code: |
         function envoy_on_request(request_handle)
           local ts = tostring(os.time())
-          request_handle:headers():add("x-yana-ai-ts", ts)
+          request_handle:headers():add("x-yamtam-ts", ts)
           -- Add HMAC signature (simplified — use real crypto in production)
-          request_handle:headers():add("x-yana-ai-sig", "sha256:" .. ts)
+          request_handle:headers():add("x-yamtam-sig", "sha256:" .. ts)
         end
 ```
 

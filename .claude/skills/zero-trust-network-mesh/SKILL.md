@@ -29,7 +29,7 @@ compatibility: claude-sonnet-4-6, claude-opus-4-7
 # Generate agent identity certificate (per-agent, ephemeral 24h TTL)
 openssl ecparam -name prime256v1 -genkey -noout -out agent-42.key
 openssl req -new -key agent-42.key \
-  -subj "/CN=agent-42/O=yana-ai-swarm" \
+  -subj "/CN=agent-42/O=yamtam-swarm" \
   -out agent-42.csr
 openssl x509 -req -in agent-42.csr \
   -CA swarm-ca.crt -CAkey swarm-ca.key \

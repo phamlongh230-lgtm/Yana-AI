@@ -27,7 +27,7 @@ compatibility: yana-ai >= 1.3.50
 
 ```protobuf
 syntax = "proto3";
-package yana-ai;
+package yamtam;
 
 service AgentBus {
   // Unary
@@ -62,11 +62,11 @@ const packageDef = protoLoader.loadSync('agent_bus.proto', {
   defaults:   true,
   oneofs:     true,
 })
-const { yana-ai } = grpc.loadPackageDefinition(packageDef)
+const { yamtam } = grpc.loadPackageDefinition(packageDef)
 
 const server = new grpc.Server()
 
-server.addService(yana-ai.AgentBus.service, {
+server.addService(yamtam.AgentBus.service, {
   dispatchTask(call, callback) {
     const { tool, params_json } = call.request
     const taskId = `task-${Date.now()}`
@@ -102,7 +102,7 @@ server.bindAsync('0.0.0.0:50051',
 ## gRPC client with deadline
 
 ```javascript
-const client = new yana-ai.AgentBus(
+const client = new yamtam.AgentBus(
   'localhost:50051',
   grpc.credentials.createInsecure()
 )
@@ -137,7 +137,7 @@ const credentials = grpc.credentials.createSsl(
   readFileSync('agent.key'),       // client private key
   readFileSync('agent.crt'),       // client certificate
 )
-const client = new yana-ai.AgentBus('agent-node-2:50051', credentials)
+const client = new yamtam.AgentBus('agent-node-2:50051', credentials)
 ```
 
 ---

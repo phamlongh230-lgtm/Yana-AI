@@ -31,7 +31,7 @@ import StatsD from 'node-statsd'
 const stats = new StatsD({
   host:      process.env.STATSD_HOST ?? '127.0.0.1',
   port:      parseInt(process.env.STATSD_PORT ?? '8125'),
-  prefix:    'yana-ai.',
+  prefix:    'yamtam.',
   errorHandler: (err) => console.error('[statsd] error:', err.message),
 })
 
@@ -69,8 +69,8 @@ stats.increment('tool.calls.debug', 1, 0.1)
 const ddStats = new StatsD({
   host:       '127.0.0.1',
   port:       8125,
-  prefix:     'yana-ai.',
-  global_tags: [`env:${process.env.NODE_ENV}`, `version:${process.env.YANA_VERSION}`],
+  prefix:     'yamtam.',
+  global_tags: [`env:${process.env.NODE_ENV}`, `version:${process.env.YAMTAM_VERSION}`],
 })
 
 // Histogram (DogStatsD extension)

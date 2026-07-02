@@ -10,7 +10,7 @@ description: >
   "dead-letter queue", "idempotent Lambda", "serverless observability",
   or "deploy serverless". Do NOT use for: long-running container workloads
   — see kubernetes-patterns or docker-patterns.
-origin: yana-ai-original
+origin: yamtam-original
 license: MIT © 2026 Vũ Văn Tâm
 version: 1.0.0
 compatibility: "AWS Lambda (Node.js 20/Python 3.12), Cloudflare Workers, SST v3, SAM CLI."

@@ -14,7 +14,7 @@ compatibility: yana-ai >= 1.3.49
 - Prove an agent executed a security scan correctly without revealing scan targets
 - Prove a rule was applied without exposing the rule's logic to a third party
 - Attestation: "I processed input X with algorithm Y and got hash Z" — verifiable without X
-- Future-proof: prove yana-ai audit compliance to external auditor with zero data exposure
+- Future-proof: prove yamtam audit compliance to external auditor with zero data exposure
 
 ## Do NOT use for
 
@@ -115,7 +115,7 @@ circom compliance_check.circom --r1cs --wasm --sym
 
 # 2. Powers of Tau (public ceremony — use existing ptau file)
 snarkjs powersoftau new bn128 12 pot12_0000.ptau
-snarkjs powersoftau contribute pot12_0000.ptau pot12_0001.ptau --name="yana-ai"
+snarkjs powersoftau contribute pot12_0000.ptau pot12_0001.ptau --name="yamtam"
 snarkjs powersoftau prepare phase2 pot12_0001.ptau pot12_final.ptau
 
 # 3. Circuit-specific setup

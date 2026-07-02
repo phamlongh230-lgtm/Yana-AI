@@ -33,7 +33,7 @@ const doc      = new Y.Doc()
 const config   = doc.getMap('agent-config')
 
 // Connect to sync server
-const provider = new WebsocketProvider('ws://localhost:1234', 'yana-ai-swarm', doc)
+const provider = new WebsocketProvider('ws://localhost:1234', 'yamtam-swarm', doc)
 
 provider.on('status', ({ status }) => console.log('[yjs]', status))
 
@@ -108,7 +108,7 @@ const awareness = provider.awareness
 
 // Set local agent state
 awareness.setLocalState({
-  agentId: process.env.YANA_AGENT_ID,
+  agentId: process.env.YAMTAM_AGENT_ID,
   status:  'running',
   tier:    'power',
 })

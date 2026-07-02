@@ -100,10 +100,10 @@ async function twirpCall<Req, Res>(
 
 const ack = await twirpCall(
   'http://localhost:8080',
-  'yana-ai.AgentBus',
+  'yamtam.AgentBus',
   'DispatchTask',
   { tool: 'bash', paramsJson: '{"cmd":"ls"}' },
-  'did:yana-ai:0xabc123'
+  'did:yamtam:0xabc123'
 )
 ```
 

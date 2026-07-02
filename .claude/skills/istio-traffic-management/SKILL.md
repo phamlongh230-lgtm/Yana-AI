@@ -30,20 +30,20 @@ compatibility: yana-ai >= 1.3.52
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: yana-ai-agent
+  name: yamtam-agent
 spec:
   hosts:
-    - yana-ai-agent
+    - yamtam-agent
   http:
     - match:
         - headers:
             x-canary: { exact: "true" }   # force canary for testers
       route:
-        - destination: { host: yana-ai-agent, subset: v2 }
+        - destination: { host: yamtam-agent, subset: v2 }
     - route:
-        - destination: { host: yana-ai-agent, subset: v1 }
+        - destination: { host: yamtam-agent, subset: v1 }
           weight: 90
-        - destination: { host: yana-ai-agent, subset: v2 }
+        - destination: { host: yamtam-agent, subset: v2 }
           weight: 10
 ```
 
@@ -55,9 +55,9 @@ spec:
 apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
-  name: yana-ai-agent
+  name: yamtam-agent
 spec:
-  host: yana-ai-agent
+  host: yamtam-agent
   trafficPolicy:
     connectionPool:
       http:
@@ -82,12 +82,12 @@ spec:
 ## Mutual TLS policy (auto-encrypt all agent traffic)
 
 ```yaml
-# PeerAuthentication: require mTLS in yana-ai namespace
+# PeerAuthentication: require mTLS in yamtam namespace
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
-  name:      yana-ai-mtls
-  namespace: yana-ai
+  name:      yamtam-mtls
+  namespace: yamtam
 spec:
   mtls:
     mode: STRICT   # reject plaintext connections
@@ -98,14 +98,14 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: agent-b-authz
-  namespace: yana-ai
+  namespace: yamtam
 spec:
   selector:
     matchLabels: { app: agent-b }
   action: ALLOW
   rules:
     - from:
-        - source: { principals: ["cluster.local/ns/yana-ai/sa/agent-a"] }
+        - source: { principals: ["cluster.local/ns/yamtam/sa/agent-a"] }
       to:
         - operation: { methods: ["POST"], paths: ["/task/*"] }
 ```

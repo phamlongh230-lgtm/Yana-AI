@@ -77,7 +77,7 @@ https.get({
   host:  'api.github.com',
   path:  '/zen',
   agent,
-  headers: { 'User-Agent': 'yana-ai-agent' },
+  headers: { 'User-Agent': 'yamtam-agent' },
 }, (res) => {
   res.pipe(process.stdout)
 })

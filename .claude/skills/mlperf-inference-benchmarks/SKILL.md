@@ -107,7 +107,7 @@ lg.DestroyQSL(qsl.qsl)
 grep -E "(Samples per second|Min latency|Max latency|Mean latency|p99.00 latency)" \
   mlperf_log_summary.txt
 
-# Target thresholds for yana-ai tool calls:
+# Target thresholds for yamtam tool calls:
 # Mean latency:   < 200ms  (acceptable for interactive agent)
 # p99 latency:    < 500ms  (hard SLA)
 # Throughput:     > 50 QPS (for 50 concurrent agents)

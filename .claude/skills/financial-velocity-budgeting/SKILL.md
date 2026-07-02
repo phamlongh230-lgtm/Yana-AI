@@ -1,7 +1,7 @@
 ---
 name: financial-velocity-budgeting
 description: Implement token cost estimation, sliding-window velocity caps, and hierarchical credit allocation for multi-agent LLM systems. Prevent runaway API spend with pre-request budget gates and dead-man switches.
-origin: Yana AI Engine rule 60, Anthropic usage API, tiktoken (MIT)
+origin: YAMTAM Engine rule 60, Anthropic usage API, tiktoken (MIT)
 license: Apache-2.0
 version: 1.0.0
 compatibility: claude-sonnet-4-6, claude-opus-4-7
@@ -28,8 +28,8 @@ Enforce hard token budgets before LLM requests are made — not after the bill a
 ```js
 class TokenBudgetGate {
   constructor(opts = {}) {
-    this.dailyCap   = opts.dailyCap   ?? parseInt(process.env.YANA_DAILY_TOKEN_BUDGET ?? '100000');
-    this.agentCap   = opts.agentCap   ?? parseInt(process.env.YANA_AGENT_TOKEN_CAP ?? '5000');
+    this.dailyCap   = opts.dailyCap   ?? parseInt(process.env.YAMTAM_DAILY_TOKEN_BUDGET ?? '100000');
+    this.agentCap   = opts.agentCap   ?? parseInt(process.env.YAMTAM_AGENT_TOKEN_CAP ?? '5000');
     this.windowSec  = opts.windowSec  ?? 10;
     this.windowCap  = opts.windowCap  ?? 2000;
     this.used       = new Map();   // agentId → { session, window, windowStart }
@@ -92,9 +92,9 @@ function detectCostAttack(prompt) {
 
 ```
 Global (100k tokens/day)
-  ├── Orchestrators (40k)  ← YANA_ORCH_TOKEN_POOL
-  ├── Executors     (50k)  ← YANA_EXEC_TOKEN_POOL
-  │   └── Per agent (5k)   ← YANA_AGENT_TOKEN_CAP
+  ├── Orchestrators (40k)  ← YAMTAM_ORCH_TOKEN_POOL
+  ├── Executors     (50k)  ← YAMTAM_EXEC_TOKEN_POOL
+  │   └── Per agent (5k)   ← YAMTAM_AGENT_TOKEN_CAP
   └── Reserve       (10k)  ← emergency rollback + auditor
 ```
 

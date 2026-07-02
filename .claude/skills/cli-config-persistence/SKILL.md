@@ -11,7 +11,7 @@ compatibility: yana-ai >= 1.3.48
 
 ## When to Use
 
-- Store persistent settings for yana-ai CLI tools (session defaults, feature flags)
+- Store persistent settings for yamtam CLI tools (session defaults, feature flags)
 - Config that survives between terminal sessions in Codespaces
 - Encrypted storage for API keys in CLI tools (avoid plain .env files)
 - Typed config with JSON Schema validation at read/write time
@@ -72,8 +72,8 @@ import Conf from 'conf'
 import crypto from 'crypto'
 
 const secrets = new Conf({
-  projectName:     'yana-ai-secrets',
-  encryptionKey:   process.env.YANA_CONFIG_KEY ?? crypto.randomBytes(32).toString('hex'),
+  projectName:     'yamtam-secrets',
+  encryptionKey:   process.env.YAMTAM_CONFIG_KEY ?? crypto.randomBytes(32).toString('hex'),
   // → file on disk is AES-256-CBC encrypted — unreadable without key
 })
 

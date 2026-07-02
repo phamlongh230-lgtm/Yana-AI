@@ -13,7 +13,7 @@ version: 1.0.0
 compatibility: "Any frontend stack. Framework-agnostic principles. CSS/Tailwind examples shown."
 ---
 
-<!-- Adapted from taste-skill (MIT © 2026 Leonxlnx). Changes: added Yana AI origin/Anti-Fake-Pass/compatibility fields, removed GPT-specific behavior, font stack changed to suggestions not mandates. -->
+<!-- Adapted from taste-skill (MIT © 2026 Leonxlnx). Changes: added YAMTAM origin/Anti-Fake-Pass/compatibility fields, removed GPT-specific behavior, font stack changed to suggestions not mandates. -->
 
 ## When to Use
 

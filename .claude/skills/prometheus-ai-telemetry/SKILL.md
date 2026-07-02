@@ -115,7 +115,7 @@ app.get('/metrics', async (req, res) => {
 ```yaml
 # alerts.yaml — alert on AI infra degradation
 groups:
-  - name: yana-ai-ai
+  - name: yamtam-ai
     rules:
       - alert: HighTTFT
         expr: histogram_quantile(0.99, rate(llm_ttft_seconds_bucket[5m])) > 2.0

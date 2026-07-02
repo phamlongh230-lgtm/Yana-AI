@@ -16,7 +16,7 @@ Parse agent-generated code into an Abstract Syntax Tree and walk every node look
 - Agent system that generates and hot-loads JS code at runtime
 - Validating shell scripts produced by an agent before executing them
 - Building a pre-commit hook that blocks dangerous code patterns
-- Implementing Yana AI sovereign-runtime-law (rule 51) AST gate
+- Implementing YAMTAM sovereign-runtime-law (rule 51) AST gate
 
 ## Do NOT use for
 

@@ -30,18 +30,18 @@ compatibility: yana-ai >= 1.3.48
 import store from 'store'
 
 // Set (auto-serialized to JSON)
-store.set('yana-ai.session', { id: 'abc123', startedAt: Date.now() })
+store.set('yamtam.session', { id: 'abc123', startedAt: Date.now() })
 
 // Get
-const session = store.get('yana-ai.session')  // or defaultValue
-const session2 = store.get('yana-ai.session', { id: null, startedAt: 0 })
+const session = store.get('yamtam.session')  // or defaultValue
+const session2 = store.get('yamtam.session', { id: null, startedAt: 0 })
 
 // Remove
-store.remove('yana-ai.session')
+store.remove('yamtam.session')
 
 // Iterate
 store.each((value, key) => {
-  if (key.startsWith('yana-ai.')) console.log(key, value)
+  if (key.startsWith('yamtam.')) console.log(key, value)
 })
 
 // Clear all store.js entries
@@ -58,7 +58,7 @@ import 'store/plugins/prefix'
 import 'store/plugins/expire'
 
 // Per-session namespace
-const sessionStore = store.namespace(`yana-ai.session.${sessionId}`)
+const sessionStore = store.namespace(`yamtam.session.${sessionId}`)
 sessionStore.set('lastTool', 'fetch')
 sessionStore.get('lastTool')  // 'fetch'
 

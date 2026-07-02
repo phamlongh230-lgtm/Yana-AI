@@ -72,16 +72,16 @@ function applySeccompProfile(pid, phase) {
 
 ```bash
 # Create per-agent cgroup
-mkdir /sys/fs/cgroup/yana-ai/agent-42
+mkdir /sys/fs/cgroup/yamtam/agent-42
 
 # Memory hard limit: 512MB
-echo "536870912" > /sys/fs/cgroup/yana-ai/agent-42/memory.max
+echo "536870912" > /sys/fs/cgroup/yamtam/agent-42/memory.max
 
 # CPU: max 50% of one core
-echo "50000 100000" > /sys/fs/cgroup/yana-ai/agent-42/cpu.max
+echo "50000 100000" > /sys/fs/cgroup/yamtam/agent-42/cpu.max
 
 # Assign agent PID to cgroup
-echo <agent-pid> > /sys/fs/cgroup/yana-ai/agent-42/cgroup.procs
+echo <agent-pid> > /sys/fs/cgroup/yamtam/agent-42/cgroup.procs
 ```
 
 ## OOM Score Tuning (Lớp 16)
@@ -95,6 +95,6 @@ echo 900 > /proc/<agent-pid>/oom_score_adj  # range: -1000 to 1000
 
 - [ ] eBPF program loaded successfully (`bpftool prog list` shows it)
 - [ ] Seccomp profile tested in dry-run mode before enforcing
-- [ ] cgroup memory.max verified with `cat /sys/fs/cgroup/yana-ai/agent-<id>/memory.current`
+- [ ] cgroup memory.max verified with `cat /sys/fs/cgroup/yamtam/agent-<id>/memory.current`
 - [ ] OOM score confirmed with `cat /proc/<pid>/oom_score_adj`
 - [ ] Syscall violations logged to Merkle audit chain (not just stderr)

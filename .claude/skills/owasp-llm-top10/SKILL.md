@@ -78,7 +78,7 @@ Defense:
   - max_tokens hard limit on every API call (never uncapped)
   - Token budget guard (token-budget-guard.sh): abort after 5 retries
   - Request timeout: 30s for single-turn, 120s for multi-step
-  - Rate limit per session: Yana AI token-roi skill monitors per-session spend
+  - Rate limit per session: YAMTAM token-roi skill monitors per-session spend
 ```
 
 ---
@@ -131,8 +131,8 @@ Defense:
 Risk: agent takes autonomous actions beyond intended scope
 Defense:
   - agent-excessive-agency-law.md: Tier R/W/X/P permission model
-  - Irreversible actions require YANA_IRREVERSIBLE_OK=1 per action
-  - Sub-agent depth capped at 3 (YANA_AGENT_DEPTH check)
+  - Irreversible actions require YAMTAM_IRREVERSIBLE_OK=1 per action
+  - Sub-agent depth capped at 3 (YAMTAM_AGENT_DEPTH check)
   - Minimum scope declaration required at task start
   - Human confirmation gate for > 5 files or external endpoints
 ```

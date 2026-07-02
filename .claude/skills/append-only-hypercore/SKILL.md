@@ -52,7 +52,7 @@ await appendAuditEntry({
   level:   'info',
   action:  'tool-call',
   cmd:     'sandbox-exec',
-  session: process.env.YANA_SESSION_ID,
+  session: process.env.YAMTAM_SESSION_ID,
 })
 ```
 

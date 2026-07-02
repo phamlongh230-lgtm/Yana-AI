@@ -8,14 +8,14 @@ description: >
   outputs from the model".
   Do NOT use for: RAG retrieval design — use `rag-architect`. UI for streaming
   responses — use `llm-ui-patterns`.
-origin: yana-ai-original
+origin: yamtam-original
 license: MIT © 2025 Vũ Văn Tâm
 version: 1.0.0
 compatibility: "Any LLM API. Patterns apply to Claude, GPT-4, Gemini, Mistral."
 ---
 
 <!-- Original skill — synthesized from public prompt engineering literature
-     (Brown et al. 2020, Wei et al. 2022, Zhou et al. 2022 APE) and Yana AI
+     (Brown et al. 2020, Wei et al. 2022, Zhou et al. 2022 APE) and YAMTAM
      author's production experience. No external skill file copied. -->
 
 ## When to Use

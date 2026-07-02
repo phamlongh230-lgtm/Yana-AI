@@ -44,7 +44,7 @@ Hardware-level isolation required (multi-tenant cloud)?
 ```bash
 # One-shot: run command and auto-remove container (no state persists)
 docker run --rm \
-  --name    "yana-ai-$(uuidgen | head -c 8)" \
+  --name    "yamtam-$(uuidgen | head -c 8)" \
   --network none \                          # no NIC — zero network
   --read-only \                             # root FS immutable
   --tmpfs   /workspace:rw,size=64m,noexec \ # memory-only workspace
@@ -56,7 +56,7 @@ docker run --rm \
   --cap-drop ALL \
   --security-opt no-new-privileges \
   --user    nobody \
-  yana-ai-sandbox:latest \
+  yamtam-sandbox:latest \
   bash -c "$TOOL_COMMAND"
 ```
 
@@ -65,7 +65,7 @@ import { execa } from 'execa'
 
 // Stream container stdout/stderr in real-time — no buffering
 async function runInContainer(command: string, args: string[]): Promise<string> {
-  const containerName = `yana-ai-${Date.now()}`
+  const containerName = `yamtam-${Date.now()}`
   const output: string[] = []
 
   const proc = execa('docker', [
@@ -80,7 +80,7 @@ async function runInContainer(command: string, args: string[]): Promise<string> 
     '--cap-drop', 'ALL',
     '--security-opt', 'no-new-privileges',
     '--user',     'nobody',
-    'yana-ai-sandbox:latest',
+    'yamtam-sandbox:latest',
     command, ...args,
   ])
 

@@ -7,7 +7,7 @@ description: >
   control", "permissions", "RBAC", "who can see what", or "auth is broken".
   Do NOT use for: session-based auth vs token trade-off analysis (that's an
   architecture decision) or security penetration testing (use `red-team-check`).
-origin: yana-ai-original
+origin: yamtam-original
 license: MIT © 2025 Vũ Văn Tâm
 version: 1.0.0
 compatibility: "Any backend/frontend stack. Framework-agnostic patterns."

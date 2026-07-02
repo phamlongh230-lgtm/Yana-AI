@@ -244,6 +244,125 @@ test_truth_gate "Bypass env var suppresses warn" \
   "allow" \
   "bypass"
 
+# 5b. truth-gate-guard.sh — verification ledger cross-check (Yana AI-native,
+# concept inspired by NousResearch/hermes-agent's verification_evidence.py).
+# TRUTH_GATE_TEST_LEDGER injects a ledger state so this exercises the jq
+# lookup + warn-escalation logic without touching the real ledger file.
+test_truth_gate_ledger() {
+    local test_name=$1
+    local text_input=$2
+    local ledger_json=$3
+    local expect_warn=$4   # "warn" or "allow"
+
+    TOTAL_COUNT=$((TOTAL_COUNT + 1))
+    echo -n "Testing truth-gate-guard.sh [ledger: $test_name]... "
+
+    local output
+    output=$(TRUTH_GATE_TEST_TEXT="$text_input" TRUTH_GATE_TEST_SESSION_ID="s1" \
+        TRUTH_GATE_TEST_LEDGER="$ledger_json" \
+        bash "$HOOKS_DIR/truth-gate-guard.sh" <<< '{}' 2>/dev/null || true)
+
+    if [[ "$expect_warn" == "warn" ]]; then
+        if echo "$output" | grep -q "TRUTH GATE"; then
+            echo "PASS"
+        else
+            echo "FAIL (Expected TRUTH GATE warning, got: ${output:0:120})"
+            FAIL_COUNT=$((FAIL_COUNT + 1))
+        fi
+    else
+        if [[ -z "$output" ]]; then
+            echo "PASS"
+        else
+            echo "FAIL (Expected no output, got: ${output:0:120})"
+            FAIL_COUNT=$((FAIL_COUNT + 1))
+        fi
+    fi
+}
+
+test_truth_gate_ledger "Text evidence present but ledger says edited-since-verify" \
+  "All tests passed, 12 tests passed. Done." \
+  '{"sessions":{"s1":{"edited_since_last_verify":true,"changed_paths":["a.js"]}}}' \
+  "warn"
+
+test_truth_gate_ledger "Text evidence present and ledger says not stale" \
+  "All tests passed, 12 tests passed. Done." \
+  '{"sessions":{"s1":{"edited_since_last_verify":false,"changed_paths":[]}}}' \
+  "allow"
+
+test_truth_gate_ledger "No ledger entry for this session behaves like no ledger" \
+  "All tests passed, 12 tests passed. Done." \
+  '{"sessions":{"other-session":{"edited_since_last_verify":true,"changed_paths":["a.js"]}}}' \
+  "allow"
+
+test_truth_gate_ledger "Qualifier phrasing wins even if ledger stale" \
+  "Reportedly fixed but unverified." \
+  '{"sessions":{"s1":{"edited_since_last_verify":true,"changed_paths":["a.js"]}}}' \
+  "allow"
+
+# 5c. verify-evidence-track.sh — PostToolUse ledger writer. Runs against a
+# throwaway CLAUDE_PROJECT_DIR so it never touches the real ledger file.
+echo ""
+echo "--- verify-evidence-track.sh ---"
+
+test_verify_track() {
+    local test_name=$1
+    local input_json=$2
+    local jq_check=$3   # jq boolean expression against the resulting ledger
+    local bypass=${4:-""}   # "bypass" to set YANA_VERIFY_TRACK_BYPASS=1
+
+    TOTAL_COUNT=$((TOTAL_COUNT + 1))
+    echo -n "Testing verify-evidence-track.sh [$test_name]... "
+
+    if [[ ! -f "$HOOKS_DIR/verify-evidence-track.sh" ]]; then
+        echo "FAIL: Hook file not found: $HOOKS_DIR/verify-evidence-track.sh"
+        FAIL_COUNT=$((FAIL_COUNT + 1))
+        return 1
+    fi
+
+    local tmp_project
+    tmp_project=$(mktemp -d)
+    local ledger_file="$tmp_project/.claude/state/verification-ledger.json"
+
+    if [[ "$bypass" == "bypass" ]]; then
+        echo "$input_json" | CLAUDE_PROJECT_DIR="$tmp_project" YANA_VERIFY_TRACK_BYPASS=1 \
+            bash "$HOOKS_DIR/verify-evidence-track.sh" >/dev/null 2>&1
+    else
+        echo "$input_json" | CLAUDE_PROJECT_DIR="$tmp_project" bash "$HOOKS_DIR/verify-evidence-track.sh" >/dev/null 2>&1
+    fi
+
+    local ledger_content="{}"
+    [[ -f "$ledger_file" ]] && ledger_content=$(cat "$ledger_file")
+    rm -rf "$tmp_project"
+
+    if echo "$ledger_content" | jq -e "$jq_check" >/dev/null 2>&1; then
+        echo "PASS"
+    else
+        echo "FAIL (ledger did not satisfy: $jq_check — got: $ledger_content)"
+        FAIL_COUNT=$((FAIL_COUNT + 1))
+    fi
+}
+
+test_verify_track "Passing test command records passed + clears stale flag" \
+  '{"session_id":"t1","tool_name":"Bash","tool_input":{"command":"npm test"},"tool_response":{"exit_code":0}}' \
+  '.sessions.t1.last_verify.status == "passed" and .sessions.t1.edited_since_last_verify == false'
+
+test_verify_track "Failing test command records failed status" \
+  '{"session_id":"t1","tool_name":"Bash","tool_input":{"command":"pytest"},"tool_response":{"exit_code":1}}' \
+  '.sessions.t1.last_verify.status == "failed"'
+
+test_verify_track "Unrelated Bash command is ignored (no ledger written)" \
+  '{"session_id":"t1","tool_name":"Bash","tool_input":{"command":"ls -la"},"tool_response":{"exit_code":0}}' \
+  '. == {}'
+
+test_verify_track "Edit sets edited_since_last_verify + logs path" \
+  '{"session_id":"t1","tool_name":"Edit","tool_input":{"file_path":"core/hooks/foo.sh"}}' \
+  '.sessions.t1.edited_since_last_verify == true and (.sessions.t1.changed_paths | index("core/hooks/foo.sh")) != null'
+
+test_verify_track "Bypass flag suppresses tracking" \
+  '{"session_id":"t1","tool_name":"Bash","tool_input":{"command":"npm test"},"tool_response":{"exit_code":0}}' \
+  '. == {}' \
+  "bypass"
+
 # 6. cost-guard.sh
 echo ""
 echo "--- cost-guard.sh ---"
@@ -495,6 +614,61 @@ else
     FAIL_COUNT=$((FAIL_COUNT + 1))
 fi
 
+# ── identity-gate.sh --verify regression tests (P0 audit fix, 2026-06-21) ────
+# Before the fix: --verify was never handled, fell through to the interactive
+# prompt, EOF'd to GUEST, and still `exit 0`'d — so safe-run.sh's BYPASS check
+# (`! bash identity-gate.sh --verify`) always passed for anyone, no creds
+# required. These tests pin the fail-closed behavior so this cannot regress
+# silently again.
+echo -n "identity-gate [--verify, no creds, non-interactive -> DENIED exit 8]... "
+TOTAL_COUNT=$((TOTAL_COUNT + 1))
+env -i PATH="$PATH" bash "$IDENTITY_GATE" --verify </dev/null >/dev/null 2>&1
+_ig_exit=$?
+if [[ "$_ig_exit" -eq 8 ]]; then
+    echo "PASS"
+else
+    echo "FAIL (expected exit 8, got $_ig_exit)"
+    FAIL_COUNT=$((FAIL_COUNT + 1))
+fi
+
+echo -n "identity-gate [--verify guest -> always allowed exit 0]... "
+TOTAL_COUNT=$((TOTAL_COUNT + 1))
+env -i PATH="$PATH" bash "$IDENTITY_GATE" --verify guest </dev/null >/dev/null 2>&1
+_ig_exit=$?
+if [[ "$_ig_exit" -eq 0 ]]; then
+    echo "PASS"
+else
+    echo "FAIL (expected exit 0, got $_ig_exit)"
+    FAIL_COUNT=$((FAIL_COUNT + 1))
+fi
+
+echo -n "identity-gate [--verify sovereign, valid env creds -> exit 0]... "
+TOTAL_COUNT=$((TOTAL_COUNT + 1))
+YANA_SOVEREIGN_NAME="Vũ Văn Tâm" bash "$IDENTITY_GATE" --verify sovereign </dev/null >/dev/null 2>&1
+_ig_exit=$?
+if [[ "$_ig_exit" -eq 0 ]]; then
+    echo "PASS"
+else
+    echo "FAIL (expected exit 0, got $_ig_exit)"
+    FAIL_COUNT=$((FAIL_COUNT + 1))
+fi
+
+# ── safe-run.sh BYPASS regression test (end-to-end, same P0) ─────────────────
+echo -n "safe-run.sh [YANA_SAFE_RUN_BYPASS without creds -> denied, command never runs]... "
+TOTAL_COUNT=$((TOTAL_COUNT + 1))
+SAFE_RUN="$CLAUDE_DIR/scripts/safe-run.sh"
+_sr_marker=$(mktemp)
+rm -f "$_sr_marker"
+env -i PATH="$PATH" YANA_SAFE_RUN_BYPASS=1 bash "$SAFE_RUN" "touch $_sr_marker" </dev/null >/dev/null 2>&1
+_sr_exit=$?
+if [[ "$_sr_exit" -ne 0 && ! -f "$_sr_marker" ]]; then
+    echo "PASS"
+else
+    echo "FAIL (expected non-zero exit and no side effect, got exit=$_sr_exit marker_exists=$([[ -f "$_sr_marker" ]] && echo yes || echo no))"
+    FAIL_COUNT=$((FAIL_COUNT + 1))
+fi
+rm -f "$_sr_marker"
+
 # ── token-budget-guard.sh circuit breaker tests ───────────────────────────────
 echo ""
 echo "=== token-budget-guard.sh circuit breaker ==="
@@ -516,12 +690,12 @@ else
 fi
 echo -n "circuit-breaker [hard blocks at attempt 5]... "
 TOTAL_COUNT=$((TOTAL_COUNT + 1))
-# Pre-seed budget with 4 prior attempts so next call triggers breaker
-python3 -c "
-import json, pathlib
-d = {'session_start':'2026-01-01T00:00:00Z','total_tokens_used':0,'actions':[],
-     'loop_attempts':{'circuit-test-tool':5},'fast_tier_triggered':False}
-pathlib.Path('$BUDGET_FILE').write_text(json.dumps(d))
+# Pre-seed budget with 5 prior attempts so next call triggers breaker
+node -e "
+const fs=require('fs');
+const d={session_start:'2026-01-01T00:00:00Z',total_tokens_used:0,actions:[],
+  loop_attempts:{'circuit-test-tool':5},fast_tier_triggered:false};
+fs.writeFileSync('$BUDGET_FILE', JSON.stringify(d));
 "
 _cb_out=$(YANA_TOKEN_BUDGET="$BUDGET_FILE" YANA_CIRCUIT_STATE="$CIRCUIT_TMP" \
    CLAUDE_TOOL_NAME="circuit-test-tool" YANA_MAX_FIX_ATTEMPTS=5 \
@@ -727,6 +901,56 @@ test_validator "Allow safe Write in project" \
     '{"tool_name":"Write","tool_input":{"file_path":"core/hooks/new-hook.sh","content":"#!/bin/bash"}}' "allow"
 test_validator "Bypass suppresses block" \
     '{"tool_name":"WebFetch","tool_input":{"url":"http://localhost:9000"}}' "allow" "bypass"
+
+# 9. guard-blast-radius.sh (Rust-only — no bash fallback; the real
+# filesystem-walk/glob logic lives in src/guard/blast_radius.rs, see that
+# file's module doc for why a bash reimplementation isn't attempted here).
+# Needs its own fixture dir + PATH override since this guard's decision
+# depends on real files on disk, unlike the regex-only hooks above.
+echo ""
+echo "--- guard-blast-radius.sh ---"
+REPO_ROOT="$(cd "$CLAUDE_DIR/.." && pwd)"
+RT_BIN="$REPO_ROOT/target/release/yana-rt"
+
+if [[ -x "$RT_BIN" ]]; then
+    BLAST_FIXTURE="$(mktemp -d)"
+    mkdir -p "$BLAST_FIXTURE/core/rules" "$BLAST_FIXTURE/small"
+    echo "x" > "$BLAST_FIXTURE/core/rules/00-meta.md"
+    echo "x" > "$BLAST_FIXTURE/small/one.txt"
+
+    run_blast() {
+        local test_name=$1 cmd=$2 expect=$3
+        TOTAL_COUNT=$((TOTAL_COUNT + 1))
+        echo -n "Testing guard-blast-radius.sh [$test_name]... "
+        local out
+        out=$(cd "$BLAST_FIXTURE" && printf '%s' "{\"tool_input\":{\"command\":\"$cmd\"}}" \
+            | PATH="$REPO_ROOT/target/release:$PATH" bash "$HOOKS_DIR/guard-blast-radius.sh" 2>/dev/null)
+        local decision="allow"
+        if [[ -n "$out" ]] && echo "$out" | jq -e '.hookSpecificOutput.permissionDecision == "deny"' >/dev/null 2>&1; then
+            decision="deny"
+        fi
+        if [[ "$decision" == "$expect" ]]; then
+            echo "PASS"
+        else
+            echo "FAIL (expected $expect, got $decision)"
+            [[ -n "$out" ]] && echo "Output: $out"
+            FAIL_COUNT=$((FAIL_COUNT + 1))
+        fi
+    }
+
+    run_blast "Block single file inside protected path (relative)" \
+        "rm core/rules/00-meta.md" "deny"
+    run_blast "Block same file via absolute path (regression: absolute-path bypass fix)" \
+        "rm $BLAST_FIXTURE/core/rules/00-meta.md" "deny"
+    run_blast "Allow single file outside protected path" \
+        "rm small/one.txt" "allow"
+    run_blast "Allow read-only command" \
+        "grep -r foo small" "allow"
+
+    rm -rf "$BLAST_FIXTURE"
+else
+    echo "SKIP: yana-rt release binary not built — run 'cargo build --release' to test guard-blast-radius.sh"
+fi
 
 echo ""
 echo "=== Summary ==="

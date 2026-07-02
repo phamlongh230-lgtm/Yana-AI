@@ -28,7 +28,7 @@ compatibility: yana-ai >= 1.3.50
 ```protobuf
 // agent_message.proto
 syntax = "proto3";
-package yana-ai;
+package yamtam;
 
 message AgentMessage {
   string  agent_id  = 1;
@@ -61,11 +61,11 @@ message TaskPayload {
 import protobuf from 'protobufjs'
 
 const root = await protobuf.load('agent_message.proto')
-const AgentMessage = root.lookupType('yana-ai.AgentMessage')
+const AgentMessage = root.lookupType('yamtam.AgentMessage')
 
 // Encode
 const msg = {
-  agentId: 'did:yana-ai:0xabc123',
+  agentId: 'did:yamtam:0xabc123',
   seq:     42,
   tsMs:    BigInt(Date.now()),
   opcode:  1,  // TASK

@@ -85,7 +85,7 @@ docker run --rm \
   --read-only \
   --security-opt no-new-privileges \
   --cap-drop ALL \
-  yana-ai-agent:latest \
+  yamtam-agent:latest \
   /bin/sh -c "cd /workspace && analyze-code.sh"
 ```
 

@@ -463,4 +463,4 @@ For `--dry-run`: run Phase 0 and Phase 1 fully, then for each slice render the t
 
 ---
 
-Attribution: Core RED→GREEN→REFACTOR orchestration pattern and context-isolation architecture adapted from glebis/claude-skills (MIT License). Rewritten for Yana AI — self-contained, no external scripts, integrated with verify-before-done and debug-protocol skills.
+Attribution: Core RED→GREEN→REFACTOR orchestration pattern and context-isolation architecture adapted from glebis/claude-skills (MIT License). Rewritten for YAMTAM ENGINE — self-contained, no external scripts, integrated with verify-before-done and debug-protocol skills.

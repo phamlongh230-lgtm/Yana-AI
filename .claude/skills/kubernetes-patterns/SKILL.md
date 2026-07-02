@@ -11,7 +11,7 @@ description: >
   "pod not starting", "namespace isolation", or "Kubernetes health check".
   Do NOT use for: Helm chart authoring — that's a separate concern.
   Do NOT use for: cluster provisioning — see terraform-patterns.
-origin: yana-ai-original
+origin: yamtam-original
 license: MIT © 2026 Vũ Văn Tâm
 version: 1.0.0
 compatibility: "Kubernetes ≥ 1.28. kubectl ≥ 1.28. KEDA v2."

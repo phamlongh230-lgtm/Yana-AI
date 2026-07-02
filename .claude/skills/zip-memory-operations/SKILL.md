@@ -11,7 +11,7 @@ compatibility: yana-ai >= 1.3.48
 
 ## When to Use
 
-- Inspect yana-ai release ZIP contents without extracting to disk
+- Inspect yamtam release ZIP contents without extracting to disk
 - Patch a single file inside a ZIP (update MANIFEST.json in release archive)
 - Verify release archive integrity and file list before publishing
 - Extract specific files from ZIP into memory buffers for validation
@@ -53,7 +53,7 @@ function readFromZip(zipPath: string, entryName: string): string {
 
 // Verify MANIFEST.json in release archive
 const manifest = JSON.parse(
-  readFromZip('/tmp/yana-ai-1.3.48.zip', 'yana-ai-1.3.48/MANIFEST.json')
+  readFromZip('/tmp/yamtam-1.3.48.zip', 'yamtam-1.3.48/MANIFEST.json')
 )
 console.log('Release version:', manifest.version)
 ```
@@ -76,8 +76,8 @@ function patchZipEntry(
 
 // Update MANIFEST version in release zip
 patchZipEntry(
-  '/tmp/yana-ai-1.3.48.zip',
-  'yana-ai-1.3.48/MANIFEST.json',
+  '/tmp/yamtam-1.3.48.zip',
+  'yamtam-1.3.48/MANIFEST.json',
   JSON.stringify({ ...manifest, manifest_updated: new Date().toISOString() }, null, 2)
 )
 ```

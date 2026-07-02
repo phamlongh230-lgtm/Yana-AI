@@ -30,7 +30,7 @@ import { encode, decode } from '@msgpack/msgpack'
 
 // Encode: any JS value → Uint8Array
 const payload = {
-  agentId: 'did:yana-ai:0xabc123',
+  agentId: 'did:yamtam:0xabc123',
   seq:     42,
   ts:      Date.now(),
   data:    new Uint8Array([1, 2, 3, 4]),  // preserved as binary (JSON would lose this)
@@ -41,7 +41,7 @@ const packed   = encode(payload)
 console.log(`msgpack: ${packed.byteLength} bytes`)  // ~40% smaller than JSON
 
 const unpacked = decode(packed)
-console.log(unpacked.agentId)  // 'did:yana-ai:0xabc123'
+console.log(unpacked.agentId)  // 'did:yamtam:0xabc123'
 ```
 
 ---
@@ -68,9 +68,9 @@ extensionCodec.register({
   },
 })
 
-const packed   = encode({ agent: { did: 'did:yana-ai:0xabc' } }, { extensionCodec })
+const packed   = encode({ agent: { did: 'did:yamtam:0xabc' } }, { extensionCodec })
 const unpacked = decode(packed, { extensionCodec })
-// unpacked.agent → { did: 'did:yana-ai:0xabc' }
+// unpacked.agent → { did: 'did:yamtam:0xabc' }
 ```
 
 ---
@@ -102,7 +102,7 @@ async function decodeStream(readable) {
 ```javascript
 import { encode, decode } from '@msgpack/msgpack'
 
-const sample = { agentId: 'did:yana-ai:abc', seq: 999, ts: Date.now(), data: Array(100).fill(42) }
+const sample = { agentId: 'did:yamtam:abc', seq: 999, ts: Date.now(), data: Array(100).fill(42) }
 
 // JSON
 console.time('json-encode')

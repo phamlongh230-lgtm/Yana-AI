@@ -4,7 +4,7 @@ description: "Use when asked to search for academic papers, find related work, l
 ---
 
 # arXiv Research Skill
-# Source: NousResearch/hermes-agent (MIT) — arXiv API integration pattern adapted for Yana AI
+# Source: NousResearch/hermes-agent (MIT) — arXiv API integration pattern adapted for YAMTAM
 # Tier: TIER 3 — PRODUCTIVITY
 
 Tìm kiếm bài báo khoa học trên arXiv qua API công khai, không cần API key.

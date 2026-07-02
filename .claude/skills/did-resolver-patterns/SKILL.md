@@ -72,7 +72,7 @@ async function resolveAgent(did: string) {
 const DID_REGISTRY = new Map<string, object>()
 
 function registerAgent(agentId: string, pubKeyHex: string): string {
-  const did = `did:yana-ai:${agentId}`
+  const did = `did:yamtam:${agentId}`
   DID_REGISTRY.set(did, {
     '@context':          'https://www.w3.org/ns/did/v1',
     id:                  did,

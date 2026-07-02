@@ -61,8 +61,8 @@ interface AgentCard {
 }
 
 // Example
-const yana-aiAgentCard: AgentCard = {
-  name:       "yana-ai-security-agent",
+const yamtamAgentCard: AgentCard = {
+  name:       "yamtam-security-agent",
   version:    "1.0.0",
   skills:     ["red-team-check", "blue-team-fix", "leak-check"],
   endpoints:  { tasks: "https://agents.example.com/tasks" },
@@ -112,7 +112,7 @@ const app   = express();
 const tasks = new Map<string, A2ATask>();
 
 // Discovery
-app.get("/.well-known/agent.json", (req, res) => res.json(yana-aiAgentCard));
+app.get("/.well-known/agent.json", (req, res) => res.json(yamtamAgentCard));
 
 // Submit task
 app.post("/tasks", express.json(), async (req, res) => {

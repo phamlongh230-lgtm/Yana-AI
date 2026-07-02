@@ -73,6 +73,6 @@ exit 2  → block (JSON with blocked path + reason)
 
 ## Reference
 
-Yana AI hook: `core/hooks/token-scope-guard.sh`
-Bypass: `YANA_SCOPE_OK=1`
+YAMTAM hook: `core/hooks/token-scope-guard.sh`
+Bypass: `YAMTAM_SCOPE_OK=1`
 Tests: `core/tests/hooks/run-hook-tests.sh`

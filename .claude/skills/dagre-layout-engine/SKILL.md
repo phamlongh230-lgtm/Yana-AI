@@ -11,7 +11,7 @@ compatibility: yana-ai >= 1.3.48
 
 ## When to Use
 
-- Auto-compute (x, y) positions for yana-ai skill dependency graph nodes
+- Auto-compute (x, y) positions for yamtam skill dependency graph nodes
 - Render agent hierarchy diagram without manual coordinate placement
 - Generate layered layouts for rule gate topology (L0 → L5)
 - Integrate with D3.js, React Flow, or SVG rendering for visual output

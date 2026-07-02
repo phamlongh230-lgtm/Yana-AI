@@ -11,7 +11,7 @@ compatibility: yana-ai >= 1.3.52
 
 ## When to Use
 
-- Model yana-ai agent lifecycle as a Kubernetes resource (create/update/delete → reconcile)
+- Model yamtam agent lifecycle as a Kubernetes resource (create/update/delete → reconcile)
 - Write a controller that watches CRD objects and drives actual state toward desired state
 - Self-healing: if an agent pod crashes, controller re-creates it automatically
 - Declarative config: kubectl apply -f agent.yaml → agent boots with correct config
@@ -30,13 +30,13 @@ compatibility: yana-ai >= 1.3.52
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: yana-aiagents.yana-ai.io
+  name: yamtamagents.yamtam.io
 spec:
-  group:   yana-ai.io
+  group:   yamtam.io
   names:
     kind:     YamtamAgent
-    plural:   yana-aiagents
-    singular: yana-aiagent
+    plural:   yamtamagents
+    singular: yamtamagent
     shortNames: [ya]
   scope:   Namespaced
   versions:
@@ -71,7 +71,7 @@ spec:
 ```go
 // reconciler.go
 func (r *YamtamAgentReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-  agent := &yana-aiv1.YamtamAgent{}
+  agent := &yamtamv1.YamtamAgent{}
   if err := r.Get(ctx, req.NamespacedName, agent); err != nil {
     return ctrl.Result{}, client.IgnoreNotFound(err)
   }
@@ -115,7 +115,7 @@ const customObjectsApi = kc.makeApiClient(k8s.CustomObjectsApi)
 // Watch YamtamAgent resources for changes
 const watch = new k8s.Watch(kc)
 await watch.watch(
-  '/apis/yana-ai.io/v1alpha1/yana-aiagents',
+  '/apis/yamtam.io/v1alpha1/yamtamagents',
   {},
   (type, apiObj) => {
     if (type === 'ADDED')    console.log('[k8s] agent created:', apiObj.metadata.name)

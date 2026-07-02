@@ -87,7 +87,7 @@ async function preflightCheck(): Promise<{ ok: boolean; reason?: string }> {
 
 ```javascript
 import StatsD from 'node-statsd'
-const stats = new StatsD({ prefix: 'yana-ai.host.' })
+const stats = new StatsD({ prefix: 'yamtam.host.' })
 
 async function startMetricsLoop(intervalMs = 15_000): Promise<void> {
   setInterval(async () => {

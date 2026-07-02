@@ -26,19 +26,19 @@ compatibility: yana-ai >= 1.3.52
 ## Application manifest
 
 ```yaml
-# application.yaml — deploy yana-ai-agent from Helm chart in Git
+# application.yaml — deploy yamtam-agent from Helm chart in Git
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name:      yana-ai-prod
+  name:      yamtam-prod
   namespace: argocd
 spec:
   project: default
 
   source:
-    repoURL:        https://github.com/org/yana-ai-config
+    repoURL:        https://github.com/org/yamtam-config
     targetRevision: main
-    path:           charts/yana-ai-agent
+    path:           charts/yamtam-agent
     helm:
       valueFiles:
         - values-prod.yaml
@@ -48,7 +48,7 @@ spec:
 
   destination:
     server:    https://kubernetes.default.svc
-    namespace: yana-ai
+    namespace: yamtam
 
   syncPolicy:
     automated:
@@ -76,7 +76,7 @@ metadata:
   namespace: argocd
 spec:
   source:
-    repoURL:        https://github.com/org/yana-ai-config
+    repoURL:        https://github.com/org/yamtam-config
     targetRevision: main
     path:           apps/          # directory with Application yamls
   destination:
@@ -92,19 +92,19 @@ spec:
 
 ```bash
 # Manual sync (force re-apply)
-argocd app sync yana-ai-prod
+argocd app sync yamtam-prod
 
 # Wait for sync to complete
-argocd app wait yana-ai-prod --timeout 120
+argocd app wait yamtam-prod --timeout 120
 
 # Check sync status
-argocd app get yana-ai-prod
+argocd app get yamtam-prod
 
 # Rollback to previous revision
-argocd app rollback yana-ai-prod
+argocd app rollback yamtam-prod
 
 # Diff: what would change if synced now?
-argocd app diff yana-ai-prod
+argocd app diff yamtam-prod
 ```
 
 ---

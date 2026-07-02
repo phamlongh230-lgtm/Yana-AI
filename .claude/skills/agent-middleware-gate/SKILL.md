@@ -202,7 +202,7 @@ const MUTATION_RULES: MutationRule[] = [
     // Auto-add timeout if not present
     match:  (ctx) => ctx.tool === 'Bash' && !ctx.args.timeout,
     mutate: (ctx) => {
-      ctx.args = { ...ctx.args, timeout: Number(process.env.YANA_TOOL_TIMEOUT ?? 30000) }
+      ctx.args = { ...ctx.args, timeout: Number(process.env.YAMTAM_TOOL_TIMEOUT ?? 30000) }
       return ctx
     },
   },
@@ -218,7 +218,7 @@ const MUTATION_RULES: MutationRule[] = [
     // Auto-wrap destructive Bash commands with ulimit
     match:  (ctx) => ctx.tool === 'Bash' && /rm|chmod|chown/.test(String(ctx.args.command ?? '')),
     mutate: (ctx) => {
-      const MAX_MEM_KB = process.env.YANA_TOOL_MAX_MEM ?? '524288'  // 512MB
+      const MAX_MEM_KB = process.env.YAMTAM_TOOL_MAX_MEM ?? '524288'  // 512MB
       ctx.args = {
         ...ctx.args,
         command: `ulimit -v ${MAX_MEM_KB}; ${ctx.args.command}`,
@@ -250,8 +250,8 @@ The companion script at `core/scripts/tool-proxy.sh` — run every Bash tool cal
 # Usage: bash core/scripts/tool-proxy.sh <command> [args...]
 # Returns: exit 0 = safe + executed; exit 3 = sanitize block; exit 1 = mutate block
 
-YANA_TOOL_TIMEOUT=30
-YANA_TOOL_MAX_MEM=524288   # 512MB in KB
+YAMTAM_TOOL_TIMEOUT=30
+YAMTAM_TOOL_MAX_MEM=524288   # 512MB in KB
 
 bash core/scripts/tool-proxy.sh "ls -la /tmp"
 bash core/scripts/tool-proxy.sh "git diff HEAD"

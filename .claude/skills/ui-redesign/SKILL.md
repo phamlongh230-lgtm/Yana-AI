@@ -12,7 +12,7 @@ version: 1.0.0
 compatibility: "Any frontend stack. Reads existing code; outputs diff or replacement component."
 ---
 
-<!-- Adapted from taste-skill (MIT © 2026 Leonxlnx). Changes: added Yana AI origin/Anti-Fake-Pass/compatibility fields, structured critique format, removed GPT-specific behavior. -->
+<!-- Adapted from taste-skill (MIT © 2026 Leonxlnx). Changes: added YAMTAM origin/Anti-Fake-Pass/compatibility fields, structured critique format, removed GPT-specific behavior. -->
 
 ## When to Use
 

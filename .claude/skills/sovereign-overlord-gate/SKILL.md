@@ -1,7 +1,7 @@
 ---
 name: sovereign-overlord-gate
 description: Implement the Sovereign Overlord Gate (Layer 100) — absolute human authority over the entire agent swarm. ECDSA-P384 signed commands, dead-man switch, emergency shutdown, and swarm freeze with one-time nonce authentication.
-origin: Yana AI Engine rule 62, HSM design patterns, NIST SP 800-57
+origin: YAMTAM Engine rule 62, HSM design patterns, NIST SP 800-57
 license: Apache-2.0
 version: 1.0.0
 compatibility: claude-sonnet-4-6, claude-opus-4-7
@@ -31,7 +31,7 @@ openssl ecparam -name secp384r1 -genkey -noout -out sovereign.key
 openssl ec -in sovereign.key -pubout -out sovereign-verify.pub
 
 # Embed verification key in system (never the signing key)
-cat sovereign-verify.pub  # paste into YANA_SOVEREIGN_VERIFY_KEY env
+cat sovereign-verify.pub  # paste into YAMTAM_SOVEREIGN_VERIFY_KEY env
 ```
 
 ## Sovereign Command Signing
@@ -104,7 +104,7 @@ class SovereignOverlordGate {
         break;
 
       case 'RELEASE_QUARANTINE':
-        this.router.release(signedCmd.target, process.env.YANA_RELEASE_TOKEN);
+        this.router.release(signedCmd.target, process.env.YAMTAM_RELEASE_TOKEN);
         break;
 
       case 'EMERGENCY_SHUTDOWN':

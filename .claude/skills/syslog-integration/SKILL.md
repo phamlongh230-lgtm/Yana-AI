@@ -12,7 +12,7 @@ compatibility: yana-ai >= 1.3.48
 ## When to Use
 
 - Forward agent audit events to system syslog (journald, rsyslog, syslog-ng)
-- Integrate yana-ai audit trail with centralized SIEM (Splunk, Datadog)
+- Integrate yamtam audit trail with centralized SIEM (Splunk, Datadog)
 - Append-only audit log that agent cannot tamper with (syslog is external)
 - Pairs with [[append-only-event-log]] for dual-write audit strategy
 
@@ -29,7 +29,7 @@ compatibility: yana-ai >= 1.3.48
 import syslog from 'node-syslog'
 
 // Initialize once at startup
-syslog.init('yana-ai-agent', syslog.LOG_PID | syslog.LOG_ODELAY, syslog.LOG_DAEMON)
+syslog.init('yamtam-agent', syslog.LOG_PID | syslog.LOG_ODELAY, syslog.LOG_DAEMON)
 
 // Severity levels
 // LOG_EMERG=0, LOG_ALERT=1, LOG_CRIT=2, LOG_ERR=3
@@ -66,7 +66,7 @@ const SEVERITY    = 6   // INFO
 function sendSyslog(msg: string): void {
   const pri     = (FACILITY * 8) + SEVERITY
   const ts      = new Date().toISOString()
-  const host    = 'yana-ai'
+  const host    = 'yamtam'
   const app     = 'agent'
   const msgid   = '-'
   const structured = '-'
@@ -86,10 +86,10 @@ function sendSyslog(msg: string): void {
 # logger is available on all Linux systems
 agent_log() {
   local level="$1"; local msg="$2"
-  logger -t "yana-ai-agent" -p "daemon.${level}" -- "$msg"
+  logger -t "yamtam-agent" -p "daemon.${level}" -- "$msg"
 }
 
-agent_log info  "session started: $YANA_SESSION_ID"
+agent_log info  "session started: $YAMTAM_SESSION_ID"
 agent_log warn  "rate limit triggered"
 agent_log err   "sandbox exec failed: exit $?"
 ```

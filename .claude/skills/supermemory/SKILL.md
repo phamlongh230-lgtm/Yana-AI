@@ -72,10 +72,10 @@ print(context.memories)  # relevant memories
 
 ```python
 # Upload tài liệu
-client.add(content=open("guide.md").read(), container_tag="yana-ai_docs")
+client.add(content=open("guide.md").read(), container_tag="yamtam_docs")
 
 # Search hybrid (semantic + keyword)
-results = client.search(query="cách cài headroom", container_tag="yana-ai_docs")
+results = client.search(query="cách cài headroom", container_tag="yamtam_docs")
 for r in results.results:
     print(r.content[:200])
 ```
@@ -88,9 +88,9 @@ profile = client.profile(container_tag="tam_profile")
 # → stable facts + recent activity combined
 ```
 
-## Tích hợp với Yana AI L1/L2
+## Tích hợp với YAMTAM L1/L2
 
-| Yana AI hiện tại | Supermemory thay thế |
+| YAMTAM hiện tại | Supermemory thay thế |
 |---|---|
 | `core/scripts/add-fact.sh` | `client.add(content, container_tag)` |
 | L1 INDEX.md manual | `client.profile()` tự generate |
@@ -116,7 +116,7 @@ pip install supermemory        # Python
 npm install supermemory        # TypeScript/Node
 ```
 
-## Liên quan Yana AI
+## Liên quan YAMTAM
 
 - Thay thế `memory/` manual markdown files
 - Persistent context qua nhiều session (không mất khi compaction)

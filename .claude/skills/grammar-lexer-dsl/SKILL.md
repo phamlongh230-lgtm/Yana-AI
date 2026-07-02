@@ -11,7 +11,7 @@ compatibility: yana-ai >= 1.3.46
 
 ## When to Use
 
-- Yana AI rule files need a faster parser than JSON/YAML (custom DSL)
+- YAMTAM rule files need a faster parser than JSON/YAML (custom DSL)
 - Rendering Markdown rule docs to HTML for a dashboard
 - Tokenizing source code for highlighting in agent output
 - Template-filling audit reports / skill docs without exec risk
@@ -27,7 +27,7 @@ compatibility: yana-ai >= 1.3.46
 ## Decision: Which Tool
 
 ```
-Need to define a new custom grammar (DSL) for Yana AI config?
+Need to define a new custom grammar (DSL) for YAMTAM config?
   → PEG.js (grammar file → parser, great for structured text)
   OR Chevrotain (code-first, better error messages, no codegen step)
 
@@ -129,7 +129,7 @@ Handlebars.registerPartial('ruleHeader', `
 
 // Compile template — result is a pure function, no exec at call time
 const reportTemplate = Handlebars.compile(`
-# Yana AI Audit Report — {{date}}
+# YAMTAM Audit Report — {{date}}
 
 {{#each gates}}
   {{> ruleHeader ruleName=this.name gate=this.level status=this.status version=../version}}
@@ -227,8 +227,8 @@ const highlighted = Prism.highlight(tsCode, Prism.languages.typescript, 'typescr
 const tokens = Prism.tokenize(tsCode, Prism.languages.typescript)
 // tokens = ['const ', Token{type:'identifier', content:'x'}, Token{type:'punctuation',...}, ...]
 
-// Custom mini-language for Yana AI gate notation: "L2: shell-sanitize → tool-exec"
-Prism.languages.yana-ai = {
+// Custom mini-language for YAMTAM gate notation: "L2: shell-sanitize → tool-exec"
+Prism.languages.yamtam = {
   gate:     /\bL[0-5]\b/,
   arrow:    /→|->/,
   ruleName: /\b[a-z][a-z0-9-]+(?:-law|guard|policy)?\b/,
@@ -236,7 +236,7 @@ Prism.languages.yana-ai = {
   comment:  { pattern: /#.*/, greedy: true },
 }
 
-const gateTokens = Prism.tokenize('L2: shell-sanitize-law → network-egress-law', Prism.languages.yana-ai)
+const gateTokens = Prism.tokenize('L2: shell-sanitize-law → network-egress-law', Prism.languages.yamtam)
 
 // Count token types for static analysis
 function countTokenTypes(tokens: (string | Prism.Token)[]): Record<string, number> {

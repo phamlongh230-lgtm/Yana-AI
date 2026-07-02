@@ -7,7 +7,7 @@ description: >
   "incident response", "how to run an incident", "postmortem template",
   "PIR", "on-call runbook", "severity levels", or when a production issue is
   actively happening. Do NOT use for: SLO target design — use `slo-design`.
-origin: yana-ai-original
+origin: yamtam-original
 license: MIT © 2025 Vũ Văn Tâm
 version: 1.0.0
 compatibility: "Any production system. Process-agnostic — adapt to your on-call tooling."

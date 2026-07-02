@@ -62,8 +62,8 @@ const server = http.createServer((req, res) => {
   }
 
   // Inject tracing header
-  req.headers['x-agent-session'] = process.env.YANA_SESSION_ID ?? 'unknown'
-  req.headers['x-forwarded-by']  = 'yana-ai-proxy'
+  req.headers['x-agent-session'] = process.env.YAMTAM_SESSION_ID ?? 'unknown'
+  req.headers['x-forwarded-by']  = 'yamtam-proxy'
 
   proxy.web(req, res, { target, changeOrigin: true }, (err) => {
     console.error('[proxy] error:', err.message)
@@ -90,6 +90,7 @@ export NO_PROXY=localhost,127.0.0.1
 curl --proxy http://127.0.0.1:8080 https://api.github.com/zen
 
 # For Node.js fetch (node-fetch / undici)
+> ⚠ YAMTAM: NODE_OPTIONS is a Tier A protected variable (env-integrity-policy.md). Requires env-whitelist.json approval before use.
 export NODE_OPTIONS="--proxy http://127.0.0.1:8080"
 ```
 

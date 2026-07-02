@@ -31,7 +31,7 @@ import localforage from 'localforage'
 // Configure once
 localforage.config({
   driver:    [localforage.INDEXEDDB, localforage.WEBSQL, localforage.LOCALSTORAGE],
-  name:      'yana-ai-agent',
+  name:      'yamtam-agent',
   storeName: 'session-state',
   version:   1.0,
 })

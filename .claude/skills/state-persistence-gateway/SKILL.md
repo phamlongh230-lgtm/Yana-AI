@@ -84,7 +84,7 @@ const MIGRATIONS = {
 }
 
 const persistConfig = {
-  key:      'yana-ai-root',
+  key:      'yamtam-root',
   version:  2,
   storage:  localforage,
   migrate:  createMigrate(MIGRATIONS, { debug: false }),

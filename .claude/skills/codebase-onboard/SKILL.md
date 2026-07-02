@@ -4,7 +4,7 @@ description: "Use when asked to understand, tour, or onboard to a codebase. Trig
 ---
 
 # Codebase Onboard Skill
-# Source: Lum1104/Understand-Anything (MIT) — 6-agent pipeline pattern adapted for Yana AI
+# Source: Lum1104/Understand-Anything (MIT) — 6-agent pipeline pattern adapted for YAMTAM
 # Tier: TIER 3 — PRODUCTIVITY
 
 Tạo guided tour của codebase bằng pipeline 4 bước tuần tự.
@@ -24,7 +24,7 @@ Step 4: tour-builder         → guided narrative + reading order
 - Người mới vào project lần đầu
 - Claude Code session mới trên repo chưa quen
 - "What is this codebase / where do I start?"
-- Onboard agent mới vào Yana AI workflow
+- Onboard agent mới vào YAMTAM workflow
 
 **Do NOT use for:** debugging cụ thể, code review, refactor. Dùng `/debug` hoặc `/code-review`.
 

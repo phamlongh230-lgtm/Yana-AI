@@ -29,7 +29,7 @@ compatibility: yana-ai >= 1.3.52
 Loki indexes only LABELS (not log content) → keep cardinality low
 
 Good labels (low cardinality, stable):
-  {namespace="yana-ai", app="agent", tier="power"}
+  {namespace="yamtam", app="agent", tier="power"}
 
 Bad labels (high cardinality):
   {request_id="abc123"}  ← never; one stream per request = OOM
@@ -52,13 +52,13 @@ clients:
   - url: http://loki:3100/loki/api/v1/push
 
 scrape_configs:
-  - job_name: yana-ai-pods
+  - job_name: yamtam-pods
     kubernetes_sd_configs:
       - role: pod
     relabel_configs:
       - source_labels: [__meta_kubernetes_pod_namespace]
         action:       keep
-        regex:        yana-ai.*
+        regex:        yamtam.*
       - source_labels: [__meta_kubernetes_pod_label_app]
         target_label: app
       - source_labels: [__meta_kubernetes_pod_label_tier]
@@ -86,24 +86,24 @@ scrape_configs:
 
 ```logql
 # All ERROR logs from power-tier agents in last 1h
-{namespace="yana-ai", tier="power"} |= "ERROR" | json | level="error"
+{namespace="yamtam", tier="power"} |= "ERROR" | json | level="error"
 
 # Count errors per agent per minute
 sum by (agent_id) (
   count_over_time(
-    {namespace="yana-ai"} |= "ERROR" [1m]
+    {namespace="yamtam"} |= "ERROR" [1m]
   )
 )
 
 # Extract latency metric from log line
 # Log: {"level":"info","ttft":0.234,"taskId":"abc"}
-{namespace="yana-ai", app="agent"}
+{namespace="yamtam", app="agent"}
   | json
   | ttft > 2.0
   | line_format "SLOW: task={{.taskId}} ttft={{.ttft}}s"
 
 # Correlation: find logs for a specific trace_id
-{namespace="yana-ai"} |= "trace_id=abc123def456"
+{namespace="yamtam"} |= "trace_id=abc123def456"
 ```
 
 ---
@@ -113,15 +113,15 @@ sum by (agent_id) (
 ```yaml
 # Extract error rate metric from log lines
 groups:
-  - name: yana-ai-log-metrics
+  - name: yamtam-log-metrics
     rules:
-      - record: yana-ai:log_error_rate:5m
+      - record: yamtam:log_error_rate:5m
         expr: |
           sum by (agent_id) (
-            rate({namespace="yana-ai"} |= "ERROR" [5m])
+            rate({namespace="yamtam"} |= "ERROR" [5m])
           )
       - alert: AgentLogErrorSpike
-        expr: yana-ai:log_error_rate:5m > 5
+        expr: yamtam:log_error_rate:5m > 5
         for: 2m
         annotations:
           summary: "Agent {{ $labels.agent_id }} log errors > 5/s"

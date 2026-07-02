@@ -27,7 +27,7 @@ compatibility: yana-ai >= 1.3.50
 
 ```clojure
 ;; A Jepsen test has 5 components:
-{:name    "yana-ai-raft-lock"
+{:name    "yamtam-raft-lock"
  :db      (raft-cluster-db)         ; setup/teardown cluster
  :client  (lock-client)             ; operations: acquire/release
  :nemesis (nemesis/partition-random-halves)  ; fault injector

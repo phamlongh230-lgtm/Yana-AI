@@ -143,7 +143,7 @@ Rule: Vector store queries must filter by project_id metadata field
 Rule: Agent must not retrieve memory from sessions it did not participate in
 
 Enforcement:
-  export YANA_SESSION_ID=$(uuidgen)
+  export YAMTAM_SESSION_ID=$(uuidgen)
   All L2 writes tagged with SESSION_ID
   memory-gc.sh --wipe-l2 runs at PostToolUse: session-end hook
 ```
